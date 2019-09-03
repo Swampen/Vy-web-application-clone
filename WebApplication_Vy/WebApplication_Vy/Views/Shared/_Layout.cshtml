@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Vy</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
@@ -11,13 +11,15 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        @Html.ActionLink("Vy traveler", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <a href='@Url.Action("Index", "Home")' class="navbar-brand ">
+            <img src='@Url.Content("~/Content/vy.png")' style="width:160px;"/>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03   " aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarColor02">
+        <div class="collapse navbar-collapse" id="navbarColor03">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     @Html.ActionLink("Home", "Index", "Home", new { @class = "nav-link" })
@@ -35,8 +37,13 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.2019 - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.2019 - Vy</p>
         </footer>
     </div>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $("[id$=yourNavItemId]").addClass("active");
+        });
+    </script>
 </body>
 </html>
