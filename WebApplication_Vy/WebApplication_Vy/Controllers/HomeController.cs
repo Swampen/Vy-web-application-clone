@@ -30,6 +30,8 @@ namespace WebApplication_Vy.Controllers
         public ActionResult ViewAllExampleEntities()
         {
             IExampleService service = new ExampleServiceImpl();
+            
+            // The next line is commented out to avoid creating a dummy view-file.
              //return View(service.GetExampleEntityDto());
              throw new NotImplementedException();
         }
