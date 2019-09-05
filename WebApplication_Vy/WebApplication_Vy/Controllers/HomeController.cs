@@ -17,12 +17,15 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult About()
         {
+            ViewBag.Current = "About";
             ViewBag.Message = "Your application description page.";
             return View();
         }
 
         public ActionResult Contact()
         {
+            ViewBag.Current = "Contact";
+
             ViewBag.Message = "Your contact page.";
             return View();
         }
