@@ -4,30 +4,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Vy</title>
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/popper.min.js"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
         <a href='@Url.Action("Index", "Home")' class="navbar-brand ">
-            <img src='@Url.Content("~/Content/vy.png")' style="width:160px;"/>
+            <img src='@Url.Content("~/Content/vy.png")' style="width:160px;" />
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03   " aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02   " aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarColor03">
+        <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
                     @Html.ActionLink("Home", "Index", "Home", new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
+                </li>   
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
                     @Html.ActionLink("About", "About", "Home", new { @class = "nav-link" })
                 </li>
-                <li class="nav-item">
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">
                     @Html.ActionLink("Contact", "Contact", "Home", new { @class = "nav-link" })
                 </li>
             </ul>
@@ -40,10 +38,9 @@
             <p>&copy; @DateTime.Now.2019 - Vy</p>
         </footer>
     </div>
-    <script language="javascript" type="text/javascript">
-        $(document).ready(function () {
-            $("[id$=yourNavItemId]").addClass("active");
-        });
-    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
 </body>
 </html>
