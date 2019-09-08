@@ -7,5 +7,14 @@ namespace WebApplication_Vy.Models.DTO
 {
     public class CustomerDTO
     {
+        public int Id { get; set; }
+
+        public string Givenname { get; set; }
+
+        public string Surname { get; set; }
+
+        public string Address { get; set; }
+
+        public int Zipcode { get; set; }
     }
 }

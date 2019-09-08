@@ -127,12 +127,21 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Db\ExampleDbContext.cs" />
     <Compile Include="Db\Repositories\Contracts\ExampleRepository.cs" />
+    <Compile Include="Db\Repositories\Contracts\VyRepository.cs" />
     <Compile Include="Db\Repositories\Implementation\ExampleRepositoryImpl.cs" />
+    <Compile Include="Db\Repositories\Implementation\VyRepositoryImpl.cs" />
+    <Compile Include="Db\VyDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTO\CustomerDTO.cs" />
     <Compile Include="Models\DTO\ExampleEntityDTO.cs" />
+    <Compile Include="Models\DTO\TicketDTO.cs" />
+    <Compile Include="Models\DTO\TripDTO.cs" />
+    <Compile Include="Models\Entities\Customer.cs" />
     <Compile Include="Models\Entities\ExampleEntity.cs" />
+    <Compile Include="Models\Entities\Ticket.cs" />
+    <Compile Include="Models\Entities\Trip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Contracts\IExampleService.cs" />
     <Compile Include="Service\Implementation\ExampleServiceImpl.cs" />
@@ -175,8 +184,8 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data" />
-    <Folder Include="Models\DAO" />
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\DAO\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -211,7 +220,8 @@
           <IISUrl>http://localhost:5000/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl />
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

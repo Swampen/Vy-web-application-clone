@@ -5,7 +5,12 @@ using System.Web;
 
 namespace WebApplication_Vy.Db.Repositories.Contracts
 {
-    public class VyRepository
+    public interface VyRepository
     {
+        List<Ticket> findAll();
+
+        List<Trip> findAll();
+
+        List<Customer> findAll();
     }
 }
