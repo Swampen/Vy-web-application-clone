@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebApplication_Vy.Models.Entities;
 
 namespace WebApplication_Vy.Db.Repositories.Contracts
 {
     public interface VyRepository
     {
-        List<Ticket> findAll();
+        List<Ticket> findAllTickets();
 
-        List<Trip> findAll();
+        List<Trip> findAllTrips();
 
-        List<Customer> findAll();
+        List<Customer> findAllCustomers();
+
+        bool newTicket(Ticket inTicket);
     }
 }

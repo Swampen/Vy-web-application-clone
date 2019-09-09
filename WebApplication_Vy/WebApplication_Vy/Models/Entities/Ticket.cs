@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication_Vy.Models.Entities
 {
@@ -10,13 +11,13 @@ namespace WebApplication_Vy.Models.Entities
         [Key]
         public int TicketNumber { get; set; }
 
-        public DateField Departure { get; set; }
+        public DateTime Departure { get; set; }
 
         public bool Roundtrip { get; set; }
 
-        public Customer customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
-        public Trip trip { get; set; }
+        public virtual Trip Trip { get; set; }
 
     }
 }

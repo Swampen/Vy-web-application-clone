@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication_Vy.Models.DTO
 {
@@ -10,12 +11,12 @@ namespace WebApplication_Vy.Models.DTO
         [Key]
         public int TicketNumber { get; set; }
 
-        public DateField Departure { get; set; }
+        public DateTime Departure { get; set; }
 
         public bool Roundtrip { get; set; }
 
-        public Customer customer { get; set; }
+        public CustomerDTO CustomerDTO { get; set; }
 
-        public Trip trip { get; set; }
+        public TripDTO TripDTO { get; set; }
     }
 }

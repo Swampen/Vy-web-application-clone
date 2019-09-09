@@ -16,5 +16,8 @@ namespace WebApplication_Vy.Models.DTO
         public string Address { get; set; }
 
         public int Zipcode { get; set; }
+
+        public virtual List<TicketDTO> Tickets { get; set; }
+
     }
 }
