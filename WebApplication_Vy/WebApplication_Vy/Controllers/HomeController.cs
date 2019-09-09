@@ -12,6 +12,9 @@ namespace WebApplication_Vy.Controllers
     {
         public ActionResult Index()
         {
+            var db = new Db.VyDbContext();
+            db.Database.Initialize(true);
+
             return View();
         }
 
