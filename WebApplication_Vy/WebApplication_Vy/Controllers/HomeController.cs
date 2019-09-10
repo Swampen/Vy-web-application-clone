@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
+using WebApplication_Vy.Db;
+using WebApplication_Vy.Models.DTO;
 using WebApplication_Vy.Service.Contracts;
-using WebApplication_Vy.Service.Implementation;
 
 namespace WebApplication_Vy.Controllers
 {
@@ -20,7 +20,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
-            var db = new Db.VyDbContext();
+            var db = new VyDbContext();
             db.Database.Initialize(true);
 
             return View();
@@ -29,15 +29,15 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult RegisterTicket()
         {
-            
             return RedirectToAction("Tickets");
         }
 
         [HttpGet]
         public string GetTrips()
         {
-            List<Models.DTO.TripDTO> trips = _vyService.GetTripDtos();
-
+            var trips = _vyService.GetTripDtos();
+            
+            
             var jsonSerialiser = new JavaScriptSerializer();
             var json = jsonSerialiser.Serialize(trips);
             return json;
@@ -45,7 +45,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            List<Models.DTO.TicketDTO> tickets = _vyService.GetTicketDtos();
+            var tickets = _vyService.GetTicketDtos();
             return View(tickets);
         }
 
@@ -56,6 +56,17 @@ namespace WebApplication_Vy.Controllers
             ViewBag.Message = "Your contact page.";
             return View();
         }
+
+        [HttpPost]
+        public ActionResult MakeCustomer(string json)
+        {
+            if (json != null)
+            {
+                return Json("Success");
+            }
+            return Json("Failure");
+        }
+        
 
         public ActionResult ViewAllExampleEntities()
         {
