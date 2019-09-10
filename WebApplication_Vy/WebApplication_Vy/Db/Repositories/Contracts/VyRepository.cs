@@ -14,6 +14,6 @@ namespace WebApplication_Vy.Db.Repositories.Contracts
 
         List<Customer> findAllCustomers();
 
-        bool newTicket(Ticket inTicket);
+        bool createTicket(Ticket inTicket);
     }
 }
