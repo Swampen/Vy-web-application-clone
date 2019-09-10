@@ -64,8 +64,6 @@
         $('#dateandtime').datetimepicker({
             datepicker: { showOtherMonths: true, calendarWeeks: true }
         });
-
-        $("#form").validate();
     })
 </script>
 <div id="form" class="form-group container-fluid">
@@ -74,7 +72,7 @@
             <p>Departure</p>
         </div>
         <div class="col-sm-5">
-            <input id="dateandtime" required/>
+            <input id="dateandtime"/>
         </div>
     </div>
     <div class="form-group row">
@@ -91,7 +89,7 @@
             <p>Trip</p>
         </div>
         <div class="col-sm-3 ">
-            <select id="tripId" name="from" class="custom-select form-control" required>
+            <select id="tripId" name="from" class="custom-select form-control">
                 <option value="" selected>Choose a route...</option>
             </select>
         </div>

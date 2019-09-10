@@ -15,7 +15,7 @@ namespace WebApplication_Vy.Models.Entities
 
         public string Address { get; set; }
 
-        public int Zipcode { get; set; }
+        public virtual Zipcode Zipcode { get; set; } 
 
         public virtual List<Ticket> Tickets { get; set; }
     }

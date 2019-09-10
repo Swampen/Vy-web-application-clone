@@ -22,13 +22,15 @@ namespace WebApplication_Vy.Db
 
         public DbSet<Trip> Trips { get; set; }
 
+        public DbSet<Zipcode> Zipcodes { get; set; }
+
         public class VyDbInitializer<T> : CreateDatabaseIfNotExists<VyDbContext>
         {
             protected override void Seed(VyDbContext context)
             {
-                var xml = XElement.Load(HttpContext.Current.Server.MapPath("~") + "/routes.xml");
-                System.Diagnostics.Debug.WriteLine(HttpContext.Current.Server.MapPath("~") + "routes.xml");
-                var trips = xml.Descendants("Trip");
+                var tripXML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "routes.xml");
+                System.Diagnostics.Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "routes.xml");
+                var trips = tripXML.Descendants("Trip");
 
                 foreach (var trip in trips)
                 {
@@ -44,7 +46,22 @@ namespace WebApplication_Vy.Db
                     }
                 }
 
-            base.Seed(context);
+                var zipxml = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
+                System.Diagnostics.Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
+                var zipz = zipxml.Descendants("Zipcode");
+
+                foreach (var zipcode in zipz) {
+                    try {
+                        context.Zipcodes.Add(new Zipcode() {
+                            Postalcode = (string)zipcode.Element("Postalcode"),
+                            Postaltown = (string)zipcode.Element("Postaltown"),
+                        });
+                    } catch (Exception e) {
+                        System.Diagnostics.Debug.WriteLine("XML config is wrong");
+                    }
+                }
+
+                base.Seed(context);
             }
         }
     }
