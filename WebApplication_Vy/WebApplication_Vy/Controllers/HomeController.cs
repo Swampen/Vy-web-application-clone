@@ -20,16 +20,16 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegisterTicket()
+        public ActionResult RegisterTicket(String model)
         {
-            
-            return RedirectToAction("Tickets");
+            System.Diagnostics.Debug.WriteLine(model);
+            return Json(new { result = "Redirect", url = Url.Action("tickets", "Home") });
         }
 
         [HttpGet]
         public string GetTrips()
         {
-            VyServiceImpl service = new Service.Implementation.VyServiceImpl();
+            VyServiceImpl service = new VyServiceImpl();
             List<Models.DTO.TripDTO> trips = service.GetTripDtos();
 
             var jsonSerialiser = new JavaScriptSerializer();
@@ -39,7 +39,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            VyServiceImpl service = new Service.Implementation.VyServiceImpl();
+            VyServiceImpl service = new VyServiceImpl();
             List<Models.DTO.TicketDTO> tickets = service.GetTicketDtos();
             return View(tickets);
         }

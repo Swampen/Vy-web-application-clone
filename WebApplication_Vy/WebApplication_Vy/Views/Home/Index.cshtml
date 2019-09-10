@@ -7,7 +7,6 @@
 <div class="row">
     <h2>Vy</h2>
 </div>
-<script src="~/Scripts/jquery-3.3.1.js"></script>
 <script type="text/javascript">
     $(function () {
         $.ajax({
@@ -28,23 +27,111 @@
             for (var i in trips) {
                 dropdown += "<option value='" + trips[i].TripId + "'>" + trips[i].Route + " - " + trips[i].Price + " kr</option>";
             }
-            $("#drop").append(dropdown);
+            $("#tripId").append(dropdown);
         }
 
-        $("#register")
+        $("#register").click(function () {
+            var jsonIn = {
+                Ticekt: {
+                    Departure: $("#dateandtime").val(),
+                    Roundtrip: $("#roundtrip").is(":checked"),
+                    TripDTO: {
+                        TripId: $("#tripId").val(),
+                    },
+                    CustomerDTO: {
+                        Givenname: $("#givenname").val(),
+                        Surname: $("#surname").val(),
+                        Address: $("#address").val(),
+                        Zipcode: $("#zipcode").val(),
+                    },
+                }
+            }
+            console.log(jsonIn);
+
+            $.ajax({
+                url: "/home/registerticket",
+                type: "POST",
+                data: { model: JSON.stringify(jsonIn) },
+                contentType: "application/json;charset=utf-8",
+                success: function (response) {
+                    if (response.result == 'Redirect') {
+                        window.location = response.url;
+                    }
+                }
+            });
+        });
+
+        //Form spesific javascript
+        $('#dateandtime').datetimepicker({
+            datepicker: { showOtherMonths: true, calendarWeeks: true }
+        });
     })
 </script>
+<div class="container-fluid">
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <p>Departure</p>
+        </div>
+        <div class="col-sm-5">
+            <input id="dateandtime"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <p>Round Trip</p>
+        </div>
+        <div class="col-sm-3">
+            <input class="form-check-input" type="checkbox" id="roundtrip">
+        </div>
+    </div>
 
-<div class="form-group row">
-    <div class="col-sm-1">
-        <p>Trip</p>
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <p>Trip</p>
+        </div>
+        <div class="col-sm-3 ">
+            <select id="tripId" name="from" class="custom-select form-control" required>
+                <option value="" selected>Choose a route...</option>
+            </select>
+        </div>
     </div>
-    <div class="col-sm-3 ">
-        <select id="drop" name="from" class="custom-select form-control" required>
-            <option value="" selected>Choose a route...</option>
-        </select>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <p>Given name</p>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" id="givenname" />
+        </div>
     </div>
-</div>
-<div class="row">
-    <button id="register" type="submit" class="btn btn-primary my-1">Bestill</button>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <p>Surname</p>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" id="surname" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <p>Address</p>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" id="address" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <p>Zipcode</p>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" pattern="[0-9]{4}" id="zipcode" />
+        </div>
+    </div>
+
+    <div class="row">
+        <button id="register" type="submit" class="btn btn-primary my-1">Submit</button>
+    </div>
 </div>

@@ -20,13 +20,17 @@ namespace WebApplication_Vy
                 "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                "~/Scripts/gijgo.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/gijgo").Include(
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/bootstrap.*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/site.css",
-                "~/Content/bootstrap-*"));
+                "~/Content/bootstrap-*",
+                "~/Content/gijgo.min.css"));
         }
     }
 }
