@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
-using WebApplication_Vy.Db;
+using System.Web.Script.Serialization;
 using WebApplication_Vy.Service.Contracts;
+using WebApplication_Vy.Service.Implementation;
 
 namespace WebApplication_Vy.Controllers
 {
@@ -16,17 +20,33 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
-            var db = new VyDbContext();
+            var db = new Db.VyDbContext();
             db.Database.Initialize(true);
 
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult RegisterTicket()
         {
-            ViewBag.Current = "About";
-            ViewBag.Message = "Your application description page.";
-            return View();
+            
+            return RedirectToAction("Tickets");
+        }
+
+        [HttpGet]
+        public string GetTrips()
+        {
+            List<Models.DTO.TripDTO> trips = _vyService.GetTripDtos();
+
+            var jsonSerialiser = new JavaScriptSerializer();
+            var json = jsonSerialiser.Serialize(trips);
+            return json;
+        }
+
+        public ActionResult Tickets()
+        {
+            List<Models.DTO.TicketDTO> tickets = _vyService.GetTicketDtos();
+            return View(tickets);
         }
 
         public ActionResult Contact()
