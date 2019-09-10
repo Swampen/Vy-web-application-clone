@@ -1,18 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using WebApplication_Vy.Db;
 using WebApplication_Vy.Service.Contracts;
-using WebApplication_Vy.Service.Implementation;
 
 namespace WebApplication_Vy.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IVyService _vyService;
+
+        public HomeController(IVyService vyService)
+        {
+            _vyService = vyService;
+        }
+
         public ActionResult Index()
         {
-            var db = new Db.VyDbContext();
+            var db = new VyDbContext();
             db.Database.Initialize(true);
 
             return View();
@@ -35,11 +39,11 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult ViewAllExampleEntities()
         {
-            IExampleService service = new ExampleServiceImpl();
-            
+            _vyService.GetCustomerDtos();
+
             // The next line is commented out to avoid creating a dummy view-file.
-             //return View(service.GetExampleEntityDto());
-             throw new NotImplementedException();
+            //return View(service.GetExampleEntityDto());
+            throw new NotImplementedException();
         }
     }
 }
