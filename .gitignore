@@ -21,7 +21,7 @@ x64/
 x86/
 bld/
 # Removed this because it made the app crash on startup
-#[Bb]in/
+[Bb]in/
 [Oo]bj/
 [Ll]og/
 
