@@ -20,11 +20,6 @@ namespace WebApplication_Vy.Service.Implementation
             {
                 dtos.Add(MapCustomerDto(entity));
             }
-
-            repository.findAllCustomers().ForEach(entity =>
-            {
-
-            });
             return dtos;
         }
 
@@ -47,11 +42,6 @@ namespace WebApplication_Vy.Service.Implementation
                 foreach(Ticket ticket in customer.Tickets)
                 dtos.Add(MapTicketDto(ticket));
             }
-
-            repository.findAllTickets().ForEach(entity =>
-            {
-
-            });
             return dtos;
         }
 
@@ -74,10 +64,6 @@ namespace WebApplication_Vy.Service.Implementation
                 dtos.Add(MapTripDto(entity));
             }
 
-            repository.findAllTrips().ForEach(entity =>
-            {
-
-            });
             return dtos;
         }
 

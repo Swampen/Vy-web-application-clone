@@ -1,0 +1,73 @@
+﻿@model List<WebApplication_Vy.Models.DTO.TicketDTO>
+
+@{
+    ViewBag.Title = "Tickets";
+}
+
+<h2>About</h2>
+
+<p>
+    @Html.ActionLink("New Ticket", "Index")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Departure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Roundtrip)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].TripDTO.Route)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].TripDTO.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].CustomerDTO.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].CustomerDTO.Givenname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].CustomerDTO.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].CustomerDTO.Zipcode)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Departure
+        </td>
+        <td>
+            @item.Roundtrip
+        </td>
+        <td>
+            @item.TripDTO.Route
+        </td>
+        <td>
+            @item.TripDTO.Price
+        </td>
+        <td>
+            @item.CustomerDTO.Surname
+        </td>
+        <td>
+            @item.CustomerDTO.Givenname
+        </td>
+        <td>
+            @item.CustomerDTO.Address
+        </td>
+        <td>
+            @item.CustomerDTO.Zipcode
+        </td>
+        <td>
+           
+        </td>
+    </tr>
+}
+
+</table>
