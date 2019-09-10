@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using WebApplication_Vy.Service.Contracts;
+using WebApplication_Vy.Models.DTO;
 using WebApplication_Vy.Service.Implementation;
 
 namespace WebApplication_Vy.Controllers
@@ -20,9 +21,10 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegisterTicket(String model)
+        public ActionResult RegisterTicket(TicketDTO ticket)
         {
-            System.Diagnostics.Debug.WriteLine(model);
+            System.Diagnostics.Debug.WriteLine(ticket.CustomerDTO.Zipcode);
+
             return Json(new { result = "Redirect", url = Url.Action("tickets", "Home") });
         }
 

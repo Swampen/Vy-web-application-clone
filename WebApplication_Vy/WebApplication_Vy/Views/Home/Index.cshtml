@@ -5,12 +5,12 @@
 }
 
 <div class="row">
-    <h2>Vy</h2>
+    <h2>Vy</h2
 </div>
 <script type="text/javascript">
     $(function () {
         $.ajax({
-            url: "/home/gettrips",
+            url: "@Url.Action("gettrips", "home")",
             type: "GET",
             dataType: "json",
             success: function (trips) {
@@ -32,26 +32,25 @@
 
         $("#register").click(function () {
             var jsonIn = {
-                Ticekt: {
-                    Departure: $("#dateandtime").val(),
-                    Roundtrip: $("#roundtrip").is(":checked"),
-                    TripDTO: {
-                        TripId: $("#tripId").val(),
-                    },
-                    CustomerDTO: {
-                        Givenname: $("#givenname").val(),
-                        Surname: $("#surname").val(),
-                        Address: $("#address").val(),
-                        Zipcode: $("#zipcode").val(),
-                    },
-                }
+                Departure: $("#dateandtime").val(),
+                Roundtrip: $("#roundtrip").is(":checked"),
+                TripDTO: {
+                    TripId: $("#tripId").val(),
+                },
+                CustomerDTO: {
+                    Givenname: $("#givenname").val(),
+                    Surname: $("#surname").val(),
+                    Address: $("#address").val(),
+                    Zipcode: $("#zipcode").val(),
+                },
+                
             }
             console.log(jsonIn);
 
             $.ajax({
-                url: "/home/registerticket",
+                url: "@Url.Action("registerticket", "home")",
                 type: "POST",
-                data: { model: JSON.stringify(jsonIn) },
+                data: JSON.stringify(jsonIn),
                 contentType: "application/json;charset=utf-8",
                 success: function (response) {
                     if (response.result == 'Redirect') {
@@ -65,15 +64,17 @@
         $('#dateandtime').datetimepicker({
             datepicker: { showOtherMonths: true, calendarWeeks: true }
         });
+
+        $("#form").validate();
     })
 </script>
-<div class="container-fluid">
-    <div class="form-group row">
+<div id="form" class="form-group container-fluid">
+    <div class="row">
         <div class="col-sm-2">
             <p>Departure</p>
         </div>
         <div class="col-sm-5">
-            <input id="dateandtime"/>
+            <input id="dateandtime" required/>
         </div>
     </div>
     <div class="form-group row">
