@@ -1,59 +1,31 @@
 <?xml version="1.0"?>
 <Trips>
   <Trip>
-      <Route>
-          Oslo-Trondheim
-      </Route>
-      <Price>
-          399
-      </Price>
+    <Route>Oslo-Trondheim</Route>
+    <Price>399</Price>
   </Trip>
   <Trip>
-       <Route>
-          Oslo-Fredrikstad
-      </Route>
-      <Price>
-          299
-      </Price>
+    <Route>Oslo-Fredrikstad</Route>
+    <Price>299</Price>
+  </Trip>
+  <Trip>  
+    <Route>Oslo-Drammen</Route>
+    <Price>189</Price>
   </Trip>
   <Trip>
-       <Route>
-          Oslo-Drammen
-      </Route>
-      <Price>
-          189
-      </Price>
+    <Route>Oslo-Bergen</Route>
+    <Price>348</Price>
   </Trip>
   <Trip>
-       <Route>
-          Oslo-Bergen
-      </Route>
-      <Price>
-          348
-      </Price>
+    <Route>Oslo-Kristiansand</Route>
+    <Price>399</Price>
   </Trip>
   <Trip>
-       <Route>
-          Oslo-Kristiansand
-      </Route>
-      <Price>
-          399
-      </Price>
+    <Route>Oslo-Stavanger</Route>
+    <Price>399</Price>
   </Trip>
   <Trip>
-       <Route>
-          Oslo-Stavanger
-      </Route>
-      <Price>
-          399
-      </Price>
-  </Trip>
-  <Trip>
-       <Route>
-          Oslo-Bodø
-      </Route>
-      <Price>
-          698
-      </Price>
+    <Route>Oslo-Bodø</Route>
+    <Price>698</Price>
   </Trip>
 </Trips>

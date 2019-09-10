@@ -22,15 +22,13 @@ namespace WebApplication_Vy.Db
 
         public DbSet<Trip> Trips { get; set; }
 
-        public class VyDbInitializer<T> : DropCreateDatabaseAlways<VyDbContext>
+        public class VyDbInitializer<T> : CreateDatabaseIfNotExists<VyDbContext>
         {
             protected override void Seed(VyDbContext context)
             {
-                System.Diagnostics.Debug.WriteLine("got here");
                 var xml = XElement.Load(HttpContext.Current.Server.MapPath("~") + "/routes.xml");
                 System.Diagnostics.Debug.WriteLine(HttpContext.Current.Server.MapPath("~") + "routes.xml");
                 var trips = xml.Descendants("Trip");
-                System.Diagnostics.Debug.WriteLine(trips);
 
                 foreach (var trip in trips)
                 {
@@ -40,7 +38,7 @@ namespace WebApplication_Vy.Db
                             Route = (string)trip.Element("Route"),
                             Price = (int)trip.Element("Price"),
                         });
-                    }   catch (Exception e)
+                    } catch (Exception e)
                     {
                         System.Diagnostics.Debug.WriteLine("XML config is wrong");
                     }

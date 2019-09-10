@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using WebApplication_Vy.Service.Contracts;
 using WebApplication_Vy.Service.Implementation;
 
@@ -18,11 +19,29 @@ namespace WebApplication_Vy.Controllers
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult RegisterTicket()
         {
-            ViewBag.Current = "About";
-            ViewBag.Message = "Your application description page.";
-            return View();
+            
+            return RedirectToAction("Tickets");
+        }
+
+        [HttpGet]
+        public string GetTrips()
+        {
+            VyServiceImpl service = new Service.Implementation.VyServiceImpl();
+            List<Models.DTO.TripDTO> trips = service.GetTripDtos();
+
+            var jsonSerialiser = new JavaScriptSerializer();
+            var json = jsonSerialiser.Serialize(trips);
+            return json;
+        }
+
+        public ActionResult Tickets()
+        {
+            VyServiceImpl service = new Service.Implementation.VyServiceImpl();
+            List<Models.DTO.TicketDTO> tickets = service.GetTicketDtos();
+            return View(tickets);
         }
 
         public ActionResult Contact()
