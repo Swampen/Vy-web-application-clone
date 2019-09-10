@@ -1,22 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using WebApplication_Vy.Service.Contracts;
+using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
+using WebApplication_Vy.Db;
 using WebApplication_Vy.Models.DTO;
+using WebApplication_Vy.Service.Contracts;
 using WebApplication_Vy.Service.Implementation;
 
 namespace WebApplication_Vy.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IVyService _vyService;
+
+        public HomeController(IVyService vyService)
+        {
+            _vyService = vyService;
+            var db = new VyDbContext();
+            db.Database.Initialize(true);
+        }
+
         public ActionResult Index()
         {
-            var db = new Db.VyDbContext();
-            db.Database.Initialize(true);
-
             return View();
         }
 
@@ -31,9 +37,9 @@ namespace WebApplication_Vy.Controllers
         [HttpGet]
         public string GetTrips()
         {
-            VyServiceImpl service = new VyServiceImpl();
-            List<Models.DTO.TripDTO> trips = service.GetTripDtos();
-
+            var trips = _vyService.GetTripDtos();
+            
+            
             var jsonSerialiser = new JavaScriptSerializer();
             var json = jsonSerialiser.Serialize(trips);
             return json;
@@ -41,8 +47,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            VyServiceImpl service = new VyServiceImpl();
-            List<Models.DTO.TicketDTO> tickets = service.GetTicketDtos();
+            var tickets = _vyService.GetTicketDtos();
             return View(tickets);
         }
 
@@ -54,11 +59,24 @@ namespace WebApplication_Vy.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult MakeCustomer(string json)
+        {
+            if (json != null)
+            {
+                return Json("Success");
+            }
+            return Json("Failure");
+        }
+        
+
         public ActionResult ViewAllExampleEntities()
         {
-            IExampleService service = new ExampleServiceImpl();
-             //return View(service.GetExampleEntityDto());
-             throw new NotImplementedException();
+            _vyService.GetCustomerDtos();
+
+            // The next line is commented out to avoid creating a dummy view-file.
+            //return View(service.GetExampleEntityDto());
+            throw new NotImplementedException();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
             return db.Customers.ToList();
         }
 
-        public bool newTicket(Ticket inTicket)
+        public bool createTicket(Ticket inTicket)
         {
             using (var db = new VyDbContext())
             {
