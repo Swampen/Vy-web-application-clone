@@ -13,5 +13,7 @@ namespace WebApplication_Vy.Service.Contracts
         List<TicketDTO> GetTicketDtos();
 
         List<TripDTO> GetTripDtos();
+
+        bool CreateTicket(TicketDTO ticketDTO);
     }
 }

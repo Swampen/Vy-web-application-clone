@@ -30,25 +30,30 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
         {
             using (var db = new VyDbContext())
             {
+                var tempTrip = db.Trips.Find(inTicket.Trip.TripId);
+
                 var ticket = new Ticket()
                 {
                     Departure = inTicket.Departure,
                     Roundtrip = inTicket.Roundtrip,
-                    Trip = inTicket.Trip,
+                    Trip = tempTrip,
                 };
 
                 var foundCustomer = db.Customers.FirstOrDefault(Customer => Customer.Givenname == inTicket.Customer.Givenname);
 
                 if(foundCustomer == null)
                 {
-                    var temp = inTicket.Customer;
+                    var tempCustomer = inTicket.Customer;
+                    System.Diagnostics.Debug.WriteLine(tempCustomer.Zipcode.Postalcode);
+                    var tempZipcode = db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == tempCustomer.Zipcode.Postalcode);
+
                     Customer customer = new Customer()
                     {
-                        Givenname = temp.Givenname,
-                        Surname = temp.Surname,
-                        Id = temp.Id,
-                        Address = temp.Address,
-                        Zipcode = temp.Zipcode,
+                        Givenname = tempCustomer.Givenname,
+                        Surname = tempCustomer.Surname,
+                        Id = tempCustomer.Id,
+                        Address = tempCustomer.Address,
+                        Zipcode = tempZipcode,
                         Tickets = new List<Ticket>()
                     };
                     customer.Tickets.Add(ticket);

@@ -41,7 +41,9 @@
                     Givenname: $("#givenname").val(),
                     Surname: $("#surname").val(),
                     Address: $("#address").val(),
-                    Zipcode: $("#zipcode").val(),
+                    ZipcodeDTO: {
+                        Postalcode: $("#zipcode").val(),
+                    }
                 },
                 
             }
@@ -53,7 +55,7 @@
                 data: JSON.stringify(jsonIn),
                 contentType: "application/json;charset=utf-8",
                 success: function (response) {
-                    if (response.result == 'Redirect') {
+                    if (response.result == 'True') {
                         window.location = response.url;
                     }
                 }
