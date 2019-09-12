@@ -14,7 +14,7 @@ namespace WebApplication_Vy.Service.Implementation
     {
         public List<CustomerDTO> GetCustomerDtos()
         {
-            VyRepository repository = new VyRepositoryImpl();
+            IVyRepository repository = new VyRepositoryImpl();
             List<Customer> entities = repository.findAllCustomers();
             List<CustomerDTO> dtos = new List<CustomerDTO>();
             foreach (Customer entity in entities)
@@ -45,7 +45,7 @@ namespace WebApplication_Vy.Service.Implementation
 
         public List<TicketDTO> GetTicketDtos()
         {
-            VyRepository repository = new VyRepositoryImpl();
+            IVyRepository repository = new VyRepositoryImpl();
             List<Customer> customers = repository.findAllCustomers();
             List<TicketDTO> dtos = new List<TicketDTO>();
             foreach (Customer customer in customers)
@@ -69,7 +69,7 @@ namespace WebApplication_Vy.Service.Implementation
 
         public List<TripDTO> GetTripDtos()
         {
-            VyRepository repository = new VyRepositoryImpl();
+            IVyRepository repository = new VyRepositoryImpl();
             List<Trip> entities = repository.findAllTrips();
             List<TripDTO> dtos = new List<TripDTO>();
             foreach (Trip entity in entities)
@@ -91,7 +91,7 @@ namespace WebApplication_Vy.Service.Implementation
 
         public bool CreateTicket(TicketDTO ticketDTO)
         {
-            VyRepository repository = new VyRepositoryImpl();
+            IVyRepository repository = new VyRepositoryImpl();
             Ticket ticket = MapTicketEntity(ticketDTO);
             return repository.createTicket(ticket);
         }

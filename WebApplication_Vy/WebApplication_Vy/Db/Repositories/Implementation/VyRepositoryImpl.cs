@@ -6,7 +6,7 @@ using WebApplication_Vy.Models.Entities;
 
 namespace WebApplication_Vy.Db.Repositories.Implementation
 {
-    public class VyRepositoryImpl : WebApplication_Vy.Db.Repositories.Contracts.VyRepository
+    public class VyRepositoryImpl : WebApplication_Vy.Db.Repositories.Contracts.IVyRepository
     {
         public List<Ticket> findAllTickets()
         {

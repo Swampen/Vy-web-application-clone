@@ -151,8 +151,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Db\ExampleDbContext.cs" />
     <Compile Include="Db\Repositories\Contracts\ExampleRepository.cs" />
-    <Compile Include="Db\Repositories\Contracts\VyRepository.cs" />
+    <Compile Include="Db\Repositories\Contracts\ITripRepository.cs" />
+    <Compile Include="Db\Repositories\Contracts\IVyRepository.cs" />
     <Compile Include="Db\Repositories\Implementation\ExampleRepositoryImpl.cs" />
+    <Compile Include="Db\Repositories\Implementation\TripRepositoryImpl.cs" />
     <Compile Include="Db\Repositories\Implementation\VyRepositoryImpl.cs" />
     <Compile Include="Db\VyDbContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -176,6 +178,8 @@
     <Compile Include="Service\Implementation\VyServiceImpl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\VyDB.mdf" />
+    <Content Include="App_Data\VyDB_log.ldf" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
