@@ -69,8 +69,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                         System.Diagnostics.Debug.WriteLine(error);
                         return false;
                     }
-                    
-                    }
+                }
                 else
                 {
                     try
