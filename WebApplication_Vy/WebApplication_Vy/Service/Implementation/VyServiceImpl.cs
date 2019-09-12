@@ -31,6 +31,7 @@ namespace WebApplication_Vy.Service.Implementation
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>());
             var mapper = config.CreateMapper();
             CustomerDTO dto = mapper.Map<CustomerDTO>(entity);
+            dto.ZipcodeDTO = MapZipcodeDTO(entity.Zipcode);
             return dto;
             
             /*CustomerDTO dto = new CustomerDTO();
@@ -73,7 +74,6 @@ namespace WebApplication_Vy.Service.Implementation
             var mapper = config.CreateMapper();
             TicketDTO dto = mapper.Map<TicketDTO>(entity);
             dto.CustomerDTO = MapCustomerDto(entity.Customer);
-            dto.CustomerDTO.ZipcodeDTO = MapZipcodeDTO(entity.Customer.Zipcode);
             dto.TripDTO = MapTripDto(entity.Trip);
             return dto;
            
@@ -105,6 +105,7 @@ namespace WebApplication_Vy.Service.Implementation
             var mapper = config.CreateMapper();
             TripDTO dto = mapper.Map<TripDTO>(entity);
             return dto;
+
             /*TripDTO dto = new TripDTO();
             dto.TripId = entity.TripId;
             dto.Route = entity.Route;
@@ -141,7 +142,6 @@ namespace WebApplication_Vy.Service.Implementation
             var mapper = new Mapper(config);
             Ticket entity = mapper.Map<Ticket>(dto);
             entity.Customer = MapCustomerEntity(dto.CustomerDTO);
-            entity.Customer.Zipcode = MapZipcodeEntity(dto.CustomerDTO.ZipcodeDTO);
             entity.Trip = MapTripEntity(dto.TripDTO);
             return entity;
 
@@ -158,8 +158,10 @@ namespace WebApplication_Vy.Service.Implementation
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<CustomerDTO, Customer>());
             var mapper = new Mapper(config);
-            Customer customer = mapper.Map<Customer>(dto);
-            return customer;
+            Customer entity = mapper.Map<Customer>(dto);
+            entity.Zipcode = MapZipcodeEntity(dto.ZipcodeDTO);
+
+            return entity;
            /* Customer entity = new Customer();
             entity.Id = dto.Id;
             entity.Givenname = dto.Givenname;

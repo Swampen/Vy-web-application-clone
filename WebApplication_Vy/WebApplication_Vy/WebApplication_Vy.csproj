@@ -171,6 +171,7 @@
     <Compile Include="Models\Entities\Ticket.cs" />
     <Compile Include="Models\Entities\Trip.cs" />
     <Compile Include="Models\Entities\Zipcode.cs" />
+    <Compile Include="Models\Profiles\VyProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Contracts\IExampleService.cs" />
     <Compile Include="Service\Contracts\IJsonSerializerService.cs" />
