@@ -29,6 +29,12 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
             return db.Customers.ToList();
         }
 
+        public List<Zipcode> findAllZipcodes()
+        {
+            var db = new VyDbContext();
+            return db.Zipcodes.ToList();
+        }
+
         public Zipcode findZipcode(string postalcode)
         {
             var db = new VyDbContext();
