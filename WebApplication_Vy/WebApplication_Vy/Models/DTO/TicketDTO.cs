@@ -15,8 +15,8 @@ namespace WebApplication_Vy.Models.DTO
 
         public bool Roundtrip { get; set; }
 
-        public CustomerDTO CustomerDTO { get; set; }
+        public CustomerDTO Customer { get; set; }
 
-        public TripDTO TripDTO { get; set; }
+        public TripDTO Trip { get; set; }
     }
 }

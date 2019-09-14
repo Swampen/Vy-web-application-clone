@@ -28,31 +28,23 @@ namespace WebApplication_Vy.Service.Implementation
         private CustomerDTO MapCustomerDto(Customer entity)
         {
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>());
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<Ticket, TicketDTO>().ReverseMap();
+                cfg.CreateMap<Customer, CustomerDTO>().ReverseMap();
+                cfg.CreateMap<Trip, TripDTO>().ReverseMap();
+                cfg.CreateMap<Zipcode, ZipcodeDTO>().ReverseMap();
+            });
             var mapper = config.CreateMapper();
             CustomerDTO dto = mapper.Map<CustomerDTO>(entity);
-            dto.ZipcodeDTO = MapZipcodeDTO(entity.Zipcode);
             return dto;
-            
-            /*CustomerDTO dto = new CustomerDTO();
-            dto.Id = entity.Id;
-            dto.Givenname = entity.Givenname;
-            dto.Surname = entity.Surname;
-            dto.Address = entity.Address;
-            dto.ZipcodeDTO = MapZipcodeDTO(entity.Zipcode);
-            return dto;*/
         }
 
         private ZipcodeDTO MapZipcodeDTO(Zipcode entity)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Zipcode, ZipcodeDTO>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Zipcode, ZipcodeDTO>().ReverseMap());
             var mapper = config.CreateMapper();
             ZipcodeDTO dto = mapper.Map<ZipcodeDTO>(entity);
             return dto;
-            /*ZipcodeDTO dto = new ZipcodeDTO();
-            dto.Postalcode = entity.Postalcode;
-            dto.Postaltown = entity.Postaltown;
-            return dto;*/
         }
 
         public List<TicketDTO> GetTicketDtos()
@@ -70,20 +62,15 @@ namespace WebApplication_Vy.Service.Implementation
 
         private TicketDTO MapTicketDto(Ticket entity)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Ticket, TicketDTO>());
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<Ticket, TicketDTO>().ReverseMap();
+                cfg.CreateMap<Customer, CustomerDTO>().ReverseMap();
+                cfg.CreateMap<Trip, TripDTO>().ReverseMap();
+                cfg.CreateMap<Zipcode, ZipcodeDTO>().ReverseMap();
+            });
             var mapper = config.CreateMapper();
             TicketDTO dto = mapper.Map<TicketDTO>(entity);
-            dto.CustomerDTO = MapCustomerDto(entity.Customer);
-            dto.TripDTO = MapTripDto(entity.Trip);
             return dto;
-           
-            /*TicketDTO dto = new TicketDTO();
-            dto.TicketNumber = entity.TicketNumber;
-            dto.Roundtrip = entity.Roundtrip;
-            dto.Departure = entity.Departure;
-            dto.TripDTO = MapTripDto(entity.Trip);
-            dto.CustomerDTO = MapCustomerDto(entity.Customer);
-            return dto;*/
         }
 
         public List<TripDTO> GetTripDtos()
@@ -101,25 +88,16 @@ namespace WebApplication_Vy.Service.Implementation
 
         private TripDTO MapTripDto(Trip entity)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Trip, TripDTO>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Trip, TripDTO>().ReverseMap());
             var mapper = config.CreateMapper();
             TripDTO dto = mapper.Map<TripDTO>(entity);
             return dto;
-
-            /*TripDTO dto = new TripDTO();
-            dto.TripId = entity.TripId;
-            dto.Route = entity.Route;
-            dto.Price = entity.Price;
-            return dto;*/
         }
 
         public bool CreateTicket(TicketDTO ticketDTO)
         {
             VyRepository repository = new VyRepositoryImpl();
             Ticket ticket = MapTicketEntity(ticketDTO);
-            ticket.Customer = MapCustomerEntity(ticketDTO.CustomerDTO);
-            ticket.Customer.Zipcode = MapZipcodeEntity(ticketDTO.CustomerDTO.ZipcodeDTO);
-            ticket.Trip = MapTripEntity(ticketDTO.TripDTO);
             return repository.createTicket(ticket);
         }
 
@@ -129,46 +107,32 @@ namespace WebApplication_Vy.Service.Implementation
             var mapper = new Mapper(config);
             Trip entity = mapper.Map<Trip>(dto);
             return entity;
-            /*Trip entity = new Trip();
-            entity.TripId = dto.TripId;
-            entity.Route = dto.Route;
-            entity.Price = dto.Price;
-            return entity;*/
         }
 
         private Ticket MapTicketEntity(TicketDTO dto)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<TicketDTO, Ticket>());
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<TicketDTO, Ticket>();
+                cfg.CreateMap<TripDTO, Trip>();
+                cfg.CreateMap<CustomerDTO, Customer>();
+                cfg.CreateMap<ZipcodeDTO, Zipcode>();
+            });
             var mapper = new Mapper(config);
             Ticket entity = mapper.Map<Ticket>(dto);
-            entity.Customer = MapCustomerEntity(dto.CustomerDTO);
-            entity.Trip = MapTripEntity(dto.TripDTO);
             return entity;
-
-            /*Ticket entity = new Ticket();
-            entity.TicketNumber = dto.TicketNumber;
-            entity.Roundtrip = dto.Roundtrip;
-            entity.Departure = dto.Departure;
-            entity.Customer = MapCustomerEntity(dto.CustomerDTO);
-            entity.Trip = MapTripEntity(dto.TripDTO);
-            return entity;*/
         }
 
         private Customer MapCustomerEntity(CustomerDTO dto)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<CustomerDTO, Customer>());
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<TicketDTO, Ticket>();
+                cfg.CreateMap<TripDTO, Trip>();
+                cfg.CreateMap<CustomerDTO, Customer>();
+                cfg.CreateMap<ZipcodeDTO, Zipcode>();
+            });
             var mapper = new Mapper(config);
             Customer entity = mapper.Map<Customer>(dto);
-            entity.Zipcode = MapZipcodeEntity(dto.ZipcodeDTO);
-
             return entity;
-           /* Customer entity = new Customer();
-            entity.Id = dto.Id;
-            entity.Givenname = dto.Givenname;
-            entity.Surname = dto.Surname;
-            entity.Address = dto.Address;
-            entity.Zipcode = MapZipcodeEntity(dto.ZipcodeDTO);
-            return entity;*/
         }
 
         private Zipcode MapZipcodeEntity(ZipcodeDTO dto)
