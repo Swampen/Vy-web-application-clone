@@ -32,6 +32,9 @@ namespace WebApplication_Vy.Controllers
         {
             System.Diagnostics.Debug.WriteLine(ticketDTO.Customer.Zipcode.Postalcode);
             bool success = _vyService.CreateTicket(ticketDTO);
+            if (success)
+                return RedirectToAction("tickets");
+             
             return Json(new { result = success.ToString() , url = Url.Action("tickets", "Home") });
         }
 

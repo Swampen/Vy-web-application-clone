@@ -28,7 +28,8 @@ namespace WebApplication_Vy.Service.Implementation
         private CustomerDTO MapCustomerDto(Customer entity)
         {
 
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<Ticket, TicketDTO>().ReverseMap();
                 cfg.CreateMap<Customer, CustomerDTO>().ReverseMap();
                 cfg.CreateMap<Trip, TripDTO>().ReverseMap();
@@ -54,15 +55,16 @@ namespace WebApplication_Vy.Service.Implementation
             List<TicketDTO> dtos = new List<TicketDTO>();
             foreach (Customer customer in customers)
             {
-                foreach(Ticket ticket in customer.Tickets)
-                dtos.Add(MapTicketDto(ticket));
+                foreach (Ticket ticket in customer.Tickets)
+                    dtos.Add(MapTicketDto(ticket));
             }
             return dtos;
         }
 
         private TicketDTO MapTicketDto(Ticket entity)
         {
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<Ticket, TicketDTO>().ReverseMap();
                 cfg.CreateMap<Customer, CustomerDTO>().ReverseMap();
                 cfg.CreateMap<Trip, TripDTO>().ReverseMap();
@@ -111,7 +113,8 @@ namespace WebApplication_Vy.Service.Implementation
 
         private Ticket MapTicketEntity(TicketDTO dto)
         {
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<TicketDTO, Ticket>();
                 cfg.CreateMap<TripDTO, Trip>();
                 cfg.CreateMap<CustomerDTO, Customer>();
@@ -124,7 +127,8 @@ namespace WebApplication_Vy.Service.Implementation
 
         private Customer MapCustomerEntity(CustomerDTO dto)
         {
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<TicketDTO, Ticket>();
                 cfg.CreateMap<TripDTO, Trip>();
                 cfg.CreateMap<CustomerDTO, Customer>();

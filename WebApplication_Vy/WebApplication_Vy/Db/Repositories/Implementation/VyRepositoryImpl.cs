@@ -17,6 +17,9 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
         public List<Trip> findAllTrips()
         {
             var db = new VyDbContext();
+            Ticket t = db.Tickets.Find(3);
+            //db.Tickets.Remove(t);
+            //db.SaveChanges();
             return db.Trips.ToList();
         }
 
