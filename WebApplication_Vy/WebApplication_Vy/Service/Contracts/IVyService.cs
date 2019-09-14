@@ -15,5 +15,7 @@ namespace WebApplication_Vy.Service.Contracts
         List<TripDTO> GetTripDtos();
 
         bool CreateTicket(TicketDTO ticketDTO);
+
+        string GetPostaltown(string postalcode);
     }
 }

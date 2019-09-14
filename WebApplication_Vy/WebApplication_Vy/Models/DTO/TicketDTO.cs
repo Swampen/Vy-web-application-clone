@@ -11,8 +11,10 @@ namespace WebApplication_Vy.Models.DTO
         [Key]
         public int TicketNumber { get; set; }
 
+        [Required(ErrorMessage = "This field is required")]
         public DateTime Departure { get; set; }
 
+        [Required(ErrorMessage = "This field is required")]
         public bool Roundtrip { get; set; }
 
         public CustomerDTO CustomerDTO { get; set; }

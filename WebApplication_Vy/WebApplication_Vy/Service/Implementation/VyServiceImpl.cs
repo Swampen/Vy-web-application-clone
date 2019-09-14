@@ -134,5 +134,16 @@ namespace WebApplication_Vy.Service.Implementation
             entity.Postaltown = dto.Postaltown;
             return entity;
         }
+
+        public string GetPostaltown(string postalcode)
+        {
+            VyRepository repository = new VyRepositoryImpl();
+            Zipcode zipcode = repository.findZipcode(postalcode);
+            if (zipcode == null)
+            {
+                return "Not a valid postalcode";
+            }
+            return MapZipcodeDTO(zipcode).Postaltown;
+        }
     }
 }

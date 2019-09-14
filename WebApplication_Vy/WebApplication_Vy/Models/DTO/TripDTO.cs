@@ -9,6 +9,7 @@ namespace WebApplication_Vy.Models.DTO
     public class TripDTO
     {
         [Key]
+        [Required(ErrorMessage = "This field is required")]
         public int TripId { get; set; }
 
         public string Route { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Microsoft.Ajax.Utilities;
@@ -30,8 +31,7 @@ namespace WebApplication_Vy.Controllers
         public ActionResult RegisterTicket(TicketDTO ticketDTO)
         {
             System.Diagnostics.Debug.WriteLine(ticketDTO.CustomerDTO.ZipcodeDTO.Postalcode);
-            bool success = _vyService.CreateTicket(ticketDTO);
-            return Json(new { result = success.ToString() , url = Url.Action("tickets", "Home") });
+            return Json(new { result = "OK" , url = Url.Action("tickets", "Home") });
         }
 
         [HttpGet]
@@ -43,6 +43,16 @@ namespace WebApplication_Vy.Controllers
             var jsonSerialiser = new JavaScriptSerializer();
             var json = jsonSerialiser.Serialize(trips);
             return json;
+        }
+
+        [HttpPost]
+        public string SearchZip(ZipcodeDTO zipcode)
+        {
+            Match match = Regex.Match(zipcode.Postalcode, "[0-9]{4}");
+            if (!match.Success) {
+                return "";
+            }
+            return _vyService.GetPostaltown(zipcode.Postalcode);
         }
 
         public ActionResult Tickets()

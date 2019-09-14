@@ -33,7 +33,6 @@ namespace Test
             customerDto.Givenname = "Fredrik";
             customerDto.Surname = "Frostad";
             customerDto.Address = "Adresse";
-            customerDto.Zipcode = 2022;
             var serializer = new JavaScriptSerializer();
             string json = serializer.Serialize(customerDto);
             Assert.NotNull(_homeController.MakeCustomer(json));

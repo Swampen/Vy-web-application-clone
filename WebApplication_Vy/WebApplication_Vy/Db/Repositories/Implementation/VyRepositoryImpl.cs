@@ -26,6 +26,13 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
             return db.Customers.ToList();
         }
 
+        public Zipcode findZipcode(string postalcode)
+        {
+            var db = new VyDbContext();
+            Zipcode zipcode = db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == postalcode);
+            return zipcode;
+        }
+
         public bool createTicket(Ticket inTicket)
         {
             using (var db = new VyDbContext())
@@ -88,5 +95,6 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                 }
             }
         }
+
     }
 }
