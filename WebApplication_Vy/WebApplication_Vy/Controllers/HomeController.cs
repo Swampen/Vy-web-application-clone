@@ -30,8 +30,9 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult RegisterTicket(TicketDTO ticketDTO)
         {
-            System.Diagnostics.Debug.WriteLine(ticketDTO.CustomerDTO.ZipcodeDTO.Postalcode);
-            return Json(new { result = "OK" , url = Url.Action("tickets", "Home") });
+            System.Diagnostics.Debug.WriteLine(ticketDTO.Customer.Zipcode.Postalcode);
+            bool success = _vyService.CreateTicket(ticketDTO);
+            return Json(new { result = success.ToString() , url = Url.Action("tickets", "Home") });
         }
 
         [HttpGet]

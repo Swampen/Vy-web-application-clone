@@ -37,5 +37,11 @@ namespace Test
             string json = serializer.Serialize(customerDto);
             Assert.NotNull(_homeController.MakeCustomer(json));
         }
+
+        [Test]
+        public void testAM()
+        {
+
+        }
     }
 }

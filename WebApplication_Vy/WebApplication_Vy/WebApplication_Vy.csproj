@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
       <HintPath>..\packages\EntityFramework.6.3.0-preview8-19405-04\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -168,6 +171,7 @@
     <Compile Include="Models\Entities\Ticket.cs" />
     <Compile Include="Models\Entities\Trip.cs" />
     <Compile Include="Models\Entities\Zipcode.cs" />
+    <Compile Include="Models\Profiles\VyProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Contracts\IExampleService.cs" />
     <Compile Include="Service\Contracts\IJsonSerializerService.cs" />
@@ -176,6 +180,10 @@
     <Compile Include="Service\Implementation\VyServiceImpl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\VyDB.mdf" />
+    <Content Include="App_Data\VyDB_log.ldf">
+      <DependentUpon>VyDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -257,7 +265,6 @@
     <Content Include="Views\Home\Tickets.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\DAO\" />
   </ItemGroup>
   <ItemGroup>

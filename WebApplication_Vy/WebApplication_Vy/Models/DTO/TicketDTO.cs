@@ -17,8 +17,8 @@ namespace WebApplication_Vy.Models.DTO
         [Required(ErrorMessage = "This field is required")]
         public bool Roundtrip { get; set; }
 
-        public CustomerDTO CustomerDTO { get; set; }
+        public CustomerDTO Customer { get; set; }
 
-        public TripDTO TripDTO { get; set; }
+        public TripDTO Trip { get; set; }
     }
 }
