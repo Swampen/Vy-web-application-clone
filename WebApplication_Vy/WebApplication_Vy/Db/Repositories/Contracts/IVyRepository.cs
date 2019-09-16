@@ -15,5 +15,7 @@ namespace WebApplication_Vy.Db.Repositories.Contracts
         List<Customer> findAllCustomers();
 
         bool createTicket(Ticket inTicket);
+
+        Zipcode findZipcode(string postalcode);
     }
 }

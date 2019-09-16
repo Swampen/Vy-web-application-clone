@@ -1,12 +1,13 @@
-﻿
+﻿@model WebApplication_Vy.Models.DTO.TicketDTO
 
 @{
     ViewBag.Title = "Index";
 }
 
 <div class="row">
-    <h2>Vy</h2
+    <h2>Vy</h2>
 </div>
+
 <script type="text/javascript">
     $(function () {
         $.ajax({
@@ -30,36 +31,27 @@
             $("#tripId").append(dropdown);
         }
 
-        $("#register").click(function () {
-            var jsonIn = {
-                Departure: $("#dateandtime").val(),
-                Roundtrip: $("#roundtrip").is(":checked"),
-                TripDTO: {
-                    TripId: $("#tripId").val(),
-                },
-                CustomerDTO: {
-                    Givenname: $("#givenname").val(),
-                    Surname: $("#surname").val(),
-                    Address: $("#address").val(),
-                    ZipcodeDTO: {
-                        Postalcode: $("#zipcode").val(),
-                    }
-                },
-                
-            }
-            console.log(jsonIn);
+        $("#postalcode").on('change', function () {
+            var postalcode = $("#postalcode").val()
+            console.log("form: " + postalcode);
 
-            $.ajax({
-                url: "@Url.Action("registerticket", "home")",
-                type: "POST",
-                data: JSON.stringify(jsonIn),
-                contentType: "application/json;charset=utf-8",
-                success: function (response) {
-                    if (response.result == 'True') {
-                        window.location = response.url;
+            var jsonin = {
+                Postalcode: postalcode,
+            };
+
+            if (postalcode.length == 4) {
+                $.ajax({
+                    url: "@Url.Action("searchzip", "home")",
+                    type: 'POST',
+                    data: JSON.stringify(jsonin),
+                    contentType: "application/json;charset=utf-8",
+                    success: function (response) {
+                        $('#postaltown').text(response);
                     }
-                }
-            });
+                })
+            } else {
+                $('#postaltown').text("");
+            }
         });
 
         //Form spesific javascript
@@ -68,71 +60,87 @@
         });
     })
 </script>
-<div id="form" class="form-group container-fluid">
-    <div class="row">
-        <div class="col-sm-2">
-            <p>Departure</p>
-        </div>
-        <div class="col-sm-5">
-            <input id="dateandtime"/>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-2">
-            <p>Round Trip</p>
-        </div>
-        <div class="col-sm-3">
-            <input class="form-check-input" type="checkbox" id="roundtrip">
-        </div>
-    </div>
+<div id="ajax_form">
+    @using (Ajax.BeginForm("RegisterTicket", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }))
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="form-group row">
-        <div class="col-sm-2">
-            <p>Trip</p>
-        </div>
-        <div class="col-sm-3 ">
-            <select id="tripId" name="from" class="custom-select form-control">
-                <option value="" selected>Choose a route...</option>
-            </select>
-        </div>
-    </div>
+        <div class="form-horizontal">
 
-    <div class="form-group row">
-        <div class="col-sm-2">
-            <p>Given name</p>
-        </div>
-        <div class="col-sm-3">
-            <input type="text" id="givenname" />
-        </div>
-    </div>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Departure, htmlAttributes: new { @class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Departure, new { htmlAttributes = new { id = "dateandtime", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Departure, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-    <div class="form-group row">
-        <div class="col-sm-2">
-            <p>Surname</p>
-        </div>
-        <div class="col-sm-3">
-            <input type="text" id="surname" />
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-2">
-            <p>Address</p>
-        </div>
-        <div class="col-sm-3">
-            <input type="text" id="address" />
-        </div>
-    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Trip.TripId, htmlAttributes:  new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <select id="tripId" name="Trip.TripId" class="custom-select form-control" required>
+                        <option value="" selected>Choose a route...</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Trip.TripId, "", new { @class = "text-danger"})
+                </div>
+            </div>
 
-    <div class="form-group row">
-        <div class="col-sm-2">
-            <p>Zipcode</p>
-        </div>
-        <div class="col-sm-3">
-            <input type="text" pattern="[0-9]{4}" id="zipcode" />
-        </div>
-    </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Roundtrip, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.Roundtrip, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Roundtrip, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-    <div class="row">
-        <button id="register" type="submit" class="btn btn-primary my-1">Submit</button>
-    </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.Givenname, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.Givenname, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.Givenname, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.Surname, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.Address, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.Zipcode.Postalcode, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.Zipcode.Postalcode, new { htmlAttributes = new { id = "postalcode", @class = "form-control" } })
+                        <label id="postaltown"></label>
+                        @Html.ValidationMessageFor(model => model.Customer.Zipcode.Postalcode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-12 text-success">
+                        @ViewBag.Records
+                    </div>
+                </div>
+
+            </div>
+    }
 </div>

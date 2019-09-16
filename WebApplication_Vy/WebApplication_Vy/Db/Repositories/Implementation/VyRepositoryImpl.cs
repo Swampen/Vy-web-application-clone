@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,6 +17,10 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
         public List<Trip> findAllTrips()
         {
             var db = new VyDbContext();
+            Customer t = db.Customers.Find(5);
+            //db.Customers.Remove(t);
+            //db.Tickets.Remove(t);
+            //db.SaveChanges();
             return db.Trips.ToList();
         }
 
@@ -24,6 +28,13 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
         {
             var db = new VyDbContext();
             return db.Customers.ToList();
+        }
+
+        public Zipcode findZipcode(string postalcode)
+        {
+            var db = new VyDbContext();
+            Zipcode zipcode = db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == postalcode);
+            return zipcode;
         }
 
         public bool createTicket(Ticket inTicket)
@@ -87,5 +98,6 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                 }
             }
         }
+
     }
 }
