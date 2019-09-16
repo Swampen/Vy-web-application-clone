@@ -10,7 +10,7 @@ using WebApplication_Vy.Service.Implementation;
 
 namespace WebApplication_Vy.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : Controller 
     {
         private readonly IVyService _vyService;
 
