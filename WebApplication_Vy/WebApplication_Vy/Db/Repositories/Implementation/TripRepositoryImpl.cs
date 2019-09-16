@@ -10,7 +10,10 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
     {
         public List<Trip> FindAllTrips()
         {
-            throw new NotImplementedException();
+            using (var qVyDbContext = new VyDbContext())
+            {
+               return qVyDbContext.Trips.ToList();
+            }
         }
 
         public List<Trip> TripSearch(string query)
