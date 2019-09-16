@@ -13,10 +13,16 @@ namespace WebApplication_Vy.Service.Implementation
 {
     public class VyServiceImpl : Contracts.IVyService
     {
+
+        private IVyRepository _vyRepository;
+
+        public VyServiceImpl(IVyRepository vyRepository)
+        {
+            _vyRepository = vyRepository;
+        }
         public List<CustomerDTO> GetCustomerDtos()
         {
-            IVyRepository repository = new VyRepositoryImpl();
-            List<Customer> entities = repository.findAllCustomers();
+            List<Customer> entities = _vyRepository.findAllCustomers();
             List<CustomerDTO> dtos = new List<CustomerDTO>();
             foreach (Customer entity in entities)
             {
@@ -50,8 +56,7 @@ namespace WebApplication_Vy.Service.Implementation
 
         public List<TicketDTO> GetTicketDtos()
         {
-            IVyRepository repository = new VyRepositoryImpl();
-            List<Customer> customers = repository.findAllCustomers();
+            List<Customer> customers = _vyRepository.findAllCustomers();
             List<TicketDTO> dtos = new List<TicketDTO>();
             foreach (Customer customer in customers)
             {
@@ -77,8 +82,7 @@ namespace WebApplication_Vy.Service.Implementation
 
         public List<TripDTO> GetTripDtos()
         {
-            IVyRepository repository = new VyRepositoryImpl();
-            List<Trip> entities = repository.findAllTrips();
+            List<Trip> entities = _vyRepository.findAllTrips();
             List<TripDTO> dtos = new List<TripDTO>();
             foreach (Trip entity in entities)
             {
@@ -98,9 +102,8 @@ namespace WebApplication_Vy.Service.Implementation
 
         public bool CreateTicket(TicketDTO ticketDTO)
         {
-            IVyRepository repository = new VyRepositoryImpl();
             Ticket ticket = MapTicketEntity(ticketDTO);
-            return repository.createTicket(ticket);
+            return _vyRepository.createTicket(ticket);
         }
 
         private Trip MapTripEntity(TripDTO dto)
@@ -149,8 +152,7 @@ namespace WebApplication_Vy.Service.Implementation
 
         public string GetPostaltown(string postalcode)
         {
-            IVyRepository repository = new VyRepositoryImpl();
-            Zipcode zipcode = repository.findZipcode(postalcode);
+            Zipcode zipcode = _vyRepository.findZipcode(postalcode);
             if (zipcode == null)
             {
                 return "Not a valid postalcode";
