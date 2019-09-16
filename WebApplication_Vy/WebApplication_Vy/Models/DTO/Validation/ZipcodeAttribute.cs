@@ -8,7 +8,7 @@ using WebApplication_Vy.Models.Entities;
 
 namespace WebApplication_Vy.Models.DTO.Validation
 {
-    public class ZipcodeValidation : ValidationAttribute
+    public class ZipcodeAttribute : ValidationAttribute
     {
         private static Db.Repositories.Contracts.VyRepository Repository = new Db.Repositories.Implementation.VyRepositoryImpl();
         private List<Zipcode> zipcodes = Repository.findAllZipcodes();
@@ -16,17 +16,15 @@ namespace WebApplication_Vy.Models.DTO.Validation
         public override bool IsValid(object value)
         {
             System.Diagnostics.Debug.WriteLine(value);
-            Zipcode zipcode = new Zipcode
-            {
-                Postalcode = (string)value,
-            };
+            string zipcode = (string)value;
 
-            bool found = zipcodes.Contains(zipcode);
-            if (found)
-            {
-                return true;
+            foreach (var zip in zipcodes){
+                if (zip.Postalcode == zipcode){
+                    return true;
+                }
             }
             return false;
+                
         }
     }
 }

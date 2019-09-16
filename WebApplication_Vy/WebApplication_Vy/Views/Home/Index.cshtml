@@ -32,14 +32,12 @@
         }
 
         $("#postalcode").on('input', function () {
-            var postalcode = $("#postalcode").val()
-            console.log("form: " + postalcode);
-
+            var postalcode = $("#postalcode").val();
             var jsonin = {
                 Postalcode: postalcode,
             };
 
-            if (postalcode.length == 4) {
+            if (postalcode.match("[0-9]{4}")) {
                 $.ajax({
                     url: "@Url.Action("searchzip", "home")",
                     type: 'POST',
@@ -48,7 +46,7 @@
                     success: function (response) {
                         $('#postaltown').text(response);
                     }
-                })
+                });
             } else {
                 $('#postaltown').text("");
             }
@@ -66,7 +64,6 @@
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
@@ -126,13 +123,13 @@
                         <label id="postaltown"></label>
                         @Html.ValidationMessageFor(model => model.Customer.Zipcode.Postalcode, "", new { @class = "text-danger" })
                         @Html.ValidationMessage("zip", new { @class = "text-danger" })
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <input type="submit" value="Submit" class="btn btn-success" />
                     </div>
                 </div>
                 <hr />
