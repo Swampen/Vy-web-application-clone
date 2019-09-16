@@ -149,7 +149,7 @@ namespace WebApplication_Vy.Service.Implementation
 
         public string GetPostaltown(string postalcode)
         {
-            VyRepository repository = new VyRepositoryImpl();
+            IVyRepository repository = new VyRepositoryImpl();
             Zipcode zipcode = repository.findZipcode(postalcode);
             if (zipcode == null)
             {
