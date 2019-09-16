@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using WebApplication_Vy.Models.Entities;
 
@@ -11,12 +12,21 @@ namespace WebApplication_Vy.Models.DTO.Validation
     {
         private static Db.Repositories.Contracts.VyRepository Repository = new Db.Repositories.Implementation.VyRepositoryImpl();
         private List<Zipcode> zipcodes = Repository.findAllZipcodes();
-        protected override ValidationResult IsValid(ValidationContext validationContext)
+
+        public override bool IsValid(object value)
         {
-            if (zipcodes.Contains(validationContext.DisplayName.ToString())){
-                return ValidationResult.Success;
+            System.Diagnostics.Debug.WriteLine(value);
+            Zipcode zipcode = new Zipcode
+            {
+                Postalcode = (string)value,
+            };
+
+            bool found = zipcodes.Contains(zipcode);
+            if (found)
+            {
+                return true;
             }
-            return new ValidationResult("Not a valid Norwegian zipcode");
+            return false;
         }
     }
 }

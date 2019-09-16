@@ -34,7 +34,6 @@ namespace WebApplication_Vy.Controllers
             bool success = _vyService.CreateTicket(ticketDTO);
             if (success)
                 return RedirectToAction("tickets");
-             
             return Json(new { result = success.ToString() , url = Url.Action("tickets", "Home") });
         }
 
@@ -56,7 +55,13 @@ namespace WebApplication_Vy.Controllers
             if (!match.Success) {
                 return "";
             }
-            return _vyService.GetPostaltown(zipcode.Postalcode);
+            var result = _vyService.GetPostaltown(zipcode.Postalcode);
+
+            if (!ModelState.IsValid) {
+                ModelState.AddModelError("zip", "Not a valid Norwegian zipcode");
+                return result;
+            }
+            return result;
         }
 
         public ActionResult Tickets()

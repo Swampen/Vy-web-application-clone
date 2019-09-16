@@ -31,7 +31,7 @@
             $("#tripId").append(dropdown);
         }
 
-        $("#postalcode").on('change', function () {
+        $("#postalcode").on('input', function () {
             var postalcode = $("#postalcode").val()
             console.log("form: " + postalcode);
 
@@ -125,6 +125,7 @@
                         @Html.EditorFor(model => model.Customer.Zipcode.Postalcode, new { htmlAttributes = new { id = "postalcode", @class = "form-control" } })
                         <label id="postaltown"></label>
                         @Html.ValidationMessageFor(model => model.Customer.Zipcode.Postalcode, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("zip", new { @class = "text-danger" })
                     </div>
                 </div>
 
