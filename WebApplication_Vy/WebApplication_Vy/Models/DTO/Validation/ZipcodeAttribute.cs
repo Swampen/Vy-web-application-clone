@@ -10,23 +10,20 @@ namespace WebApplication_Vy.Models.DTO.Validation
         private static Db.Repositories.Contracts.VyRepository Repository = new Db.Repositories.Implementation.VyRepositoryImpl();
         private List<Zipcode> zipcodes = Repository.findAllZipcodes();
 
-
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        public override bool IsValid(object value)
         {
-            return new ValidationResult("Not correct");
+            System.Diagnostics.Debug.WriteLine(value);
+            string zipcode = (string)value;
+
+            foreach (var zip in zipcodes)
+            {
+                if (zip.Postalcode == zipcode)
+                {
+                    return true;
+                }
+            }
+            return false;
+
         }
-        //public override bool IsValid(object value)
-        //{
-        //    System.Diagnostics.Debug.WriteLine(value);
-        //    string zipcode = (string)value;
-
-        //    foreach (var zip in zipcodes){
-        //        if (zip.Postalcode == zipcode){
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-
-        //}
     }
 }

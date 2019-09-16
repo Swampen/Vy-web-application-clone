@@ -35,9 +35,8 @@ namespace WebApplication_Vy.Controllers
                 if (success){ 
                     return RedirectToAction("tickets");
                 }
-
             }
-            return RedirectToAction("Index");
+            return View("Index");
         }
 
         [HttpGet]
