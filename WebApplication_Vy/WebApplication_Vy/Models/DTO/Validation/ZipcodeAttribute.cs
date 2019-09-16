@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
 using WebApplication_Vy.Models.Entities;
 
 namespace WebApplication_Vy.Models.DTO.Validation
@@ -13,18 +10,23 @@ namespace WebApplication_Vy.Models.DTO.Validation
         private static Db.Repositories.Contracts.VyRepository Repository = new Db.Repositories.Implementation.VyRepositoryImpl();
         private List<Zipcode> zipcodes = Repository.findAllZipcodes();
 
-        public override bool IsValid(object value)
-        {
-            System.Diagnostics.Debug.WriteLine(value);
-            string zipcode = (string)value;
 
-            foreach (var zip in zipcodes){
-                if (zip.Postalcode == zipcode){
-                    return true;
-                }
-            }
-            return false;
-                
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            return new ValidationResult("Not correct");
         }
+        //public override bool IsValid(object value)
+        //{
+        //    System.Diagnostics.Debug.WriteLine(value);
+        //    string zipcode = (string)value;
+
+        //    foreach (var zip in zipcodes){
+        //        if (zip.Postalcode == zipcode){
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+
+        //}
     }
 }

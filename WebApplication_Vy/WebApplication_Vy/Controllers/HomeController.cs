@@ -30,14 +30,14 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult RegisterTicket(TicketDTO ticketDTO)
         {
-            if (!ModelState.IsValid){ 
+            if (ModelState.IsValid){ 
             bool success = _vyService.CreateTicket(ticketDTO);
                 if (success){ 
                     return RedirectToAction("tickets");
                 }
 
             }
-            return View();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -60,9 +60,9 @@ namespace WebApplication_Vy.Controllers
             }
             var result = _vyService.GetPostaltown(zipcode.Postalcode);
 
-            if (result == "") {
+            if (!ModelState.IsValid) {
                 ModelState.AddModelError("zip", "Not a valid Norwegian zipcode");
-                return "Not a valid Norwegian zip";
+                return result;
             }
             return result;
         }
