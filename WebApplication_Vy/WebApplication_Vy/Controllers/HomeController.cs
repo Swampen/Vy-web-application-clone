@@ -49,6 +49,12 @@ namespace WebApplication_Vy.Controllers
             return json;
         }
 
+        [HttpGet]
+        public string SearchTrips(string query)
+        {
+            
+        }
+
         [HttpPost]
         public string SearchZip(ZipcodeDTO zipcode)
         {

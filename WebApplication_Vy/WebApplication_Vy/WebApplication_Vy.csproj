@@ -200,8 +200,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Contracts\IExampleService.cs" />
     <Compile Include="Service\Contracts\IJsonSerializerService.cs" />
+    <Compile Include="Service\Contracts\ITripService.cs" />
     <Compile Include="Service\Contracts\IVyService.cs" />
     <Compile Include="Service\Implementation\ExampleServiceImpl.cs" />
+    <Compile Include="Service\Implementation\TripServiceImpl.cs" />
     <Compile Include="Service\Implementation\VyServiceImpl.cs" />
   </ItemGroup>
   <ItemGroup>
