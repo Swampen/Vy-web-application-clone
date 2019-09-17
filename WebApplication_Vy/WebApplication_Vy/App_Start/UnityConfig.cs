@@ -21,7 +21,7 @@ namespace WebApplication_Vy
             container.RegisterType<IVyRepository, VyRepositoryImpl>();
             container.RegisterType<ITripRepository, TripRepositoryImpl>();
             container.RegisterType<IVyService, VyServiceImpl>();
-            
+
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

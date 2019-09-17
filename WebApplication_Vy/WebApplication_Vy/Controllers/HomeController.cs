@@ -14,10 +14,13 @@ namespace WebApplication_Vy.Controllers
     public class HomeController : Controller 
     {
         private readonly IVyService _vyService;
+        private readonly ITripService _tripService;
 
-        public HomeController(IVyService vyService)
+        public HomeController(IVyService vyService, ITripService tripService)
         {
             _vyService = vyService;
+            _tripService = tripService;
+            
             var db = new VyDbContext();
             db.Database.Initialize(true);
         }
@@ -42,17 +45,16 @@ namespace WebApplication_Vy.Controllers
         public string GetTrips()
         {
             var trips = _vyService.GetTripDtos();
-            
-            
             var jsonSerialiser = new JavaScriptSerializer();
-            var json = jsonSerialiser.Serialize(trips);
-            return json;
+            return jsonSerialiser.Serialize(trips);
         }
 
         [HttpGet]
         public string SearchTrips(string query)
         {
-            
+            var trips = _tripService.FindTripsMatching(query);
+            var jsonSerialiser = new JavaScriptSerializer();
+            return jsonSerialiser.Serialize(trips);
         }
 
         [HttpPost]
