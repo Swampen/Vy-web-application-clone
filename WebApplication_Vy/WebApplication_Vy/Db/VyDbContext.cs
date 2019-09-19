@@ -22,6 +22,15 @@ namespace WebApplication_Vy.Db
 
         public DbSet<Zipcode> Zipcodes { get; set; }
 
+        public DbSet<Line> Lines { get; set; }
+
+        public DbSet<Schedule> Schedules { get; set; }
+
+        public DbSet<Station> Stations { get; set; }
+
+        public DbSet<TripInterval> TripIntervals{ get; set; }
+
+
         public class VyDbInitializer<T> : CreateDatabaseIfNotExists<VyDbContext>
         {
             protected override void Seed(VyDbContext context)
