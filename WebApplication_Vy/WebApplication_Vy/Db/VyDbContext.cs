@@ -42,6 +42,8 @@ namespace WebApplication_Vy.Db
                     catch (Exception e)
                     {
                         Debug.WriteLine("XML config is wrong");
+                        Console.WriteLine(e.StackTrace);
+                        throw;
                     }
 
                 var zipxml = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
@@ -60,6 +62,8 @@ namespace WebApplication_Vy.Db
                     catch (Exception e)
                     {
                         Debug.WriteLine("XML config is wrong");
+                        Console.WriteLine(e.StackTrace);
+                        throw;
                     }
 
                 base.Seed(context);
