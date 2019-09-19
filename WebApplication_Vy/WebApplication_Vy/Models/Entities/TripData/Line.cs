@@ -10,7 +10,10 @@ namespace WebApplication_Vy.Models.Entities
     {
         [Key]
         public int Id { get; set; }
+
         public virtual Station Departure_Station { get; set; }
+
         public virtual Station Arrival_Station { get; set; }
+
     }
 }

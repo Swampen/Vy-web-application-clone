@@ -35,8 +35,8 @@ namespace WebApplication_Vy.Db
         {
             protected override void Seed(VyDbContext context)
             {
-                var tripXML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "routes.xml");
-                Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "routes.xml");
+                var tripXML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "trips.xml");
+                Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "trips.xml");
                 var trips = tripXML.Descendants("Trip");
 
                 foreach (var trip in trips)
