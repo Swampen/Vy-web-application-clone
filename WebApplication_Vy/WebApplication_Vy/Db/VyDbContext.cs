@@ -33,11 +33,7 @@ namespace WebApplication_Vy.Db
                 foreach (var trip in trips)
                     try
                     {
-                        context.Trips.Add(new Trip
-                        {
-                            Route = (string) trip.Element("Route"),
-                            Price = (int) trip.Element("Price")
-                        });
+                        context.Trips.Add(new Trip());
                     }
                     catch (Exception e)
                     {

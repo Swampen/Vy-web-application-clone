@@ -47,14 +47,8 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
         {
             using (var db = new VyDbContext())
             {
-                var tempTrip = db.Trips.Find(inTicket.Trip.TripId);
 
-                var ticket = new Ticket()
-                {
-                    Departure = inTicket.Departure,
-                    Roundtrip = inTicket.Roundtrip,
-                    Trip = tempTrip,
-                };
+                var ticket = new Ticket();
 
                 var foundCustomer = db.Customers.FirstOrDefault(Customer => Customer.Givenname == inTicket.Customer.Givenname);
 
