@@ -224,7 +224,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min_new.css" />
     <Content Include="Content\gijgo.min.css" />
-    <Content Include="Content\routes.xml" />
+    <Content Include="Content\trips.xml" />
     <Content Include="Content\vy.png" />
     <Content Include="Content\zipcodes.xml" />
     <Content Include="favicon.ico" />
