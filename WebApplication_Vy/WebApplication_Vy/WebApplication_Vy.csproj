@@ -190,6 +190,7 @@
     <Compile Include="Models\DTO\ExampleEntityDTO.cs" />
     <Compile Include="Models\DTO\TicketDTO.cs" />
     <Compile Include="Models\DTO\TripDTO.cs" />
+    <Compile Include="Models\DTO\Validation\ZipcodeAttribute.cs" />
     <Compile Include="Models\DTO\ZipcodeDTO.cs" />
     <Compile Include="Models\Entities\Customer.cs" />
     <Compile Include="Models\Entities\ExampleEntity.cs" />

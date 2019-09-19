@@ -11,7 +11,7 @@ using AutoMapper;
 
 namespace WebApplication_Vy.Service.Implementation
 {
-    public class VyServiceImpl : Contracts.IVyService
+    public class VyServiceImpl : IVyService
     {
 
         private IVyRepository _vyRepository;
@@ -155,7 +155,7 @@ namespace WebApplication_Vy.Service.Implementation
             Zipcode zipcode = _vyRepository.findZipcode(postalcode);
             if (zipcode == null)
             {
-                return "Not a valid postalcode";
+                return "";
             }
             return MapZipcodeDTO(zipcode).Postaltown;
         }
