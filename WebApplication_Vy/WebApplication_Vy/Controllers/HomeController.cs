@@ -15,7 +15,7 @@ namespace WebApplication_Vy.Controllers
     {
         private readonly IVyService _vyService;
         private readonly ITripService _tripService;
-
+        
         public HomeController(IVyService vyService, ITripService tripService)
         {
             _vyService = vyService;
