@@ -174,10 +174,8 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Db\Repositories\Contracts\ExampleRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\ITripRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\IVyRepository.cs" />
-    <Compile Include="Db\Repositories\Implementation\ExampleRepositoryImpl.cs" />
     <Compile Include="Db\Repositories\Implementation\TripRepositoryImpl.cs" />
     <Compile Include="Db\Repositories\Implementation\VyRepositoryImpl.cs" />
     <Compile Include="Db\VyDbContext.cs" />
