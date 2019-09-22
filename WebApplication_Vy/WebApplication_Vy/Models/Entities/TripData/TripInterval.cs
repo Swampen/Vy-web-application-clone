@@ -10,12 +10,12 @@ namespace WebApplication_Vy.Models.Entities
     {
         [Key]
         public int Id { get; set; }
-        public string Monday { get; set; }
-        public string Tuesday { get; set; }
-        public string Wednesday { get; set; }
-        public string Thursday { get; set; }
-        public string Friday { get; set; }
-        public string Saturday { get; set; }
-        public string Sunday { get; set; }
+        public bool Monday { get; set; }
+        public bool Tuesday { get; set; }
+        public bool Wednesday { get; set; }
+        public bool Thursday { get; set; }
+        public bool Friday { get; set; }
+        public bool Saturday { get; set; }
+        public bool Sunday { get; set; }
     }
 }
