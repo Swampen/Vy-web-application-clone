@@ -174,12 +174,8 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\WebDummyController.cs" />
-    <Compile Include="Db\ExampleDbContext.cs" />
-    <Compile Include="Db\Repositories\Contracts\ExampleRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\ITripRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\IVyRepository.cs" />
-    <Compile Include="Db\Repositories\Implementation\ExampleRepositoryImpl.cs" />
     <Compile Include="Db\Repositories\Implementation\TripRepositoryImpl.cs" />
     <Compile Include="Db\Repositories\Implementation\VyRepositoryImpl.cs" />
     <Compile Include="Db\VyDbContext.cs" />
@@ -187,13 +183,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\CustomerDTO.cs" />
-    <Compile Include="Models\DTO\ExampleEntityDTO.cs" />
     <Compile Include="Models\DTO\TicketDTO.cs" />
     <Compile Include="Models\DTO\TripDTO.cs" />
     <Compile Include="Models\DTO\Validation\ZipcodeAttribute.cs" />
     <Compile Include="Models\DTO\ZipcodeDTO.cs" />
     <Compile Include="Models\Entities\Customer.cs" />
-    <Compile Include="Models\Entities\ExampleEntity.cs" />
     <Compile Include="Models\Entities\TripData\Line.cs" />
     <Compile Include="Models\Entities\TripData\Schedule.cs" />
     <Compile Include="Models\Entities\TripData\Station.cs" />
@@ -203,11 +197,9 @@
     <Compile Include="Models\Entities\Zipcode.cs" />
     <Compile Include="Models\Profiles\VyProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\Contracts\IExampleService.cs" />
     <Compile Include="Service\Contracts\IJsonSerializerService.cs" />
     <Compile Include="Service\Contracts\ITripService.cs" />
     <Compile Include="Service\Contracts\IVyService.cs" />
-    <Compile Include="Service\Implementation\ExampleServiceImpl.cs" />
     <Compile Include="Service\Implementation\TripServiceImpl.cs" />
     <Compile Include="Service\Implementation\VyServiceImpl.cs" />
   </ItemGroup>
