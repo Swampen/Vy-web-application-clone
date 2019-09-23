@@ -48,14 +48,6 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpGet]
-        public string GetTrips()
-        {
-            var trips = _vyService.GetTripDtos();
-            var jsonSerialiser = new JavaScriptSerializer();
-            return jsonSerialiser.Serialize(trips);
-        }
-
-        [HttpGet]
         public string SearchTrips(string query)
         {
             var trips = _tripService.FindTripsMatching(query);

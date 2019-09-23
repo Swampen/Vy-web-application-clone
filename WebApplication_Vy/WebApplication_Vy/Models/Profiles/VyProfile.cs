@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebApplication_Vy.Models.DTO;
+using WebApplication_Vy.Models.DTO.TripData;
 using WebApplication_Vy.Models.Entities;
 
 namespace WebApplication_Vy.Models.Profiles
