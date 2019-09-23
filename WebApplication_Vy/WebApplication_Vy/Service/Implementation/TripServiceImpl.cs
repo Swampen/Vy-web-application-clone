@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using WebApplication_Vy.Db.Repositories.Contracts;
-using WebApplication_Vy.Models.DTO;
+using WebApplication_Vy.Models.DTO.TripData;
 using WebApplication_Vy.Models.Entities;
 using WebApplication_Vy.Service.Contracts;
 
@@ -48,5 +48,26 @@ namespace WebApplication_Vy.Service.Implementation
             var mapper = config.CreateMapper();
             return mapper.Map<TripDTO>(trip);
         }
+
+        public List<TripDTO> GetTripDtos()
+        {
+            List<Trip> entities = _tripRepository.FindAllTrips();
+            List<TripDTO> dtos = new List<TripDTO>();
+            foreach (Trip entity in entities)
+            {
+                dtos.Add(MapTripDto(entity));
+            }
+
+            return dtos;
+        }
+
+        private TripDTO MapTripDto(Trip entity)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Trip, TripDTO>().ReverseMap());
+            var mapper = config.CreateMapper();
+            TripDTO dto = mapper.Map<TripDTO>(entity);
+            return dto;
+        }
+
     }
 }
