@@ -8,11 +8,19 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
 {
     public class TripRepositoryImpl : ITripRepository
     {
+        public List<Station> FindAllStations()
+        {
+            using (var db = new VyDbContext())
+            {
+                return db.Stations.ToList();
+            }
+        }
+
         public List<Trip> FindAllTrips()
         {
             using (var qVyDbContext = new VyDbContext())
             {
-               return qVyDbContext.Trips.ToList();
+                return qVyDbContext.Trips.ToList();
             }
         }
 
