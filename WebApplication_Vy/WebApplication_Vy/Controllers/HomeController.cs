@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -56,13 +57,21 @@ namespace WebApplication_Vy.Controllers
             return View("Index");
         }
 
+        [HttpPost]
+        public string SearchStation(string query)
+        {
+            Debug.WriteLine(query);
+            var stations = _tripService.FindStationsMatching(query);
+            var jsonSerialiser = new JavaScriptSerializer();
+            return jsonSerialiser.Serialize(stations);
+        }
 
         [HttpGet]
-        public string SearchTrips(string query)
+        public string GetStation()
         {
-            var trips = _tripService.FindTripsMatching(query);
+            var stations = _tripService.GetAllStationDtos();
             var jsonSerialiser = new JavaScriptSerializer();
-            return jsonSerialiser.Serialize(trips);
+            return jsonSerialiser.Serialize(stations);
         }
 
         [HttpPost]
@@ -93,16 +102,6 @@ namespace WebApplication_Vy.Controllers
 
             ViewBag.Message = "Your contact page.";
             return View();
-        }
-
-        [HttpPost]
-        public ActionResult MakeCustomer(string json)
-        {
-            if (json != null)
-            {
-                return Json("Success");
-            }
-            return Json("Failure");
         }
         
 

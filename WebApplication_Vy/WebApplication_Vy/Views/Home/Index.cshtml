@@ -7,7 +7,6 @@
 <div class="row">
     <h2>Vy</h2>
 </div>
-
 <script type="text/javascript">
     $(function () {
         @*$.ajax({
@@ -22,7 +21,24 @@
                 alert(x + '\n' + y + '\n' + z);
             }
         });*@
-        
+
+        @*$.ajax({
+            url: "@Url.Action("SearchStation", "Home")",
+            type: 'POST',
+            data: $('.departure').val(),
+            contentType: "application/json;charset=utf-8",
+            success: function (response) {
+                var stations = response;
+            }
+        });*@
+
+        var stationsData = @Html.Raw(Json.Encode(@ViewBag.Stations));
+        var stations = [];
+        $.each(stationsData, function (index, value) { stations.push(value.Name) });
+        console.log(stations);
+
+    
+
         function showDropDown(trips) {
             var dropdown = "";
             for (var i in trips) {
@@ -30,7 +46,7 @@
             }
             $("#tripId").append(dropdown);
         }
-        
+
         $("#postalcode").on('input', function () {
             var postalcode = $("#postalcode").val();
             var jsonin = {
@@ -53,28 +69,31 @@
         });
 
         //Form spesific javascript
-        $('#dateandtime').datetimepicker({
-            uiLibrary: 'bootstrap4'
-        });
+        //$('#dateandtime').datetimepicker({
+        //    uiLibrary: 'bootstrap4'
+        //});
 
-        $('#Departure').autocomplete
-    })
+        $('.departure').autocomplete({
+            source: stations 
+        });
+    });
 </script>
 <div id="ajax_form">
     @using (Ajax.BeginForm("Trips", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }))
     {
         @Html.AntiForgeryToken()
-        
+
         <div class="form-group">
-            @Html.LabelFor(model => model.Schedules, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Line.Departure_Station, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Line.Departure_Station.Name, "", new { id = "Departure", @class = "form-control" })
+                @Html.EditorFor(model => model.Line.Departure_Station.Name, new { htmlAttributes = new { id = "", @class = "departure form-control" } })
+                <p id="chosen"></p>
                 @Html.ValidationMessageFor(model => model.Line.Departure_Station.Name, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Line.Arrival_Station.Name,"Destination",htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Line.Arrival_Station.Name, "Destination", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Line.Arrival_Station.Name, new { htmlAttributes = new { id = "", @class = "form-control" } })
                 <label id="postaltown"></label>
@@ -84,28 +103,28 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.Departure_Time, htmlAttributes: new { @class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.Departure_Time, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Departure_Time,new { htmlAttributes = new { id = "dateandtime", @class = "form-control" } })
+                @Html.EditorFor(model => model.Departure_Time, new { htmlAttributes = new { id = "dateandtime", @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Departure_Time, "", new { @class = "text-danger" })
             </div>
         </div>
-        
-        
-        
-        
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Videre" class="btn btn-success" />
-                    </div>
-                </div>
-                <hr />
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Videre" class="btn btn-success" />
+            </div>
+        </div>
+        <hr />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-12 text-success">
                 @ViewBag.Records
             </div>
         </div>
-        
+
     }
 </div>

@@ -33,7 +33,7 @@ namespace WebApplication_Vy.Db
         public DbSet<TripInterval> TripIntervals{ get; set; }
 
 
-        public class VyDbInitializer<T> : DropCreateDatabaseAlways<VyDbContext>
+        public class VyDbInitializer<T> : CreateDatabaseIfNotExists<VyDbContext>
         {
             protected override void Seed(VyDbContext context)
             {
