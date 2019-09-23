@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using WebApplication_Vy.Models.DTO.TripData;
 
 namespace WebApplication_Vy.Models.DTO
 {

@@ -50,7 +50,7 @@ namespace WebApplication_Vy.Controllers
         [HttpGet]
         public string GetTrips()
         {
-            var trips = _vyService.GetTripDtos();
+            var trips = _tripService.GetTripDtos();
             var jsonSerialiser = new JavaScriptSerializer();
             return jsonSerialiser.Serialize(trips);
         }
