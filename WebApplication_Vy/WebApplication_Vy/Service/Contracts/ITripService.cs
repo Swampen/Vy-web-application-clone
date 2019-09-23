@@ -9,5 +9,6 @@ namespace WebApplication_Vy.Service.Contracts
         List<TripDTO> GetAllTripDtos();
         List<TripDTO> FindTripsMatching(string query);
         List<StationDTO> FindStationsMatching(string query);
+
     }
 }

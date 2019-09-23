@@ -10,8 +10,6 @@ namespace WebApplication_Vy.Db.Repositories.Contracts
     {
         List<Ticket> findAllTickets();
 
-        List<Trip> findAllTrips();
-
         List<Customer> findAllCustomers();
 
         List<Zipcode> findAllZipcodes();

@@ -71,5 +71,26 @@ namespace WebApplication_Vy.Service.Implementation
             var mapper = config.CreateMapper();
             return mapper.Map<StationDTO>(station);
         }
+
+        public List<TripDTO> GetTripDtos()
+        {
+            List<Trip> entities = _tripRepository.FindAllTrips();
+            List<TripDTO> dtos = new List<TripDTO>();
+            foreach (Trip entity in entities)
+            {
+                dtos.Add(MapTripDto(entity));
+            }
+
+            return dtos;
+        }
+
+        private TripDTO MapTripDto(Trip entity)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Trip, TripDTO>().ReverseMap());
+            var mapper = config.CreateMapper();
+            TripDTO dto = mapper.Map<TripDTO>(entity);
+            return dto;
+        }
+
     }
 }
