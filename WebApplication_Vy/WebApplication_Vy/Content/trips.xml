@@ -117,8 +117,8 @@
 	    </Trip>
 	    <Trip>
 	    	<Line>
-	    		<Departure_Station>Oslo S</Departure_Station>
-	    		<Arrival_Station>Jaren</Arrival_Station>
+	    		<Departure_Station>Jaren</Departure_Station>
+	    		<Arrival_Station>Oslo S</Arrival_Station>
 	    	</Line>
 	    	<TripInterval>
 	    		<Monday>true</Monday>

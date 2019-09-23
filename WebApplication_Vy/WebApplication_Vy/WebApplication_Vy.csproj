@@ -292,6 +292,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\Tickets.cshtml" />
     <Content Include="Views\Home\OldIndex.cshtml" />
+    <Content Include="Views\Home\Trips.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\DAO\" />

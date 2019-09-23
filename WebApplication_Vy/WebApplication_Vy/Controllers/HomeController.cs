@@ -6,6 +6,7 @@ using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using WebApplication_Vy.Db;
 using WebApplication_Vy.Models.DTO;
+using WebApplication_Vy.Models.DTO.TripData;
 using WebApplication_Vy.Service.Contracts;
 using WebApplication_Vy.Service.Implementation;
 
@@ -36,6 +37,13 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
+        public ActionResult Trips(TripDTO tripDTO)
+        {
+
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult RegisterTicket(TicketDTO ticketDTO)
         {
             if (ModelState.IsValid){ 
@@ -46,6 +54,7 @@ namespace WebApplication_Vy.Controllers
             }
             return View("Index");
         }
+
 
         [HttpGet]
         public string SearchTrips(string query)
