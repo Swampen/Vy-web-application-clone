@@ -30,6 +30,11 @@ namespace WebApplication_Vy.Controllers
             return View();
         }
 
+        public ActionResult OldIndex()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult RegisterTicket(TicketDTO ticketDTO)
         {
