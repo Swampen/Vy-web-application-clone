@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebApplication_Vy.Models.DTO;
+using WebApplication_Vy.Models.DTO.TripData;
 
 namespace WebApplication_Vy.Service.Contracts
 {
@@ -11,8 +12,6 @@ namespace WebApplication_Vy.Service.Contracts
         List<CustomerDTO> GetCustomerDtos();
 
         List<TicketDTO> GetTicketDtos();
-
-        List<TripDTO> GetTripDtos();
 
         bool CreateTicket(TicketDTO ticketDTO);
 

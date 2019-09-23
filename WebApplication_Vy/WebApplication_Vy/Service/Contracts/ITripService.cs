@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WebApplication_Vy.Models.DTO;
+using WebApplication_Vy.Models.DTO.TripData;
 
 namespace WebApplication_Vy.Service.Contracts
 {
@@ -7,5 +7,6 @@ namespace WebApplication_Vy.Service.Contracts
     {
         List<TripDTO> GetAllTripDtos();
         List<TripDTO> FindTripsMatching(string query);
+        List<TripDTO> GetTripDtos();
     }
 }
