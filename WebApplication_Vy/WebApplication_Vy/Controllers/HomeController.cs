@@ -28,6 +28,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Stations = _tripService.GetAllStationDtos();
             return View();
         }
 

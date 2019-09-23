@@ -65,11 +65,17 @@ namespace WebApplication_Vy.Service.Implementation
 
         private StationDTO MapStationDTO(Station station)
         {
-            var config = new MapperConfiguration(cgf => cgf
-                .CreateMap<Station, StationDTO>()
-                .ReverseMap());
-            var mapper = config.CreateMapper();
-            return mapper.Map<StationDTO>(station);
+            StationDTO stationDTO = new StationDTO()
+            {
+                Id = station.Id,
+                Name = station.Name
+            };
+            return stationDTO;
+            //var config = new MapperConfiguration(cgf => cgf
+            //    .CreateMap<Station, StationDTO>()
+            //    .ReverseMap());
+            //var mapper = config.CreateMapper();
+            //return mapper.Map<StationDTO>(station);
         }
 
         public List<TripDTO> GetTripDtos()
@@ -90,6 +96,17 @@ namespace WebApplication_Vy.Service.Implementation
             var mapper = config.CreateMapper();
             TripDTO dto = mapper.Map<TripDTO>(entity);
             return dto;
+        }
+
+        public List<StationDTO> GetAllStationDtos()
+        {
+            List<Station> entities = _tripRepository.FindAllStations();
+            List<StationDTO> dtos = new List<StationDTO>();
+            foreach (var entity in entities)
+            {
+                dtos.Add(MapStationDTO(entity));
+            }
+            return dtos;
         }
 
     }
