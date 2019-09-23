@@ -7,6 +7,7 @@ namespace WebApplication_Vy.Db.Repositories.Contracts
     {
         List<Trip> FindAllTrips();
         List<Trip> TripSearch(string query);
+        List<Station> FindAllStations();
 
     }
 }

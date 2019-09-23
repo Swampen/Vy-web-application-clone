@@ -2,6 +2,7 @@
 using AutoMapper;
 using WebApplication_Vy.Db.Repositories.Contracts;
 using WebApplication_Vy.Models.DTO;
+using WebApplication_Vy.Models.DTO.TripData;
 using WebApplication_Vy.Models.Entities;
 using WebApplication_Vy.Service.Contracts;
 
@@ -47,6 +48,28 @@ namespace WebApplication_Vy.Service.Implementation
                 .ReverseMap());
             var mapper = config.CreateMapper();
             return mapper.Map<TripDTO>(trip);
+        }
+
+        public List<StationDTO> FindStationsMatching(string query)
+        {
+            List<Station> all = _tripRepository.FindAllStations();
+            var dtos = new List<StationDTO>();
+            foreach (var station in all)
+            {
+                if (station.Name.Contains(query))
+                    dtos.Add(MapStationDTO(station));
+            }
+
+            return dtos;
+        }
+
+        private StationDTO MapStationDTO(Station station)
+        {
+            var config = new MapperConfiguration(cgf => cgf
+                .CreateMap<Station, StationDTO>()
+                .ReverseMap());
+            var mapper = config.CreateMapper();
+            return mapper.Map<StationDTO>(station);
         }
     }
 }
