@@ -39,7 +39,7 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Trips(TripDTO tripDTO)
+        public ActionResult Trips(TripQuerryDTO tripQuerry)
         {
 
             return View();
