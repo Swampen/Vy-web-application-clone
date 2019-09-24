@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -41,8 +42,21 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Trips(TripQuerryDTO tripQuerry)
         {
-
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult Trips()
+        {
+            TripQuerryDTO tripQuerry = new TripQuerryDTO
+            {
+                Arrival_Station = "Bodø",
+                Departure_Station = "Oslo",
+                Date = "2019-09-24",
+                Time = "11:09"
+            };
+           
+            return View(tripQuerry);
         }
 
         [HttpPost]

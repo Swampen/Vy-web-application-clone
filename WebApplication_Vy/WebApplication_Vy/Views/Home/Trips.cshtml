@@ -1,39 +1,54 @@
-﻿@model IEnumerable<WebApplication_Vy.Models.DTO.TripData.TripDTO>
+﻿@model WebApplication_Vy.Models.DTO.TripData.TripQuerryDTO
 
 @{
     ViewBag.Title = "Trips";
 }
+<div class="row">
+    <h2>Trips</h2>
+</div>
 
-<h2>Trips</h2>
+<script type="text/javascript">
+    $(function () {
+        var trip = @Html.Raw(Json.Encode(Model));
+        console.log(trip);
+        $(".table").hide();
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Departure_Time)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Arrival_Time)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Departure_Time)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Arrival_Time)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
 
-</table>
+
+        trips = fetch("https://booking.cloud.nsb.no/api/itineraries/search",{
+            "credentials": "omit", "headers": { "accept": "application/json", "content-type": "application/json", "sec-fetch-mode": "cors", "x-language": "no" }, 
+            "referrer": "https://www.vy.no/bestill/velg-togavgang?from=" + trip.Departure_Station + "%20S&fromDisplayName=" + trip.Departure_Station + "%20S&fromType=train-station-name&to="+ trip.Arrival_Station +"&toDisplayName="+ trip.Arrival_Station +"&toType=train-station-name&departureDatetime=" + trip.Date + "%20" + trip.Time.split(":")[0] + "%3A" + trip.Time.split(":")[1] + "&petFree=false&pasCats=1&numPasCats=1",
+            "referrerPolicy": "no-referrer-when-downgrade", "body": "{\"to\":\"" + trip.Arrival_Station + "\",\"from\":\"" + trip.Departure_Station + "\",\"time\":\"" + trip.Date + "T" + trip.Time + "\",\"limitResultsToSameDay\":true,\"language\":\"no\",\"passengers\":[{\"type\":\"ADULT\",\"customerNumber\":null,\"discount\":\"NONE\",\"extras\":[]}],\"priceNecessity\":\"REQUIRED\"}", "method": "POST", "mode": "cors"
+        }).then(data => data.json()).then(data => {
+            console.log(data);
+            $.each(data.itineraries, function (index, value) {
+                console.log(value)
+                $("#content").append("<tr  id=\"" + index + "\"><th scope=\"row\">" + value.from + "</th><td>" + value.to + "</td><td>" + value.duration.hours + "</td><td>" + value.priceOptions[value.priceOptions.length - 1].amount + "</td></tr>");
+                $("#loading").remove();
+                $(".table").show();
+
+            });
+            //$.each(data, function (index, value) { stations.push(value.name) });
+        });
+
+    });
+
+</script>
+<div id="loading" class="text-center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody id="content">
+        </tbody>
+    </table>
