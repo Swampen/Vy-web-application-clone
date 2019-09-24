@@ -8,24 +8,24 @@
     <h2>Vy</h2>
 </div>
 <script type="text/javascript">
-
-var time = ["10:00", "12:00", "14:00", "16:00", "18:00"];
-for(var i = 0; i < time.length; i++) {
-    var id = document.getElementById("timeDropDown")
-    
-    
-}
-    
-
     $(function () {
+        var time = ["10:00", "12:00", "14:00", "16:00", "18:00"];
 
-        $("#timeDropDown").dropdown({
-        source: time
-        });
+        var dropdown = "";
+        for (var i of time) {
+            dropdown += "<option value='" + i + "'>" + i + "</option>";
+        }
+        $("#time").append(dropdown);
+
+
         var stations = [];
         var stationsData = fetch("https://itinerary.cloud.nsb.no/api/stops", { "credentials": "omit", "headers": { "accept": "application/json", "sec-fetch-mode": "cors", "x-language": "no" }, "referrer": "https://www.vy.no/bestill/velg-togavgang?from=Oslo%20S&fromDisplayName=Oslo%20S&fromType=train-station-name&to=Bergen&toDisplayName=Bergen&toType=train-station-name&departureDatetime=2019-09-24%2010%3A28&petFree=false&pasCats=1&numPasCats=1", "referrerPolicy": "no-referrer-when-downgrade", "body": null, "method": "GET", "mode": "cors" })
             .then(data => data.json()).then(data => {
-                $.each(data, function (index, value) { stations.push(value.name) });
+                $.each(data, function (index, value) {
+                    if (value.active && value.type === "TRAIN") {
+                        stations.push(value.name)
+                    }
+                });
             });
         console.log(stations);
 
@@ -56,10 +56,10 @@ for(var i = 0; i < time.length; i++) {
         $('#dateandtime').datepicker({
            minDate: date,
            uiLibrary: 'bootstrap4',
-           format: "dd/mm/yyyy"
+           format: "yyyy-mm-dd"
         });
 
-        $('.dropdown').autocomplete({
+        $('.stations').autocomplete({
             source: stations 
         });
 
@@ -73,7 +73,7 @@ for(var i = 0; i < time.length; i++) {
         <div class="form-group">
             @Html.LabelFor(model => model.Departure_Station, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-sm-4">
-                @Html.EditorFor(model => model.Departure_Station, new { htmlAttributes = new { id = "", @class = "dropdown form-control" } })
+                @Html.EditorFor(model => model.Departure_Station, new { htmlAttributes = new { id = "", @class = "stations form-control" } })
                 <p id="chosen"></p>
                 @Html.ValidationMessageFor(model => model.Departure_Station, "", new { @class = "text-danger" })
             </div>
@@ -81,8 +81,9 @@ for(var i = 0; i < time.length; i++) {
 
         <div class="form-group">
             @Html.LabelFor(model => model.Arrival_Station, "Destination", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-sm-4">.col
-                @Html.EditorFor(model => model.Arrival_Station, new { htmlAttributes = new { id = "", @class = "dropdown form-control" } })
+            <div class="col-sm-4">
+                .col
+                @Html.EditorFor(model => model.Arrival_Station, new { htmlAttributes = new { id = "", @class = "stations form-control" } })
                 <label id="postaltown"></label>
                 @Html.ValidationMessageFor(model => model.Arrival_Station, "", new { @class = "text-danger" })
             </div>
@@ -96,15 +97,17 @@ for(var i = 0; i < time.length; i++) {
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
-        
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="timeDropDown">
-          </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="time" name="Time" class="custom-select form-control" required>
+                    <option value="" selected>Choose a time...</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+            </div>
         </div>
-        
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Videre" class="btn btn-success" />
