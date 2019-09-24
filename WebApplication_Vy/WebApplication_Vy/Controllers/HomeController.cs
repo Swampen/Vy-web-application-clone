@@ -48,6 +48,7 @@ namespace WebApplication_Vy.Controllers
         [HttpGet]
         public ActionResult Trips()
         {
+            
             TripQuerryDTO tripQuerry = new TripQuerryDTO
             {
                 Arrival_Station = "Bodø",
@@ -55,6 +56,7 @@ namespace WebApplication_Vy.Controllers
                 Date = "2019-09-24",
                 Time = "11:09"
             };
+            ViewBag.Model = tripQuerry;
            
             return View(tripQuerry);
         }
