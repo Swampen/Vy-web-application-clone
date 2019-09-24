@@ -57,11 +57,15 @@
                 $('#postaltown').val("");
             }
         });
+        var date = new Date();
+        date.setDate(date.getDate()-1);
 
         //Form spesific javascript
-        //$('#dateandtime').datetimepicker({
-        //    uiLibrary: 'bootstrap4'
-        //});
+        $('#dateandtime').datepicker({
+           minDate: date,
+           uiLibrary: 'bootstrap4',
+           format: "dd/mm/yyyy"
+        });
 
         $('.departure').autocomplete({
             source: stations 
