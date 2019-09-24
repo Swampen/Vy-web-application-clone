@@ -9,32 +9,12 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        @*$.ajax({
-            url: "@Url.Action("gettrips", "home")",
-            type: "GET",
-            dataType: "json",
-            success: function (trips) {
-                console.log(trips);
-                showDropDown(trips)
-            },
-            error: function (x, y, z) {
-                alert(x + '\n' + y + '\n' + z);
-            }
-        });*@
 
-        @*$.ajax({
-            url: "@Url.Action("SearchStation", "Home")",
-            type: 'POST',
-            data: $('.departure').val(),
-            contentType: "application/json;charset=utf-8",
-            success: function (response) {
-                var stations = response;
-            }
-        });*@
-
-        var stationsData = @Html.Raw(Json.Encode(@ViewBag.Stations));
         var stations = [];
-        $.each(stationsData, function (index, value) { stations.push(value.Name) });
+        var stationsData = fetch("https://itinerary.cloud.nsb.no/api/stops", { "credentials": "omit", "headers": { "accept": "application/json", "sec-fetch-mode": "cors", "x-language": "no" }, "referrer": "https://www.vy.no/bestill/velg-togavgang?from=Oslo%20S&fromDisplayName=Oslo%20S&fromType=train-station-name&to=Bergen&toDisplayName=Bergen&toType=train-station-name&departureDatetime=2019-09-24%2010%3A28&petFree=false&pasCats=1&numPasCats=1", "referrerPolicy": "no-referrer-when-downgrade", "body": null, "method": "GET", "mode": "cors" })
+            .then(data => data.json()).then(data => {
+                $.each(data, function (index, value) { stations.push(value.name) });
+            });
         console.log(stations);
 
         $("#postalcode").on('input', function () {
@@ -63,7 +43,7 @@
         //    uiLibrary: 'bootstrap4'
         //});
 
-        $('.departure').autocomplete({
+        $('.dropdown').autocomplete({
             source: stations 
         });
     });
@@ -76,7 +56,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Departure_Station, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Departure_Station, new { htmlAttributes = new { id = "", @class = "departure form-control" } })
+                @Html.EditorFor(model => model.Departure_Station, new { htmlAttributes = new { id = "", @class = "dropdown form-control" } })
                 <p id="chosen"></p>
                 @Html.ValidationMessageFor(model => model.Departure_Station, "", new { @class = "text-danger" })
             </div>
@@ -85,7 +65,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Arrival_Station, "Destination", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Arrival_Station, new { htmlAttributes = new { id = "", @class = "form-control" } })
+                @Html.EditorFor(model => model.Arrival_Station, new { htmlAttributes = new { id = "", @class = "dropdown form-control" } })
                 <label id="postaltown"></label>
                 @Html.ValidationMessageFor(model => model.Arrival_Station, "", new { @class = "text-danger" })
             </div>
