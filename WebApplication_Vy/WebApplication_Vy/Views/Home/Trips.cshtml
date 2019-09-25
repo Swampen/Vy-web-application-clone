@@ -34,10 +34,11 @@
             $(".table").show();
             //$.each(data, function (index, value) { stations.push(value.name) });
         });
-        $(".table").mouseover().css('cursor', 'pointer');
-        $("h2").on("click", function () {
-            $('tr').hide()
-        })
+        $(document).on("mouseover", "tr", function () {
+            $("tr").css("cursor", "pointer").on("click", function () {
+                $(this).slideToggle()
+            })
+        });
     });
 
 </script>
