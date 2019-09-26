@@ -61,6 +61,15 @@ namespace WebApplication_Vy.Controllers
         [HttpGet]
         public ActionResult Trips(TripQuerryDTO tripQuerry)
         {
+            if (tripQuerry == null){
+                tripQuerry = new TripQuerryDTO
+                {
+                    Arrival_Station = "Bodø",
+                    Departure_Station = "Oslo",
+                    Date = "2019-09-26",
+                    Time = "11:09"
+                };
+            }
             ViewBag.Model = tripQuerry;
             return View();
         }
