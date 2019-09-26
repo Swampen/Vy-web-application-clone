@@ -66,12 +66,12 @@
             console.log(jsonin)
 
             $.ajax({
-                url: "@Url.Action("customerdetail", "home")",
+                url: "@Url.Action("trips", "home")",
                 type: 'POST',
                 data: JSON.stringify(jsonin),
                 contentType: "application/json;charset=utf-8",
-                success: function (response) {
-                    console.log(response);
+                success: function (data) {
+                    $("body").html(data);
                 }
             });
         });

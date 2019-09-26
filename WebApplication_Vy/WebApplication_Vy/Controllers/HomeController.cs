@@ -38,10 +38,14 @@ namespace WebApplication_Vy.Controllers
             return RedirectToAction("Trips", tripQuerry);
         }
 
-        public ActionResult OldIndex()
-
         
         [HttpPost]
+        public ActionResult CustomerDetails()
+        {
+            return View();
+        }
+        
+        [HttpGet]
         public ActionResult CustomerDetails(TripDTO selectedTripDto)
         {
             ViewBag.Model = selectedTripDto;
@@ -49,9 +53,9 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Trips()
+        public ActionResult Trips(TripDTO selectedTripDto)
         {
-            return View();
+            return RedirectToAction("customerdetails", selectedTripDto);
         }
 
         [HttpGet]
