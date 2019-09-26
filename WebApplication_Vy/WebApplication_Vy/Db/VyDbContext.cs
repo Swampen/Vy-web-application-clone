@@ -37,7 +37,7 @@ namespace WebApplication_Vy.Db
         {
             protected override void Seed(VyDbContext context)
             {
-                var XML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "trips.xml");
+/*                var XML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "trips.xml");
                 Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "trips.xml");
                 var stationsXML = XML.Element("Stations").Descendants("Name");
 
@@ -129,29 +129,29 @@ namespace WebApplication_Vy.Db
                             Debug.WriteLine(e);
                         }
                     }
-                }
+                }*/
 
 
 
-                //var zipxml = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
-                //Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
-                //var zipz = zipxml.Descendants("Zipcode");
+                var zipxml = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
+                Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
+                var zipz = zipxml.Descendants("Zipcode");
 
-                //foreach (var zipcode in zipz)
-                //    try
-                //    {
-                //        context.Zipcodes.Add(new Zipcode
-                //        {
-                //            Postalcode = (string) zipcode.Element("Postalcode"),
-                //            Postaltown = (string) zipcode.Element("Postaltown")
-                //        });
-                //    }
-                //    catch (Exception e)
-                //    {
-                //        Debug.WriteLine("XML config is wrong");
-                //        Console.WriteLine(e.StackTrace);
-                //        throw;
-                //    }
+                foreach (var zipcode in zipz)
+                    try
+                    {
+                        context.Zipcodes.Add(new Zipcode
+                        {
+                            Postalcode = (string) zipcode.Element("Postalcode"),
+                            Postaltown = (string) zipcode.Element("Postaltown")
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("XML config is wrong");
+                        Console.WriteLine(e.StackTrace);
+                        throw;
+                    }
 
                 base.Seed(context);
             }

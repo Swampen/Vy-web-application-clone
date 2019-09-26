@@ -208,6 +208,8 @@
     <Compile Include="Service\Implementation\VyServiceImpl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Assets\finished.svg" />
+    <Content Include="Content\Assets\train.svg" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />

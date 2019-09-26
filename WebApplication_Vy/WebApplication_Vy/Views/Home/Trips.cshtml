@@ -52,8 +52,8 @@
         });
 
         $("#content").on("click", "button", function () {
-            id = $(this).parent().parent()[0].id
-            console.log(id)
+            id = $(this).parent().parent()[0].id;
+            console.log(id);
             var jsonin = {
                 Departure_Station: "@Html.Raw(@ViewBag.Model.Departure_Station)",
                 Arrival_Station: "@Html.Raw(@ViewBag.Model.Arrival_Station)",
@@ -63,7 +63,7 @@
                 Train_Changes: itineraries[id].legs.length - 2,
                 Price: itineraries[id].priceOptions[itineraries[id].priceOptions.length-1].amount,
             };
-            console.log(jsonin)
+            console.log(jsonin);
 
             $.ajax({
                 url: "@Url.Action("trips", "home")",

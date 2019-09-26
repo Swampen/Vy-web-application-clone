@@ -7,18 +7,24 @@
 <div class="card bg-light mb-3" style="max-width: 18rem;">
     <div class="card-header">Din valgte reise</div>
     <div class="card-body">
-        <h5 class="card-title">@ViewBag.Model.Departure_Station - @ViewBag.Model.Arrival_Station</h5>
+        <h5 class="card-title">
+            <span>
+                <img id="tripIcon" src='@Url.Content("~/Content/Assets/train.svg")'></img> 
+            </span>
+            @ViewBag.Model.Departure_Station - @ViewBag.Model.Arrival_Station
+        </h5>
         <p class="card-text">Dato: @ViewBag.Model.Date</p>
         <p class="card-text">Avreise: @ViewBag.Model.Departure_Time</p>
         <p class="card-text">Ankomst: @ViewBag.Model.Arrival_Time</p>
         <p class="card-text">Reisetid: @ViewBag.Model.Duration</p>
-        <p class="card-text">Price: @ViewBag.Model.Price</p>
+        <p class="card-text">Pris: @ViewBag.Model.Price</p>
+         <a href="#" class="btn btn-primary">Endre reise</a>
     </div>
 </div>
 
 <script type="text/javascript">
     $(function () {
-
+        
         $("#postalcode").on('input', function () {
             var postalcode = $("#postalcode").val();
             var jsonin = {
@@ -32,17 +38,13 @@
                     data: JSON.stringify(jsonin),
                     contentType: "application/json;charset=utf-8",
                     success: function (response) {
+                        console.log('setting postaltown');     
                         $('#postaltown').val(response);
                     }
                 });
             } else {
-                $('#postaltown').val("");
+                $('#postaltown').val("Undefined");
             }
-        });
-
-        //Form spesific javascript
-        $('#dateandtime').datetimepicker({
-            uiLibrary: 'bootstrap4'
         });
     })
 </script>
@@ -82,8 +84,8 @@
                     @Html.LabelFor(model => model.Customer.Zipcode.Postalcode, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Customer.Zipcode.Postalcode, new { htmlAttributes = new { id = "postalcode", @class = "form-control" } })
-                        <label id="postaltown"></label>
                         @Html.ValidationMessageFor(model => model.Customer.Zipcode.Postalcode, "", new { @class = "text-danger" })
+                        <label id="postaltown"></label>
                     </div>
                 </div>
 
