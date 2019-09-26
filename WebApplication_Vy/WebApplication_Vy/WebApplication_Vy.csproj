@@ -204,8 +204,10 @@
     <Compile Include="Service\Contracts\IJsonSerializerService.cs" />
     <Compile Include="Service\Contracts\ITripService.cs" />
     <Compile Include="Service\Contracts\IVyService.cs" />
+    <Compile Include="Service\Contracts\IZipSearchService.cs" />
     <Compile Include="Service\Implementation\TripServiceImpl.cs" />
     <Compile Include="Service\Implementation\VyServiceImpl.cs" />
+    <Compile Include="Service\Implementation\ZipSearchServiceImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Assets\finished.svg" />

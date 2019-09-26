@@ -21,6 +21,7 @@ namespace WebApplication_Vy
             container.RegisterType<ITripRepository, TripRepositoryImpl>();
             container.RegisterType<IVyService, VyServiceImpl>();
             container.RegisterType<ITripService, TripServiceImpl>();
+            container.RegisterType<IZipSearchService, ZipSearchServiceImpl>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
