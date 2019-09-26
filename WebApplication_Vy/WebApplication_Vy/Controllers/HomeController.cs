@@ -52,7 +52,7 @@ namespace WebApplication_Vy.Controllers
             {
                 Arrival_Station = "Bodø",
                 Departure_Station = "Oslo",
-                Date = "2019-09-24",
+                Date = "2019-09-26",
                 Time = "11:09"
             };
             ViewBag.Model = tripQuerry;
