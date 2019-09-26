@@ -127,15 +127,5 @@ namespace WebApplication_Vy.Controllers
             ViewBag.Message = "Your contact page.";
             return View();
         }
-
-
-        public ActionResult ViewAllExampleEntities()
-        {
-            _vyService.GetCustomerDtos();
-
-            // The next line is commented out to avoid creating a dummy view-file.
-            //return View(service.GetExampleEntityDto());
-            throw new NotImplementedException();
-        }
     }
 }
