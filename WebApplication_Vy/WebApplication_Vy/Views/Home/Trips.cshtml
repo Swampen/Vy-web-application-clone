@@ -9,7 +9,7 @@
 
 <script type="text/javascript">
     $(function () {
-        var trip = @Html.Raw(Json.Encode(Model));
+        var trip = @Html.Raw(Json.Encode(@ViewBag.Model));
         console.log(trip);
         $(".table").hide();
 

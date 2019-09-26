@@ -33,6 +33,14 @@ namespace WebApplication_Vy.Controllers
             ViewBag.Stations = _tripService.GetAllStationDtos();
             return View();
         }
+        
+        [HttpPost]
+        public ActionResult Index(TripQuerryDTO tripQuerry)
+        {
+            
+            ViewBag.Stations = _tripService.GetAllStationDtos();
+            return RedirectToAction("Trips", tripQuerry);
+        }
 
         public ActionResult OldIndex()
         {
@@ -40,25 +48,16 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Trips(TripQuerryDTO tripQuerry)
+        public ActionResult Trips()
         {
-            return View(tripQuerry);
+            return View();
         }
 
         [HttpGet]
-        public ActionResult Trips()
+        public ActionResult Trips(TripQuerryDTO tripQuerry)
         {
-            
-            TripQuerryDTO tripQuerry = new TripQuerryDTO
-            {
-                Arrival_Station = "Bodø",
-                Departure_Station = "Oslo",
-                Date = "2019-09-26",
-                Time = "11:09"
-            };
             ViewBag.Model = tripQuerry;
-           
-            return View(tripQuerry);
+            return View();
         }
 
         [HttpPost]
