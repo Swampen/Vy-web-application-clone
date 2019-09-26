@@ -14,11 +14,16 @@ namespace WebApplication_Vy.Controllers
     {
         private readonly ITripService _tripService;
         private readonly IVyService _vyService;
+        private readonly IZipSearchService _zipSearchService;
 
-        public HomeController(IVyService vyService, ITripService tripService)
+        public HomeController(
+            IVyService vyService,
+            ITripService tripService,
+            IZipSearchService zipSearchService)
         {
             _vyService = vyService;
             _tripService = tripService;
+            _zipSearchService = zipSearchService;
 
             var db = new VyDbContext();
             db.Database.Initialize(true);
@@ -29,22 +34,21 @@ namespace WebApplication_Vy.Controllers
             ViewBag.Stations = _tripService.GetAllStationDtos();
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult Index(TripQuerryDTO tripQuerry)
         {
-            
             ViewBag.Stations = _tripService.GetAllStationDtos();
             return RedirectToAction("Trips", tripQuerry);
         }
 
-        
+
         [HttpPost]
         public ActionResult CustomerDetails()
         {
             return View();
         }
-        
+
         [HttpGet]
         public ActionResult CustomerDetails(TripDTO selectedTripDto)
         {
@@ -99,7 +103,7 @@ namespace WebApplication_Vy.Controllers
         {
             var match = Regex.Match(zipcode.Postalcode, "[0-9]{4}");
             if (!match.Success) return "";
-            var result = _vyService.GetPostaltown(zipcode.Postalcode);
+            var result = _zipSearchService.GetPostaltown(zipcode.Postalcode);
 
             if (!ModelState.IsValid)
             {

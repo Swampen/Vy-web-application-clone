@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text.RegularExpressions;
+using AutoMapper;
 using WebApplication_Vy.Db.Repositories.Contracts;
 using WebApplication_Vy.Models.DTO;
 using WebApplication_Vy.Models.Entities;
@@ -12,27 +13,25 @@ namespace WebApplication_Vy.Service.Implementation
 
         public ZipSearchServiceImpl(IVyRepository vyRepository)
         {
-            _vyRepository = _vyRepository;
+            _vyRepository = vyRepository;
         }
-        
+
         public string GetPostaltown(string postalcode)
         {
-            Zipcode zipcode = _vyRepository.findZipcode(postalcode);
-            if (zipcode == null)
-            {
-                return "";
-            }
+            var match = Regex.Match(postalcode, "[0-9]{4}");
+            if (!match.Success) return "";
+
+            var zipcode = _vyRepository.findZipcode(postalcode);
+            if (zipcode == null) return "";
             return MapZipcodeDTO(zipcode).Postaltown;
         }
-        
+
         private ZipcodeDTO MapZipcodeDTO(Zipcode entity)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Zipcode, ZipcodeDTO>().ReverseMap());
             var mapper = config.CreateMapper();
-            ZipcodeDTO dto = mapper.Map<ZipcodeDTO>(entity);
+            var dto = mapper.Map<ZipcodeDTO>(entity);
             return dto;
         }
-        
-
     }
 }
