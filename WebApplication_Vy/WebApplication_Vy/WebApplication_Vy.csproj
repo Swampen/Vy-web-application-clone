@@ -173,6 +173,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Db\Repositories\Contracts\ITripRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\IVyRepository.cs" />
     <Compile Include="Db\Repositories\Implementation\TripRepositoryImpl.cs" />
@@ -313,6 +314,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Ticket\TicketResult.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

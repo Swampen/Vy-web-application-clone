@@ -49,7 +49,7 @@
     })
 </script>
 <div id="ajax_form">
-    @using (Ajax.BeginForm("RegisterTicket", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }))
+    @using (Ajax.BeginForm("TicketResult", "Ticket", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }))
     {
         @Html.AntiForgeryToken()
 

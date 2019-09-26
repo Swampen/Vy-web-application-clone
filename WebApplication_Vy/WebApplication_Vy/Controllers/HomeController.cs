@@ -31,7 +31,8 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Stations = _tripService.GetAllStationDtos();
+            //TODO: This can probably be deleted
+            //ViewBag.Stations = _tripService.GetAllStationDtos();
             return View();
         }
 
