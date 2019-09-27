@@ -44,25 +44,6 @@ namespace WebApplication_Vy.Controllers
         {
             return View(tripQuerry);
         }
-        [HttpPost]
-        public ActionResult TicketPreview(TicketDTO ticket)
-        {
-            return View(ticket);
-        }
-
-        [HttpGet]
-        public ActionResult TicketPreview()
-        {
-            TicketDTO ticket = new TicketDTO
-            {
-                TicketNumber = 2,
-                Departure = DateTime.Now,
-                Roundtrip = false,
-                Customer = null,
-                Trip = null
-            };
-            return View(ticket);
-        }
 
         [HttpGet]
         public ActionResult Trips()
