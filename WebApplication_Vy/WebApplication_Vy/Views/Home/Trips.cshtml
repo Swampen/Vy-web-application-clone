@@ -10,7 +10,7 @@
 <script type="text/javascript">
     $(function () {
         var trip = @Html.Raw(Json.Encode(@ViewBag.Model));
-        console.log(trip);
+        //console.log(trip);
         $(".table").hide();
 
 
@@ -22,9 +22,7 @@
             "referrerPolicy": "no-referrer-when-downgrade", "body": "{\"to\":\"" + trip.Arrival_Station + "\",\"from\":\"" + trip.Departure_Station + "\",\"time\":\"" + trip.Date + "T" + trip.Time + "\",\"limitResultsToSameDay\":true,\"language\":\"no\",\"passengers\":[{\"type\":\"ADULT\",\"customerNumber\":null,\"discount\":\"NONE\",\"extras\":[]}],\"priceNecessity\":\"REQUIRED\"}", "method": "POST", "mode": "cors"
         }).then(data => data.json()).then(data => {
             itineraries = data.itineraries;
-            console.log(itineraries);
             $.each(itineraries, function (index, value) {
-                console.log(value);
 
                 var legs = value.legs.length-2;
                 if (legs == 0) {
@@ -53,7 +51,6 @@
 
         $("#content").on("click", "button", function () {
             id = $(this).parent().parent()[0].id;
-            console.log(id);
             var jsonin = {
                 Departure_Station: "@Html.Raw(@ViewBag.Model.Departure_Station)",
                 Arrival_Station: "@Html.Raw(@ViewBag.Model.Arrival_Station)",
@@ -63,7 +60,6 @@
                 Train_Changes: itineraries[id].legs.length - 2,
                 Price: itineraries[id].priceOptions[itineraries[id].priceOptions.length-1].amount,
             };
-            console.log(jsonin);
 
             $.ajax({
                 url: "@Url.Action("trips", "home")",
