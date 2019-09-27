@@ -11,7 +11,7 @@
         let tst = @Html.Raw(Json.Encode(@ViewBag.Model.Duration));
         const duration = "Duration: " + getDuration(tst);
         
-        $('#duration').text(duration);
+        $('#duration').text(getDuration(@Html.Raw(Json.Encode(@ViewBag.Model.Duration))));
         
         $("#postalcode").on('input', function () {
             var postalcode = $("#postalcode").val();
@@ -41,6 +41,10 @@
           });
         
     });
+    
+    function getDate() {
+      
+    }
     
     function getDuration(duration) {
         let durationString = "";
