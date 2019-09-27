@@ -4,26 +4,14 @@
     ViewBag.Title = "Index";
 }
 
-<div class="card bg-light mb-3" style="max-width: 18rem;">
-    <div class="card-header">Din valgte reise</div>
-    <div class="card-body">
-        <h5 class="card-title">
-            <span>
-                <img id="tripIcon" src='@Url.Content("~/Content/Assets/train.svg")'></img> 
-            </span>
-            @ViewBag.Model.Departure_Station - @ViewBag.Model.Arrival_Station
-        </h5>
-        <p class="card-text">Dato: @ViewBag.Model.Date</p>
-        <p class="card-text">Avreise: @ViewBag.Model.Departure_Time</p>
-        <p class="card-text">Ankomst: @ViewBag.Model.Arrival_Time</p>
-        <p class="card-text">Reisetid: @ViewBag.Model.Duration</p>
-        <p class="card-text">Pris: @ViewBag.Model.Price</p>
-         <a href="#" class="btn btn-primary">Endre reise</a>
-    </div>
-</div>
-
 <script type="text/javascript">
+    let tst = @Html.Raw(Json.Encode(@ViewBag.Model));
     $(function () {
+        
+        let tst = @Html.Raw(Json.Encode(@ViewBag.Model.Duration));
+        const duration = "Duration: " + getDuration(tst);
+        
+        $('#duration').text(duration);
         
         $("#postalcode").on('input', function () {
             var postalcode = $("#postalcode").val();
@@ -46,8 +34,40 @@
                 $('#postaltown').val("Undefined");
             }
         });
-    })
+        
+       
+          $("#changeTrip").click(function() {
+            console.log("Button clicked");
+          });
+        
+    });
+    
+    function getDuration(duration) {
+        let durationString = (duration["days"] != 0) ? days + " d " : "";
+        durationString += (duration["hours"] != 0) ? hours + " h " : "";
+        durationString += duration["minutes"] + " m ";
+        return durationString;
+    }
 </script>
+
+<div class="card bg-light mb-3" style="max-width: 18rem;">
+    <div class="card-header">Din valgte reise</div>
+    <div class="card-body">
+        <h5 class="card-title">
+            <span>
+                <img id="tripIcon" src='@Url.Content("~/Content/Assets/train.svg")'></img> 
+            </span>
+            @ViewBag.Model.Departure_Station - @ViewBag.Model.Arrival_Station
+        </h5>
+        <p class="card-text">Dato: @ViewBag.Model.Date</p>
+        <p class="card-text">Avreise: @ViewBag.Model.Departure_Time</p>
+        <p class="card-text">Ankomst: @ViewBag.Model.Arrival_Time</p>
+        <p class="card-text" id="duration">Reisetid: </p>
+        <p class="card-text">Pris: @ViewBag.Model.Price</p>
+        <button class="btn btn-primary" type="button" id="changeTrip">Endre reise</button>
+    </div>
+</div>
+
 <div id="ajax_form">
     @using (Ajax.BeginForm("TicketResult", "Ticket", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }))
     {
