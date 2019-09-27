@@ -43,8 +43,9 @@
     });
     
     function getDuration(duration) {
-        let durationString = (duration["days"] != 0) ? days + " d " : "";
-        durationString += (duration["hours"] != 0) ? hours + " h " : "";
+        let durationString = "";
+        durationString = (duration["days"] != 0) ? duration["days"] + " d " : "";
+        durationString += (duration["hours"] != 0) ? duration["hours"] + " h " : "";
         durationString += duration["minutes"] + " m ";
         return durationString;
     }
@@ -59,11 +60,28 @@
             </span>
             @ViewBag.Model.Departure_Station - @ViewBag.Model.Arrival_Station
         </h5>
-        <p class="card-text">Dato: @ViewBag.Model.Date</p>
-        <p class="card-text">Avreise: @ViewBag.Model.Departure_Time</p>
-        <p class="card-text">Ankomst: @ViewBag.Model.Arrival_Time</p>
-        <p class="card-text" id="duration">Reisetid: </p>
-        <p class="card-text">Pris: @ViewBag.Model.Price</p>
+        <p class="card-text">
+            <span class="font-weight-bold">Dato:</span>
+            <span>@ViewBag.Model.Date</span>
+        </p>
+        <p class="card-text">
+            <span class="font-weight-bold">Avreise:</span>
+            <span>@ViewBag.Model.Departure_Time</span>
+        </p>
+        <p class="card-text">
+            <span class="font-weight-bold">Ankomst:</span>
+            <span>@ViewBag.Model.Arrival_Time</span>
+        </p>
+        <p class="card-text">
+            <span class="font-weight-bold">Reisetid: </span>
+            <span id="duration"></span>
+            
+        </p>
+        <p class="card-text">
+            <span class="font-weight-bold">Pris: </span>
+            <span>@ViewBag.Model.Price</span>
+            
+        </p>
         <button class="btn btn-primary" type="button" id="changeTrip">Endre reise</button>
     </div>
 </div>
