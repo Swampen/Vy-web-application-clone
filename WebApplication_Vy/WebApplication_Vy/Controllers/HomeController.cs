@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -39,7 +40,8 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Index(TripQuerryDTO tripQuerry)
         {
-            ViewBag.Stations = _tripService.GetAllStationDtos();
+            //TODO: this can probably be deleted
+            //ViewBag.Stations = _tripService.GetAllStationDtos();
             return RedirectToAction("Trips", tripQuerry);
         }
 
@@ -50,17 +52,11 @@ namespace WebApplication_Vy.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ActionResult CustomerDetails(TripDTO selectedTripDto)
-        {
-            ViewBag.Model = selectedTripDto;
-            return View();
-        }
-
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            return RedirectToAction("customerdetails", selectedTripDto);
+            ViewBag.Model = selectedTripDto;
+            return View("CustomerDetails");
         }
 
         [HttpGet]
@@ -80,6 +76,27 @@ namespace WebApplication_Vy.Controllers
             }
 
             return View("Index");
+        }
+
+        public static void Main()
+        {
+            var dto = new TripDTO();
+            dto.Arrival_Station = "Oslo";
+            dto.Departure_Station = "Drammen";
+            dto.Arrival_Time = "20:00";
+            dto.Departure_Time = "19:00";
+            dto.Price = 120;
+            dto.Train_Changes = "2";
+            dto.Duration = new Dictionary<string, int>
+            {
+                {"days", 1},
+                {"hours", 2},
+                {"minutes", 3}
+            };
+
+            var time = dto.Duration["hours"];
+
+            Console.WriteLine(new JavaScriptSerializer().Serialize(dto));
         }
 
         [HttpPost]
