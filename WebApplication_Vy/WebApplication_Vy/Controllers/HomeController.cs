@@ -66,14 +66,14 @@ namespace WebApplication_Vy.Controllers
                 {
                     Arrival_Station = "Bodø",
                     Departure_Station = "Oslo",
-                    Date = "2019-09-26",
-                    Time = "11:09"
+                    Date = "2019-10-30",
+                    Time = "11:00"
                 };
             }
             ViewBag.Model = tripQuerry;
             return View();
         }
-
+        
         [HttpPost]
         public ActionResult RegisterTicket(TicketDTO ticketDTO)
         {
