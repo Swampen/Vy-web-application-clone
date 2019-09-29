@@ -109,6 +109,31 @@ namespace WebApplication_Vy.Controllers
             var tickets = _vyService.GetTicketDtos();
             return View(tickets);
         }
+        /*[HttpGet]
+        public ActionResult Tickets()
+        {
+
+        }*/
+        public ActionResult TestTickets(TicketQueryDTO inTicket)
+        {
+            return View(inTicket);
+        }
+
+        [HttpGet]
+        public ActionResult TestTickets()
+        {
+            TicketQueryDTO inTicket = new TicketQueryDTO
+            {
+                Departure = "13:00",
+                Roundtrip = false,
+                CSname = "Thoresen",
+                CGname = "Michael",
+                Address = "Fagerliveien 24",
+                Zipcode = "0587"
+            };
+            return View(inTicket);
+        }
+
 
         public ActionResult Contact()
         {

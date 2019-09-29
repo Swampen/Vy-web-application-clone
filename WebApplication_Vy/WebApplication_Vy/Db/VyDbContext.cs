@@ -156,5 +156,7 @@ namespace WebApplication_Vy.Db
                 base.Seed(context);
             }
         }
+
+        public System.Data.Entity.DbSet<WebApplication_Vy.Models.DTO.TicketQueryDTO> TicketQueryDTOes { get; set; }
     }
 }
