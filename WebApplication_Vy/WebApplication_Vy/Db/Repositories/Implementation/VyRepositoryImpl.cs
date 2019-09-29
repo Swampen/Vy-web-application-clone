@@ -40,15 +40,17 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
             {
                 var ticket = new Ticket();
 
-                var foundCustomer =
-                    db.Customers.FirstOrDefault(Customer => Customer.Givenname == inTicket.Customer.Givenname);
+                var foundCustomer = db
+                    .Customers
+                    .FirstOrDefault(customer => customer.Givenname == inTicket.Customer.Givenname);
 
                 if (foundCustomer == null)
                 {
                     var tempCustomer = inTicket.Customer;
                     Debug.WriteLine(tempCustomer.Zipcode.Postalcode);
-                    var tempZipcode =
-                        db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == tempCustomer.Zipcode.Postalcode);
+                    var tempZipcode = db
+                        .Zipcodes
+                        .FirstOrDefault(zip => zip.Postalcode == tempCustomer.Zipcode.Postalcode);
 
                     var customer = new Customer
                     {
@@ -87,18 +89,6 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                     return false;
                 }
             }
-        }
-
-        public List<Trip> findAllTrips()
-        {
-            var db = new VyDbContext();
-            var t = db.Customers.Find(5);
-            //db.Customers.Remove(t);
-            //db.Tickets.Remove(t);
-            //db.SaveChanges();
-            //return db.Trips.ToList();
-            //TODO: Delete if not needed
-            throw new NotImplementedException();
         }
     }
 }

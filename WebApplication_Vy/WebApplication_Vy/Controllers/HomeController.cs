@@ -72,8 +72,8 @@ namespace WebApplication_Vy.Controllers
             if (ModelState.IsValid)
             {
                 //TODO: FIX data persistence
-                //var success = _vyService.CreateTicket(submitPurchaseDto);
-                //if (success) return RedirectToAction("tickets");
+                var success = _vyService.CreateTicket(submitPurchaseDto);
+                if (success) return RedirectToAction("tickets");
             }
 
             return View("Index");

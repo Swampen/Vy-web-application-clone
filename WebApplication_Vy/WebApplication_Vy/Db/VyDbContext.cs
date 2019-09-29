@@ -15,7 +15,6 @@ namespace WebApplication_Vy.Db
         }
 
         public DbSet<Ticket> Tickets { get; set; }
-
         public DbSet<Customer> Customers { get; set; }
 
         //TODO: remove if not needed

@@ -36,9 +36,9 @@ namespace WebApplication_Vy.Service.Implementation
         }
 
 
-        public bool CreateTicket(TicketDTO ticketDTO)
+        public bool CreateTicket(SubmitPurchaseDTO submitPurchaseDto)
         {
-            var ticket = MapTicketEntity(ticketDTO);
+            var ticket = MapTicketEntity(submitPurchaseDto);
             return _vyRepository.createTicket(ticket);
         }
 
@@ -54,15 +54,6 @@ namespace WebApplication_Vy.Service.Implementation
             var mapper = config.CreateMapper();
             var dto = mapper.Map<CustomerDTO>(entity);
             return dto;
-        }
-
-        //TODO: Delete this method if unused
-        private Zipcode MapZipcodeEntity(ZipcodeDTO dto)
-        {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<ZipcodeDTO, Zipcode>());
-            var mapper = new Mapper(config);
-            var entity = mapper.Map<Zipcode>(dto);
-            return entity;
         }
 
         private TicketDTO MapTicketDto(Ticket entity)
@@ -87,7 +78,7 @@ namespace WebApplication_Vy.Service.Implementation
             return entity;
         }
 
-        private Ticket MapTicketEntity(TicketDTO dto)
+        private Ticket MapTicketEntity(SubmitPurchaseDTO dto)
         {
             var config = new MapperConfiguration(cfg =>
             {
