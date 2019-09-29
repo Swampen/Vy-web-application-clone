@@ -4,28 +4,35 @@
     ViewBag.Title = "Trips";
 }
 <div class="row">
-    <h2 class="display-4">Showing alternatives from @Html.Raw(@ViewBag.Model.Departure_Station) to @Html.Raw(@ViewBag.Model.Arrival_Station) </h2>
+    <h2 class="display-4">Showing alternatives from @Html.Raw(@ViewBag.Model.Departure_Station) to @Html.Raw(@ViewBag.Model.Arrival_Station)</h2>
+</div>
+<div class="row">
+    <h3 style="font-weight: normal">Test</h3>
+
 </div>
 
-<script type="text/javascript">
+    <script type="text/javascript">
     $(function () {
         var trip = @Html.Raw(Json.Encode(@ViewBag.Model));
         console.log(trip);
-        $(".table").hide();
+        $("#trips").hide();
 
 
-
+        //Querry to vy api
         var itineraries = "";
-        trips = fetch("https://booking.cloud.nsb.no/api/itineraries/search",{
+        trips = fetch("https://booking.cloud.nsb.no/api/itineraries/search", {
             "credentials": "omit", "headers": { "accept": "application/json", "content-type": "application/json", "sec-fetch-mode": "cors", "x-language": "no" },
-            "referrer": "https://www.vy.no/bestill/velg-togavgang?from=" + trip.Departure_Station + "%20S&fromDisplayName=" + trip.Departure_Station + "%20S&fromType=train-station-name&to="+ trip.Arrival_Station +"&toDisplayName="+ trip.Arrival_Station +"&toType=train-station-name&departureDatetime=" + trip.Date + "%20" + trip.Time.split(":")[0] + "%3A" + trip.Time.split(":")[1] + "&petFree=false&pasCats=1&numPasCats=1",
+            "referrer": "https://www.vy.no/bestill/velg-togavgang?from=" + trip.Departure_Station + "%20S&fromDisplayName=" + trip.Departure_Station + "%20S&fromType=train-station-name&to=" + trip.Arrival_Station + "&toDisplayName=" + trip.Arrival_Station + "&toType=train-station-name&departureDatetime=" + trip.Date + "%20" + trip.Time.split(":")[0] + "%3A" + trip.Time.split(":")[1] + "&petFree=false&pasCats=1&numPasCats=1",
             "referrerPolicy": "no-referrer-when-downgrade", "body": "{\"to\":\"" + trip.Arrival_Station + "\",\"from\":\"" + trip.Departure_Station + "\",\"time\":\"" + trip.Date + "T" + trip.Time + "\",\"limitResultsToSameDay\":true,\"language\":\"no\",\"passengers\":[{\"type\":\"ADULT\",\"customerNumber\":null,\"discount\":\"NONE\",\"extras\":[]}],\"priceNecessity\":\"REQUIRED\"}", "method": "POST", "mode": "cors"
         }).then(data => data.json()).then(data => {
+            //Loads the result
             itineraries = data.itineraries;
             console.log(itineraries);
-            $.each(itineraries, function (index, value) {
+            //For each departure
+            $.each(itineraries, function (i, value) {
                 console.log(value);
 
+                //Finds how many changes it has
                 var steps = value.legs;
                 var changes = -1;
                 for (var train of steps) {
@@ -34,6 +41,7 @@
                     }
                 }
 
+                //Sets suitable text to the ammount of changes
                 var changesText;
                 if (changes == 0) {
                     changesText = "Direct";
@@ -43,79 +51,70 @@
                     changesText = changes + " changes";
                 }
 
-                //$("#content").append("<tr  id=\"" + index + "\">\
-                //    <td scope=\"row\" style=\"font-weight: bold;\"class=\"Travel_Diff\">" + value.departureScheduled.match("[0-9]{2}:[0-9]{2}") + " - " + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + "</td>\
-                //    <td class=\"Duration\">" + value.duration.hours + " t " + value.duration.minutes + " min </td>\
-                //    <td class=\"Train_Changes\">" + legs + "</td>\
-                //    <td class=\"Price\">" + value.priceOptions[value.priceOptions.length - 1].amount + "</td>\
-                //    <td><button class=\"chooseTicket\" type=\"submit\">Choose</button></td></tr>");
-
-                $("#trips").append("<form action=\"@Url.Action("trips", "home")\" method=\"POST\">\
-                    <div class=\"form-group row align-items-center\" >\
-                        <div style=\"font-weight: bold;\" class=\"col\">\
-                            <input type=\"text\" hidden name=\"Departure_Time\" value=" + value.departureScheduled.match("[0-9]{2}:[0-9]{2}") + ">"+ value.departureScheduled.match("[0-9]{2}:[0-9]{2}") +" <span> - </span>\
-                            <input type=\"text\" hidden name=\"ArrivalTime_Time\" value=" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + ">" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + "\
+                //Displays the result
+                $("#trips").append(" <div class=\"container\"><form action=\"@Url.Action("trips", "home")\" method=\"POST\">\
+                        <div id=\"" + i + "\" class=\"border rounded form-group\" >\
+                            <div class=\"row align-items-center button-row p-3 \">\
+                                <div style=\"font-weight: bold;\" class=\"col\">\
+                                    <input type=\"text\" hidden name=\"Departure_Time\" value=" + value.departureScheduled.match("[0-9]{2}:[0-9]{2}") + ">" + value.departureScheduled.match("[0-9]{2}:[0-9]{2}") + " <span> - </span>\
+                                    <input type=\"text\" hidden name=\"ArrivalTime_Time\" value=" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + ">" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + "\
+                                </div>\
+                                <div class=\"col\" ><input type=\"text\" hidden name=Duration value=" + value.duration.days + "h" + value.duration.hours + "t" + value.duration.minutes + "m>" + value.duration.days + "h" + value.duration.hours + "t" + value.duration.minutes + "</div>\
+                                <div class=\"col\" ><input type=\"number\" hidden name=Changes value=" + changesText + ">" + changesText + "</div>\
+                                <div class=\"col\" ><input type=\"number\" hidden name=Price value=" + value.priceOptions[value.priceOptions.length - 1].amount + ">" + value.priceOptions[value.priceOptions.length - 1].amount + " kr</div>\
+                            </div>\
+                            <div id=\"hidden_" + i + "\" class=\"row mt-4 align-items-end\" style=\"display: none;\">\
+                            </div>\
                         </div>\
-                        <div class=\"col\" ><input type=\"text\" hidden name=Duration value=" + value.duration.days + "h" + value.duration.hours + "t" + value.duration.minutes + "m>" + value.duration.days + "h" + value.duration.hours + "t" + value.duration.minutes + "</div>\
-                        <div class=\"col\" ><input type=\"number\" hidden name=Changes value=" + changesText + ">" + changesText + "</div>\
-                        <div class=\"col\" ><input type=\"number\" hidden name=Price value=" + value.priceOptions[value.priceOptions.length - 1].amount + ">" + value.priceOptions[value.priceOptions.length - 1].amount + " kr</div>\
-                        <div class=\"col\"><button type=\"submit\" class=\"btn btn-success float-right\">Success</button></div>\
-                    </div></form>");
+                    </form></div>");
 
+                //Appends more info, but hidden
+                var hidden_content = "<div class=\"col ml-5\">"
+                $.each(value.legs, function (j, leg) {
+                    if (leg.transportType == "TRAIN") {
+                        $.each(this.stops, function (k, stop) {
+                            if (k == 0) {
+                                hidden_content += "<div class=\"row\">" + stop.name + "</div>"
+                                hidden_content += "<div class=\"row ml-3\"><a>" + (leg.stops.length - 1) + " stops</a></div>"
+                                hidden_content += "<div class=\"row\" style=\"display: none;\">"
+                            } else if (k == leg.stops.length - 1) {
+                                hidden_content += "</div>"
+                                hidden_content += "<div class=\"row mb-3\">" + stop.name + "</div>"
+                            } else {
+                                hidden_content += "<div class=\"row\">" + stop.name + "</div>"
+                            }
+                        })
+                    }
+                });
+                hidden_content += "</div >\
+                <div class=\"col text-right m-3\"><button type=\"submit\" class=\"btn btn-success\">Choose</button></div>"
 
-                //$("#trips").append("<li class=\"list-group-item\">\
-                //    <span style=\"font-weight: bold;\">" + value.departureScheduled.match("[0-9]{2}:[0-9]{2}") + " - " + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + "</span>\
-                //    <span>" + value.duration.hours + " t " + value.duration.minutes + " min</span>\
-                //</li>");
-            });
+                $("#hidden_" + i).append(hidden_content);
+
+            });//end foreach departure
+
+            //Hides the loading spinner and shows the result
             $("#loading").remove();
-            $(".trips").show();
+            $("#trips").show();
         });
 
-        $("#content").on("click", "button", function () {
-            id = $(this).parent().parent()[0].id
-            console.log(id)
-            var jsonin = {
-                Departure_Station: "@Html.Raw(@ViewBag.Model.Departure_Station)",
-                Arrival_Station: "@Html.Raw(@ViewBag.Model.Arrival_Station)",
-                Departure_Time: itineraries[id].departureScheduled,
-                Arrival_Time: itineraries[id].arrivalScheduled,
-                Duration: itineraries[id].duration,
-                Train_Changes: itineraries[id].legs.length - 2,
-                Price: itineraries[id].priceOptions[itineraries[id].priceOptions.length-1].amount,
-            };
-            console.log(jsonin)
-
-            $.ajax({
-                url: "@Url.Action("trips", "home")",
-                type: 'POST',
-                data: JSON.stringify(jsonin),
-                contentType: "application/json;charset=utf-8",
-                success: function (data) {
-                    $("body").html(data);
-                }
-            });
+        $("#trips").on("mouseenter", ".button-row", function () {
+            $(this).css('cursor', 'pointer')
         });
 
-        //$(".table").mouseover().css('cursor', 'pointer');
-        //$("h2").on("click", function () {
-        //    $('tr').hide()
-        //})
+        $("#trips").on("click", ".button-row", function () {
+            $($(this).siblings()[0]).slideToggle()
+        })
     });
 
-</script>
+    </script>
 
 
-<div id="loading" class="text-center">
-    <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
+    <div id="loading" class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
-</div>
 
-<div id="trips">
-</div>
-
-<table class="table">
-    <tbody id="content">
-    </tbody>
-</table>
+    <div id="trips">
+    </div>
