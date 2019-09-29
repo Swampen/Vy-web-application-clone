@@ -80,7 +80,6 @@ namespace WebApplication_Vy.Controllers
             Console.WriteLine(submitPurchaseDto.Ticket.DepartureStation);
             if (ModelState.IsValid)
             {
-                //TODO: FIX data persistence
                 var success = _vyService.CreateTicket(submitPurchaseDto);
                 if (success) return RedirectToAction("tickets");
             }
