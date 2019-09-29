@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -76,36 +75,16 @@ namespace WebApplication_Vy.Controllers
         }
         
         [HttpPost]
-        public ActionResult RegisterTicket(TicketDTO ticketDTO)
+        public ActionResult RegisterTicket(SubmitPurchaseDTO submitPurchaseDto)
         {
+            Console.WriteLine(submitPurchaseDto.Ticket.DepartureStation);
             if (ModelState.IsValid)
             {
-                var success = _vyService.CreateTicket(ticketDTO);
+                var success = _vyService.CreateTicket(submitPurchaseDto);
                 if (success) return RedirectToAction("tickets");
             }
 
             return View("Index");
-        }
-
-        public static void Main()
-        {
-            var dto = new TripDTO();
-            dto.Arrival_Station = "Oslo";
-            dto.Departure_Station = "Drammen";
-            dto.Arrival_Time = "20:00";
-            dto.Departure_Time = "19:00";
-            dto.Price = 120;
-            dto.Train_Changes = "2";
-            dto.Duration = new Dictionary<string, int>
-            {
-                {"days", 1},
-                {"hours", 2},
-                {"minutes", 3}
-            };
-
-            var time = dto.Duration["hours"];
-
-            Console.WriteLine(new JavaScriptSerializer().Serialize(dto));
         }
 
         [HttpPost]
@@ -143,8 +122,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            var tickets = _vyService.GetTicketDtos();
-            return View(tickets);
+            return View(_vyService.GetTicketDtos());
         }
 
         public ActionResult Contact()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml;
 using AutoMapper;
 using WebApplication_Vy.Db.Repositories.Contracts;
 using WebApplication_Vy.Models.DTO;
@@ -36,9 +37,9 @@ namespace WebApplication_Vy.Service.Implementation
         }
 
 
-        public bool CreateTicket(TicketDTO ticketDTO)
+        public bool CreateTicket(SubmitPurchaseDTO submitPurchaseDto)
         {
-            var ticket = MapTicketEntity(ticketDTO);
+            var ticket = MapTicketEntity(submitPurchaseDto);
             return _vyRepository.createTicket(ticket);
         }
 
@@ -54,15 +55,6 @@ namespace WebApplication_Vy.Service.Implementation
             var mapper = config.CreateMapper();
             var dto = mapper.Map<CustomerDTO>(entity);
             return dto;
-        }
-
-        //TODO: Delete this method if unused
-        private Zipcode MapZipcodeEntity(ZipcodeDTO dto)
-        {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<ZipcodeDTO, Zipcode>());
-            var mapper = new Mapper(config);
-            var entity = mapper.Map<Zipcode>(dto);
-            return entity;
         }
 
         private TicketDTO MapTicketDto(Ticket entity)
@@ -86,8 +78,8 @@ namespace WebApplication_Vy.Service.Implementation
             var entity = mapper.Map<Trip>(dto);
             return entity;
         }
-
-        private Ticket MapTicketEntity(TicketDTO dto)
+/*
+        private Ticket MapTicketEntity(SubmitPurchaseDTO dto)
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -95,10 +87,26 @@ namespace WebApplication_Vy.Service.Implementation
                 cfg.CreateMap<TripDTO, Trip>();
                 cfg.CreateMap<CustomerDTO, Customer>();
                 cfg.CreateMap<ZipcodeDTO, Zipcode>();
+                cfg.CreateMap<SubmitPurchaseDTO, Ticket>();
             });
             var mapper = new Mapper(config);
             var entity = mapper.Map<Ticket>(dto);
             return entity;
+        }
+        */
+
+        private Ticket MapTicketEntity(SubmitPurchaseDTO dto)
+        {
+            Ticket ticket = new Ticket();
+            ticket.Customer = MapCustomerEntity(dto.Ticket.Customer);
+            ticket.ArrivalStation = dto.Ticket.ArrivalStation;
+            ticket.DepartureStation = dto.Ticket.DepartureStation;
+            ticket.ArrivalTime = dto.Ticket.ArrivalTime;
+            ticket.DepartureTime = dto.Ticket.DepartureTime;
+            ticket.Duration = dto.Ticket.Duration;
+            ticket.TrainChanges = dto.Ticket.TrainChanges;
+            ticket.Price = dto.Ticket.Price;
+            return ticket;
         }
 
         private Customer MapCustomerEntity(CustomerDTO dto)

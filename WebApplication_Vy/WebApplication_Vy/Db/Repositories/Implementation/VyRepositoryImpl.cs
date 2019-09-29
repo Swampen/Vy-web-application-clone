@@ -33,33 +33,45 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
             var zipcode = db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == postalcode);
             return zipcode;
         }
-
+        
+        //TODO: Vi gjør litt dobbelt opp med mapping når vi først går fra dto til
+        //entitet, for så å mappe til en ny ticket i denne metoden. Her kan det gjøres en god del optimalisering
         public bool createTicket(Ticket inTicket)
         {
+            Ticket ticket = new Ticket
+            {
+                DepartureStation = inTicket.DepartureStation,
+                ArrivalStation = inTicket.ArrivalStation,
+                DepartureTime = inTicket.DepartureTime,
+                ArrivalTime = inTicket.ArrivalTime,
+                Duration = inTicket.Duration,
+                Price = inTicket.Price,
+                TrainChanges = inTicket.TrainChanges
+            };
+            
             using (var db = new VyDbContext())
             {
-                var ticket = new Ticket();
-
-                var foundCustomer =
-                    db.Customers.FirstOrDefault(Customer => Customer.Givenname == inTicket.Customer.Givenname);
+                var foundCustomer = db
+                    .Customers
+                    .FirstOrDefault(customer =>
+                        customer.Givenname == inTicket.Customer.Givenname &&
+                        customer.Surname == inTicket.Customer.Surname);
 
                 if (foundCustomer == null)
                 {
-                    var tempCustomer = inTicket.Customer;
-                    Debug.WriteLine(tempCustomer.Zipcode.Postalcode);
-                    var tempZipcode =
-                        db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == tempCustomer.Zipcode.Postalcode);
-
                     var customer = new Customer
                     {
-                        Givenname = tempCustomer.Givenname,
-                        Surname = tempCustomer.Surname,
-                        Id = tempCustomer.Id,
-                        Address = tempCustomer.Address,
-                        Zipcode = tempZipcode,
-                        Tickets = new List<Ticket>()
+                        Givenname = inTicket.Customer.Givenname,
+                        Surname = inTicket.Customer.Surname,
+                        Address = inTicket.Customer.Address,
+                        Zipcode = db
+                            .Zipcodes
+                            .FirstOrDefault(zip => zip.Postalcode == inTicket.Customer.Zipcode.Postalcode),
+                        Tickets = new List<Ticket>
+                        {
+                            ticket
+                        },
                     };
-                    customer.Tickets.Add(ticket);
 
                     try
                     {
@@ -69,15 +81,15 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                     }
                     catch (Exception error)
                     {
-                        Debug.WriteLine(error);
+                        Console.WriteLine(error);
+                        Console.WriteLine(error.StackTrace);
                         return false;
                     }
                 }
 
                 try
                 {
-                    Debug.WriteLine(foundCustomer);
-                    foundCustomer.Tickets.Add(ticket);
+                    foundCustomer.Tickets.Add(inTicket);
                     db.SaveChanges();
                     return true;
                 }
@@ -87,18 +99,6 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                     return false;
                 }
             }
-        }
-
-        public List<Trip> findAllTrips()
-        {
-            var db = new VyDbContext();
-            var t = db.Customers.Find(5);
-            //db.Customers.Remove(t);
-            //db.Tickets.Remove(t);
-            //db.SaveChanges();
-            //return db.Trips.ToList();
-            //TODO: Delete if not needed
-            throw new NotImplementedException();
         }
     }
 }
