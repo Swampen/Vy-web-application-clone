@@ -10,8 +10,7 @@ namespace WebApplication_Vy.Models.DTO.TripData
     {
         public string Departure_Station { get; set; }
         public string Arrival_Station { get; set; }
-        public string Departure_Date { get; set; }
-        public string Arrival_Date { get; set; }
+        public string Date { get; set; }
         public string Departure_Time { get; set; }
         public string Arrival_Time { get; set; }
         public string Duration { get; set; }
