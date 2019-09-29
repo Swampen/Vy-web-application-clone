@@ -2,7 +2,7 @@
 {
     public class SubmitPurchaseDTO
     {
-        public TicketDTO ticket { get; set; }
-        public CustomerDTO customer { get; set; }
+        public TicketDTO Ticket { get; set; }
+        public CustomerDTO Customer { get; set; }
     }
 }
