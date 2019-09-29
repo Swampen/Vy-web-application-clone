@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
-using System.Linq;
 using System.Web;
 using System.Xml.Linq;
 using WebApplication_Vy.Models.Entities;
@@ -20,24 +18,24 @@ namespace WebApplication_Vy.Db
 
         public DbSet<Customer> Customers { get; set; }
 
-        public DbSet<Trip> Trips { get; set; }
+        //TODO: remove if not needed
+        //public DbSet<Trip> Trips { get; set; }
 
         public DbSet<Zipcode> Zipcodes { get; set; }
-
+        //TODO: Remove these entities if not needed
+/*
         public DbSet<Line> Lines { get; set; }
-
         public DbSet<Schedule> Schedules { get; set; }
-
         public DbSet<Station> Stations { get; set; }
-
         public DbSet<TripInterval> TripIntervals{ get; set; }
+*/
 
 
         public class VyDbInitializer<T> : CreateDatabaseIfNotExists<VyDbContext>
         {
             protected override void Seed(VyDbContext context)
             {
-                var XML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "trips.xml");
+/*                var XML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "trips.xml");
                 Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "trips.xml");
                 var stationsXML = XML.Element("Stations").Descendants("Name");
 
@@ -129,29 +127,28 @@ namespace WebApplication_Vy.Db
                             Debug.WriteLine(e);
                         }
                     }
-                }
+                }*/
 
 
+                var zipxml = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
+                Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
+                var zipz = zipxml.Descendants("Zipcode");
 
-                //var zipxml = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
-                //Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
-                //var zipz = zipxml.Descendants("Zipcode");
-
-                //foreach (var zipcode in zipz)
-                //    try
-                //    {
-                //        context.Zipcodes.Add(new Zipcode
-                //        {
-                //            Postalcode = (string) zipcode.Element("Postalcode"),
-                //            Postaltown = (string) zipcode.Element("Postaltown")
-                //        });
-                //    }
-                //    catch (Exception e)
-                //    {
-                //        Debug.WriteLine("XML config is wrong");
-                //        Console.WriteLine(e.StackTrace);
-                //        throw;
-                //    }
+                foreach (var zipcode in zipz)
+                    try
+                    {
+                        context.Zipcodes.Add(new Zipcode
+                        {
+                            Postalcode = (string) zipcode.Element("Postalcode"),
+                            Postaltown = (string) zipcode.Element("Postaltown")
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("XML config is wrong");
+                        Console.WriteLine(e.StackTrace);
+                        throw;
+                    }
 
                 base.Seed(context);
             }

@@ -4,21 +4,11 @@
     ViewBag.Title = "Index";
 }
 
-<div class="card bg-light mb-3" style="max-width: 18rem;">
-    <div class="card-header">Din valgte reise</div>
-    <div class="card-body">
-        <h5 class="card-title">@ViewBag.Model.Departure_Station - @ViewBag.Model.Arrival_Station</h5>
-        <p class="card-text">Dato: @ViewBag.Model.Date</p>
-        <p class="card-text">Avreise: @ViewBag.Model.Departure_Time</p>
-        <p class="card-text">Ankomst: @ViewBag.Model.Arrival_Time</p>
-        <p class="card-text">Reisetid: @ViewBag.Model.Duration</p>
-        <p class="card-text">Price: @ViewBag.Model.Price</p>
-    </div>
-</div>
-
 <script type="text/javascript">
     $(function () {
-
+        
+        $('#duration').text(getDuration(@Html.Raw(Json.Encode(ViewBag.Model.Duration))));
+        
         $("#postalcode").on('input', function () {
             var postalcode = $("#postalcode").val();
             var jsonin = {
@@ -32,73 +22,118 @@
                     data: JSON.stringify(jsonin),
                     contentType: "application/json;charset=utf-8",
                     success: function (response) {
+                        console.log('setting postaltown');     
                         $('#postaltown').val(response);
                     }
                 });
             } else {
-                $('#postaltown').val("");
+                $('#postaltown').val("Undefined");
             }
         });
-
-        //Form spesific javascript
-        $('#dateandtime').datetimepicker({
-            uiLibrary: 'bootstrap4'
-        });
-    })
+        
+       
+          $("#changeTrip").click(function() {
+            alert("Not yet implemented");
+          });
+        
+    });
+        
+    function getDuration(duration) {
+        const {days, hours, minutes} = duration;
+        let durationString = (days !== "0") ? days + " d " : "";
+        durationString += (hours !== "0") ? hours + " h " : "";
+        durationString += minutes + " m ";
+        return durationString;
+    }
 </script>
+
+<div class="card bg-light mb-3" style="max-width: 18rem;">
+    <div class="card-header">Din valgte reise</div>
+    <div class="card-body">
+        <h5 class="card-title">
+            <span>
+                <img id="tripIcon" src='@Url.Content("~/Content/Assets/train.svg")'/>
+            </span>
+            @ViewBag.Model.Departure_Station - @ViewBag.Model.Arrival_Station
+        </h5>
+        <p class="card-text">
+            <span class="font-weight-bold">Dato:</span>
+            <span>@ViewBag.Model.Date</span>
+        </p>
+        <p class="card-text">
+            <span class="font-weight-bold">Avreise:</span>
+            <span>@ViewBag.Model.Departure_Time</span>
+        </p>
+        <p class="card-text">
+            <span class="font-weight-bold">Ankomst:</span>
+            <span>@ViewBag.Model.Arrival_Time</span>
+        </p>
+        <p class="card-text">
+            <span class="font-weight-bold">Reisetid: </span>
+            <span id="duration"></span>
+
+        </p>
+        <p class="card-text">
+            <span class="font-weight-bold">Pris: </span>
+            <span>@ViewBag.Model.Price</span>
+
+        </p>
+        <button class="btn btn-primary" type="button" id="changeTrip">Endre reise</button>
+    </div>
+</div>
+
 <div id="ajax_form">
-    @using (Ajax.BeginForm("RegisterTicket", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }))
+    @using (Ajax.BeginForm("TicketResult", "Ticket", new AjaxOptions {HttpMethod = "POST", OnSuccess = "Success"}))
     {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-            <hr />
-            
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Customer.Givenname, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Customer.Givenname, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Customer.Givenname, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+            <hr/>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Customer.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Customer.Surname, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Customer.Surname, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Givenname, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.Givenname, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Customer.Givenname, "", new {@class = "text-danger"})
                 </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Customer.Address, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Customer.Address, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Customer.Address, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Customer.Zipcode.Postalcode, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Customer.Zipcode.Postalcode, new { htmlAttributes = new { id = "postalcode", @class = "form-control" } })
-                        <label id="postaltown"></label>
-                        @Html.ValidationMessageFor(model => model.Customer.Zipcode.Postalcode, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Submit" class="btn btn-success" />
-                    </div>
-                </div>
-                <hr />
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-12 text-success">
-                        @ViewBag.Records
-                    </div>
-                </div>
-
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Surname, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.Surname, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Customer.Surname, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Address, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.Address, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Customer.Address, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Zipcode.Postalcode, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.Zipcode.Postalcode, new {htmlAttributes = new {id = "postalcode", @class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Customer.Zipcode.Postalcode, "", new {@class = "text-danger"})
+                    <label id="postaltown"></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit" class="btn btn-success"/>
+                </div>
+            </div>
+            <hr/>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-12 text-success">
+                    @ViewBag.Records
+                </div>
+            </div>
+        </div>
     }
 </div>

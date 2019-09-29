@@ -63,7 +63,9 @@
                                 <div class=\"col\" ><input type=\"text\" hidden name=Duration value=\"" + value.duration.days + "h " + value.duration.hours + "t " + value.duration.minutes + "m \">" + value.duration.days + "h " + value.duration.hours + "t " + value.duration.minutes + " m</div>\
                                 <div class=\"col\" ><input type=\"number\" hidden name=Changes value=" + changesText + ">" + changesText + "</div>\
                                 <div class=\"col\" ><input type=\"number\" hidden name=Price value=" + value.priceOptions[value.priceOptions.length - 1].amount + ">" + value.priceOptions[value.priceOptions.length - 1].amount + " kr</div>\
-                                <div class=\"col\" ><input type=\"text\" hidden name=Date value=" + value.departureScheduled.split("T")[0] +"></div>\
+                                <div><input type=\"text\" hidden name=Date value=" + value.departureScheduled.split("T")[0] +"></div>\
+                                <div><input type=\"text\" hidden name=Departure_Station value=" + value.from +"></div>\
+                                <div><input type=\"text\" hidden name=Arrival_Station value=" + value.to +"></div>\
                             </div>\
                             <div id=\"hidden_" + i + "\" class=\"row mt-4 align-items-end\" style=\"display: none;\">\
                             </div>\

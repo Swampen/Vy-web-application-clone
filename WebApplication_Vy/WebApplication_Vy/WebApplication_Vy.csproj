@@ -173,6 +173,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Db\Repositories\Contracts\ITripRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\IVyRepository.cs" />
     <Compile Include="Db\Repositories\Implementation\TripRepositoryImpl.cs" />
@@ -204,10 +205,14 @@
     <Compile Include="Service\Contracts\IJsonSerializerService.cs" />
     <Compile Include="Service\Contracts\ITripService.cs" />
     <Compile Include="Service\Contracts\IVyService.cs" />
+    <Compile Include="Service\Contracts\IZipSearchService.cs" />
     <Compile Include="Service\Implementation\TripServiceImpl.cs" />
     <Compile Include="Service\Implementation\VyServiceImpl.cs" />
+    <Compile Include="Service\Implementation\ZipSearchServiceImpl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Assets\finished.svg" />
+    <Content Include="Content\Assets\train.svg" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -309,6 +314,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Ticket\TicketResult.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
