@@ -7,6 +7,7 @@
 <script type="text/javascript">
     $(function() {
     let ticketData = @Html.Raw(Json.Encode(ViewBag.Model));
+    console.log(ticketData);
         const {
             Departure_Station,
             Arrival_Station,

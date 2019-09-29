@@ -182,6 +182,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTO\CustomerDTO.cs" />
     <Compile Include="Models\DTO\SubmitPurchaseDTO.cs" />
     <Compile Include="Models\DTO\TicketDTO.cs" />
     <Compile Include="Models\DTO\TripData\LineDTO.cs" />
@@ -209,7 +210,6 @@
     <Compile Include="Service\Implementation\TripServiceImpl.cs" />
     <Compile Include="Service\Implementation\VyServiceImpl.cs" />
     <Compile Include="Service\Implementation\ZipSearchServiceImpl.cs" />
-    <Compile Include="Views\Home\CustomerDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Assets\finished.svg" />
