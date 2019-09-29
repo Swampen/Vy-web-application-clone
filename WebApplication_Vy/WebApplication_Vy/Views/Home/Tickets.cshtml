@@ -12,10 +12,25 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model[0].Departure)
+            @Html.DisplayNameFor(model => model[0].DepartureStation)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model[0].Roundtrip)
+            @Html.DisplayNameFor(model => model[0].ArrivalStation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].DepartureTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].ArrivalTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Duration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].TrainChanges)
         </th>
         <th>
             @Html.DisplayNameFor(model => model[0].Customer.Surname)
@@ -35,10 +50,25 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @item.Departure
+            @item.DepartureStation
         </td>
         <td>
-            @item.Roundtrip
+            @item.ArrivalStation
+        </td>
+        <td>
+            @item.DepartureTime
+        </td>
+        <td>
+            @item.ArrivalTime
+        </td>
+        <td>
+            @item.Price
+        </td>
+        <td>
+            @item.Duration
+        </td>
+        <td>
+            @item.TrainChanges
         </td>
         <td>
             @item.Customer.Surname

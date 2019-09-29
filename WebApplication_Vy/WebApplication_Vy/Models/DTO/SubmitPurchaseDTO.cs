@@ -3,6 +3,5 @@
     public class SubmitPurchaseDTO
     {
         public TicketDTO Ticket { get; set; }
-        public CustomerDTO Customer { get; set; }
     }
 }

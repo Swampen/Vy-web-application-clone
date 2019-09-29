@@ -114,8 +114,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            var tickets = _vyService.GetTicketDtos();
-            return View(tickets);
+            return View(_vyService.GetTicketDtos());
         }
 
         public ActionResult Contact()
