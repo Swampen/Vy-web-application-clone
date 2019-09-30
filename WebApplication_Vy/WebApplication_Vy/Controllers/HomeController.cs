@@ -49,7 +49,9 @@ namespace WebApplication_Vy.Controllers
                 var return_Arrival_Station = tripQuerry.Departure_Station[0];
                 tripQuerry.Arrival_Station.Add(return_Arrival_Station);
             }
-            return RedirectToAction("Trips", tripQuerry);
+            ViewBag.Model = tripQuerry;
+
+            return View("Trips");
         }
 
 
@@ -62,6 +64,7 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
+            
             ViewBag.Model = selectedTripDto;
             return View("CustomerDetails");
         }
@@ -69,7 +72,6 @@ namespace WebApplication_Vy.Controllers
         [HttpGet]
         public ActionResult Trips(TripQueryDTO tripQuerry)
         {
-            ViewBag.Model = tripQuerry;
             return View();
         }
         

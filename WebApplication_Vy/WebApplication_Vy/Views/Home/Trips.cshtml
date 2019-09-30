@@ -4,7 +4,7 @@
     ViewBag.Title = "Trips";
 }
 <div class="row">
-    <h2 class="display-4">Showing alternatives from @Html.Raw(@ViewBag.Model.Departure_Station) to @Html.Raw(@ViewBag.Model.Arrival_Station)</h2>
+    <h2 class="display-4">Showing alternatives from @ViewBag.Model.Departure_Station[0] to @ViewBag.Model.Arrival_Station[0]</h2>
 </div>
 <div class="row sub-header">
 </div>
@@ -18,16 +18,15 @@
         const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-        console.log("@ViewBag.Model.Date" + "T" + "@ViewBag.Model.Time")
-        var date = new Date("@ViewBag.Model.Date" + "T" + "@ViewBag.Model.Time")
+        var date = new Date("@ViewBag.Model.Date[0]" + "T" + "@ViewBag.Model.Time[0]")
         $(".sub-header").append("<h3 class=\"font-weight-normal\">" + weekdays[date.getDay()] + " " + date.getDate() + ". " + months[date.getMonth()] + " " + date.getFullYear() + " " + date.getHours() + ":" + ( (date.getMinutes()<10?'0':'') + date.getMinutes() ) + "</h3>")
 
         //Querry to vy api
         var itineraries = "";
         trips = fetch("https://booking.cloud.nsb.no/api/itineraries/search", {
             "credentials": "omit", "headers": { "accept": "application/json", "content-type": "application/json", "sec-fetch-mode": "cors", "x-language": "no" },
-            "referrer": "https://www.vy.no/bestill/velg-togavgang?from=" + trip.Departure_Station + "%20S&fromDisplayName=" + trip.Departure_Station + "%20S&fromType=train-station-name&to=" + trip.Arrival_Station + "&toDisplayName=" + trip.Arrival_Station + "&toType=train-station-name&departureDatetime=" + trip.Date + "%20" + trip.Time.split(":")[0] + "%3A" + trip.Time.split(":")[1] + "&petFree=false&pasCats=1&numPasCats=1",
-            "referrerPolicy": "no-referrer-when-downgrade", "body": "{\"to\":\"" + trip.Arrival_Station + "\",\"from\":\"" + trip.Departure_Station + "\",\"time\":\"" + trip.Date + "T" + trip.Time + "\",\"limitResultsToSameDay\":true,\"language\":\"no\",\"passengers\":[{\"type\":\"ADULT\",\"customerNumber\":null,\"discount\":\"NONE\",\"extras\":[]}],\"priceNecessity\":\"REQUIRED\"}", "method": "POST", "mode": "cors"
+            "referrer": "https://www.vy.no/bestill/velg-togavgang?from=" + trip.Departure_Station[0] + "%20S&fromDisplayName=" + trip.Departure_Station[0] + "%20S&fromType=train-station-name&to=" + trip.Arrival_Station[0] + "&toDisplayName=" + trip.Arrival_Station[0] + "&toType=train-station-name&departureDatetime=" + trip.Date[0] + "%20" + trip.Time[0].split(":")[0] + "%3A" + trip.Time[0].split(":")[1] + "&petFree=false&pasCats=1&numPasCats=1",
+            "referrerPolicy": "no-referrer-when-downgrade", "body": "{\"to\":\"" + trip.Arrival_Station[0] + "\",\"from\":\"" + trip.Departure_Station[0] + "\",\"time\":\"" + trip.Date[0] + "T" + trip.Time[0] + "\",\"limitResultsToSameDay\":true,\"language\":\"no\",\"passengers\":[{\"type\":\"ADULT\",\"customerNumber\":null,\"discount\":\"NONE\",\"extras\":[]}],\"priceNecessity\":\"REQUIRED\"}", "method": "POST", "mode": "cors"
         }).then(data => data.json()).then(data => {
             //Loads the result
             itineraries = data.itineraries;
