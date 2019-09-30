@@ -1,7 +1,7 @@
 ﻿@model List<WebApplication_Vy.Models.DTO.CustomerDTO>
 
 @{
-    ViewBag.Title = "Tickets";
+    ViewBag.Title = "Customers";
 }
 <script type="text/javascript">
     $(function () {
@@ -14,7 +14,7 @@
 
         $("#table").on("mouseleave", ".button-row", function () {
             console.log(this)
-            $(this).css('background-color', '#00866e')
+            $(this).css('background-color', '#ffffff')
         });
 
         $("#table").on("click", ".button-row", function () {
@@ -24,15 +24,19 @@
     });
 </script>
 
-<h2>About</h2>
+<div class="row">
+    <h2>Customers</h2>
+</div>
 
-<p>
-    @Html.ActionLink("New Ticket", "Index")
-</p>
+<div class="row pl-1">
+    <p>
+        @Html.ActionLink("New Ticket", "Index", "", new { @class = "text-success" })
+    </p>
+</div>
 <div id="table">
     @foreach (var item in Model)
     {
-        <div class="row button-row" style="background-color:#00866e">
+        <div class="row button-row p-3 border-top">
             <div class="col">
                 @item.Givenname
             </div>
@@ -40,62 +44,30 @@
                 @item.Surname
             </div>
         </div>
-        <div id="hidden" style="display:none">
-            <div class="row">
-                <div class="col">
-                    <p><b>Dep. Station</b></p>
-                </div>
-
-                <div class="col">
-                    <p><b>Dep. Time</b></p>
-                </div>
-
-                <div class="col">
-                    <p><b>Arr. Station</b></p>
-                </div>
-
-                <div class="col">
-                    <p><b>Arr. Time</b></p>
-                </div>
-
-                <div class="col">
-                    <p><b>Duration</b></p>
-                </div>
-
-                <div class="col">
-                    <p><b>Changes</b></p>
-                </div>
-
-                <div class="col">
-                    <p><b>Price</b></p>
-                </div>
-            </div>
-            @foreach (var ticket in item.Tickets)
-            {
-                <div class="row">
-                    <div class="col">
-                        @ticket.DepartureStation
-                    </div>
-                    <div class="col">
-                        @ticket.DepartureTime
-                    </div>
-                    <div class="col">
-                        @ticket.ArrivalStation
-                    </div>
-                    <div class="col">
-                        @ticket.ArrivalTime
-                    </div>
-                    <div class="col">
-                        @ticket.Duration
-                    </div>
-                    <div class="col">
-                        @ticket.TrainChanges
-                    </div>
-                    <div class="col">
-                        @ticket.Price
-                    </div>
-                </div>
-            }
+        <div id="hidden" class="mb-2" style="display:none">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Dep. Station</th>
+                        <th scope="col">Arr. Station</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var t in item.Tickets)
+                    {
+                        <tr>
+                            <th class="font-weight-bold">@t.DepartureStation</th>
+                            <td class="font-weight-bold">@t.ArrivalStation</td>
+                            <td>@t.DepartureTime - @t.ArrivalTime</td>
+                            <td>@t.Duration</td>
+                            <td>@t.Price</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     }
-    </div>
+</div>
