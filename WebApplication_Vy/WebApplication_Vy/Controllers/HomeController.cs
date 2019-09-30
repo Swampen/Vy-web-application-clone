@@ -190,11 +190,7 @@ namespace WebApplication_Vy.Controllers
         {
 
         }*/
-        public ActionResult TestTickets(TicketQueryDTO inTicket)
-        {
-            return View(inTicket);
-        }
-
+        
         /*[HttpGet]
         public ActionResult TestTickets()
         {
