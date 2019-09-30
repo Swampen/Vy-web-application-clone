@@ -32,6 +32,14 @@
     
     $(function () {
         
+        $('#ticketCard')
+            .mouseenter(function() {
+                $(this).addClass("shadow");
+            })
+            .mouseleave(function() {
+                $(this).removeClass("shadow");
+            });
+        
         $("#postalcode").on('input', function () {
             const postalcode = $("#postalcode").val();
             const jsonin = {
@@ -46,11 +54,11 @@
                     contentType: "application/json;charset=utf-8",
                     success: function (response) {
                         console.log('setting postaltown');     
-                        $('#postaltown').val(response);
+                        $('#postaltown').text(response);
                     }
                 });
             } else {
-                $('#postaltown').val("Undefined");
+                $('#postaltown').text("Undefined");
             }
         });
               
@@ -69,7 +77,7 @@
     }
 </script>
 
-<div class="card bg-light mb-3" style="max-width: 18rem;">
+<div class="card bg-light mb-3" id="ticketCard" style="max-width: 18rem;">
     <div class="card-header">Din valgte reise</div>
     <div class="card-body">
         <h5 class="card-title">
@@ -97,7 +105,7 @@
         </p>
         <p class="card-text">
             <span class="font-weight-bold">Pris: </span>
-            <span>@ViewBag.Model.Price</span>
+            <span>@ViewBag.Model.Price "kr"</span>
 
         </p>
         <button class="btn btn-primary" type="button" id="changeTrip">Endre reise</button>
@@ -148,7 +156,7 @@
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Ticket.Customer.Zipcode.Postalcode, new {htmlAttributes = new {id = "postalcode", @class = "form-control"}})
                     @Html.ValidationMessageFor(model => model.Ticket.Customer.Zipcode.Postalcode, "", new {@class = "text-danger"})
-                    <label id="postaltown"></label>
+                    <div class="pl-1"><label id="postaltown"></label></div>
                 </div>
             </div>
 

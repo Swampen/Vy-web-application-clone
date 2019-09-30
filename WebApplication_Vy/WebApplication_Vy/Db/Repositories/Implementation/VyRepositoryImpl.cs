@@ -89,6 +89,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
 
                 try
                 {
+                    inTicket.Customer = foundCustomer;
                     foundCustomer.Tickets.Add(inTicket);
                     db.SaveChanges();
                     return true;
