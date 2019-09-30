@@ -8,6 +8,7 @@ using WebApplication_Vy.Db;
 using WebApplication_Vy.Models.DTO;
 using WebApplication_Vy.Models.DTO.TripData;
 using WebApplication_Vy.Service.Contracts;
+using WebApplication_Vy.Service.Implementation;
 
 namespace WebApplication_Vy.Controllers
 {
@@ -148,8 +149,47 @@ namespace WebApplication_Vy.Controllers
                 TrainChanges = "1",
             });
 
+            customer.Tickets.Add(new TicketDTO()
+            {
+                DepartureStation = "Oslo",
+                ArrivalStation = "Bodø",
+                DepartureTime = "19:20",
+                ArrivalTime = "09:19",
+                Price = 1950,
+                Duration = "1d0h15m",
+                TrainChanges = "1",
+            });
+
+            CustomerDTO customer2 = new CustomerDTO()
+            {
+                Givenname = "Hans",
+                Surname = "Hansen",
+                Address = "Bygdøy Alle 89",
+                Zipcode = new ZipcodeDTO()
+                {
+                    Postalcode = "0262",
+                    Postaltown = "Oslo"
+                },
+
+                Tickets = new List<TicketDTO>(),
+            };
+
+            customer2.Tickets.Add(new TicketDTO()
+            {
+                DepartureStation = "Oslo",
+                ArrivalStation = "Bodø",
+                DepartureTime = "23:20",
+                ArrivalTime = "13:19",
+                Price = 1950,
+                Duration = "0d12h01m",
+                TrainChanges = "1",
+            });
+
+            var customers = new List<CustomerDTO>();
+            customers.Add(customer);
+            customers.Add(customer2);
             //_vyService.GetTicketDtos()
-            return View(customer);
+            return View(customers);
         }
         /*[HttpGet]
         public ActionResult Tickets()
@@ -161,7 +201,7 @@ namespace WebApplication_Vy.Controllers
             return View(inTicket);
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public ActionResult TestTickets()
         {
             TicketQueryDTO inTicket = new TicketQueryDTO
@@ -174,7 +214,7 @@ namespace WebApplication_Vy.Controllers
                 Zipcode = "0587"
             };
             return View(inTicket);
-        }
+        }*/
 
 
         public ActionResult Contact()
