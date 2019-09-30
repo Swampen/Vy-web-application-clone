@@ -42,11 +42,11 @@
                     data: JSON.stringify(jsonin),
                     contentType: "application/json;charset=utf-8",
                     success: function (response) {
-                        $('#postaltown').val(response);
+                        $('#postaltown').text(response);
                     }
                 });
             } else {
-                $('#postaltown').val("");
+                $('#postaltown').text("");
             }
         });
         var date = new Date();

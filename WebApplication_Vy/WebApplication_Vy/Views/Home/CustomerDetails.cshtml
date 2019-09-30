@@ -54,11 +54,11 @@
                     contentType: "application/json;charset=utf-8",
                     success: function (response) {
                         console.log('setting postaltown');     
-                        $('#postaltown').val(response);
+                        $('#postaltown').text(response);
                     }
                 });
             } else {
-                $('#postaltown').val("Undefined");
+                $('#postaltown').text("Undefined");
             }
         });
               
@@ -156,7 +156,7 @@
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Ticket.Customer.Zipcode.Postalcode, new {htmlAttributes = new {id = "postalcode", @class = "form-control"}})
                     @Html.ValidationMessageFor(model => model.Ticket.Customer.Zipcode.Postalcode, "", new {@class = "text-danger"})
-                    <label id="postaltown"></label>
+                    <div class="pl-1"><label id="postaltown"></label></div>
                 </div>
             </div>
 
