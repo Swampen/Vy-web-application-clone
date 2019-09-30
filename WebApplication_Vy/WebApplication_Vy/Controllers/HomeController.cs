@@ -10,7 +10,6 @@ using WebApplication_Vy.Db;
 using WebApplication_Vy.Models.DTO;
 using WebApplication_Vy.Models.DTO.TripData;
 using WebApplication_Vy.Service.Contracts;
-using WebApplication_Vy.Service.Implementation;
 
 namespace WebApplication_Vy.Controllers
 {
@@ -117,7 +116,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            CustomerDTO customer = new CustomerDTO()
+            /*CustomerDTO customer = new CustomerDTO()
             {
                 Givenname = "Nils",
                 Surname = "Nilsen",
@@ -180,7 +179,9 @@ namespace WebApplication_Vy.Controllers
 
             var customers = new List<CustomerDTO>();
             customers.Add(customer);
-            customers.Add(customer2);
+            customers.Add(customer2);*/
+
+            List<CustomerDTO> customers = _vyService.GetCustomerDtos();
             //_vyService.GetTicketDtos()
             return View(customers);
         }
