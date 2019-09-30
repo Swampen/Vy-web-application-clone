@@ -40,16 +40,21 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(TripQueryDTO tripQuerry)
+        public ActionResult Index(TripQueryDTO tripQuery)
         {
-            if (tripQuerry.Round_Trip)
+            Session["ChosenTrips"] = new List<TripDTO>();
+            if (tripQuery.Round_Trip)
             {
-                var return_Departure_Station = tripQuerry.Arrival_Station[0];
-                tripQuerry.Departure_Station.Add(return_Departure_Station);
-                var return_Arrival_Station = tripQuerry.Departure_Station[0];
-                tripQuerry.Arrival_Station.Add(return_Arrival_Station);
+                var returnTripQuery = new TripQueryDTO(){
+                    Departure_Station = tripQuery.Arrival_Station,
+                    Arrival_Station = tripQuery.Departure_Station,
+                    Date = tripQuery.Return_Date,
+                    Time = tripQuery.Return_Time,
+                    Round_Trip = false,
+                };
+                Session["ReturnTripQuery"] = returnTripQuery;
             }
-            ViewBag.Model = tripQuerry;
+            ViewBag.Model = tripQuery;
 
             return View("Trips");
         }
@@ -64,14 +69,30 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            
-            ViewBag.Model = selectedTripDto;
+            var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
+            chosenTrips.Add(selectedTripDto);
+            if (selectedTripDto.Round_Trip)
+            {   
+                var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
+                ViewBag.Model = returnQuery;
+                return View();
+            }
+            ViewBag.Model = chosenTrips;
             return View("CustomerDetails");
         }
+        
+        //[HttpPost]
+        //public ActionResult Trips(TripDTO selectedTripDto)
+        //{
+        //    
+        //    ViewBag.Model = selectedTripDto;
+        //    return View("CustomerDetails");
+        //}
 
         [HttpGet]
         public ActionResult Trips(TripQueryDTO tripQuerry)
         {
+            Session["ChosenTrips"] = new List<TripDTO>();
             return View();
         }
         

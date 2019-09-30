@@ -7,13 +7,17 @@ namespace WebApplication_Vy.Models.DTO.TripData
 {
     public class TripQueryDTO
     {
-        public List<string> Departure_Station { get; set; }
+        public string Departure_Station { get; set; }
         
-        public List<string> Arrival_Station { get; set; }
+        public string Arrival_Station { get; set; }
 
-        public List<string> Date { get; set; }
+        public string Date { get; set; }
 
-        public List<string> Time { get; set; }
+        public string Time { get; set; }
         public bool Round_Trip { get; set; }
+        public string Return_Date { get; set; }
+
+        public string Return_Time { get; set; }
+
     }
 }
