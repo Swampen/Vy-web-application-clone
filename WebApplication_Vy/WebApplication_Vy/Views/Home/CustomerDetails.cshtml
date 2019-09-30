@@ -17,20 +17,20 @@
             Train_Changes,
             Price
         } = ticketData;     
+        console.log(Duration);
         
+      $('#duration').text(Duration);
+      
       $('#hfDepStation').val(Departure_Station);
       $('#hfArrStation').val(Arrival_Station);
       $('#hfDepTime').val(Departure_Time);
       $('#hfArrTime').val(Arrival_Time);
-      $('#hfDuration').val(getDuration(Duration));
+      $('#hfDuration').val(Duration);
       $('#hfTrainChanges').val(Train_Changes);
       $('#hfPrice').val(Price);
     });
     
     $(function () {
-        
-        
-        $('#duration').text(getDuration(@Html.Raw(Json.Encode(ViewBag.Model.Duration))));
         
         $("#postalcode").on('input', function () {
             const postalcode = $("#postalcode").val();
