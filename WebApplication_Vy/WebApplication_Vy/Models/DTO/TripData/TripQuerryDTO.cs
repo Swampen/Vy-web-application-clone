@@ -14,5 +14,8 @@ namespace WebApplication_Vy.Models.DTO.TripData
         public string Date { get; set; }
 
         public string Time { get; set; }
+        public bool Round_Trip { get; set; }
+        public string Return_Date { get; set; }
+        public string Return_Time { get; set; }
     }
 }
