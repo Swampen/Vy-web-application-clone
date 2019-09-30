@@ -24,7 +24,8 @@
                         stations.push(value.name)
                     }
                 });
-            })
+                stations.sort();
+            });
         console.log(stations);
 
        $("#Round_Trip").on("click", function(e) {

@@ -64,11 +64,11 @@
                                     <input type=\"text\" hidden name=\"Arrival_Time\" value=" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + ">" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + "\
                                 </div>\
                                 <div class=\"col\" ><input type=\"text\" hidden name=Duration value=\'" + duration + "\'>" + duration + "</div>\
-                                <div class=\"col\" ><input type=\"text\" hidden name=Train_Changes value=" + changesText + ">" + changesText + "</div>\
-                                <div class=\"col\" ><input type=\"number\" hidden name=Price value=" + value.priceOptions[value.priceOptions.length - 1].amount + ">" + value.priceOptions[value.priceOptions.length - 1].amount + " kr</div>\
-                                <div><input type=\"text\" hidden name=Date value=" + value.departureScheduled.split("T")[0] +"></div>\
-                                <div><input type=\"text\" hidden name=Departure_Station value=" + value.from +"></div>\
-                                <div><input type=\"text\" hidden name=Arrival_Station value=" + value.to +"></div>\
+                                <div class=\"col\" ><input type=\"text\" hidden name=Train_Changes value=\"" + changesText + "\">" + changesText + "</div>\
+                                <div class=\"col\" ><input type=\"number\" hidden name=Price value=\"" + value.priceOptions[value.priceOptions.length - 1].amount + "\">" + value.priceOptions[value.priceOptions.length - 1].amount + " kr</div>\
+                                <div><input type=\"text\" hidden name=Date value=\"" + value.departureScheduled.split("T")[0] +"\"></div>\
+                                <div><input type=\"text\" hidden name=Departure_Station value=\"" + value.from +"\"></div>\
+                                <div><input type=\"text\" hidden name=Arrival_Station value=\"" + value.to +"\"></div>\
                             </div>\
                             <div id=\"hidden_" + i + "\" class=\"row mt-4 align-items-end\" style=\"display: none;\">\
                             </div>\
