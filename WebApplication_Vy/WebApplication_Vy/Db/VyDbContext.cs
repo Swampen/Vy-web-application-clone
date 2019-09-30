@@ -140,5 +140,6 @@ namespace WebApplication_Vy.Db
                 base.Seed(context);
             }
         }
+
     }
 }

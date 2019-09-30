@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -115,8 +116,96 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            return View(_vyService.GetTicketDtos());
+            /*CustomerDTO customer = new CustomerDTO()
+            {
+                Givenname = "Nils",
+                Surname = "Nilsen",
+                Address = "SAd asddswww 89",
+                Zipcode = new ZipcodeDTO()
+                {
+                    Postalcode = "0659",
+                    Postaltown = "Oslo"
+                },
+                
+                Tickets = new List<TicketDTO>(),
+            };
+
+            customer.Tickets.Add(new TicketDTO()
+            {
+                DepartureStation = "Oslo",
+                ArrivalStation = "Bodø",
+                DepartureTime = "19:20",
+                ArrivalTime = "09:19",
+                Price = 1950,
+                Duration = "1d0h15m",
+                TrainChanges = "1",
+            });
+
+            customer.Tickets.Add(new TicketDTO()
+            {
+                DepartureStation = "Oslo",
+                ArrivalStation = "Bodø",
+                DepartureTime = "19:20",
+                ArrivalTime = "09:19",
+                Price = 1950,
+                Duration = "1d0h15m",
+                TrainChanges = "1",
+            });
+
+            CustomerDTO customer2 = new CustomerDTO()
+            {
+                Givenname = "Hans",
+                Surname = "Hansen",
+                Address = "Bygdøy Alle 89",
+                Zipcode = new ZipcodeDTO()
+                {
+                    Postalcode = "0262",
+                    Postaltown = "Oslo"
+                },
+
+                Tickets = new List<TicketDTO>(),
+            };
+
+            customer2.Tickets.Add(new TicketDTO()
+            {
+                DepartureStation = "Oslo",
+                ArrivalStation = "Bodø",
+                DepartureTime = "23:20",
+                ArrivalTime = "13:19",
+                Price = 1950,
+                Duration = "0d12h01m",
+                TrainChanges = "1",
+            });
+
+            var customers = new List<CustomerDTO>();
+            customers.Add(customer);
+            customers.Add(customer2);*/
+
+            List<CustomerDTO> customers = _vyService.GetCustomerDtos();
+            //_vyService.GetTicketDtos()
+            return View(customers);
         }
+        /*[HttpGet]
+        public ActionResult Tickets()
+        {
+
+        }*/
+        
+        /*[HttpGet]
+        public ActionResult TestTickets()
+        {
+            TicketQueryDTO inTicket = new TicketQueryDTO
+            {
+                Departure = "13:00",
+                Roundtrip = false,
+                CSname = "Thoresen",
+                CGname = "Michael",
+                Address = "Fagerliveien 24",
+                Zipcode = "0587"
+            };
+            return View(inTicket);
+        }*/
+
 
         public ActionResult Contact()
         {

@@ -23,5 +23,7 @@ namespace WebApplication_Vy.Models.DTO
 
         [Required(ErrorMessage = "This field is required")]
         public ZipcodeDTO Zipcode { get; set; }
+
+        public List<TicketDTO> Tickets { get; set; }
     }
 }

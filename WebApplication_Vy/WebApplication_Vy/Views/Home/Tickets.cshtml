@@ -1,91 +1,101 @@
-﻿@model List<WebApplication_Vy.Models.DTO.TicketDTO>
+﻿@model List<WebApplication_Vy.Models.DTO.CustomerDTO>
 
 @{
     ViewBag.Title = "Tickets";
 }
+<script type="text/javascript">
+    $(function () {
+
+        $("#table").on("mouseenter", ".button-row", function () {
+            console.log(this)
+            $(this).css('cursor', 'pointer')
+            $(this).css('background-color', '#e6e6e6')
+        });
+
+        $("#table").on("mouseleave", ".button-row", function () {
+            console.log(this)
+            $(this).css('background-color', '#00866e')
+        });
+
+        $("#table").on("click", ".button-row", function () {
+            console.log(this)
+            $(this).next().slideToggle()
+        });
+    });
+</script>
 
 <h2>About</h2>
 
 <p>
     @Html.ActionLink("New Ticket", "Index")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model[0].DepartureStation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].ArrivalStation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].DepartureTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].ArrivalTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Duration)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].TrainChanges)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Customer.Surname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Customer.Givenname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Customer.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Customer.Zipcode.Postalcode)
-        </th>
-        <th></th>
-    </tr>
+<div id="table">
+    @foreach (var item in Model)
+    {
+        <div class="row button-row" style="background-color:#00866e">
+            <div class="col">
+                @item.Givenname
+            </div>
+            <div class="col">
+                @item.Surname
+            </div>
+        </div>
+        <div id="hidden" style="display:none">
+            <div class="row">
+                <div class="col">
+                    <p><b>Dep. Station</b></p>
+                </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @item.DepartureStation
-        </td>
-        <td>
-            @item.ArrivalStation
-        </td>
-        <td>
-            @item.DepartureTime
-        </td>
-        <td>
-            @item.ArrivalTime
-        </td>
-        <td>
-            @item.Price
-        </td>
-        <td>
-            @item.Duration
-        </td>
-        <td>
-            @item.TrainChanges
-        </td>
-        <td>
-            @item.Customer.Surname
-        </td>
-        <td>
-            @item.Customer.Givenname
-        </td>
-        <td>
-            @item.Customer.Address
-        </td>
-        <td>
-            @item.Customer.Zipcode.Postalcode
-        </td>
-        <td>
-           
-        </td>
-    </tr>
-}
+                <div class="col">
+                    <p><b>Dep. Time</b></p>
+                </div>
 
-</table>
+                <div class="col">
+                    <p><b>Arr. Station</b></p>
+                </div>
+
+                <div class="col">
+                    <p><b>Arr. Time</b></p>
+                </div>
+
+                <div class="col">
+                    <p><b>Duration</b></p>
+                </div>
+
+                <div class="col">
+                    <p><b>Changes</b></p>
+                </div>
+
+                <div class="col">
+                    <p><b>Price</b></p>
+                </div>
+            </div>
+            @foreach (var ticket in item.Tickets)
+            {
+                <div class="row">
+                    <div class="col">
+                        @ticket.DepartureStation
+                    </div>
+                    <div class="col">
+                        @ticket.DepartureTime
+                    </div>
+                    <div class="col">
+                        @ticket.ArrivalStation
+                    </div>
+                    <div class="col">
+                        @ticket.ArrivalTime
+                    </div>
+                    <div class="col">
+                        @ticket.Duration
+                    </div>
+                    <div class="col">
+                        @ticket.TrainChanges
+                    </div>
+                    <div class="col">
+                        @ticket.Price
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    </div>
