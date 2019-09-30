@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -122,7 +123,33 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            return View(_vyService.GetTicketDtos());
+            CustomerDTO customer = new CustomerDTO()
+            {
+                Givenname = "Nils",
+                Surname = "Nilsen",
+                Address = "SAd asddswww 89",
+                Zipcode = new ZipcodeDTO()
+                {
+                    Postalcode = "0659",
+                    Postaltown = "Oslo"
+                },
+                
+                Tickets = new List<TicketDTO>(),
+            };
+
+            customer.Tickets.Add(new TicketDTO()
+            {
+                DepartureStation = "Oslo",
+                ArrivalStation = "Bodø",
+                DepartureTime = "19:20",
+                ArrivalTime = "09:19",
+                Price = 1950,
+                Duration = "1d0h15m",
+                TrainChanges = "1",
+            });
+
+            //_vyService.GetTicketDtos()
+            return View(customer);
         }
         /*[HttpGet]
         public ActionResult Tickets()
