@@ -81,15 +81,6 @@ namespace WebApplication_Vy.Controllers
             return View("Index");
         }
 
-        [HttpPost]
-        public string SearchStation(string query)
-        {
-            Debug.WriteLine(query);
-            var stations = _tripService.FindStationsMatching(query);
-            var jsonSerialiser = new JavaScriptSerializer();
-            return jsonSerialiser.Serialize(stations);
-        }
-
         [HttpGet]
         public string GetStation()
         {
@@ -184,35 +175,6 @@ namespace WebApplication_Vy.Controllers
             List<CustomerDTO> customers = _vyService.GetCustomerDtos();
             //_vyService.GetTicketDtos()
             return View(customers);
-        }
-        /*[HttpGet]
-        public ActionResult Tickets()
-        {
-
-        }*/
-        
-        /*[HttpGet]
-        public ActionResult TestTickets()
-        {
-            TicketQueryDTO inTicket = new TicketQueryDTO
-            {
-                Departure = "13:00",
-                Roundtrip = false,
-                CSname = "Thoresen",
-                CGname = "Michael",
-                Address = "Fagerliveien 24",
-                Zipcode = "0587"
-            };
-            return View(inTicket);
-        }*/
-
-
-        public ActionResult Contact()
-        {
-            ViewBag.Current = "Contact";
-
-            ViewBag.Message = "Your contact page.";
-            return View();
         }
     }
 }
