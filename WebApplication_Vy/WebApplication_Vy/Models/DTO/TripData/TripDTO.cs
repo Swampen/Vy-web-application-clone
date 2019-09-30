@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace WebApplication_Vy.Models.DTO.TripData
 {
@@ -13,5 +14,10 @@ namespace WebApplication_Vy.Models.DTO.TripData
         public string Train_Changes { get; set; }
         public int Price { get; set; }
         public string PriceType { get; set; }
+        public bool returnTrip { get; set; }
+        public string ReturnDate { get; set; }
+        public string Return_Departure_Time { get; set; }
+        public string Return_Arrival_Time { get; set; }
+        public int ReturnPrice { get; set; }
     }
 }
