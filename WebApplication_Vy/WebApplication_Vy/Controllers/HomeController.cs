@@ -1,73 +1,89 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using Microsoft.Ajax.Utilities;
-using Newtonsoft.Json;
 using WebApplication_Vy.Db;
 using WebApplication_Vy.Models.DTO;
 using WebApplication_Vy.Models.DTO.TripData;
 using WebApplication_Vy.Service.Contracts;
-using WebApplication_Vy.Service.Implementation;
 
 namespace WebApplication_Vy.Controllers
 {
-    public class HomeController : Controller 
+    public class HomeController : Controller
     {
-        private readonly IVyService _vyService;
         private readonly ITripService _tripService;
-        
-        public HomeController(IVyService vyService, ITripService tripService)
+        private readonly IVyService _vyService;
+        private readonly IZipSearchService _zipSearchService;
+
+        public HomeController(
+            IVyService vyService,
+            ITripService tripService,
+            IZipSearchService zipSearchService)
         {
             _vyService = vyService;
             _tripService = tripService;
-            
+            _zipSearchService = zipSearchService;
+
             var db = new VyDbContext();
             db.Database.Initialize(true);
         }
 
         public ActionResult Index()
         {
-            ViewBag.Stations = _tripService.GetAllStationDtos();
+            //TODO: This can probably be deleted
+            //ViewBag.Stations = _tripService.GetAllStationDtos();
             return View();
         }
 
-        public ActionResult OldIndex()
+        [HttpPost]
+        public ActionResult Index(TripQuerryDTO tripQuerry)
+        {
+            //TODO: this can probably be deleted
+            //ViewBag.Stations = _tripService.GetAllStationDtos();
+            return RedirectToAction("Trips", tripQuerry);
+        }
+
+
+        [HttpPost]
+        public ActionResult CustomerDetails()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Trips(TripQuerryDTO tripQuerry)
+        public ActionResult Trips(TripDTO selectedTripDto)
         {
-            return View(tripQuerry);
+            ViewBag.Model = selectedTripDto;
+            return View("CustomerDetails");
         }
 
         [HttpGet]
-        public ActionResult Trips()
+        public ActionResult Trips(TripQuerryDTO tripQuerry)
         {
-            TripQuerryDTO tripQuerry = new TripQuerryDTO
-            {
-                Arrival_Station = "Bodø",
-                Departure_Station = "Oslo",
-                Date = "2019-09-24",
-                Time = "11:09"
-            };
-           
-            return View(tripQuerry);
-        }
-
-        [HttpPost]
-        public ActionResult RegisterTicket(TicketDTO ticketDTO)
-        {
-            if (ModelState.IsValid){ 
-            bool success = _vyService.CreateTicket(ticketDTO);
-                if (success){ 
-                    return RedirectToAction("tickets");
-                }
+            if (tripQuerry == null){
+                tripQuerry = new TripQuerryDTO
+                {
+                    Arrival_Station = "Bodø",
+                    Departure_Station = "Oslo",
+                    Date = "2019-10-30",
+                    Time = "11:00"
+                };
             }
+            ViewBag.Model = tripQuerry;
+            return View();
+        }
+        
+        [HttpPost]
+        public ActionResult RegisterTicket(SubmitPurchaseDTO submitPurchaseDto)
+        {
+            Console.WriteLine(submitPurchaseDto.Ticket.DepartureStation);
+            if (ModelState.IsValid)
+            {
+                var success = _vyService.CreateTicket(submitPurchaseDto);
+                if (success) return RedirectToAction("tickets");
+            }
+
             return View("Index");
         }
 
@@ -91,23 +107,22 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public string SearchZip(ZipcodeDTO zipcode)
         {
-            Match match = Regex.Match(zipcode.Postalcode, "[0-9]{4}");
-            if (!match.Success) {
-                return "";
-            }
-            var result = _vyService.GetPostaltown(zipcode.Postalcode);
+            var match = Regex.Match(zipcode.Postalcode, "[0-9]{4}");
+            if (!match.Success) return "";
+            var result = _zipSearchService.GetPostaltown(zipcode.Postalcode);
 
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
+            {
                 ModelState.AddModelError("zip", "Not a valid Norwegian zipcode");
                 return result;
             }
+
             return result;
         }
 
         public ActionResult Tickets()
         {
-            var tickets = _vyService.GetTicketDtos();
-            return View(tickets);
+            return View(_vyService.GetTicketDtos());
         }
         /*[HttpGet]
         public ActionResult Tickets()
@@ -141,16 +156,6 @@ namespace WebApplication_Vy.Controllers
 
             ViewBag.Message = "Your contact page.";
             return View();
-        }
-        
-
-        public ActionResult ViewAllExampleEntities()
-        {
-            _vyService.GetCustomerDtos();
-
-            // The next line is commented out to avoid creating a dummy view-file.
-            //return View(service.GetExampleEntityDto());
-            throw new NotImplementedException();
         }
     }
 }

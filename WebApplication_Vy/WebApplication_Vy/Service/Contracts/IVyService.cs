@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using WebApplication_Vy.Models.DTO;
-using WebApplication_Vy.Models.DTO.TripData;
 
 namespace WebApplication_Vy.Service.Contracts
 {
@@ -13,8 +9,6 @@ namespace WebApplication_Vy.Service.Contracts
 
         List<TicketDTO> GetTicketDtos();
 
-        bool CreateTicket(TicketDTO ticketDTO);
-
-        string GetPostaltown(string postalcode);
+        bool CreateTicket(SubmitPurchaseDTO submitPurchaseDto);
     }
 }
