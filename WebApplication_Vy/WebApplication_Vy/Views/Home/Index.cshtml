@@ -1,4 +1,4 @@
-﻿@model WebApplication_Vy.Models.DTO.TripData.TripQuerryDTO
+﻿@model WebApplication_Vy.Models.DTO.TripData.TripQueryDTO
 
 @{
     ViewBag.Title = "Index";
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="col float-right">
-                            @Html.EditorFor(model => model.Departure_Station, new {htmlAttributes = new {id = "", @class = "stations form-control float-right"}})
+                            @Html.EditorFor(model => model.Departure_Station[0], new {htmlAttributes = new {id = "", @class = "stations form-control float-right"}})
                             <p id="chosen"></p>
                             @Html.ValidationMessageFor(model => model.Departure_Station, "", new {@class = "text-danger"})
                         </div>
@@ -104,7 +104,7 @@
                             </div>
                         </div>
                         <div class="col float-left">
-                            @Html.EditorFor(model => model.Arrival_Station, new {htmlAttributes = new {id = "", @class = "stations form-control float-left"}})
+                            @Html.EditorFor(model => model.Arrival_Station[0], new {htmlAttributes = new {id = "", @class = "stations form-control float-left"}})
                             <label id="postaltown"></label>
                             @Html.ValidationMessageFor(model => model.Arrival_Station, "", new {@class = "text-danger"})
                         </div>
@@ -143,7 +143,7 @@
                                         @Html.LabelFor(model => model.Date, htmlAttributes: new {@class = "control-label col-md-2"})
                                     </div>
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Date, new {htmlAttributes = new {id = "dateandtime", @class = "form-control"}})
+                                        @Html.EditorFor(model => model.Date[0], new {htmlAttributes = new {id = "dateandtime", @class = "form-control"}})
                                         @Html.ValidationMessageFor(model => model.Date, "", new {@class = "text-danger"})
                                     </div>
                                 </div>
@@ -160,7 +160,7 @@
                                 <div class="row" style="margin-left: 20%">
                                     @Html.LabelFor(model => model.Time, htmlAttributes: new {@class = "control-label col-md-10"})
                                     <div class="col">
-                                        <select id="time" name="Time" class="custom-select form-control" required>
+                                        <select id="time" name="Time[0]" class="custom-select form-control" required>
                                             <option value="" selected>Choose a time...</option>
                                         </select>
 
@@ -184,11 +184,11 @@
                                     @Html.ValidationSummary(true, "", new {@class = "text-danger"})
                                     <div class="form-group">
                                         <div class="col" style="margin-left: 55% ">
-                                            @Html.LabelFor(model => model.Return_Date, htmlAttributes: new {@class = "control-label col-md-2"})
+                                            @Html.LabelFor(model => model.Date, htmlAttributes: new {@class = "control-label col-md-2"})
                                         </div>
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Return_Date, new {htmlAttributes = new {id = "ReturnDate", @class = "form-control"}})
-                                            @Html.ValidationMessageFor(model => model.Return_Date, "", new {@class = "text-danger"})
+                                            @Html.EditorFor(model => model.Date[1], new {htmlAttributes = new {id = "ReturnDate", @class = "form-control"}})
+                                            @Html.ValidationMessageFor(model => model.Date, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
                                 </div>
@@ -202,13 +202,13 @@
                             <div class="form-group">
                                 <div class="col">
                                     <div class="row" style="margin-left: 20%">
-                                        @Html.LabelFor(model => model.Return_Time, htmlAttributes: new {@class = "control-label col-md-10"})
+                                        @Html.LabelFor(model => model.Time, htmlAttributes: new {@class = "control-label col-md-10"})
                                         <div class="col">
-                                            <select id="Return_Time" name="Return_Time" class="custom-select form-control">
+                                            <select id="Return_Time" name="Time[1]" class="custom-select form-control">
                                                 <option value="" selected>Choose a time...</option>
                                             </select>
 
-                                            @Html.ValidationMessageFor(model => model.Return_Time, "", new {@class = "text-danger"})
+                                            @Html.ValidationMessageFor(model => model.Time, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
                                 </div>

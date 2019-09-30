@@ -40,10 +40,15 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(TripQuerryDTO tripQuerry)
+        public ActionResult Index(TripQueryDTO tripQuerry)
         {
-            //TODO: this can probably be deleted
-            //ViewBag.Stations = _tripService.GetAllStationDtos();
+            if (tripQuerry.Round_Trip)
+            {
+                var return_Departure_Station = tripQuerry.Arrival_Station[0];
+                tripQuerry.Departure_Station.Add(return_Departure_Station);
+                var return_Arrival_Station = tripQuerry.Departure_Station[0];
+                tripQuerry.Arrival_Station.Add(return_Arrival_Station);
+            }
             return RedirectToAction("Trips", tripQuerry);
         }
 
@@ -62,7 +67,7 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpGet]
-        public ActionResult Trips(TripQuerryDTO tripQuerry)
+        public ActionResult Trips(TripQueryDTO tripQuerry)
         {
             ViewBag.Model = tripQuerry;
             return View();
