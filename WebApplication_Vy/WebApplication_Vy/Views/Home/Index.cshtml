@@ -75,45 +75,51 @@
                 
                 <div class="col-sm">
                     <div class="form-group">
-                        <div class="row">
-                        @Html.LabelFor(model => model.Departure_Station, "Departure", htmlAttributes: new {@class = "control-label col-md-2"})
+                        <div class="col">
+                            <div class="row float-right">
+                                @Html.LabelFor(model => model.Departure_Station, "Departure", htmlAttributes: new {@class = "control-label col-md-2"})
+                            </div>
                         </div>
-                        <div class="row align-right">
-                        @Html.EditorFor(model => model.Departure_Station, new {htmlAttributes = new {id = "", @class = "stations form-control float-right"}})
-                        <p id="chosen"></p>
-                        @Html.ValidationMessageFor(model => model.Departure_Station, "", new {@class = "text-danger"})
-                    </div>
+                        <div class="col float-right">
+                            @Html.EditorFor(model => model.Departure_Station, new {htmlAttributes = new {id = "", @class = "stations form-control float-right"}})
+                            <p id="chosen"></p>
+                            @Html.ValidationMessageFor(model => model.Departure_Station, "", new {@class = "text-danger"})
+                        </div>
                     </div>
                 </div>
                 <div>
                     <a class="btn btn-lg px-1 " href="#" role="button"> <img src="../../Content/arrows.png" height="30" alt="arrows"></a>
                 </div>
                 
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <div class="row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <div class="col">
+                            <div class="row float-left">
                                 @Html.LabelFor(model => model.Arrival_Station, "Destination", htmlAttributes: new {@class = "control-label col-md-2"})
                             </div>
-                            <div class="row align-left">
-                                @Html.EditorFor(model => model.Arrival_Station, new {htmlAttributes = new {id = "", @class = "stations form-control float-left"}})
-                                <label id="postaltown"></label>
-                                @Html.ValidationMessageFor(model => model.Arrival_Station, "", new {@class = "text-danger"})
-                            </div>
+                        </div>
+                        <div class="col float-left">
+                            @Html.EditorFor(model => model.Arrival_Station, new {htmlAttributes = new {id = "", @class = "stations form-control float-left"}})
+                            <label id="postaltown"></label>
+                            @Html.ValidationMessageFor(model => model.Arrival_Station, "", new {@class = "text-danger"})
                         </div>
                     </div>
-                    </div>
                 </div>
+            </div>
+        </div>
 
 
         <div class="col h-100">
             <div class="row h-100 justify-content-center align-items-center">
                 <div class="col-sm">
-                    <div class="row float-right">
-                        <div class="form-group">
-                            <div class="row">
+                    <div class="form-group">
+                        <div class="col">
+                            <div class="row float-right">
                                 @Html.ValidationSummary(true, "", new {@class = "text-danger"})
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Date, htmlAttributes: new {@class = "control-label col-md-2"})
+                                    <div class="col" style="margin-left: 55% ">
+                                        @Html.LabelFor(model => model.Date, htmlAttributes: new {@class = "control-label col-md-2"})
+                                    </div>
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.Date, new {htmlAttributes = new {id = "dateandtime", @class = "form-control"}})
                                         @Html.ValidationMessageFor(model => model.Date, "", new {@class = "text-danger"})
@@ -122,21 +128,28 @@
                             </div>
                         </div>
                     </div>
-                    </div>
+                </div>
 
                 <div class="col-sm">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Time, htmlAttributes: new {@class = "control-label col-md-2"})
-                    <div class="row">
-                        <select id="time" name="Time" class="custom-select form-control" required>
-                            <option value="" selected>Choose a time...</option>
-                        </select>
-                        @Html.ValidationMessageFor(model => model.Time, "", new {@class = "text-danger"})
+                    <div class="row ">
+                        <div class="form-group">
+                            <div class="col">
+                                <div class="row" style="margin-left: 20%">
+                                    @Html.LabelFor(model => model.Time, htmlAttributes: new {@class = "control-label col-md-10"})
+                                    <div class="col">
+                                        <select id="time" name="Time" class="custom-select form-control" required>
+                                            <option value="" selected>Choose a time...</option>
+                                        </select>
+
+                                        @Html.ValidationMessageFor(model => model.Time, "", new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                </div>
             </div>
-            </div>
+        </div>
             
         <div align="center">
             <div class="form-group">
@@ -151,6 +164,9 @@
                 </div>
             </div>
         </div>
-        }
+        
+       
+    }
 </div>
+
        
