@@ -83,19 +83,24 @@
         $("#student").children("input").val(0);
         $("#senior").children("input").val(0);
 
+        var totalTickets = 1;
+
         $(".add-sub-ticket").on("click", ".pluss", function (e) {
             var value = $(this).siblings("input").val();
             if (value == 0) {
                 $(this).siblings(".minus").attr("disabled", false);
             }
             ++value;
+            ++totalTickets;
             $(this).siblings("input").val(value);
             $(this).siblings("b").text(value);
         });
 
         $(".add-sub-ticket").on("click", ".minus", function (e) {
+            if (totalTickets <= 1) return
             var value = $(this).siblings("input").val();
             --value;
+            --totalTickets;
             $(this).siblings("input").val(value);
             $(this).siblings("b").text(value);
             if (value <= 0) {
