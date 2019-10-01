@@ -105,7 +105,7 @@
         </p>
         <p class="card-text">
             <span class="font-weight-bold">Pris: </span>
-            <span>@ViewBag.Model.Price "kr"</span>
+            <span>@Html.Raw(@ViewBag.Model.Price),-</span>
 
         </p>
         <button class="btn btn-primary" type="button" id="changeTrip">Endre reise</button>
@@ -118,8 +118,8 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.Ticket.DepartureStation, new {@id = "hfDepStation"})
         @Html.HiddenFor(model => model.Ticket.ArrivalStation, new {@id = "hfArrStation"})
-        @Html.HiddenFor(model => model.Ticket.DepartureTime, new {@id = "hfArrTime"})
-        @Html.HiddenFor(model => model.Ticket.ArrivalTime, new {@id = "hfDepTime"})
+        @Html.HiddenFor(model => model.Ticket.DepartureTime, new {@id = "hfDepTime"})
+        @Html.HiddenFor(model => model.Ticket.ArrivalTime, new {@id = "hfArrTime"})
         @Html.HiddenFor(model => model.Ticket.Price, new {@id = "hfPrice"})
         @Html.HiddenFor(model => model.Ticket.Duration, new {@id = "hfDuration"})
         @Html.HiddenFor(model => model.Ticket.TrainChanges, new {@id = "hfTrainChanges"})
