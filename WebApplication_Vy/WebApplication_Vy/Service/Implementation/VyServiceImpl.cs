@@ -79,18 +79,18 @@ namespace WebApplication_Vy.Service.Implementation
             return entity;
         }
 /*
-        private Ticket MapTicketEntity(SubmitPurchaseDTO dto)
+        private TripTicket MapTicketEntity(SubmitPurchaseDTO dto)
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<TicketDTO, Ticket>();
+                cfg.CreateMap<TicketDTO, TripTicket>();
                 cfg.CreateMap<TripDTO, Trip>();
                 cfg.CreateMap<CustomerDTO, Customer>();
                 cfg.CreateMap<ZipcodeDTO, Zipcode>();
-                cfg.CreateMap<SubmitPurchaseDTO, Ticket>();
+                cfg.CreateMap<SubmitPurchaseDTO, TripTicket>();
             });
             var mapper = new Mapper(config);
-            var entity = mapper.Map<Ticket>(dto);
+            var entity = mapper.Map<TripTicket>(dto);
             return entity;
         }
         */
@@ -98,14 +98,14 @@ namespace WebApplication_Vy.Service.Implementation
         private Ticket MapTicketEntity(SubmitPurchaseDTO dto)
         {
             Ticket ticket = new Ticket();
-            ticket.Customer = MapCustomerEntity(dto.Ticket.Customer);
-            ticket.ArrivalStation = dto.Ticket.ArrivalStation;
-            ticket.DepartureStation = dto.Ticket.DepartureStation;
-            ticket.ArrivalTime = dto.Ticket.ArrivalTime;
-            ticket.DepartureTime = dto.Ticket.DepartureTime;
-            ticket.Duration = dto.Ticket.Duration;
-            ticket.TrainChanges = dto.Ticket.TrainChanges;
-            ticket.Price = dto.Ticket.Price;
+            ticket.Customer = MapCustomerEntity(dto.TripTicket.Customer);
+            ticket.ArrivalStation = dto.TripTicket.ArrivalStation;
+            ticket.DepartureStation = dto.TripTicket.DepartureStation;
+            ticket.ArrivalTime = dto.TripTicket.ArrivalTime;
+            ticket.DepartureTime = dto.TripTicket.DepartureTime;
+            ticket.Duration = dto.TripTicket.Duration;
+            ticket.TrainChanges = dto.TripTicket.TrainChanges;
+            ticket.Price = dto.TripTicket.Price;
             return ticket;
         }
 
