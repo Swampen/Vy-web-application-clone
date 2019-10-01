@@ -58,12 +58,7 @@ namespace WebApplication_Vy.Controllers
             return View("Trips");
         }
 
-
-        [HttpPost]
-        public ActionResult CustomerDetails()
-        {
-            return View();
-        }
+        
 
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
@@ -99,10 +94,16 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult RegisterTicket(SubmitPurchaseDTO submitPurchaseDto)
         {
-            Console.WriteLine(submitPurchaseDto.Ticket.DepartureStation);
             if (ModelState.IsValid)
             {
-                var success = _vyService.CreateTicket(submitPurchaseDto);
+                
+                var success = _vyService.CreateTicket(submitPurchaseDto.TripTicket);
+                if (submitPurchaseDto.ReturnTripTicket.ArrivalStation != null)
+                {
+                    submitPurchaseDto.ReturnTripTicket.Customer = submitPurchaseDto.TripTicket.Customer;
+                    success = _vyService.CreateTicket(submitPurchaseDto.ReturnTripTicket);
+                    Console.WriteLine("Returnticket success");
+                }
                 if (success) return RedirectToAction("tickets");
             }
 

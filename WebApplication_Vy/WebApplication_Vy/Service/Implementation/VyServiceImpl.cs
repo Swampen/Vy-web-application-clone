@@ -37,9 +37,9 @@ namespace WebApplication_Vy.Service.Implementation
         }
 
 
-        public bool CreateTicket(SubmitPurchaseDTO submitPurchaseDto)
+        public bool CreateTicket(TicketDTO ticketDto)
         {
-            var ticket = MapTicketEntity(submitPurchaseDto);
+            var ticket = MapTicketEntity(ticketDto);
             return _vyRepository.createTicket(ticket);
         }
 
@@ -78,34 +78,35 @@ namespace WebApplication_Vy.Service.Implementation
             var entity = mapper.Map<Trip>(dto);
             return entity;
         }
+        //TODO: Remove if not needed
 /*
-        private Ticket MapTicketEntity(SubmitPurchaseDTO dto)
+        private TripTicket MapTicketEntity(SubmitPurchaseDTO dto)
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<TicketDTO, Ticket>();
+                cfg.CreateMap<TicketDTO, TripTicket>();
                 cfg.CreateMap<TripDTO, Trip>();
                 cfg.CreateMap<CustomerDTO, Customer>();
                 cfg.CreateMap<ZipcodeDTO, Zipcode>();
-                cfg.CreateMap<SubmitPurchaseDTO, Ticket>();
+                cfg.CreateMap<SubmitPurchaseDTO, TripTicket>();
             });
             var mapper = new Mapper(config);
-            var entity = mapper.Map<Ticket>(dto);
+            var entity = mapper.Map<TripTicket>(dto);
             return entity;
         }
         */
 
-        private Ticket MapTicketEntity(SubmitPurchaseDTO dto)
+        private Ticket MapTicketEntity(TicketDTO dto)
         {
             Ticket ticket = new Ticket();
-            ticket.Customer = MapCustomerEntity(dto.Ticket.Customer);
-            ticket.ArrivalStation = dto.Ticket.ArrivalStation;
-            ticket.DepartureStation = dto.Ticket.DepartureStation;
-            ticket.ArrivalTime = dto.Ticket.ArrivalTime;
-            ticket.DepartureTime = dto.Ticket.DepartureTime;
-            ticket.Duration = dto.Ticket.Duration;
-            ticket.TrainChanges = dto.Ticket.TrainChanges;
-            ticket.Price = dto.Ticket.Price;
+            ticket.Customer = MapCustomerEntity(dto.Customer);
+            ticket.ArrivalStation = dto.ArrivalStation;
+            ticket.DepartureStation = dto.DepartureStation;
+            ticket.ArrivalTime = dto.ArrivalTime;
+            ticket.DepartureTime = dto.DepartureTime;
+            ticket.Duration = dto.Duration;
+            ticket.TrainChanges = dto.TrainChanges;
+            ticket.Price = dto.Price;
             return ticket;
         }
 
