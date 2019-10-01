@@ -190,7 +190,8 @@
     <Compile Include="Models\DTO\TripData\StationDTO.cs" />
     <Compile Include="Models\DTO\TripData\TripIntervalDTO.cs" />
     <Compile Include="Models\DTO\TripData\TripDTO.cs" />
-    <Compile Include="Models\DTO\TripData\TripQuerryDTO.cs" />
+    <Compile Include="Models\DTO\TripData\TripQueryDTO.cs" />
+    <Compile Include="Models\DTO\TripData\TripsDTO.cs" />
     <Compile Include="Models\DTO\Validation\ZipcodeAttribute.cs" />
     <Compile Include="Models\DTO\ZipcodeDTO.cs" />
     <Compile Include="Models\Entities\Customer.cs" />
@@ -341,6 +342,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Home\TestTickets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

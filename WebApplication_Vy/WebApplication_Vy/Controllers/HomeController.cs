@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -39,11 +40,23 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(TripQuerryDTO tripQuerry)
+        public ActionResult Index(TripQueryDTO tripQuery)
         {
-            //TODO: this can probably be deleted
-            //ViewBag.Stations = _tripService.GetAllStationDtos();
-            return RedirectToAction("Trips", tripQuerry);
+            Session["ChosenTrips"] = new List<TripDTO>();
+            if (tripQuery.Round_Trip)
+            {
+                var returnTripQuery = new TripQueryDTO(){
+                    Departure_Station = tripQuery.Arrival_Station,
+                    Arrival_Station = tripQuery.Departure_Station,
+                    Date = tripQuery.Return_Date,
+                    Time = tripQuery.Return_Time,
+                    Round_Trip = false,
+                };
+                Session["ReturnTripQuery"] = returnTripQuery;
+            }
+            ViewBag.Model = tripQuery;
+
+            return View("Trips");
         }
 
 
@@ -56,14 +69,30 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            ViewBag.Model = selectedTripDto;
+            var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
+            chosenTrips.Add(selectedTripDto);
+            if (selectedTripDto.Round_Trip)
+            {   
+                var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
+                ViewBag.Model = returnQuery;
+                return View();
+            }
+            ViewBag.Model = chosenTrips;
             return View("CustomerDetails");
         }
+        
+        //[HttpPost]
+        //public ActionResult Trips(TripDTO selectedTripDto)
+        //{
+        //    
+        //    ViewBag.Model = selectedTripDto;
+        //    return View("CustomerDetails");
+        //}
 
         [HttpGet]
-        public ActionResult Trips(TripQuerryDTO tripQuerry)
+        public ActionResult Trips(TripQueryDTO tripQuerry)
         {
-            ViewBag.Model = tripQuerry;
+            Session["ChosenTrips"] = new List<TripDTO>();
             return View();
         }
         
@@ -78,15 +107,6 @@ namespace WebApplication_Vy.Controllers
             }
 
             return View("Index");
-        }
-
-        [HttpPost]
-        public string SearchStation(string query)
-        {
-            Debug.WriteLine(query);
-            var stations = _tripService.FindStationsMatching(query);
-            var jsonSerialiser = new JavaScriptSerializer();
-            return jsonSerialiser.Serialize(stations);
         }
 
         [HttpGet]
@@ -115,15 +135,74 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            return View(_vyService.GetTicketDtos());
-        }
+            /*CustomerDTO customer = new CustomerDTO()
+            {
+                Givenname = "Nils",
+                Surname = "Nilsen",
+                Address = "SAd asddswww 89",
+                Zipcode = new ZipcodeDTO()
+                {
+                    Postalcode = "0659",
+                    Postaltown = "Oslo"
+                },
+                
+                Tickets = new List<TicketDTO>(),
+            };
 
-        public ActionResult Contact()
-        {
-            ViewBag.Current = "Contact";
+            customer.Tickets.Add(new TicketDTO()
+            {
+                DepartureStation = "Oslo",
+                ArrivalStation = "Bodø",
+                DepartureTime = "19:20",
+                ArrivalTime = "09:19",
+                Price = 1950,
+                Duration = "1d0h15m",
+                TrainChanges = "1",
+            });
 
-            ViewBag.Message = "Your contact page.";
-            return View();
+            customer.Tickets.Add(new TicketDTO()
+            {
+                DepartureStation = "Oslo",
+                ArrivalStation = "Bodø",
+                DepartureTime = "19:20",
+                ArrivalTime = "09:19",
+                Price = 1950,
+                Duration = "1d0h15m",
+                TrainChanges = "1",
+            });
+
+            CustomerDTO customer2 = new CustomerDTO()
+            {
+                Givenname = "Hans",
+                Surname = "Hansen",
+                Address = "Bygdøy Alle 89",
+                Zipcode = new ZipcodeDTO()
+                {
+                    Postalcode = "0262",
+                    Postaltown = "Oslo"
+                },
+
+                Tickets = new List<TicketDTO>(),
+            };
+
+            customer2.Tickets.Add(new TicketDTO()
+            {
+                DepartureStation = "Oslo",
+                ArrivalStation = "Bodø",
+                DepartureTime = "23:20",
+                ArrivalTime = "13:19",
+                Price = 1950,
+                Duration = "0d12h01m",
+                TrainChanges = "1",
+            });
+
+            var customers = new List<CustomerDTO>();
+            customers.Add(customer);
+            customers.Add(customer2);*/
+
+            List<CustomerDTO> customers = _vyService.GetCustomerDtos();
+            //_vyService.GetTicketDtos()
+            return View(customers);
         }
     }
 }

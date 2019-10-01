@@ -1,91 +1,73 @@
-﻿@model List<WebApplication_Vy.Models.DTO.TicketDTO>
+﻿@model List<WebApplication_Vy.Models.DTO.CustomerDTO>
 
 @{
-    ViewBag.Title = "Tickets";
+    ViewBag.Title = "Customers";
 }
+<script type="text/javascript">
+    $(function () {
 
-<h2>About</h2>
+        $("#table").on("mouseenter", ".button-row", function () {
+            console.log(this)
+            $(this).css('cursor', 'pointer')
+            $(this).css('background-color', '#e6e6e6')
+        });
 
-<p>
-    @Html.ActionLink("New Ticket", "Index")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model[0].DepartureStation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].ArrivalStation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].DepartureTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].ArrivalTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Duration)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].TrainChanges)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Customer.Surname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Customer.Givenname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Customer.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Customer.Zipcode.Postalcode)
-        </th>
-        <th></th>
-    </tr>
+        $("#table").on("mouseleave", ".button-row", function () {
+            console.log(this)
+            $(this).css('background-color', '#ffffff')
+        });
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @item.DepartureStation
-        </td>
-        <td>
-            @item.ArrivalStation
-        </td>
-        <td>
-            @item.DepartureTime
-        </td>
-        <td>
-            @item.ArrivalTime
-        </td>
-        <td>
-            @item.Price
-        </td>
-        <td>
-            @item.Duration
-        </td>
-        <td>
-            @item.TrainChanges
-        </td>
-        <td>
-            @item.Customer.Surname
-        </td>
-        <td>
-            @item.Customer.Givenname
-        </td>
-        <td>
-            @item.Customer.Address
-        </td>
-        <td>
-            @item.Customer.Zipcode.Postalcode
-        </td>
-        <td>
-           
-        </td>
-    </tr>
-}
+        $("#table").on("click", ".button-row", function () {
+            console.log(this)
+            $(this).next().slideToggle()
+        });
+    });
+</script>
 
-</table>
+<div class="row">
+    <h2>Customers</h2>
+</div>
+
+<div class="row pl-1">
+    <p>
+        @Html.ActionLink("New Ticket", "Index", "", new { @class = "text-success" })
+    </p>
+</div>
+<div id="table">
+    @foreach (var item in Model)
+    {
+        <div class="row button-row p-3 border-top">
+            <div class="col">
+                @item.Givenname
+            </div>
+            <div class="col">
+                @item.Surname
+            </div>
+        </div>
+        <div id="hidden" class="mb-2" style="display:none">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Dep. Station</th>
+                        <th scope="col">Arr. Station</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var t in item.Tickets)
+                    {
+                        <tr>
+                            <th class="font-weight-bold">@t.DepartureStation</th>
+                            <td class="font-weight-bold">@t.ArrivalStation</td>
+                            <td>@t.DepartureTime - @t.ArrivalTime</td>
+                            <td>@t.Duration</td>
+                            <td>@t.Price</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
