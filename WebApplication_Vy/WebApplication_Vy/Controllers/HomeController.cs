@@ -137,73 +137,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            /*CustomerDTO customer = new CustomerDTO()
-            {
-                Givenname = "Nils",
-                Surname = "Nilsen",
-                Address = "SAd asddswww 89",
-                Zipcode = new ZipcodeDTO()
-                {
-                    Postalcode = "0659",
-                    Postaltown = "Oslo"
-                },
-                
-                Tickets = new List<TicketDTO>(),
-            };
-
-            customer.Tickets.Add(new TicketDTO()
-            {
-                DepartureStation = "Oslo",
-                ArrivalStation = "Bodø",
-                DepartureTime = "19:20",
-                ArrivalTime = "09:19",
-                Price = 1950,
-                Duration = "1d0h15m",
-                TrainChanges = "1",
-            });
-
-            customer.Tickets.Add(new TicketDTO()
-            {
-                DepartureStation = "Oslo",
-                ArrivalStation = "Bodø",
-                DepartureTime = "19:20",
-                ArrivalTime = "09:19",
-                Price = 1950,
-                Duration = "1d0h15m",
-                TrainChanges = "1",
-            });
-
-            CustomerDTO customer2 = new CustomerDTO()
-            {
-                Givenname = "Hans",
-                Surname = "Hansen",
-                Address = "Bygdøy Alle 89",
-                Zipcode = new ZipcodeDTO()
-                {
-                    Postalcode = "0262",
-                    Postaltown = "Oslo"
-                },
-
-                Tickets = new List<TicketDTO>(),
-            };
-
-            customer2.Tickets.Add(new TicketDTO()
-            {
-                DepartureStation = "Oslo",
-                ArrivalStation = "Bodø",
-                DepartureTime = "23:20",
-                ArrivalTime = "13:19",
-                Price = 1950,
-                Duration = "0d12h01m",
-                TrainChanges = "1",
-            });
-
-            var customers = new List<CustomerDTO>();
-            customers.Add(customer);
-            customers.Add(customer2);*/
-
             List<CustomerDTO> customers = _vyService.GetCustomerDtos();
-            //_vyService.GetTicketDtos()
             return View(customers);
         }
     }
