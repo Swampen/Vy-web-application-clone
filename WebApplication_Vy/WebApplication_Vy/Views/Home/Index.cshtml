@@ -39,9 +39,14 @@
        
        $("#SwitchButton").on("click", function(e) {
          
-           
-           
-       })
+        var destinationTemp = $("#Destination").val();
+        var departureTemp = $("#Departure").val();
+        
+        console.log("Route switched to " + destinationTemp + ", " + departureTemp);
+        
+        $("#Destination").val(departureTemp);
+        $("#Departure").val(destinationTemp);
+       });
        
        $("#Direct_Trip").on("click", function(e) {
            
@@ -92,7 +97,7 @@
                             </div>
                         </div>
                         <div class="col float-right">
-                            @Html.EditorFor(model => model.Departure_Station, new {htmlAttributes = new {id = "", @class = "stations form-control float-right"}})
+                            @Html.EditorFor(model => model.Departure_Station, new {htmlAttributes = new {id = "Departure", @class = "stations form-control float-right"}})
                             <p id="chosen"></p>
                             @Html.ValidationMessageFor(model => model.Departure_Station, "", new {@class = "text-danger"})
                         </div>
@@ -110,7 +115,7 @@
                             </div>
                         </div>
                         <div class="col float-left">
-                            @Html.EditorFor(model => model.Arrival_Station, new {htmlAttributes = new {id = "", @class = "stations form-control float-left"}})
+                            @Html.EditorFor(model => model.Arrival_Station, new {htmlAttributes = new {id = "Destination", @class = "stations form-control float-left"}})
                             <label id="postaltown"></label>
                             @Html.ValidationMessageFor(model => model.Arrival_Station, "", new {@class = "text-danger"})
                         </div>
