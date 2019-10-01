@@ -87,11 +87,11 @@
     
     $(function () {
         
-        $('#ticketCard')
-            .on('mouseenter', function() {
+        $('.cards')
+            .on('mouseenter', '#ticketCard', function() {
                 $(this).addClass("shadow");
             })
-            .on('mouseleave', function() {
+            .on('mouseleave', '#ticketCard', function() {
                 $(this).removeClass("shadow");
             });
         
