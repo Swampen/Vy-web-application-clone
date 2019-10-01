@@ -78,6 +78,31 @@
             source: stations 
         });
 
+        $("#adult").children("input").val(1);
+        $("#child").children("input").val(0);
+        $("#student").children("input").val(0);
+        $("#senior").children("input").val(0);
+
+        $(".add-sub-ticket").on("click", ".pluss", function (e) {
+            var value = $(this).siblings("input").val();
+            if (value == 0) {
+                $(this).siblings(".minus").attr("disabled", false);
+            }
+            ++value;
+            $(this).siblings("input").val(value);
+            $(this).siblings("b").text(value);
+        });
+
+        $(".add-sub-ticket").on("click", ".minus", function (e) {
+            var value = $(this).siblings("input").val();
+            --value;
+            $(this).siblings("input").val(value);
+            $(this).siblings("b").text(value);
+            if (value <= 0) {
+                $(this).attr("disabled", true);
+            }
+        });
+
     });
 </script>
 <div id="ajax_form" class="container">
@@ -235,20 +260,20 @@
          <div class="row">
              <div class="col">
                  <div class="row">
-                     <div class="w-100 text-right">
+                     <div id="adult" class="w-100 text-right add-sub-ticket">
                          @Html.LabelFor(model => model.Adult, htmlAttributes: new { @class = "control-label" })
-                         <button class="btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
+                         <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm"><span>-</span></button>
                          @Html.HiddenFor(model => model.Adult, new { @class = "control-label" })<b class="mt-1">1</b>
-                         <button class="btn btn-success btn-circle btn-circle-sm"><span class="vertical-align-center">+</span></button>
+                         <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span class="vertical-align-center">+</span></button>
                          @Html.ValidationMessageFor(model => model.Adult, "", new { @class = "text-danger" })
                      </div>
                  </div>
                  <div class="row">
-                     <div class="w-100 text-right">
+                     <div id="child" class="w-100 text-right add-sub-ticket">
                          @Html.LabelFor(model => model.Child, htmlAttributes: new { @class = "control-label" })
-                         <button class="btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
-                         @Html.HiddenFor(model => model.Child, new { @class = "control-label" })<b class="mt-1">1</b>
-                         <button class="btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
+                         <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
+                         @Html.HiddenFor(model => model.Child, new { @class = "control-label" })<b class="mt-1">0</b>
+                         <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
                          @Html.ValidationMessageFor(model => model.Child, "", new { @class = "text-danger" })
                      </div>
                  </div>
@@ -257,19 +282,19 @@
              </div>
              <div class="col">
                  <div class="row">
-                     <div class="w-100">
-                         <button class="btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
-                         @Html.HiddenFor(model => model.Student, new { @class = "control-label" })<b class="mt-1">1</b>
-                         <button class="btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
+                     <div id="student" class="w-100 add-sub-ticket">
+                         <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
+                         @Html.HiddenFor(model => model.Student, new { @class = "control-label" })<b class="mt-1">0</b>
+                         <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
                          @Html.LabelFor(model => model.Student, htmlAttributes: new { @class = "control-label" })
                          @Html.ValidationMessageFor(model => model.Student, "", new { @class = "text-danger" })
                      </div>
                  </div>
                  <div class="row">
-                     <div class="w-100">
-                          <button class="btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
-                          @Html.HiddenFor(model => model.Senior, new { @class = "control-label " })<b class="mt-1">1</b>
-                          <button class="btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
+                     <div id="senior" class="w-100 add-sub-ticket">
+                          <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
+                          @Html.HiddenFor(model => model.Senior, new { @class = "control-label " })<b class="mt-1">0</b>
+                          <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
                           @Html.LabelFor(model => model.Senior, htmlAttributes: new { @class = "control-label" })
                           @Html.ValidationMessageFor(model => model.Senior, "", new { @class = "text-danger" })
                      </div>
