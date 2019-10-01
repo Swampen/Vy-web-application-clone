@@ -12,26 +12,20 @@
     ticketData.forEach(ticket => {
         if (ticket.Round_Trip === true ) {
            TripTickets.Trip = ticket;
+           populateTripForm(ticket);
         } else if(ticketData.length > 1) {
             TripTickets.ReturnTrip = ticket;
+            populateReturnTripForm(ticket);
             showHiddenCard(ticket);
         } else {
             TripTickets.Trip = ticket;
+            populateTripForm(ticket);
         }
     });
          
-    $('#duration').text(TripTickets.Trip.Duration);
-    $('#hfDepStation').val(TripTickets.Trip.Departure_Station);
-    $('#hfArrStation').val(TripTickets.Trip.Arrival_Station);
-    $('#hfDepTime').val(TripTickets.Trip.Departure_Time);
-    $('#hfArrTime').val(TripTickets.Trip.Arrival_Time);
-    $('#hfDuration').val(TripTickets.Trip.Duration);
-    $('#hfTrainChanges').val(TripTickets.Trip.Train_Changes);
-    $('#hfPrice').val(TripTickets.Trip.Price);
     
     function showHiddenCard(ticket) {
-      
-    const hiddenCard =  ` <div class="card bg-light mb-3" id="ticketCard" style="max-width: 18rem;">
+    const hiddenCard =  ` <div class="card bg-light mb-3 col-ml4" id="ticketCard" style="max-width: 18rem;">
           <div class="card-header">Din valgte reise</div>
           <div class="card-body">
               <h5 class="card-title">
@@ -42,7 +36,7 @@
               </h5>
               <p class="card-text">
                   <span class="font-weight-bold">Dato:</span>
-                  <span>${ticket.Date})</span>
+                  <span>${ticket.Date}</span>
               </p>
               <p class="card-text">
                   <span class="font-weight-bold">Avreise:</span>
@@ -54,21 +48,39 @@
               </p>
               <p class="card-text">
                   <span class="font-weight-bold">Reisetid: </span>
-                  <span id="duration">${ticket.Duration}</span>
+                  <span>${ticket.Duration}</span>
       
               </p>
               <p class="card-text">
                   <span class="font-weight-bold">Pris: </span>
                   <span>${ticket.Price},-</span>
               </p>
-              <button class="btn btn-primary" type="button" id="changeTrip">Endre reise</button>
           </div>
       </div>
       `;
        $('.cards').append(hiddenCard);
     }
     
-   
+    function populateTripForm(ticket) {
+          $('#hfDepStation').val(ticket.Departure_Station);
+          $('#hfArrStation').val(ticket.Arrival_Station);
+          $('#hfDepTime').val(ticket.Departure_Time);
+          $('#hfArrTime').val(ticket.Arrival_Time);
+          $('#hfDuration').val(ticket.Duration);
+          $('#hfTrainChanges').val(ticket.Train_Changes);
+          $('#hfPrice').val(ticket.Price);
+    }
+    
+    function populateReturnTripForm(ticket) {
+              
+              $('#hfDepStationReturn').val(ticket.Departure_Station);
+              $('#hfArrStationReturn').val(ticket.Arrival_Station);
+              $('#hfDepTimeReturn').val(ticket.Departure_Time);
+              $('#hfArrTimeReturn').val(ticket.Arrival_Time);
+              $('#hfDurationReturn').val(ticket.Duration);
+              $('#hfTrainChangesReturn').val(ticket.Train_Changes);
+              $('#hfPriceReturn').val(ticket.Price);
+        }
     
     });
     
@@ -76,10 +88,10 @@
     $(function () {
         
         $('#ticketCard')
-            .mouseenter(function() {
+            .on('mouseenter', function() {
                 $(this).addClass("shadow");
             })
-            .mouseleave(function() {
+            .on('mouseleave', function() {
                 $(this).removeClass("shadow");
             });
         
@@ -122,8 +134,8 @@
     }
  
 </script>
-<div class="cards">
-<div class="card bg-light mb-3" id="ticketCard" style="max-width: 18rem;">
+<div class="cards row">
+<div class="card bg-light mb-3 col-m-4" id="ticketCard" style="max-width: 18rem;">
     <div class="card-header">Din valgte reise</div>
     <div class="card-body">
         <h5 class="card-title">
@@ -146,15 +158,13 @@
         </p>
         <p class="card-text">
             <span class="font-weight-bold">Reisetid: </span>
-            <span id="duration"></span>
+            <span>@ViewBag.Model[0].Duration</span>
       
         </p>
         <p class="card-text">
             <span class="font-weight-bold">Pris: </span>
             <span>@Html.Raw(@ViewBag.Model[0].Price),-</span>
-      
         </p>
-        <button class="btn btn-primary" type="button" id="changeTrip">Endre reise</button>
     </div>
 </div>
 </div>
@@ -163,6 +173,7 @@
     @using (Ajax.BeginForm("RegisterTicket", "Home", new AjaxOptions {HttpMethod = "POST", OnSuccess = "Success"}))
     {
         @Html.AntiForgeryToken()
+
         @Html.HiddenFor(model => model.TripTicket.DepartureStation, new {@id = "hfDepStation"})
         @Html.HiddenFor(model => model.TripTicket.ArrivalStation, new {@id = "hfArrStation"})
         @Html.HiddenFor(model => model.TripTicket.DepartureTime, new {@id = "hfDepTime"})
@@ -170,6 +181,14 @@
         @Html.HiddenFor(model => model.TripTicket.Price, new {@id = "hfPrice"})
         @Html.HiddenFor(model => model.TripTicket.Duration, new {@id = "hfDuration"})
         @Html.HiddenFor(model => model.TripTicket.TrainChanges, new {@id = "hfTrainChanges"})
+        
+        @Html.HiddenFor(model => model.ReturnTripTicket.DepartureStation, new {@id = "hfDepStationReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.ArrivalStation, new {@id = "hfArrStationReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.DepartureTime, new {@id = "hfDepTimeReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.ArrivalTime, new {@id = "hfArrTimeReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.Price, new {@id = "hfPriceReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.Duration, new {@id = "hfDurationReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.TrainChanges, new {@id = "hfTrainChangesReturn"})
 
         <div class="form-horizontal">
             <hr/>
