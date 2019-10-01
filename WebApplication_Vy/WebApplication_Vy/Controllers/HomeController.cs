@@ -34,15 +34,14 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
-            //TODO: This can probably be deleted
-            //ViewBag.Stations = _tripService.GetAllStationDtos();
+            Session["TripsSelected"] = false;
+            Session["ChosenTrips"] = new List<TripDTO>();
             return View();
         }
 
         [HttpPost]
         public ActionResult Index(TripQueryDTO tripQuery)
         {
-            Session["ChosenTrips"] = new List<TripDTO>();
             if (tripQuery.Round_Trip)
             {
                 var returnTripQuery = new TripQueryDTO(){
@@ -68,7 +67,7 @@ namespace WebApplication_Vy.Controllers
 
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
-        {
+        {   
             var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
             chosenTrips.Add(selectedTripDto);
             if (selectedTripDto.Round_Trip)
@@ -78,6 +77,7 @@ namespace WebApplication_Vy.Controllers
                 return View();
             }
             ViewBag.Model = chosenTrips;
+            Session["TripsSelected"] = true;
             return View("CustomerDetails");
         }
         
