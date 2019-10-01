@@ -15,11 +15,13 @@
         $("#trips").hide();
         console.log(trip);
 
+        var people = { Adult: trip.Adult, Child: trip.Child, Student: trip.Student, Senior: trip.Senior }
+
+        //Inserting the chosen date
         const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
         var date = new Date("@ViewBag.Model.Date" + "T" + "@ViewBag.Model.Time")
-        $(".sub-header").append("<h3 class=\"font-weight-normal\">" + weekdays[date.getDay()] + " " + date.getDate() + ". " + months[date.getMonth()] + " " + date.getFullYear() + " " + date.getHours() + ":" + ( (date.getMinutes()<10?'0':'') + date.getMinutes() ) + "</h3>")
+        $(".sub-header").append("<h3 class='font-weight-normal'>" + weekdays[date.getDay()] + " " + date.getDate() + ". " + months[date.getMonth()] + " " + date.getFullYear() + " " + date.getHours() + ":" + ( (date.getMinutes()<10?'0':'') + date.getMinutes() ) + "</h3>")
 
         //Querry to vy api
         var itineraries = "";
@@ -42,6 +44,37 @@
                     }
                 }
 
+                //Calculating price
+                var price = 0;
+                var originalPrice = value.priceOptions[value.priceOptions.length - 1].amount
+                var priceDetails = "<div class='col m-3'>\
+                                        <div class='row'>\
+                                            <div class='w-100 text-center'><button type='button' class='price-btn p-3 btn btn-primary'>Show price details</button></div >\
+                                        </div>\
+                                        <div style='display: none;'>"
+                $.each(people, function (p, ammount) {
+                    for (var v = 0; v < ammount; v++) {
+                        console.log(p);
+                        if (p === "Adult") {
+                            priceDetails += "<div class='row'>\
+                                                <div class='col text-center ml-2 mr-2'>" + p + "  -  " + originalPrice + ",-</div>\
+                                            </div>"
+                            price += originalPrice;
+                        } else if (p === "Child" || p === "Senior") {
+                            priceDetails += "<div class='row'>\
+                                                <div class='col text-center ml-2 mr-2'>" + p + "  -  " + originalPrice * 0.5 + ",-</div>\
+                                            </div>"
+                            price += originalPrice * 0.5;
+                        } else if (p === "Student") {
+                            priceDetails += "<div class='row'>\
+                                                <div class='col text-center ml-2 mr-2'>" + p + "  -  " + originalPrice * 0.75 + ",-</div>\
+                                            </div>"
+                            price += originalPrice * 0.75;
+                        }
+                    }
+                });
+                priceDetails += "</div></div>"
+
                 //Sets suitable text to the ammount of changes
                 var changesText;
                 if (changes == 0) {
@@ -56,46 +89,47 @@
                 const duration = (temp.days !== 0 ? temp.days + "d " : "") + (temp.hours !== 0 ? temp.hours + "h " : "") + (temp.minutes !== 0 ? temp.minutes + "m " : "")
 
                 //Displays the result
-                $("#trips").append(" <div class=\"container\"><form action=\"@Url.Action("trips", "home")\" method=\"POST\">\
-                        <div id=\"" + i + "\" class=\"border-top border-bottom rounded form-group\" >\
-                            <div class=\"row text-center button-row p-3 \">\
-                                <div class=\"col font-weight-bold\">\
-                                    <input type=\"text\" hidden name=\"Departure_Time\" value=" + value.departureScheduled.match("[0-9]{2}:[0-9]{2}") + ">" + value.departureScheduled.match("[0-9]{2}:[0-9]{2}") + " <span> - </span>\
-                                    <input type=\"text\" hidden name=\"Arrival_Time\" value=" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + ">" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + "\
+                $("#trips").append(" <div class='container'><form action='@Url.Action("trips", "home")' method='POST'>\
+                        <div id='" + i + "' class='border-top border-bottom rounded form-group' >\
+                            <div class='row text-center button-row p-3 '>\
+                                <div class='col font-weight-bold'>\
+                                    <input type='text' hidden name='Departure_Time' value=" + value.departureScheduled.match("[0-9]{2}:[0-9]{2}") + ">" + value.departureScheduled.match("[0-9]{2}:[0-9]{2}") + " <span> - </span>\
+                                    <input type='text' hidden name='Arrival_Time' value=" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + ">" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + "\
                                 </div>\
-                                <div class=\"col\" ><input type=\"text\" hidden name=Duration value=\'" + duration + "\'>" + duration + "</div>\
-                                <div class=\"col\" ><input type=\"text\" hidden name=Train_Changes value=\"" + changesText + "\">" + changesText + "</div>\
-                                <div class=\"col\" ><input type=\"number\" hidden name=Price value=\"" + value.priceOptions[value.priceOptions.length - 1].amount + "\">" + value.priceOptions[value.priceOptions.length - 1].amount + " kr</div>\
-                                <div><input type=\"text\" hidden name=Date value=\"" + value.departureScheduled.split("T")[0] +"\"></div>\
-                                <div><input type=\"text\" hidden name=Departure_Station value=\"" + value.from +"\"></div>\
-                                <div><input type=\"text\" hidden name=Arrival_Station value=\"" + value.to +"\"></div>\
-                                <div><input type=\"checkbox\" hidden name=Round_Trip value=\"@ViewBag.Model.Round_Trip\" checked></div>\
+                                <div class='col' ><input type='text' hidden name=Duration value=\'" + duration + "\'>" + duration + "</div>\
+                                <div class='col' ><input type='text' hidden name=Train_Changes value='" + changesText + "'>" + changesText + "</div>\
+                                <div class='col' ><input type='number' hidden name=Price value='" + price + "'>" + price + " kr</div>\
+                                <div><input type='text' hidden name=Date value='" + value.departureScheduled.split("T")[0] +"'></div>\
+                                <div><input type='text' hidden name=Departure_Station value='" + value.from +"'></div>\
+                                <div><input type='text' hidden name=Arrival_Station value='" + value.to +"'></div>\
+                                <div><input type='checkbox' hidden name=Round_Trip value='@ViewBag.Model.Round_Trip' checked></div>\
                             </div>\
-                            <div id=\"hidden_" + i + "\" class=\"row mt-4 align-items-end\" style=\"display: none;\">\
+                            <div id='hidden_" + i + "' class='row mt-4' style='display: none;'>\
                             </div>\
                         </div>\
                     </form></div>");
 
                 //Appends more info, but hidden
-                var hidden_content = "<div class=\"col ml-5\">"
+                var hidden_content = "<div class='col ml-5'>"
                 $.each(value.legs, function (j, leg) {
                     if (leg.transportType == "TRAIN") {
                         $.each(this.stops, function (k, stop) {
                             if (k == 0) {
-                                hidden_content += "<div class=\"row font-weight-bold\">" + stop.name + "</div>"
-                                hidden_content += "<div class=\"border-left border-success pl-4\">\<div class=\"row\"><a href=\"\">" + (leg.stops.length - 1) + " stops</a></div>"
-                                hidden_content += "<div class=\"col ml-0\" style=\"display: none;\"><div class=\"pl-3\">"
+                                hidden_content += "<div class='row font-weight-bold'>" + stop.name + "</div>"
+                                hidden_content += "<div class='border-left border-success pl-4'>\<div class='row'><a href=''>" + (leg.stops.length - 1) + " stops</a></div>"
+                                hidden_content += "<div class='col ml-0' style='display: none;'><div class='pl-3'>"
                             } else if (k == leg.stops.length - 1) {
                                 hidden_content += "</div></div></div>"
-                                hidden_content += "<div class=\"row mb-3 font-weight-bold\">" + stop.name + "</div>"
+                                hidden_content += "<div class='row mb-3 font-weight-bold'>" + stop.name + "</div>"
                             } else {
-                                hidden_content += "<div class=\"row\">" + stop.name + "</div>"
+                                hidden_content += "<div class='row'>" + stop.name + "</div>"
                             }
                         })
                     }
                 });
-                hidden_content += "</div >\
-                <div class=\"col text-right m-3\"><button type=\"submit\" class=\"btn btn-success\">Select</button></div>"
+                hidden_content += "</div>";
+                hidden_content += priceDetails;
+                hidden_content += "<div class='col text-right m-3' > <button type='submit' class='btn btn-success'>Select</button></div>";
 
                 $("#hidden_" + i).append(hidden_content);
 
@@ -116,13 +150,17 @@
         });
 
         $("#trips").on("click", ".button-row", function () {
-            $($(this).siblings()[0]).slideToggle()
+            $(this).next().slideToggle()
         })
 
         $("#trips").on("click", "a", function (e) {
             e.preventDefault();
-            $($(this).parent().next()).slideToggle()
+            $(this).parent().next()
         })
+
+        $("#trips").on("click", ".price-btn", function () {
+            $(this).parent().parent().next().slideToggle()
+        });
     });
 
     </script>

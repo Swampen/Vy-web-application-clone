@@ -78,9 +78,39 @@
             source: stations 
         });
 
+        $("#adult").children("input").val(1);
+        $("#child").children("input").val(0);
+        $("#student").children("input").val(0);
+        $("#senior").children("input").val(0);
+
+        var totalTickets = 1;
+
+        $(".add-sub-ticket").on("click", ".pluss", function (e) {
+            var value = $(this).siblings("input").val();
+            if (value == 0) {
+                $(this).siblings(".minus").attr("disabled", false);
+            }
+            ++value;
+            ++totalTickets;
+            $(this).siblings("input").val(value);
+            $(this).siblings("b").text(value);
+        });
+
+        $(".add-sub-ticket").on("click", ".minus", function (e) {
+            if (totalTickets <= 1) return
+            var value = $(this).siblings("input").val();
+            --value;
+            --totalTickets;
+            $(this).siblings("input").val(value);
+            $(this).siblings("b").text(value);
+            if (value <= 0) {
+                $(this).attr("disabled", true);
+            }
+        });
+
     });
 </script>
-<div id="ajax_form">
+<div id="ajax_form" class="container">
     @using (Ajax.BeginForm("Index", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }))
     {
         @Html.AntiForgeryToken()
@@ -88,61 +118,60 @@
             <h1>Hei, hvor vil du reise?</h1>
         </div>
         
+        <div class="row h-100 justify-content-center align-items-center">
+                
+            <div class="col-sm">
+                <div class="form-group">
+                    <div class="col">
+                        <div class="row float-right">
+                            @Html.LabelFor(model => model.Departure_Station, htmlAttributes: new {@class = "control-label col-md-2"})
+                        </div>
+                    </div>
+                    <div class="col float-right">
+                        @Html.EditorFor(model => model.Departure_Station, new {htmlAttributes = new {id = "Departure", @class = "stations form-control float-right"}})
+                        <p id="chosen"></p>
+                        @Html.ValidationMessageFor(model => model.Departure_Station, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <a class="btn btn-lg px-1 " id="SwitchButton" role="button"> <img src="../../Content/arrows.png" height="30" alt="arrows"></a>
+            </div>
+                
+            <div class="col-sm">
+                <div class="form-group">
+                    <div class="col">
+                        <div class="row float-left">
+                            @Html.LabelFor(model => model.Arrival_Station, htmlAttributes: new {@class = "control-label col-md-2"})
+                        </div>
+                    </div>
+                    <div class="col float-left">
+                        @Html.EditorFor(model => model.Arrival_Station, new {htmlAttributes = new {id = "Destination", @class = "stations form-control float-left"}})
+                        <label id="postaltown"></label>
+                        @Html.ValidationMessageFor(model => model.Arrival_Station, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
         <div class="col h-100">
-            <div class="row h-100 justify-content-center align-items-center">
-                
-                <div class="col-sm">
-                    <div class="form-group">
-                        <div class="col">
-                            <div class="row float-right">
-                                @Html.LabelFor(model => model.Departure_Station, "Departure", htmlAttributes: new {@class = "control-label col-md-2"})
-                            </div>
-                        </div>
-                        <div class="col float-right">
-                            @Html.EditorFor(model => model.Departure_Station, new {htmlAttributes = new {id = "Departure", @class = "stations form-control float-right"}})
-                            <p id="chosen"></p>
-                            @Html.ValidationMessageFor(model => model.Departure_Station, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
+            <div class="row h-100 justify-content-center align-items-center">    
+                <div class="form-check" style="margin: 40px">
+                    <input class="form-check-input" type="radio" id="Direct_Trip" checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                        Default radio
+                    </label>
                 </div>
-                <div>
-                    <a class="btn btn-lg px-1 " id="SwitchButton" role="button"> <img src="../../Content/arrows.png" height="30" alt="arrows"></a>
-                </div>
-                
-                <div class="col-sm">
-                    <div class="form-group">
-                        <div class="col">
-                            <div class="row float-left">
-                                @Html.LabelFor(model => model.Arrival_Station, "Destination", htmlAttributes: new {@class = "control-label col-md-2"})
-                            </div>
-                        </div>
-                        <div class="col float-left">
-                            @Html.EditorFor(model => model.Arrival_Station, new {htmlAttributes = new {id = "Destination", @class = "stations form-control float-left"}})
-                            <label id="postaltown"></label>
-                            @Html.ValidationMessageFor(model => model.Arrival_Station, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
+                <div class="inputGroup" style="margin: 40px">
+                    <input class="form-check-input" type="radio" name="Round_Trip" id="Round_Trip" value="false">
+                    <label class="form-check-label" for="exampleRadios2">
+                        Second default radio
+                    </label>
                 </div>
             </div>
         </div>
-        
-        
-    <div class="col h-100">
-        <div class="row h-100 justify-content-center align-items-center">    
-            <div class="form-check" style="margin: 40px">
-                <input class="form-check-input" type="radio" id="Direct_Trip" checked>
-                <label class="form-check-label" for="exampleRadios1">
-                    Default radio
-                </label>
-            </div>
-            <div class="inputGroup" style="margin: 40px">
-                <input class="form-check-input" type="radio" name="Round_Trip" id="Round_Trip" value="false">
-                <label class="form-check-label" for="exampleRadios2">
-                    Second default radio
-                </label>
-            </div>
-        </div>
-    </div>
         
 
         <div class="col h-100">
@@ -231,7 +260,52 @@
                     </div>
                 </div>
             </div>
-         </div>   
+         </div>  
+         
+         <div class="row">
+             <div class="col">
+                 <div class="row">
+                     <div id="adult" class="w-100 text-right add-sub-ticket">
+                         @Html.LabelFor(model => model.Adult, htmlAttributes: new { @class = "control-label" })
+                         <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm"><span>-</span></button>
+                         @Html.HiddenFor(model => model.Adult, new { @class = "control-label" })<b class="mt-1">1</b>
+                         <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span class="vertical-align-center">+</span></button>
+                         @Html.ValidationMessageFor(model => model.Adult, "", new { @class = "text-danger" })
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div id="child" class="w-100 text-right add-sub-ticket">
+                         @Html.LabelFor(model => model.Child, htmlAttributes: new { @class = "control-label" })
+                         <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
+                         @Html.HiddenFor(model => model.Child, new { @class = "control-label" })<b class="mt-1">0</b>
+                         <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
+                         @Html.ValidationMessageFor(model => model.Child, "", new { @class = "text-danger" })
+                     </div>
+                 </div>
+             </div>
+             <div class="col-sm-1">
+             </div>
+             <div class="col">
+                 <div class="row">
+                     <div id="student" class="w-100 add-sub-ticket">
+                         <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
+                         @Html.HiddenFor(model => model.Student, new { @class = "control-label" })<b class="mt-1">0</b>
+                         <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
+                         @Html.LabelFor(model => model.Student, htmlAttributes: new { @class = "control-label" })
+                         @Html.ValidationMessageFor(model => model.Student, "", new { @class = "text-danger" })
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div id="senior" class="w-100 add-sub-ticket">
+                          <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
+                          @Html.HiddenFor(model => model.Senior, new { @class = "control-label " })<b class="mt-1">0</b>
+                          <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
+                          @Html.LabelFor(model => model.Senior, htmlAttributes: new { @class = "control-label" })
+                          @Html.ValidationMessageFor(model => model.Senior, "", new { @class = "text-danger" })
+                     </div>
+                 </div>
+             </div>
+         </div>
         
             
         <div align="center">
