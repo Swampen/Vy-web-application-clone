@@ -135,38 +135,38 @@
  
 </script>
 <div class="cards row">
-<div class="card bg-light mb-3 col-m-4" id="ticketCard" style="max-width: 18rem;">
-    <div class="card-header">Din valgte reise</div>
-    <div class="card-body">
-        <h5 class="card-title">
-            <span>
-                <img id="tripIcon" src='@Url.Content("~/Content/Assets/train.svg")' alt="Train icon"/>
-            </span>
-            @ViewBag.Model[0].Departure_Station - @ViewBag.Model[0].Arrival_Station
-        </h5>
-        <p class="card-text">
-            <span class="font-weight-bold">Dato:</span>
-            <span>@ViewBag.Model[0].Date</span>
-        </p>
-        <p class="card-text">
-            <span class="font-weight-bold">Avreise:</span>
-            <span>@ViewBag.Model[0].Departure_Time</span>
-        </p>
-        <p class="card-text">
-            <span class="font-weight-bold">Ankomst:</span>
-            <span>@ViewBag.Model[0].Arrival_Time</span>
-        </p>
-        <p class="card-text">
-            <span class="font-weight-bold">Reisetid: </span>
-            <span>@ViewBag.Model[0].Duration</span>
-      
-        </p>
-        <p class="card-text">
-            <span class="font-weight-bold">Pris: </span>
-            <span>@Html.Raw(@ViewBag.Model[0].Price),-</span>
-        </p>
+    <div class="card bg-light mb-3 col-m-4" id="ticketCard" style="max-width: 18rem;">
+        <div class="card-header">Din valgte reise</div>
+        <div class="card-body">
+            <h5 class="card-title">
+                <span>
+                    <img id="tripIcon" src='@Url.Content("~/Content/Assets/train.svg")' alt="Train icon"/>
+                </span>
+                @ViewBag.Model[0].Departure_Station - @ViewBag.Model[0].Arrival_Station
+            </h5>
+            <p class="card-text">
+                <span class="font-weight-bold">Dato:</span>
+                <span>@ViewBag.Model[0].Date</span>
+            </p>
+            <p class="card-text">
+                <span class="font-weight-bold">Avreise:</span>
+                <span>@ViewBag.Model[0].Departure_Time</span>
+            </p>
+            <p class="card-text">
+                <span class="font-weight-bold">Ankomst:</span>
+                <span>@ViewBag.Model[0].Arrival_Time</span>
+            </p>
+            <p class="card-text">
+                <span class="font-weight-bold">Reisetid: </span>
+                <span>@ViewBag.Model[0].Duration</span>
+
+            </p>
+            <p class="card-text">
+                <span class="font-weight-bold">Pris: </span>
+                <span>@Html.Raw(ViewBag.Model[0].Price),-</span>
+            </p>
+        </div>
     </div>
-</div>
 </div>
 
 <div id="ajax_form">
@@ -174,21 +174,21 @@
     {
         @Html.AntiForgeryToken()
 
-        @Html.HiddenFor(model => model.TripTicket.DepartureStation, new {@id = "hfDepStation"})
-        @Html.HiddenFor(model => model.TripTicket.ArrivalStation, new {@id = "hfArrStation"})
-        @Html.HiddenFor(model => model.TripTicket.DepartureTime, new {@id = "hfDepTime"})
-        @Html.HiddenFor(model => model.TripTicket.ArrivalTime, new {@id = "hfArrTime"})
-        @Html.HiddenFor(model => model.TripTicket.Price, new {@id = "hfPrice"})
-        @Html.HiddenFor(model => model.TripTicket.Duration, new {@id = "hfDuration"})
-        @Html.HiddenFor(model => model.TripTicket.TrainChanges, new {@id = "hfTrainChanges"})
-        
-        @Html.HiddenFor(model => model.ReturnTripTicket.DepartureStation, new {@id = "hfDepStationReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.ArrivalStation, new {@id = "hfArrStationReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.DepartureTime, new {@id = "hfDepTimeReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.ArrivalTime, new {@id = "hfArrTimeReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.Price, new {@id = "hfPriceReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.Duration, new {@id = "hfDurationReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.TrainChanges, new {@id = "hfTrainChangesReturn"})
+        @Html.HiddenFor(model => model.TripTicket.DepartureStation, new {id = "hfDepStation"})
+        @Html.HiddenFor(model => model.TripTicket.ArrivalStation, new {id = "hfArrStation"})
+        @Html.HiddenFor(model => model.TripTicket.DepartureTime, new {id = "hfDepTime"})
+        @Html.HiddenFor(model => model.TripTicket.ArrivalTime, new {id = "hfArrTime"})
+        @Html.HiddenFor(model => model.TripTicket.Price, new {id = "hfPrice"})
+        @Html.HiddenFor(model => model.TripTicket.Duration, new {id = "hfDuration"})
+        @Html.HiddenFor(model => model.TripTicket.TrainChanges, new {id = "hfTrainChanges"})
+
+        @Html.HiddenFor(model => model.ReturnTripTicket.DepartureStation, new {id = "hfDepStationReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.ArrivalStation, new {id = "hfArrStationReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.DepartureTime, new {id = "hfDepTimeReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.ArrivalTime, new {id = "hfArrTimeReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.Price, new {id = "hfPriceReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.Duration, new {id = "hfDurationReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.TrainChanges, new {id = "hfTrainChangesReturn"})
 
         <div class="form-horizontal">
             <hr/>
@@ -222,7 +222,9 @@
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.TripTicket.Customer.Zipcode.Postalcode, new {htmlAttributes = new {id = "postalcode", @class = "form-control"}})
                     @Html.ValidationMessageFor(model => model.TripTicket.Customer.Zipcode.Postalcode, "", new {@class = "text-danger"})
-                    <div class="pl-1"><label id="postaltown"></label></div>
+                    <div class="pl-1">
+                        <label id="postaltown"></label>
+                    </div>
                 </div>
             </div>
 

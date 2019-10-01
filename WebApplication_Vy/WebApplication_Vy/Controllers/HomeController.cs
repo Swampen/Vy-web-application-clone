@@ -95,10 +95,16 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult RegisterTicket(SubmitPurchaseDTO submitPurchaseDto)
         {
-            Console.WriteLine(submitPurchaseDto.TripTicket.DepartureStation);
             if (ModelState.IsValid)
             {
-                var success = _vyService.CreateTicket(submitPurchaseDto);
+                
+                var success = _vyService.CreateTicket(submitPurchaseDto.TripTicket);
+                if (submitPurchaseDto.ReturnTripTicket.ArrivalStation != null)
+                {
+                    submitPurchaseDto.ReturnTripTicket.Customer = submitPurchaseDto.TripTicket.Customer;
+                    success = _vyService.CreateTicket(submitPurchaseDto.ReturnTripTicket);
+                    Console.WriteLine("Returnticket success");
+                }
                 if (success) return RedirectToAction("tickets");
             }
 
