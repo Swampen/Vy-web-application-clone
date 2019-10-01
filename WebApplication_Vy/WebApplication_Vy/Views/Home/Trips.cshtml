@@ -155,7 +155,7 @@
 
         $("#trips").on("click", "a", function (e) {
             e.preventDefault();
-            $(this).parent().next()
+            $(this).parent().next().slideToggle()
         })
 
         $("#trips").on("click", ".price-btn", function () {

@@ -50,6 +50,10 @@ namespace WebApplication_Vy.Controllers
                     Date = tripQuery.Return_Date,
                     Time = tripQuery.Return_Time,
                     Round_Trip = false,
+                    Adult = tripQuery.Adult,
+                    Child = tripQuery.Child,
+                    Student = tripQuery.Student,
+                    Senior = tripQuery.Senior,
                 };
                 Session["ReturnTripQuery"] = returnTripQuery;
             }
