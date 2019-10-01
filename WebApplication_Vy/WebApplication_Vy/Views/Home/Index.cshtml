@@ -37,6 +37,17 @@
              $("#ReturnDiv").slideDown();
        });
        
+       $("#SwitchButton").on("click", function(e) {
+         
+        var destinationTemp = $("#Destination").val();
+        var departureTemp = $("#Departure").val();
+        
+        console.log("Route switched to " + destinationTemp + ", " + departureTemp);
+        
+        $("#Destination").val(departureTemp);
+        $("#Departure").val(destinationTemp);
+       });
+       
        $("#Direct_Trip").on("click", function(e) {
            
             console.log(this);
@@ -86,14 +97,14 @@
                             </div>
                         </div>
                         <div class="col float-right">
-                            @Html.EditorFor(model => model.Departure_Station, new {htmlAttributes = new {id = "", @class = "stations form-control float-right"}})
+                            @Html.EditorFor(model => model.Departure_Station, new {htmlAttributes = new {id = "Departure", @class = "stations form-control float-right"}})
                             <p id="chosen"></p>
                             @Html.ValidationMessageFor(model => model.Departure_Station, "", new {@class = "text-danger"})
                         </div>
                     </div>
                 </div>
                 <div>
-                    <a class="btn btn-lg px-1 " href="#" role="button"> <img src="../../Content/arrows.png" height="30" alt="arrows"></a>
+                    <a class="btn btn-lg px-1 " id="SwitchButton" role="button"> <img src="../../Content/arrows.png" height="30" alt="arrows"></a>
                 </div>
                 
                 <div class="col-sm">
@@ -104,7 +115,7 @@
                             </div>
                         </div>
                         <div class="col float-left">
-                            @Html.EditorFor(model => model.Arrival_Station, new {htmlAttributes = new {id = "", @class = "stations form-control float-left"}})
+                            @Html.EditorFor(model => model.Arrival_Station, new {htmlAttributes = new {id = "Destination", @class = "stations form-control float-left"}})
                             <label id="postaltown"></label>
                             @Html.ValidationMessageFor(model => model.Arrival_Station, "", new {@class = "text-danger"})
                         </div>
@@ -114,21 +125,22 @@
         </div>
         
         
-        <div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" id="Direct_Trip" value="" checked>
+    <div class="col h-100">
+        <div class="row h-100 justify-content-center align-items-center">    
+            <div class="form-check" style="margin: 40px">
+                <input class="form-check-input" type="radio" id="Direct_Trip" checked>
                 <label class="form-check-label" for="exampleRadios1">
                     Default radio
                 </label>
             </div>
-            <div class="form-check">
+            <div class="inputGroup" style="margin: 40px">
                 <input class="form-check-input" type="radio" name="Round_Trip" id="Round_Trip" value="false">
                 <label class="form-check-label" for="exampleRadios2">
                     Second default radio
                 </label>
             </div>
         </div>
-        
+    </div>
         
 
         <div class="col h-100">
