@@ -24,23 +24,32 @@
                         stations.push(value.name)
                     }
                 });
-            })
+                stations.sort();
+            });
         console.log(stations);
 
        $("#Round_Trip").on("click", function(e) {
          
-         console.log(this);
-         $("#Round_Trip").val(true);
-         $("#Direct_Trip").prop('checked', false);
-         $("#ReturnDiv").slideDown();
+             console.log(this);
+             $("#Round_Trip").val(true);
+             $("#Direct_Trip").prop('checked', false);
+             $("#Return_Time").prop('required', true);
+             $("#ReturnDiv").slideDown();
        });
+       
+       $("#SwitchButton").on("click", function(e) {
+         
+           
+           
+       })
        
        $("#Direct_Trip").on("click", function(e) {
            
-         console.log(this);
-         $("#Round_Trip").val(false);
-         $("#Round_Trip").prop('checked', false);
-         $("#ReturnDiv").slideUp();
+            console.log(this);
+            $("#Round_Trip").val(false);
+            $("#Round_Trip").prop('checked', false);
+            $("#Return_Time").prop('required', false)
+            $("#ReturnDiv").slideUp();
        });
         
         var date = new Date();
@@ -48,14 +57,14 @@
 
         //Form spesific javascript
         $('#dateandtime').datepicker({
-           minDate: date,
-           uiLibrary: 'bootstrap4',
-           format: "yyyy-mm-dd"
+            minDate: date,
+            uiLibrary: 'bootstrap4',
+            format: "yyyy-mm-dd"
         });
         $('#ReturnDate').datepicker({
-           minDate: date,
-           uiLibrary: 'bootstrap4',
-           format: "yyyy-mm-dd"
+            minDate: date,
+            uiLibrary: 'bootstrap4',
+            format: "yyyy-mm-dd"
         });
 
         $('.stations').autocomplete({
@@ -90,7 +99,7 @@
                     </div>
                 </div>
                 <div>
-                    <a class="btn btn-lg px-1 " href="#" role="button"> <img src="../../Content/arrows.png" height="30" alt="arrows"></a>
+                    <a class="btn btn-lg px-1 " id="SwitchButton" role="button"> <img src="../../Content/arrows.png" height="30" alt="arrows"></a>
                 </div>
                 
                 <div class="col-sm">
@@ -119,7 +128,7 @@
                     Default radio
                 </label>
             </div>
-            <div class="form-check" style="margin: 40px">
+            <div class="inputGroup" style="margin: 40px">
                 <input class="form-check-input" type="radio" name="Round_Trip" id="Round_Trip" value="false">
                 <label class="form-check-label" for="exampleRadios2">
                     Second default radio
@@ -172,41 +181,42 @@
             </div>
         </div>
         
-    <div id="ReturnDiv" style="display: none">    
-        <div class="col h-100">
-            <div class="row h-100 justify-content-center align-items-center">
-                <div class="col-sm">
-                    <div class="form-group">
-                        <div class="col">
-                            <div class="row float-right">
-                                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-                                <div class="form-group">
-                                    <div class="col" style="margin-left: 55% ">
-                                        @Html.LabelFor(model => model.Return_Date, htmlAttributes: new {@class = "control-label col-md-2"})
-                                    </div>
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Return_Date, new {htmlAttributes = new {id = "ReturnDate", @class = "form-control"}})
-                                        @Html.ValidationMessageFor(model => model.Return_Date, "", new {@class = "text-danger"})
+        <div id="ReturnDiv" style="display: none">    
+            <div class="col h-100">
+                <div class="row h-100 justify-content-center align-items-center">
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <div class="col">
+                                <div class="row float-right">
+                                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                    <div class="form-group">
+                                        <div class="col" style="margin-left: 55% ">
+                                            @Html.LabelFor(model => model.Return_Date, htmlAttributes: new {@class = "control-label col-md-2"})
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Return_Date, new {htmlAttributes = new {id = "ReturnDate", @class = "form-control"}})
+                                            @Html.ValidationMessageFor(model => model.Return_Date, "", new {@class = "text-danger"})
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 
 
-                <div class="col-sm">
-                    <div class="row ">
-                        <div class="form-group">
-                            <div class="col">
-                                <div class="row" style="margin-left: 20%">
-                                    @Html.LabelFor(model => model.Return_Time, htmlAttributes: new {@class = "control-label col-md-10"})
-                                    <div class="col">
-                                        <select id="Return_Time" name="Return_Time" class="custom-select form-control" required>
-                                            <option  value="" selected>Choose a time...</option>
-                                        </select>
+                    <div class="col-sm">
+                        <div class="row ">
+                            <div class="form-group">
+                                <div class="col">
+                                    <div class="row" style="margin-left: 20%">
+                                        @Html.LabelFor(model => model.Return_Time, htmlAttributes: new {@class = "control-label col-md-10"})
+                                        <div class="col">
+                                            <select id="Return_Time" name="Return_Time" class="custom-select form-control">
+                                                <option value="" selected>Choose a time...</option>
+                                            </select>
 
-                                        @Html.ValidationMessageFor(model => model.Return_Time, "", new {@class = "text-danger"})
+                                            @Html.ValidationMessageFor(model => model.Return_Time, "", new {@class = "text-danger"})
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -214,8 +224,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-     </div>   
+         </div>   
         
             
         <div align="center">
