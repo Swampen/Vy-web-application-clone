@@ -34,7 +34,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
-                Session["HaveRoundTrip"] = false;
+            Session["HaveRoundTrip"] = false;
             Session["ChosenTrips"] = new List<TripDTO>();
             return View();
         }
@@ -69,7 +69,7 @@ namespace WebApplication_Vy.Controllers
         public ActionResult Trips(TripDTO selectedTripDto)
         {
             bool haveRoundTrip = (bool)Session["HaveRoundTrip"]; 
-            if (haveRoundTrip)
+            if (selectedTripDto.Round_Trip)
             {
                 Session["ToTrip"] = selectedTripDto;
                 var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
@@ -85,14 +85,6 @@ namespace WebApplication_Vy.Controllers
             ViewBag.Model = chosenTrips;
             return View("CustomerDetails");
         }
-        
-        //[HttpPost]
-        //public ActionResult Trips(TripDTO selectedTripDto)
-        //{
-        //    
-        //    ViewBag.Model = selectedTripDto;
-        //    return View("CustomerDetails");
-        //}
 
         [HttpGet]
         public ActionResult Trips(TripQueryDTO tripQuerry)

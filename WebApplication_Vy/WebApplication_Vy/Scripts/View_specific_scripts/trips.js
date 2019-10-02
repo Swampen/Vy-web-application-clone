@@ -71,25 +71,25 @@ trips = fetch("https://booking.cloud.nsb.no/api/itineraries/search", {
         const duration = (temp.days !== 0 ? temp.days + "d " : "") + (temp.hours !== 0 ? temp.hours + "h " : "") + (temp.minutes !== 0 ? temp.minutes + "m " : "")
 
         //Displays the result
-        $("#trips").append(" <div class='container'><form action='/home/trips   ' method='POST'>\
-                        <div id='" + i + "' class='border-top border-bottom rounded form-group' >\
-                            <div class='row text-center button-row p-3 '>\
-                                <div class='col font-weight-bold'>\
-                                    <input type='text' hidden name='Departure_Time' value=" + value.departureScheduled.match("[0-9]{2}:[0-9]{2}") + ">" + value.departureScheduled.match("[0-9]{2}:[0-9]{2}") + " <span> - </span>\
-                                    <input type='text' hidden name='Arrival_Time' value=" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + ">" + value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}") + "\
-                                </div>\
-                                <div class='col' ><input type='text' hidden name=Duration value=\'" + duration + "\'>" + duration + "</div>\
-                                <div class='col' ><input type='text' hidden name=Train_Changes value='" + changesText + "'>" + changesText + "</div>\
-                                <div class='col' ><input type='number' hidden name=Price value='" + price + "'>" + price + " kr</div>\
-                                <div><input type='text' hidden name=Date value='" + value.departureScheduled.split("T")[0] + "'></div>\
-                                <div><input type='text' hidden name=Departure_Station value='" + value.from + "'></div>\
-                                <div><input type='text' hidden name=Arrival_Station value='" + value.to + "'></div>\
-                                <div><input type='checkbox' hidden name=Round_Trip value='@ViewBag.Model.Round_Trip' checked></div>\
+        $("#trips").append(`<div class='container'><form action='/home/trips' method='POST'>
+                        <div id='${i}' class='border-top border-bottom rounded form-group'>
+                            <div class='row text-center button-row p-3 '>
+                                <div class='col font-weight-bold'>
+                                    <input type='text' hidden name='Departure_Time' value='${value.departureScheduled.match("[0-9]{2}:[0-9]{2}")}'>${value.departureScheduled.match("[0-9]{2}:[0-9]{2}")}<span> - </span>
+                                    <input type='text' hidden name='Arrival_Time' value='${value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}")}'>${value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}")}
+                                </div>
+                                <div class='col' ><input type='text' hidden name=Duration value='${duration}'>${duration}</div>
+                                <div class='col' ><input type='text' hidden name=Train_Changes value='${changesText}'>${changesText}</div>
+                                <div class='col' ><input type='number' hidden name=Price value='${price}'>${price} kr</div>
+                                <div><input type='text' hidden name=Date value='${value.departureScheduled.split("T")[0]}'></div>
+                                <div><input type='text' hidden name=Departure_Station value='${value.from}'></div>
+                                <div><input type='text' hidden name=Arrival_Station value='${value.to}'></div>
+                                <div><input type='checkbox' hidden name=Round_Trip value='${trip.Round_Trip}' checked></div>
                             </div>\
-                            <div id='hidden_" + i + "' class='row mt-4' style='display: none;'>\
+                            <div id='hidden_${i}' class='row mt-4' style='display: none;'>
                             </div>\
                         </div>\
-                    </form></div>");
+                    </form></div>`);
 
         //Appends more info, but hidden
         var hidden_content = "<div class='col ml-5'>"
