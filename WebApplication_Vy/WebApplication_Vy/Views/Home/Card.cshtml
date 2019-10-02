@@ -35,10 +35,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Expiry, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Expiry_Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Expiry, new { htmlAttributes = new { placeholder = "MM/YY", id = "expiry", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Expiry, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Expiry_Date, new { htmlAttributes = new { placeholder = "MM/YY", id = "expiry", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Expiry_Date, "", new { @class = "text-danger" })
             </div>
         </div>
         

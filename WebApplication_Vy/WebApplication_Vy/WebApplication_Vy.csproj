@@ -192,6 +192,7 @@
     <Compile Include="Models\DTO\TripData\TripIntervalDTO.cs" />
     <Compile Include="Models\DTO\TripData\TripDTO.cs" />
     <Compile Include="Models\DTO\TripData\TripQueryDTO.cs" />
+    <Compile Include="Models\DTO\Validation\ExpiryDateAttribute.cs" />
     <Compile Include="Models\DTO\Validation\ZipcodeAttribute.cs" />
     <Compile Include="Models\DTO\ZipcodeDTO.cs" />
     <Compile Include="Models\Entities\Customer.cs" />
