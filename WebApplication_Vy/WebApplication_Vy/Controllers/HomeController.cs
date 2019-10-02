@@ -34,7 +34,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
-            Session["TripsSelected"] = false;
+                Session["HaveRoundTrip"] = false;
             Session["ChosenTrips"] = new List<TripDTO>();
             return View();
         }
@@ -42,6 +42,7 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Index(TripQueryDTO tripQuery)
         {
+            Session["HaveRoundTrip"] = tripQuery.Round_Trip;
             if (tripQuery.Round_Trip)
             {
                 var returnTripQuery = new TripQueryDTO(){
@@ -66,17 +67,22 @@ namespace WebApplication_Vy.Controllers
 
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
-        {   
-            var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
-            chosenTrips.Add(selectedTripDto);
-            if (selectedTripDto.Round_Trip)
-            {   
+        {
+            bool haveRoundTrip = (bool)Session["HaveRoundTrip"]; 
+            if (haveRoundTrip)
+            {
+                Session["ToTrip"] = selectedTripDto;
                 var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
                 ViewBag.Model = returnQuery;
                 return View();
             }
+            List<TripDTO> chosenTrips = new List<TripDTO>();
+            if (haveRoundTrip){
+                var toTrip = (TripDTO)Session["ToTrip"];
+                chosenTrips.Add(toTrip);
+            }
+            chosenTrips.Add(selectedTripDto);
             ViewBag.Model = chosenTrips;
-            Session["TripsSelected"] = true;
             return View("CustomerDetails");
         }
         
