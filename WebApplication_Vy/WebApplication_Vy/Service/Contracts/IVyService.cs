@@ -9,6 +9,6 @@ namespace WebApplication_Vy.Service.Contracts
 
         List<TicketDTO> GetTicketDtos();
 
-        bool CreateTicket(SubmitPurchaseDTO submitPurchaseDto);
+        bool CreateTicket(TicketDTO ticketDto);
     }
 }

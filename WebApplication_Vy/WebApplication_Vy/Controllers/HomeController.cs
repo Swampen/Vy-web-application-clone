@@ -34,15 +34,15 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
-            //TODO: This can probably be deleted
-            //ViewBag.Stations = _tripService.GetAllStationDtos();
+            Session["HaveRoundTrip"] = false;
+            Session["ChosenTrips"] = new List<TripDTO>();
             return View();
         }
 
         [HttpPost]
         public ActionResult Index(TripQueryDTO tripQuery)
         {
-            Session["ChosenTrips"] = new List<TripDTO>();
+            Session["HaveRoundTrip"] = tripQuery.Round_Trip;
             if (tripQuery.Round_Trip)
             {
                 var returnTripQuery = new TripQueryDTO(){
@@ -51,6 +51,10 @@ namespace WebApplication_Vy.Controllers
                     Date = tripQuery.Return_Date,
                     Time = tripQuery.Return_Time,
                     Round_Trip = false,
+                    Adult = tripQuery.Adult,
+                    Child = tripQuery.Child,
+                    Student = tripQuery.Student,
+                    Senior = tripQuery.Senior,
                 };
                 Session["ReturnTripQuery"] = returnTripQuery;
             }
@@ -59,35 +63,28 @@ namespace WebApplication_Vy.Controllers
             return View("Trips");
         }
 
-
-        [HttpPost]
-        public ActionResult CustomerDetails()
-        {
-            return View();
-        }
+        
 
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
-            chosenTrips.Add(selectedTripDto);
+            bool haveRoundTrip = (bool)Session["HaveRoundTrip"]; 
             if (selectedTripDto.Round_Trip)
-            {   
+            {
+                Session["ToTrip"] = selectedTripDto;
                 var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
                 ViewBag.Model = returnQuery;
                 return View();
             }
+            List<TripDTO> chosenTrips = new List<TripDTO>();
+            if (haveRoundTrip){
+                var toTrip = (TripDTO)Session["ToTrip"];
+                chosenTrips.Add(toTrip);
+            }
+            chosenTrips.Add(selectedTripDto);
             ViewBag.Model = chosenTrips;
             return View("CustomerDetails");
         }
-        
-        //[HttpPost]
-        //public ActionResult Trips(TripDTO selectedTripDto)
-        //{
-        //    
-        //    ViewBag.Model = selectedTripDto;
-        //    return View("CustomerDetails");
-        //}
 
         [HttpGet]
         public ActionResult Trips(TripQueryDTO tripQuerry)
@@ -99,10 +96,16 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult RegisterTicket(SubmitPurchaseDTO submitPurchaseDto)
         {
-            Console.WriteLine(submitPurchaseDto.Ticket.DepartureStation);
             if (ModelState.IsValid)
             {
-                var success = _vyService.CreateTicket(submitPurchaseDto);
+                
+                var success = _vyService.CreateTicket(submitPurchaseDto.TripTicket);
+                if (submitPurchaseDto.ReturnTripTicket.ArrivalStation != null)
+                {
+                    submitPurchaseDto.ReturnTripTicket.Customer = submitPurchaseDto.TripTicket.Customer;
+                    success = _vyService.CreateTicket(submitPurchaseDto.ReturnTripTicket);
+                    Console.WriteLine("Returnticket success");
+                }
                 if (success) return RedirectToAction("tickets");
             }
 
@@ -110,11 +113,15 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpGet]
-        public string GetStation()
+        public ActionResult Card()
         {
-            var stations = _tripService.GetAllStationDtos();
-            var jsonSerialiser = new JavaScriptSerializer();
-            return jsonSerialiser.Serialize(stations);
+            return View();
+        }
+        
+        [HttpPost]
+        public ActionResult Card(CardDTO creditCardDTO)
+        {
+            return View();
         }
 
         [HttpPost]
@@ -135,73 +142,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            /*CustomerDTO customer = new CustomerDTO()
-            {
-                Givenname = "Nils",
-                Surname = "Nilsen",
-                Address = "SAd asddswww 89",
-                Zipcode = new ZipcodeDTO()
-                {
-                    Postalcode = "0659",
-                    Postaltown = "Oslo"
-                },
-                
-                Tickets = new List<TicketDTO>(),
-            };
-
-            customer.Tickets.Add(new TicketDTO()
-            {
-                DepartureStation = "Oslo",
-                ArrivalStation = "Bodø",
-                DepartureTime = "19:20",
-                ArrivalTime = "09:19",
-                Price = 1950,
-                Duration = "1d0h15m",
-                TrainChanges = "1",
-            });
-
-            customer.Tickets.Add(new TicketDTO()
-            {
-                DepartureStation = "Oslo",
-                ArrivalStation = "Bodø",
-                DepartureTime = "19:20",
-                ArrivalTime = "09:19",
-                Price = 1950,
-                Duration = "1d0h15m",
-                TrainChanges = "1",
-            });
-
-            CustomerDTO customer2 = new CustomerDTO()
-            {
-                Givenname = "Hans",
-                Surname = "Hansen",
-                Address = "Bygdøy Alle 89",
-                Zipcode = new ZipcodeDTO()
-                {
-                    Postalcode = "0262",
-                    Postaltown = "Oslo"
-                },
-
-                Tickets = new List<TicketDTO>(),
-            };
-
-            customer2.Tickets.Add(new TicketDTO()
-            {
-                DepartureStation = "Oslo",
-                ArrivalStation = "Bodø",
-                DepartureTime = "23:20",
-                ArrivalTime = "13:19",
-                Price = 1950,
-                Duration = "0d12h01m",
-                TrainChanges = "1",
-            });
-
-            var customers = new List<CustomerDTO>();
-            customers.Add(customer);
-            customers.Add(customer2);*/
-
             List<CustomerDTO> customers = _vyService.GetCustomerDtos();
-            //_vyService.GetTicketDtos()
             return View(customers);
         }
     }
