@@ -1,10 +1,5 @@
 ﻿@model WebApplication_Vy.Models.DTO.CardDTO
 
-@{
-    ViewBag.Title = "CreditCard";
-}
-
-<h2>CreditCard</h2>
 <script>
     $(function () {
         new Cleave('#card', {
@@ -26,25 +21,29 @@
     <h4>Card info</h4>
     <hr />
     <div class="col-5">
-        <div class="form-row">
+        <div class="row">
             <div class="col-12 p-0">
-                @Html.EditorFor(model => model.Card_Number, new { htmlAttributes = new {placeholder = "Card number", id = "card", @class = "input-field form-control" } })
+                @Html.EditorFor(model => model.Card_Number, new { htmlAttributes = new {placeholder = "Card number", id = "card", @class = "form-control card" } })
                 @Html.ValidationMessageFor(model => model.Card_Number, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-row">
+        <div class="row">
             <div class="col-12 col-md-7 p-0">
-                @Html.EditorFor(model => model.Expiry_Date, new { htmlAttributes = new { placeholder = "MM/YY", id = "expiry", @class = "form-control" } })
+                @Html.EditorFor(model => model.Expiry_Date, new { htmlAttributes = new { placeholder = "MM/YY", id = "expiry", @class = "form-control card" } })
             </div>
             <div class="col-12 col-md-5 p-0">
-                @Html.EditorFor(model => model.Cvc, new { htmlAttributes = new { placeholder = "CVC", id = "expiry", @class = "form-control" } })
+                @Html.EditorFor(model => model.Cvc, new { htmlAttributes = new { placeholder = "CVC", id = "expiry", @class = "form-control card" } })
             </div>
+        </div>
+        <div class="row">
             @Html.ValidationMessageFor(model => model.Expiry_Date, "", new { @class = "text-danger" })
+        </div>
+        <div class="row">
             @Html.ValidationMessageFor(model => model.Cvc, "", new { @class = "text-danger" })
         </div>
-        <div class="form-row">
+        <div class="row">
             <div class="col-12 p-0">
-                @Html.EditorFor(model => model.Card_Holder, new { htmlAttributes = new { placeholder = "Card holder", @class = "form-control" } })
+                @Html.EditorFor(model => model.Card_Holder, new { htmlAttributes = new { placeholder = "Card holder", @class = "form-control card" } })
                 @Html.ValidationMessageFor(model => model.Card_Holder, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -58,14 +57,10 @@
 </div>
 
 <style>
-    input {
+    .card {
         max-width: 100%;
     }
 
     
 </style>
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }
