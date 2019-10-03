@@ -78,8 +78,9 @@ namespace WebApplication_Vy.Service.Implementation
             var entity = mapper.Map<Trip>(dto);
             return entity;
         }
+
         //TODO: Remove if not needed
-/*
+        /*
         private TripTicket MapTicketEntity(SubmitPurchaseDTO dto)
         {
             var config = new MapperConfiguration(cfg =>
