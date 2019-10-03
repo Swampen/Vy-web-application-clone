@@ -20,14 +20,16 @@ namespace WebApplication_Vy.Models.DTO.TripData
         [Required(ErrorMessage = "This field is required")]
         public string Date { get; set; }
 
+        [Display(Name = "Time")]
         [Required(ErrorMessage = "This field is required")]
         public string Time { get; set; }
 
-        [Display(Name = "Return date")]
         public bool Round_Trip { get; set; }
         
+        [Display(Name = "Return date")]
         public string Return_Date { get; set; }
 
+        [Display(Name = "Return time")]
         public string Return_Time { get; set; }
         
         public int Adult { get; set; }
