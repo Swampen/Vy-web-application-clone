@@ -21,8 +21,7 @@ namespace WebApplication_Vy.Models.DTO.TripData
 
         [Display(Name = "Return date")]
         public bool Round_Trip { get; set; }
-
-        [Display(Name = "Time")]
+        
         public string Return_Date { get; set; }
 
         public string Return_Time { get; set; }

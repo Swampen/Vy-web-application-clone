@@ -134,6 +134,9 @@ code {
 /*
 custom radio button end.
  */
+.full {
+    max-width: 100%;
+}
 
 
 
