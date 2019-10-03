@@ -190,55 +190,57 @@
         @Html.HiddenFor(model => model.ReturnTripTicket.Duration, new {id = "hfDurationReturn"})
         @Html.HiddenFor(model => model.ReturnTripTicket.TrainChanges, new {id = "hfTrainChangesReturn"})
 
-        <div class="form-horizontal">
-            <hr/>
+    <div class="form-horizontal">
+        <hr />
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.TripTicket.Customer.Givenname, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TripTicket.Customer.Givenname, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.TripTicket.Customer.Givenname, "", new {@class = "text-danger"})
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TripTicket.Customer.Givenname, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TripTicket.Customer.Givenname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TripTicket.Customer.Givenname, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.TripTicket.Customer.Surname, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TripTicket.Customer.Surname, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.TripTicket.Customer.Surname, "", new {@class = "text-danger"})
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TripTicket.Customer.Surname, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TripTicket.Customer.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TripTicket.Customer.Surname, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.TripTicket.Customer.Address, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TripTicket.Customer.Address, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.TripTicket.Customer.Address, "", new {@class = "text-danger"})
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TripTicket.Customer.Address, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TripTicket.Customer.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TripTicket.Customer.Address, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.TripTicket.Customer.Zipcode.Postalcode, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TripTicket.Customer.Zipcode.Postalcode, new {htmlAttributes = new {id = "postalcode", @class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.TripTicket.Customer.Zipcode.Postalcode, "", new {@class = "text-danger"})
-                    <div class="pl-1">
-                        <label id="postaltown"></label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Bekreft kjøp" class="btn btn-success" id="confirmPurchase"/>
-                </div>
-            </div>
-            <hr/>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-12 text-success">
-                    @ViewBag.Records
+        <div class="form-group">
+            @Html.LabelFor(model => model.TripTicket.Customer.Zipcode.Postalcode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TripTicket.Customer.Zipcode.Postalcode, new { htmlAttributes = new { id = "postalcode", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TripTicket.Customer.Zipcode.Postalcode, "", new { @class = "text-danger" })
+                <div class="pl-1">
+                    <label id="postaltown"></label>
                 </div>
             </div>
         </div>
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Bekreft kjøp" class="btn btn-success" id="confirmPurchase" />
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-12 text-success">
+                @ViewBag.Records
+            </div>
+        </div>
+    </div>
     }
 </div>
