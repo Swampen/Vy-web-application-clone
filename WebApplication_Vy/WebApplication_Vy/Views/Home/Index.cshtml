@@ -15,8 +15,6 @@
         $("#time").append(dropdown);
         $("#Return_Time").append(dropdown);
         
-        var returnTime = -0;
-
         var stations = [];
         fetch("https://itinerary.cloud.nsb.no/api/stops", { "credentials": "omit", "headers": { "accept": "application/json", "sec-fetch-mode": "cors", "x-language": "no" }, "referrer": "https://www.vy.no/bestill/velg-togavgang?from=Oslo%20S&fromDisplayName=Oslo%20S&fromType=train-station-name&to=Bergen&toDisplayName=Bergen&toType=train-station-name&departureDatetime=2019-09-24%2010%3A28&petFree=false&pasCats=1&numPasCats=1", "referrerPolicy": "no-referrer-when-downgrade", "body": null, "method": "GET", "mode": "cors" })
             .then(data => data.json()).then(data => {
@@ -31,29 +29,14 @@
 
         $("#SwitchButton").on("click", function (e) {
 
-            var destinationTemp = $("#Destination").val();
+            var destinationTemp = $("#Arrival").val();
             var departureTemp = $("#Departure").val();
 
-            $("#Destination").val(departureTemp);
+            $("#Arrival").val(departureTemp);
             $("#Departure").val(destinationTemp);
         });
 
         $("#SwitchButton").on("hover").css("cursor", "pointer");
-
-        //$("#Round_Trip").on("click", function (e) {
-        //    $("#Round_Trip").val(true);
-        //    $("#Direct_Trip").prop('checked', false);
-        //    $("#Return_Time").prop('required', true);
-        //    $("#ReturnDiv").slideDown();
-        //});
-
-
-        //$("#Direct_Trip").on("click", function (e) {
-        //    $("#Round_Trip").val(false);
-        //    $("#Round_Trip").prop('checked', false);
-        //    $("#Return_Time").prop('required', false)
-        //    $("#ReturnDiv").slideUp();
-        //});
 
         $('#Round_Trip').bootstrapToggle({
             off: 'One way',
@@ -85,8 +68,6 @@
         $('.stations').autocomplete({
             source: stations
         });
-
-
 
         $("#adult").children("input").val(1);
         $("#child").children("input").val(0);
@@ -189,7 +170,7 @@
                 <div class="row mt-3">
                     <!-- Default switch -->
                     <div class="col-12 text-center">
-                        <input id="Round_Trip" type="checkbox" name="Round_Trip"> One way or roundtrip?
+                        <input id="Round_Trip" type="checkbox" value="true" name="Round_Trip"> One way or roundtrip?
                     </div>
 
                     <!-- Spacing -->

@@ -42,33 +42,38 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Index(TripQueryDTO tripQuery)
         {
-            Session["HaveRoundTrip"] = tripQuery.Round_Trip;
-            if (tripQuery.Round_Trip)
+            if (ModelState.IsValid)
             {
-                var returnTripQuery = new TripQueryDTO(){
-                    Departure_Station = tripQuery.Arrival_Station,
-                    Arrival_Station = tripQuery.Departure_Station,
-                    Date = tripQuery.Return_Date,
-                    Time = tripQuery.Return_Time,
-                    Round_Trip = false,
-                    Adult = tripQuery.Adult,
-                    Child = tripQuery.Child,
-                    Student = tripQuery.Student,
-                    Senior = tripQuery.Senior,
-                };
-                Session["ReturnTripQuery"] = returnTripQuery;
-            }
-            ViewBag.Model = tripQuery;
+                Session["HaveRoundTrip"] = tripQuery.Round_Trip;
+                if (tripQuery.Round_Trip)
+                {
+                    var returnTripQuery = new TripQueryDTO()
+                    {
+                        Departure_Station = tripQuery.Arrival_Station,
+                        Arrival_Station = tripQuery.Departure_Station,
+                        Date = tripQuery.Return_Date,
+                        Time = tripQuery.Return_Time,
+                        Round_Trip = false,
+                        Adult = tripQuery.Adult,
+                        Child = tripQuery.Child,
+                        Student = tripQuery.Student,
+                        Senior = tripQuery.Senior,
+                    };
+                    Session["ReturnTripQuery"] = returnTripQuery;
+                }
+                ViewBag.Model = tripQuery;
 
-            return View("Trips");
+                return View("Trips");
+            }
+            return View();
         }
 
-        
+
 
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            bool haveRoundTrip = (bool)Session["HaveRoundTrip"]; 
+            bool haveRoundTrip = (bool)Session["HaveRoundTrip"];
             if (selectedTripDto.Round_Trip)
             {
                 Session["ToTrip"] = selectedTripDto;
@@ -77,7 +82,8 @@ namespace WebApplication_Vy.Controllers
                 return View();
             }
             List<TripDTO> chosenTrips = new List<TripDTO>();
-            if (haveRoundTrip){
+            if (haveRoundTrip)
+            {
                 var toTrip = (TripDTO)Session["ToTrip"];
                 chosenTrips.Add(toTrip);
             }
@@ -92,13 +98,13 @@ namespace WebApplication_Vy.Controllers
             Session["ChosenTrips"] = new List<TripDTO>();
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult RegisterTicket(SubmitPurchaseDTO submitPurchaseDto)
         {
             if (ModelState.IsValid)
             {
-                
+
                 var success = _vyService.CreateTicket(submitPurchaseDto.TripTicket);
                 if (submitPurchaseDto.ReturnTripTicket.ArrivalStation != null)
                 {
@@ -117,7 +123,7 @@ namespace WebApplication_Vy.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult Card(CardDTO creditCardDTO)
         {
