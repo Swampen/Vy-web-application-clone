@@ -15,6 +15,7 @@
         $("#time").append(dropdown);
         $("#Return_Time").append(dropdown);
         
+        var returnTime = -0;
 
         var stations = [];
         var stationsData = fetch("https://itinerary.cloud.nsb.no/api/stops", { "credentials": "omit", "headers": { "accept": "application/json", "sec-fetch-mode": "cors", "x-language": "no" }, "referrer": "https://www.vy.no/bestill/velg-togavgang?from=Oslo%20S&fromDisplayName=Oslo%20S&fromType=train-station-name&to=Bergen&toDisplayName=Bergen&toType=train-station-name&departureDatetime=2019-09-24%2010%3A28&petFree=false&pasCats=1&numPasCats=1", "referrerPolicy": "no-referrer-when-downgrade", "body": null, "method": "GET", "mode": "cors" })
@@ -58,7 +59,7 @@
        });
         
         var date = new Date();
-        date.setDate(date.getDate()-1);
+        date.setDate(date.getDate() - 1);
 
         //Form spesific javascript
         $('#dateandtime').datepicker({
@@ -68,7 +69,7 @@
             weekStartDay: 1,
         });
         $('#ReturnDate').datepicker({
-            minDate: date,
+            minDate: dateMin,
             uiLibrary: 'bootstrap4',
             format: "yyyy-mm-dd",
             weekStartDay: 1,
@@ -85,7 +86,7 @@
 
         var totalTickets = 1;
 
-        $(".add-sub-ticket").on("click", ".pluss", function (e) {
+        $(".add-sub-ticket").on("click", ".pluss", function () {
             var value = $(this).siblings("input").val();
             if (value == 0) {
                 $(this).siblings(".minus").attr("disabled", false);
@@ -96,7 +97,7 @@
             $(this).siblings("b").text(value);
         });
 
-        $(".add-sub-ticket").on("click", ".minus", function (e) {
+        $(".add-sub-ticket").on("click", ".minus", function () {
             if (totalTickets <= 1) return
             var value = $(this).siblings("input").val();
             --value;
@@ -108,6 +109,20 @@
             }
         });
 
+
+
+        $("#dateandtime").on("change", function () {
+            date = new Date($("#dateandtime").val())
+            date.setDate(date.getDate() - 1)
+            $('#ReturnDate').datepicker('destroy');
+            $('#ReturnDate').datepicker({
+                minDate: date,
+                uiLibrary: 'bootstrap4',
+                format: "yyyy-mm-dd",
+                weekStartDay: 1,
+            });
+            
+        });
     });
 </script>
 <div id="ajax_form" class="container">
