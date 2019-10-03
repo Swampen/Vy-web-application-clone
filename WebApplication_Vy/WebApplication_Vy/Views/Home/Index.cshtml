@@ -69,7 +69,7 @@
             weekStartDay: 1,
         });
         $('#ReturnDate').datepicker({
-            minDate: dateMin,
+            minDate: date,
             uiLibrary: 'bootstrap4',
             format: "yyyy-mm-dd",
             weekStartDay: 1,
@@ -114,8 +114,8 @@
         $("#dateandtime").on("change", function () {
             date = new Date($("#dateandtime").val())
             date.setDate(date.getDate() - 1)
-            $('#ReturnDate').datepicker('destroy');
-            $('#ReturnDate').datepicker({
+            $("#ReturnDate").datepicker("destroy");
+            $("#ReturnDate").datepicker({
                 minDate: date,
                 uiLibrary: 'bootstrap4',
                 format: "yyyy-mm-dd",
