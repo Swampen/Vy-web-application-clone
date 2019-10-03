@@ -17,7 +17,7 @@
 
 
         var stations = [];
-        var stationsData = fetch("https://itinerary.cloud.nsb.no/api/stops", { "credentials": "omit", "headers": { "accept": "application/json", "sec-fetch-mode": "cors", "x-language": "no" }, "referrer": "https://www.vy.no/bestill/velg-togavgang?from=Oslo%20S&fromDisplayName=Oslo%20S&fromType=train-station-name&to=Bergen&toDisplayName=Bergen&toType=train-station-name&departureDatetime=2019-09-24%2010%3A28&petFree=false&pasCats=1&numPasCats=1", "referrerPolicy": "no-referrer-when-downgrade", "body": null, "method": "GET", "mode": "cors" })
+        fetch("https://itinerary.cloud.nsb.no/api/stops", { "credentials": "omit", "headers": { "accept": "application/json", "sec-fetch-mode": "cors", "x-language": "no" }, "referrer": "https://www.vy.no/bestill/velg-togavgang?from=Oslo%20S&fromDisplayName=Oslo%20S&fromType=train-station-name&to=Bergen&toDisplayName=Bergen&toType=train-station-name&departureDatetime=2019-09-24%2010%3A28&petFree=false&pasCats=1&numPasCats=1", "referrerPolicy": "no-referrer-when-downgrade", "body": null, "method": "GET", "mode": "cors" })
             .then(data => data.json()).then(data => {
                 $.each(data, function (index, value) {
                     if (value.active && value.type === "TRAIN") {
@@ -28,21 +28,10 @@
             });
         console.log(stations);
 
-        $("#Round_Trip").on("click", function (e) {
-
-            console.log(this);
-            $("#Round_Trip").val(true);
-            $("#Direct_Trip").prop('checked', false);
-            $("#Return_Time").prop('required', true);
-            $("#ReturnDiv").slideDown();
-        });
-
         $("#SwitchButton").on("click", function (e) {
 
             var destinationTemp = $("#Destination").val();
             var departureTemp = $("#Departure").val();
-
-            console.log("Route switched to " + destinationTemp + ", " + departureTemp);
 
             $("#Destination").val(departureTemp);
             $("#Departure").val(destinationTemp);
@@ -50,13 +39,29 @@
 
         $("#SwitchButton").on("hover").css("cursor", "pointer");
 
-        $("#Direct_Trip").on("click", function (e) {
+        //$("#Round_Trip").on("click", function (e) {
+        //    $("#Round_Trip").val(true);
+        //    $("#Direct_Trip").prop('checked', false);
+        //    $("#Return_Time").prop('required', true);
+        //    $("#ReturnDiv").slideDown();
+        //});
 
-            console.log(this);
-            $("#Round_Trip").val(false);
-            $("#Round_Trip").prop('checked', false);
-            $("#Return_Time").prop('required', false)
-            $("#ReturnDiv").slideUp();
+
+        //$("#Direct_Trip").on("click", function (e) {
+        //    $("#Round_Trip").val(false);
+        //    $("#Round_Trip").prop('checked', false);
+        //    $("#Return_Time").prop('required', false)
+        //    $("#ReturnDiv").slideUp();
+        //});
+
+        $('#Round_Trip').bootstrapToggle({
+            off: 'One way',
+            on: 'Round trip',
+            onstyle: "success"
+        });
+
+        $("#Round_Trip").change(function () {
+            $("#ReturnDiv").slideToggle();
         });
 
         var date = new Date();
@@ -79,6 +84,8 @@
         $('.stations').autocomplete({
             source: stations
         });
+
+
 
         $("#adult").children("input").val(1);
         $("#child").children("input").val(0);
@@ -109,9 +116,6 @@
                 $(this).attr("disabled", true);
             }
         });
-
-        $(".radio").checkboxradio();
-
     });
 </script>
 <div id="ajax_form" class="container">
@@ -119,7 +123,7 @@
     {
         @Html.AntiForgeryToken()
         <div align="center" style="padding-bottom: 100px">
-            <h1>Hei, hvor vil du reise?</h1>
+            <h1>Welcome! Where do you want to travel?</h1>
         </div>
         <div class="row">
             <div class="col-auto col-md-1">
@@ -150,12 +154,11 @@
                     </div>
                     <div class="col-12 col-md-5">
                         <div class="row">
-                            <div class="col-auto col-md-9">
-
-                            </div>
+                           
                             <div class="col-12 col-md-3">
                                 @Html.LabelFor(model => model.Arrival_Station, htmlAttributes: new { @class = "control-label" })
                             </div>
+                            <div class="col-auto col-md-9"> <!-- spacer --></div>
                         </div>
                         <div class="row">
                             <div class="col-12">
@@ -167,47 +170,31 @@
                 </div>
 
                 <!-- Direct - retur buttons -->
-                <div class="row">
-                    <div class="col-12 col-md-5">
-                        <div class="row">
-                            <div class="col-auto col-lg-4 p-0">
-                            </div>
-                            <div class="col-12 col-lg-8">
-                                <div class="form-check m-3">
-                                    <input class="form-check-input radio" type="radio" id="Direct_Trip" checked>
-                                    <label class="form-check-label" for="exampleRadios1">
-                                        Direct route
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                <div class="row mt-3">
+                    <!-- Default switch -->
+                    <div class="col-12 text-center">
+                        <input id="Round_Trip" type="checkbox" name="Round_Trip"> One way or roundtrip?
                     </div>
-                    <div class="col-auto col-md-2">
 
-                    </div>
-                    <div class="col-12 col-md-5">
-                        <div class="form-check m-3">
-                            <input class="form-check-input radio" type="radio" id="Round_Trip">
-                            <label class="form-check-label" for="exampleRadios1">
-                                Round trip
-                            </label>
-                        </div>
-                    </div>
+                    <!-- Spacing -->
+                    @*<div class="col-auto col-md-2"></div>
+
+                        <div class="col-12 col-md-5">
+                        </div>*@
                 </div>
 
                 <!-- date - time -->
-                <div class="row">
-                    <div class="col-12 col-md-5">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row mt-3">
+                    <div class="col-12 col-sm-7 col-md-5">
                         <div class="row">
-                            <div class="col-auto col-md-2"></div>
-                            <div class="col-12 col-md-10">
+                            <div class="col-auto col-xl-2"></div>
+                            <div class="col-12 col-xl-10">
                                 @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label" })
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-auto col-md-2"></div>
-                            <div class="col-12 col-md-10">
+                            <div class="col-auto col-xl-2"></div>
+                            <div class="col-12 col-xl-10">
                                 @Html.EditorFor(model => model.Date, new { htmlAttributes = new { id = "date", @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                             </div>
@@ -218,7 +205,7 @@
                     <div class="col-auto col-md-2 p-0">
                     </div>
 
-                    <div class="col-12 col-md-5">
+                    <div class="col-12 col-sm-5 col-md-5">
                         <div class="row">
                             <div class="col">
                                 @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label" })
@@ -236,9 +223,8 @@
                 </div>
 
                 <!-- hidden return div -->
-                <div class="row" id="ReturnDiv" style="display: none">
-                    <div class="col-12 col-md-5">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row mt-3" id="ReturnDiv" style="display: none">
+                    <div class="col-12 col-sm-7 col-md-5">
                         <div class="row">
                             <div class="col-auto col-md-2"></div>
                             <div class="col-12 col-md-10">
@@ -246,18 +232,18 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-auto col-md-2"></div>
-                            <div class="col-12 col-md-10">
+                            <div class="col-auto col-xl-2"></div>
+                            <div class="col-12 col-xl-10">
                                 @Html.EditorFor(model => model.Return_Date, new { htmlAttributes = new { id = "ReturnDate", @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Return_Date, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-auto col-md-2 p-0">
-                    </div>
+                    <!-- spacing -->
+                    <div class="col-auto col-md-2 p-0"></div>
 
-                    <div class="col-12 col-md-5">
+                    <div class="col-12 col-sm-5 col-md-5">
                         <div class="row">
                             <div class="col">
                                 @Html.LabelFor(model => model.Return_Time, htmlAttributes: new { @class = "control-label" })
@@ -276,9 +262,9 @@
 
                 <!-- Select people -->
                 <div class="row mt-3">
-                    <div class="col">
+                    <div class="col-12 col-md-5">
                         <div class="row">
-                            <div id="adult" class="w-100 text-right add-sub-ticket">
+                            <div id="adult" class="w-100 add-sub-ticket sub-ticket-left">
                                 @Html.LabelFor(model => model.Adult, htmlAttributes: new { @class = "control-label" })
                                 <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm"><span>-</span></button>
                                 @Html.HiddenFor(model => model.Adult, new { @class = "control-label" })<b class="mt-1">1</b>
@@ -287,7 +273,7 @@
                             </div>
                         </div>
                         <div class="row mt-2">
-                            <div id="child" class="w-100 text-right add-sub-ticket">
+                            <div id="child" class="w-100 add-sub-ticket sub-ticket-left">
                                 @Html.LabelFor(model => model.Child, htmlAttributes: new { @class = "control-label" })
                                 <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
                                 @Html.HiddenFor(model => model.Child, new { @class = "control-label" })<b class="mt-1">0</b>
@@ -296,9 +282,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-1">
-                    </div>
-                    <div class="col">
+
+                    <!-- spacing -->
+                    <div class="col-auto col-md-2"></div>
+
+                    <div class="col col-md-5">
                         <div class="row">
                             <div id="student" class="w-100 add-sub-ticket">
                                 <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
@@ -323,7 +311,7 @@
                 <div align="center" class="mt-2">
                     <div class="form-group">
                         <div class="col-12 col-md-5">
-                            <input type="submit" value="Videre" class="btn btn-success pl-3 pr-3" />
+                            <input type="submit" value="Search" class="btn btn-outline-success pl-3 pr-3" />
                         </div>
                     </div>
                     <hr />
