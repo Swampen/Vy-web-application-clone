@@ -113,11 +113,15 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpGet]
-        public string GetStation()
+        public ActionResult Card()
         {
-            var stations = _tripService.GetAllStationDtos();
-            var jsonSerialiser = new JavaScriptSerializer();
-            return jsonSerialiser.Serialize(stations);
+            return View();
+        }
+        
+        [HttpPost]
+        public ActionResult Card(CardDTO creditCardDTO)
+        {
+            return View();
         }
 
         [HttpPost]

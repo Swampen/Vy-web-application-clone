@@ -15,7 +15,6 @@ namespace WebApplication_Vy.Models.DTO
         [Zipcode(ErrorMessage = "Not a valid Norwegian zipcode")]
         public string Postalcode { get; set; }
 
-        //[Required(ErrorMessage = "Not a valid Norwegian zipcode")]
         public string Postaltown { get; set; }
     }
 }
