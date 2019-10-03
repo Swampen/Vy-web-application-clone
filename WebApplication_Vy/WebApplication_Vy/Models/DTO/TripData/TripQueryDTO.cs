@@ -9,14 +9,18 @@ namespace WebApplication_Vy.Models.DTO.TripData
     public class TripQueryDTO
     {
         [Display(Name = "From")]
+        [Required(ErrorMessage = "This field is required")]
         public string Departure_Station { get; set; }
         
         [Display(Name = "To")]
+        [Required(ErrorMessage = "This field is required")]
         public string Arrival_Station { get; set; }
 
         [Display(Name = "Departure date")]
+        [Required(ErrorMessage = "This field is required")]
         public string Date { get; set; }
 
+        [Required(ErrorMessage = "This field is required")]
         public string Time { get; set; }
 
         [Display(Name = "Return date")]
