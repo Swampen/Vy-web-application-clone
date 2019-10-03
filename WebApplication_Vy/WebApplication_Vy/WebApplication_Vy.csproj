@@ -194,6 +194,7 @@
     <Compile Include="Models\DTO\TripData\TripsDTO.cs" />
     <Compile Include="Models\DTO\Validation\ZipcodeAttribute.cs" />
     <Compile Include="Models\DTO\ZipcodeDTO.cs" />
+    <Compile Include="Models\Entities\CreditCard.cs" />
     <Compile Include="Models\Entities\Customer.cs" />
     <Compile Include="Models\Entities\TripData\Line.cs" />
     <Compile Include="Models\Entities\TripData\Schedule.cs" />

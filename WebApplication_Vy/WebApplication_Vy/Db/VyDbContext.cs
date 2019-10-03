@@ -17,6 +17,7 @@ namespace WebApplication_Vy.Db
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Zipcode> Zipcodes { get; set; }
+        public DbSet<CreditCard> CreditCards { get; set; }
 
         public class VyDbInitializer<T> : CreateDatabaseIfNotExists<VyDbContext>
         {
