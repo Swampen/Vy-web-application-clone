@@ -174,8 +174,10 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
+    <Compile Include="Db\Repositories\Contracts\ICreditCardRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\ITripRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\IVyRepository.cs" />
+    <Compile Include="Db\Repositories\Implementation\CreditCardRepositoryImpl.cs" />
     <Compile Include="Db\Repositories\Implementation\TripRepositoryImpl.cs" />
     <Compile Include="Db\Repositories\Implementation\VyRepositoryImpl.cs" />
     <Compile Include="Db\VyDbContext.cs" />

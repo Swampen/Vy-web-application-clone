@@ -2,10 +2,10 @@
 {
     public class CreditCard
     {
-        public string id { get; set; }
-        public string cardholderName { get; set; }
-        public string creditCardNo { get; set; }
-        public string cvc { get; set; }
-        public Customer cardHolder { get; set; }
+        public int Id { get; set; }
+        public string CardholderName { get; set; }
+        public string CreditCardNumber { get; set; }
+        public string Cvc { get; set; }
+        public Customer CardHolder { get; set; }
     }
 }
