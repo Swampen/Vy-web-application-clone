@@ -34,7 +34,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
-            Session["TripsSelected"] = false;
+            Session["HaveRoundTrip"] = false;
             Session["ChosenTrips"] = new List<TripDTO>();
             return View();
         }
@@ -42,6 +42,7 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Index(TripQueryDTO tripQuery)
         {
+            Session["HaveRoundTrip"] = tripQuery.Round_Trip;
             if (tripQuery.Round_Trip)
             {
                 var returnTripQuery = new TripQueryDTO(){
@@ -50,6 +51,10 @@ namespace WebApplication_Vy.Controllers
                     Date = tripQuery.Return_Date,
                     Time = tripQuery.Return_Time,
                     Round_Trip = false,
+                    Adult = tripQuery.Adult,
+                    Child = tripQuery.Child,
+                    Student = tripQuery.Student,
+                    Senior = tripQuery.Senior,
                 };
                 Session["ReturnTripQuery"] = returnTripQuery;
             }
@@ -62,27 +67,24 @@ namespace WebApplication_Vy.Controllers
 
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
-        {   
-            var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
-            chosenTrips.Add(selectedTripDto);
+        {
+            bool haveRoundTrip = (bool)Session["HaveRoundTrip"]; 
             if (selectedTripDto.Round_Trip)
-            {   
+            {
+                Session["ToTrip"] = selectedTripDto;
                 var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
                 ViewBag.Model = returnQuery;
                 return View();
             }
+            List<TripDTO> chosenTrips = new List<TripDTO>();
+            if (haveRoundTrip){
+                var toTrip = (TripDTO)Session["ToTrip"];
+                chosenTrips.Add(toTrip);
+            }
+            chosenTrips.Add(selectedTripDto);
             ViewBag.Model = chosenTrips;
-            Session["TripsSelected"] = true;
             return View("CustomerDetails");
         }
-        
-        //[HttpPost]
-        //public ActionResult Trips(TripDTO selectedTripDto)
-        //{
-        //    
-        //    ViewBag.Model = selectedTripDto;
-        //    return View("CustomerDetails");
-        //}
 
         [HttpGet]
         public ActionResult Trips(TripQueryDTO tripQuerry)
@@ -111,11 +113,15 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpGet]
-        public string GetStation()
+        public ActionResult Card()
         {
-            var stations = _tripService.GetAllStationDtos();
-            var jsonSerialiser = new JavaScriptSerializer();
-            return jsonSerialiser.Serialize(stations);
+            return View();
+        }
+        
+        [HttpPost]
+        public ActionResult Card(CardDTO creditCardDTO)
+        {
+            return View();
         }
 
         [HttpPost]
