@@ -17,6 +17,7 @@ namespace WebApplication_Vy.Db
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Zipcode> Zipcodes { get; set; }
+        public DbSet<Station> Stations { get; set; }
 
         public class VyDbInitializer<T> : CreateDatabaseIfNotExists<VyDbContext>
         {
@@ -33,6 +34,26 @@ namespace WebApplication_Vy.Db
                         {
                             Postalcode = (string) zipcode.Element("Postalcode"),
                             Postaltown = (string) zipcode.Element("Postaltown")
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("XML config is wrong");
+                        Console.WriteLine(e.StackTrace);
+                        throw;
+                    } 
+                    
+                var stationsXML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "stations.xml");
+                Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "stations.xml");
+                var stations = stationsXML.Descendants("Station");
+
+                foreach (var station in stations)
+                    try
+                    {
+                        Debug.WriteLine(station.Element("Name"));
+                        context.Stations.Add(new Station()
+                        {
+                            Name = (string)station.Element("Name")
                         });
                     }
                     catch (Exception e)

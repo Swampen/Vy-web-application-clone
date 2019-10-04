@@ -196,9 +196,9 @@
     <Compile Include="Models\DTO\Validation\ZipcodeAttribute.cs" />
     <Compile Include="Models\DTO\ZipcodeDTO.cs" />
     <Compile Include="Models\Entities\Customer.cs" />
+    <Compile Include="Models\Entities\Station.cs" />
     <Compile Include="Models\Entities\TripData\Line.cs" />
     <Compile Include="Models\Entities\TripData\Schedule.cs" />
-    <Compile Include="Models\Entities\TripData\Station.cs" />
     <Compile Include="Models\Entities\Ticket.cs" />
     <Compile Include="Models\Entities\TripData\Trip.cs" />
     <Compile Include="Models\Entities\TripData\TripInterval.cs" />
@@ -225,6 +225,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min_new.css" />
     <Content Include="Content\gijgo.min.css" />
+    <Content Include="Content\stations.xml" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -266,7 +267,6 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="Content\trips.xml" />
     <Content Include="Content\vy.png" />
     <Content Include="Content\zipcodes.xml" />
     <Content Include="favicon.ico" />
