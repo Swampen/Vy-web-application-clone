@@ -88,6 +88,7 @@ namespace WebApplication_Vy.Controllers
                 chosenTrips.Add(toTrip);
             }
             chosenTrips.Add(selectedTripDto);
+            Session["ChosenTrips"] = chosenTrips;
             ViewBag.Model = chosenTrips;
             return View("CustomerDetails");
         }
@@ -115,7 +116,9 @@ namespace WebApplication_Vy.Controllers
                 if (success) return RedirectToAction("tickets");
             }
 
-            return View("Index");
+            var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
+            ViewBag.Model = chosenTrips;
+            return View("CustomerDetails");
         }
 
         [HttpGet]

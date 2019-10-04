@@ -7,18 +7,15 @@
     $(function () {
 
         $("#table").on("mouseenter", ".button-row", function () {
-            console.log(this)
             $(this).css('cursor', 'pointer')
             $(this).css('background-color', '#e6e6e6')
         });
 
         $("#table").on("mouseleave", ".button-row", function () {
-            console.log(this)
             $(this).css('background-color', '#ffffff')
         });
 
         $("#table").on("click", ".button-row", function () {
-            console.log(this)
             $(this).next().slideToggle()
         });
     });
