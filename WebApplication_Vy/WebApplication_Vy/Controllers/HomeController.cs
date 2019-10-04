@@ -73,8 +73,6 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            if (ModelState.IsValid)
-            {
                 bool haveRoundTrip = (bool)Session["HaveRoundTrip"];
                 if (selectedTripDto.Round_Trip)
                 {
@@ -93,8 +91,6 @@ namespace WebApplication_Vy.Controllers
                 Session["ChosenTrips"] = chosenTrips;
                 ViewBag.Model = chosenTrips;
                 return View("CustomerDetails");
-            }
-            return View();
         }
 
         [HttpGet]

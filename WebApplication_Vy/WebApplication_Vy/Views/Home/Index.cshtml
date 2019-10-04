@@ -135,53 +135,6 @@
             $("#ReturnDate").addClass("bg-white");
 
         });
-        var depValid = false;
-        $("#Departure").on("change", function () {
-            
-            dep = $("#Departure").val()
-            depCheck = stations.includes(dep)
-            if (depCheck) {
-                depValid = true
-                console.log(depValid)
-            } else {
-                depValid = false
-                console.log(depValid)
-            }
-
-
-        });
-
-        $("#ajax_form").on("submit", function (e) {
-            if (depValid === false) {
-                alert("Invalid departure station")
-                e.preventDefault
-            }
-
-        })
-
-        /*$.validator.addMethod("checkDeparture",
-            function (value, element) {
-                console.log(value);
-                var result = false;
-                var dep = $("#Departure").val();
-                if (stations.includes(dep)) {
-                    result = true;
-                }
-                console.log(result);
-                return result;
-            })
-        $("#ajax_form").validate({
-            rules: {
-                Departure: {
-                    checkDeparture: true,
-                }
-            },
-            messages: {
-                Departure: {
-                    checkDeparture: "Invalid departure station"
-                }
-            }
-        })*/
     });
 </script>
 <div id="ajax_form" class="container">

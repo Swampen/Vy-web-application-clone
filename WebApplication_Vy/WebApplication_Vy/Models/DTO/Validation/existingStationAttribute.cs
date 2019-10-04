@@ -20,8 +20,8 @@ namespace WebApplication_Vy.Models.DTO.Validation
             Debug.WriteLine(value);
             var station = (string)value;
 
-            foreach (var stat in stations)
-                if (stat.Name == station)
+            foreach(var s in stations)
+                if (s.Name == station)
                     return true;
             return false;
         }
