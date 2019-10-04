@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using WebApplication_Vy.Models.DTO.Validation;
 
 namespace WebApplication_Vy.Models.DTO.TripData
 {
@@ -10,14 +12,17 @@ namespace WebApplication_Vy.Models.DTO.TripData
     {
         [Display(Name = "From")]
         [Required(ErrorMessage = "This field is required")]
+        [ExistingStation(ErrorMessage = "Invalid departure station")]
         public string Departure_Station { get; set; }
         
         [Display(Name = "To")]
         [Required(ErrorMessage = "This field is required")]
+        [ExistingStation(ErrorMessage = "Invalid arrival station")]
         public string Arrival_Station { get; set; }
 
         [Display(Name = "Departure date")]
         [Required(ErrorMessage = "This field is required")]
+        [RegularExpression("[0-9]{4}-[0-9]{2}-[0-9]{2}$", ErrorMessage = "Incorrect date format")]
         public string Date { get; set; }
 
         [Display(Name = "Time")]
