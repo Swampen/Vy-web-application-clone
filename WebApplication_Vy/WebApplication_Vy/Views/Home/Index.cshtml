@@ -14,7 +14,7 @@
         }
         $("#time").append(dropdown);
         $("#Return_Time").append(dropdown);
-        
+
         var stations = [];
         fetch("https://itinerary.cloud.nsb.no/api/stops", { "credentials": "omit", "headers": { "accept": "application/json", "sec-fetch-mode": "cors", "x-language": "no" }, "referrer": "https://www.vy.no/bestill/velg-togavgang?from=Oslo%20S&fromDisplayName=Oslo%20S&fromType=train-station-name&to=Bergen&toDisplayName=Bergen&toType=train-station-name&departureDatetime=2019-09-24%2010%3A28&petFree=false&pasCats=1&numPasCats=1", "referrerPolicy": "no-referrer-when-downgrade", "body": null, "method": "GET", "mode": "cors" })
             .then(data => data.json()).then(data => {
@@ -46,7 +46,7 @@
 
         //Setting the button to off on load
         $("#Round_Trip").prop("checked", false);
-        $('#Round_Trip').bootstrapToggle('off')  
+        $('#Round_Trip').bootstrapToggle('off')
 
         $("#Round_Trip").change(function () {
 
@@ -132,7 +132,8 @@
                 format: "yyyy-mm-dd",
                 weekStartDay: 1,
             });
-            
+            $("#ReturnDate").addClass("bg-white");
+
         });
     });
 </script>
@@ -140,13 +141,11 @@
     @using (Ajax.BeginForm("Index", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }))
     {
         @Html.AntiForgeryToken()
-        <div align="center" style="padding-bottom: 100px">
+        <div align="center">
             <h1>Welcome! Where do you want to travel?</h1>
         </div>
-        <div class="row">
-            <div class="col-auto col-md-1">
-
-            </div>
+        <div class="row pt-5">
+            <div class="col-auto col-md-1"><!--spacing--></div>
 
             <div class="col-12 col-md-10">
                 <!-- from - to row -->
@@ -172,7 +171,7 @@
                     </div>
                     <div class="col-12 col-md-5">
                         <div class="row">
-                           
+
                             <div class="col-12 col-md-3">
                                 @Html.LabelFor(model => model.Arrival_Station, htmlAttributes: new { @class = "control-label" })
                             </div>
@@ -189,53 +188,56 @@
 
                 <!-- Direct - retur buttons -->
                 <div class="row mt-3">
-                    <!-- Default switch -->
-                    <div class="col-12 text-center">
-                        <input id="Round_Trip" type="checkbox" value="true" name="Round_Trip"> One way or roundtrip?
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <span>One way or roundtrip?</span>
+                            </div>
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col-12 text-center">
+                                <input id="Round_Trip" type="checkbox" value="true" name="Round_Trip">
+                            </div>
+                        </div>
                     </div>
-
-                    <!-- Spacing -->
-                    @*<div class="col-auto col-md-2"></div>
-
-                        <div class="col-12 col-md-5">
-                        </div>*@
                 </div>
 
                 <!-- date - time -->
                 <div class="row mt-3">
                     <div class="col-12 col-sm-7 col-md-5">
                         <div class="row">
-                            <div class="col-auto col-xl-2"></div>
+                            <div class="col-auto col-xl-2 p-0"><!--spacing--></div>
                             <div class="col-12 col-xl-10">
                                 @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label" })
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-auto col-xl-2"></div>
+                            <div class="col-auto col-xl-2 p-0"><!--spacing--></div>
                             <div class="col-12 col-xl-10">
-                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @readonly="readonly", id = "date", @class = "form-control bg-white" } })
+                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @readonly = "readonly", id = "date", @class = "form-control bg-white" } })
                                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
 
-                    <!-- padding -->
-                    <div class="col-auto col-md-2 p-0">
-                    </div>
+                    
+                    <div class="col-auto col-md-2 p-0"><!--spacing--></div>
 
                     <div class="col-12 col-sm-5 col-md-5">
                         <div class="row">
-                            <div class="col">
+                            <div class="col-12 col-xl-10">
                                 @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label" })
                             </div>
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
                         </div>
                         <div class="row">
-                            <div class="col">
+                            <div class="col-12 col-xl-10">
                                 <select id="time" name="Time" class="custom-select form-control" required>
                                     <option value="" selected>Choose a time...</option>
                                 </select>
                                 @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
                             </div>
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
                         </div>
                     </div>
                 </div>
@@ -244,15 +246,15 @@
                 <div class="row mt-3" id="ReturnDiv" style="display: none">
                     <div class="col-12 col-sm-7 col-md-5">
                         <div class="row">
-                            <div class="col-auto col-xl-2"></div>
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
                             <div class="col-12 col-xl-10">
                                 @Html.LabelFor(model => model.Return_Date, htmlAttributes: new { id = "Return_Date", @class = "control-label" })
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-auto col-xl-2"></div>
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
                             <div class="col-12 col-xl-10">
-                                @Html.EditorFor(model => model.Return_Date, new { htmlAttributes = new { @readonly="readonly", id = "ReturnDate", @class = "form-control bg-white" } })
+                                @Html.EditorFor(model => model.Return_Date, new { htmlAttributes = new { @readonly = "readonly", id = "ReturnDate", @class = "form-control bg-white" } })
                                 @Html.ValidationMessageFor(model => model.Return_Date, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -263,17 +265,19 @@
 
                     <div class="col-12 col-sm-5 col-md-5">
                         <div class="row">
-                            <div class="col">
+                            <div class="col-12 col-xl-10">
                                 @Html.LabelFor(model => model.Return_Time, htmlAttributes: new { @class = "control-label" })
                             </div>
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
                         </div>
                         <div class="row">
-                            <div class="col">
+                            <div class="col-12 col-xl-10">
                                 <select id="Return_Time" name="Return_Time" class="custom-select form-control" required>
                                     <option value="" selected>Choose a time...</option>
                                 </select>
                                 @Html.ValidationMessageFor(model => model.Return_Time, "", new { @class = "text-danger" })
                             </div>
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
                         </div>
                     </div>
                 </div>
@@ -341,8 +345,8 @@
                 </div>
 
             </div>
-            <div class="col-auto col-md-1 p-0">
-            </div>
+
+            <div class="col-auto col-md-1 p-0"><!--spacing--></div>
         </div>
     }
 </div>
@@ -352,7 +356,7 @@
 
 
 <style>
-    input {
+    input, select {
         max-width: 100%;
     }
 </style>

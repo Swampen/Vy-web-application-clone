@@ -22,8 +22,9 @@
             populateTripForm(ticket);
         }
     });
-         
-    
+    $('#hfPriceReturn').val(0);
+
+
     function showHiddenCard(ticket) {
     const hiddenCard =  ` <div class="card bg-light mb-3 col-ml4" id="ticketCard" style="max-width: 18rem;">
           <div class="card-header">Din valgte reise</div>
@@ -49,7 +50,7 @@
               <p class="card-text">
                   <span class="font-weight-bold">Reisetid: </span>
                   <span>${ticket.Duration}</span>
-      
+
               </p>
               <p class="card-text">
                   <span class="font-weight-bold">Pris: </span>
@@ -60,7 +61,7 @@
       `;
        $('.cards').append(hiddenCard);
     }
-    
+
     function populateTripForm(ticket) {
           $('#hfDepStation').val(ticket.Departure_Station);
           $('#hfArrStation').val(ticket.Arrival_Station);
@@ -70,9 +71,9 @@
           $('#hfTrainChanges').val(ticket.Train_Changes);
           $('#hfPrice').val(ticket.Price);
     }
-    
+
     function populateReturnTripForm(ticket) {
-              
+
               $('#hfDepStationReturn').val(ticket.Departure_Station);
               $('#hfArrStationReturn').val(ticket.Arrival_Station);
               $('#hfDepTimeReturn').val(ticket.Departure_Time);
@@ -81,12 +82,12 @@
               $('#hfTrainChangesReturn').val(ticket.Train_Changes);
               $('#hfPriceReturn').val(ticket.Price);
         }
-    
+
     });
-    
-    
+
+
     $(function () {
-        
+
         $('.cards')
             .on('mouseenter', '#ticketCard', function() {
                 $(this).addClass("shadow");
@@ -94,7 +95,7 @@
             .on('mouseleave', '#ticketCard', function() {
                 $(this).removeClass("shadow");
             });
-        
+
         $("#postalcode").on('input', function () {
             const postalcode = $("#postalcode").val();
             const jsonin = {
@@ -108,7 +109,7 @@
                     data: JSON.stringify(jsonin,),
                     contentType: "application/json;charset=utf-8",
                     success: function (response) {
-                        console.log('setting postaltown');     
+                        console.log('setting postaltown');
                         $('#postaltown').text(response);
                     }
                 });
@@ -116,15 +117,15 @@
                 $('#postaltown').text("Undefined");
             }
         });
-              
+
           $("#changeTrip").click(function() {
             alert("Not yet implemented");
           });
-        
+
     });
-    
-    
-    
+
+
+
     function getDuration(duration) {
         const {days, hours, minutes} = duration;
         let durationString = (days !== "0") ? days + " d " : "";
@@ -132,7 +133,7 @@
         durationString += minutes + " m ";
         return durationString;
     }
- 
+
 </script>
 <div class="cards row">
     <div class="card bg-light mb-3 mr-3 col-m-4" id="ticketCard" style="max-width: 18rem;">
@@ -140,7 +141,7 @@
         <div class="card-body">
             <h5 class="card-title">
                 <span>
-                    <img id="tripIcon" src='@Url.Content("~/Content/Assets/train.svg")' alt="Train icon"/>
+                    <img id="tripIcon" src='@Url.Content("~/Content/Assets/train.svg")' alt="Train icon" />
                 </span>
                 @ViewBag.Model[0].Departure_Station - @ViewBag.Model[0].Arrival_Station
             </h5>
@@ -170,77 +171,77 @@
 </div>
 
 <div id="ajax_form">
-    @using (Ajax.BeginForm("RegisterTicket", "Home", new AjaxOptions {HttpMethod = "POST", OnSuccess = "Success"}))
+    @using (Ajax.BeginForm("RegisterTicket", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }))
     {
         @Html.AntiForgeryToken()
 
-        @Html.HiddenFor(model => model.TripTicket.DepartureStation, new {id = "hfDepStation"})
-        @Html.HiddenFor(model => model.TripTicket.ArrivalStation, new {id = "hfArrStation"})
-        @Html.HiddenFor(model => model.TripTicket.DepartureTime, new {id = "hfDepTime"})
-        @Html.HiddenFor(model => model.TripTicket.ArrivalTime, new {id = "hfArrTime"})
-        @Html.HiddenFor(model => model.TripTicket.Price, new {id = "hfPrice"})
-        @Html.HiddenFor(model => model.TripTicket.Duration, new {id = "hfDuration"})
-        @Html.HiddenFor(model => model.TripTicket.TrainChanges, new {id = "hfTrainChanges"})
+        @Html.HiddenFor(model => model.TripTicket.DepartureStation, new { id = "hfDepStation" })
+        @Html.HiddenFor(model => model.TripTicket.ArrivalStation, new { id = "hfArrStation" })
+        @Html.HiddenFor(model => model.TripTicket.DepartureTime, new { id = "hfDepTime" })
+        @Html.HiddenFor(model => model.TripTicket.ArrivalTime, new { id = "hfArrTime" })
+        @Html.HiddenFor(model => model.TripTicket.Price, new { id = "hfPrice" })
+        @Html.HiddenFor(model => model.TripTicket.Duration, new { id = "hfDuration" })
+        @Html.HiddenFor(model => model.TripTicket.TrainChanges, new { id = "hfTrainChanges" })
 
-        @Html.HiddenFor(model => model.ReturnTripTicket.DepartureStation, new {id = "hfDepStationReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.ArrivalStation, new {id = "hfArrStationReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.DepartureTime, new {id = "hfDepTimeReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.ArrivalTime, new {id = "hfArrTimeReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.Price, new {id = "hfPriceReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.Duration, new {id = "hfDurationReturn"})
-        @Html.HiddenFor(model => model.ReturnTripTicket.TrainChanges, new {id = "hfTrainChangesReturn"})
+        @Html.HiddenFor(model => model.ReturnTripTicket.DepartureStation, new { id = "hfDepStationReturn" })
+        @Html.HiddenFor(model => model.ReturnTripTicket.ArrivalStation, new { id = "hfArrStationReturn" })
+        @Html.HiddenFor(model => model.ReturnTripTicket.DepartureTime, new { id = "hfDepTimeReturn" })
+        @Html.HiddenFor(model => model.ReturnTripTicket.ArrivalTime, new { id = "hfArrTimeReturn" })
+        @Html.HiddenFor(model => model.ReturnTripTicket.Price, new { id = "hfPriceReturn" })
+        @Html.HiddenFor(model => model.ReturnTripTicket.Duration, new { id = "hfDurationReturn" })
+        @Html.HiddenFor(model => model.ReturnTripTicket.TrainChanges, new { id = "hfTrainChangesReturn" })
 
-    <div class="form-horizontal">
-        <hr />
+        <div class="form-horizontal">
+            <hr />
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TripTicket.Customer.Givenname, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TripTicket.Customer.Givenname, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TripTicket.Customer.Givenname, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.TripTicket.Customer.Givenname, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TripTicket.Customer.Givenname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TripTicket.Customer.Givenname, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TripTicket.Customer.Surname, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TripTicket.Customer.Surname, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TripTicket.Customer.Surname, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.TripTicket.Customer.Surname, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TripTicket.Customer.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TripTicket.Customer.Surname, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TripTicket.Customer.Address, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TripTicket.Customer.Address, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TripTicket.Customer.Address, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.TripTicket.Customer.Address, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TripTicket.Customer.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TripTicket.Customer.Address, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TripTicket.Customer.Zipcode.Postalcode, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TripTicket.Customer.Zipcode.Postalcode, new { htmlAttributes = new { id = "postalcode", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TripTicket.Customer.Zipcode.Postalcode, "", new { @class = "text-danger" })
-                <div class="pl-1">
-                    <label id="postaltown"></label>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TripTicket.Customer.Zipcode.Postalcode, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TripTicket.Customer.Zipcode.Postalcode, new { htmlAttributes = new { id = "postalcode", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TripTicket.Customer.Zipcode.Postalcode, "", new { @class = "text-danger" })
+                    <div class="pl-1">
+                        <label id="postaltown"></label>
+                    </div>
+                </div>
+            </div>
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Bekreft kjøp" class="btn btn-success" id="confirmPurchase" />
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-12 text-success">
+                    @ViewBag.Records
                 </div>
             </div>
         </div>
-        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Bekreft kjøp" class="btn btn-success" id="confirmPurchase" />
-            </div>
-        </div>
-        <hr />
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-12 text-success">
-                @ViewBag.Records
-            </div>
-        </div>
-    </div>
     }
 </div>
