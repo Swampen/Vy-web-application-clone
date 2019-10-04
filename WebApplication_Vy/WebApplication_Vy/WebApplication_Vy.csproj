@@ -182,6 +182,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTO\Validation\ExistingStationAttribute.cs" />
     <Compile Include="Models\DTO\CardDTO.cs" />
     <Compile Include="Models\DTO\CustomerDTO.cs" />
     <Compile Include="Models\DTO\SubmitPurchaseDTO.cs" />
@@ -353,7 +354,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Custom Validation\" />
     <Folder Include="Models\DAO\" />
   </ItemGroup>
   <ItemGroup>
