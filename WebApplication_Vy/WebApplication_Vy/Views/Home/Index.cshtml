@@ -135,6 +135,53 @@
             $("#ReturnDate").addClass("bg-white");
 
         });
+        var depValid = false;
+        $("#Departure").on("change", function () {
+            
+            dep = $("#Departure").val()
+            depCheck = stations.includes(dep)
+            if (depCheck) {
+                depValid = true
+                console.log(depValid)
+            } else {
+                depValid = false
+                console.log(depValid)
+            }
+
+
+        });
+
+        $("#ajax_form").on("submit", function (e) {
+            if (depValid === false) {
+                alert("Invalid departure station")
+                e.preventDefault
+            }
+
+        })
+
+        /*$.validator.addMethod("checkDeparture",
+            function (value, element) {
+                console.log(value);
+                var result = false;
+                var dep = $("#Departure").val();
+                if (stations.includes(dep)) {
+                    result = true;
+                }
+                console.log(result);
+                return result;
+            })
+        $("#ajax_form").validate({
+            rules: {
+                Departure: {
+                    checkDeparture: true,
+                }
+            },
+            messages: {
+                Departure: {
+                    checkDeparture: "Invalid departure station"
+                }
+            }
+        })*/
     });
 </script>
 <div id="ajax_form" class="container">
@@ -220,7 +267,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="col-auto col-md-2 p-0"><!--spacing--></div>
 
                     <div class="col-12 col-sm-5 col-md-5">
@@ -333,7 +380,7 @@
                 <div align="center" class="mt-2">
                     <div class="form-group">
                         <div class="col-12 col-md-5">
-                            <input type="submit" value="Search" class="btn btn-outline-success pl-3 pr-3" />
+                            <input type="submit" value="Search" class="btn btn-outline-success pl-3 pr-3 submit" />
                         </div>
                     </div>
                     <hr />
