@@ -25,7 +25,10 @@
                 });
                 stations.sort();
             });
-        console.log(stations);
+
+        $('.stations').autocomplete({
+            source: stations
+        });
 
         $("#SwitchButton").on("click", function (e) {
 
@@ -38,18 +41,18 @@
 
         $("#SwitchButton").on("hover").css("cursor", "pointer");
 
+        //Start round trips select 
         $('#Round_Trip').bootstrapToggle({
             off: 'One way',
             on: 'Round trip',
-            onstyle: "success"
+            onstyle: "success",
+            offstyle: "secondary",
         });
 
-        //Setting the button to off on load
         $("#Round_Trip").prop("checked", false);
         $('#Round_Trip').bootstrapToggle('off')
 
         $("#Round_Trip").change(function () {
-
             if (this.checked) {
                 $("#ReturnDiv").slideDown();
                 $("#Return_Date").prop('required', true)
@@ -59,29 +62,51 @@
                 $("#Return_Date").prop('required', false)
                 $("#Return_Time").prop('required', false)
             }
-        });
+        });//End round trip select
 
         var date = new Date();
         date.setDate(date.getDate() - 1);
+        var dateMax = new Date();
+        dateMax.setDate(dateMax.getDate() + 80);
 
-        //Form spesific javascript
+        $("#date").on("focus", function () {
+            
+        });
+
+        //Start date picker
         $('#date').datepicker({
             minDate: date,
             uiLibrary: 'bootstrap4',
+            maxDate: dateMax,
             format: "yyyy-mm-dd",
             weekStartDay: 1,
+            showOnFocus: true,
+            showRightIcon: false 
         });
         $('#ReturnDate').datepicker({
             minDate: date,
             uiLibrary: 'bootstrap4',
+            maxDate: dateMax,
             format: "yyyy-mm-dd",
             weekStartDay: 1,
         });
 
-        $('.stations').autocomplete({
-            source: stations
-        });
+        $("#date").on("change", function () {
+            date = new Date($("#date").val())
+            date.setDate(date.getDate() - 1)
+            $("#ReturnDate").datepicker("destroy");
+            $("#ReturnDate").datepicker({
+                minDate: date,
+                uiLibrary: 'bootstrap4',
+                maxDate: dateMax,
+                format: "yyyy-mm-dd",
+                weekStartDay: 1,
+            });
+            $("#ReturnDate").addClass("bg-white");
+        });//End date picker
 
+
+        //Start people select
         $("#adult").children("input").val(1);
         $("#child").children("input").val(0);
         $("#student").children("input").val(0);
@@ -119,22 +144,7 @@
             if (totalTickets < maxTickets) {
                 $(".pluss").attr("disabled", false)
             }
-        });
-
-
-        $("#date").on("change", function () {
-            date = new Date($("#date").val())
-            date.setDate(date.getDate() - 1)
-            $("#ReturnDate").datepicker("destroy");
-            $("#ReturnDate").datepicker({
-                minDate: date,
-                uiLibrary: 'bootstrap4',
-                format: "yyyy-mm-dd",
-                weekStartDay: 1,
-            });
-            $("#ReturnDate").addClass("bg-white");
-
-        });
+        });//End people select
     });
 </script>
 <div id="ajax_form" class="container">
@@ -358,5 +368,13 @@
 <style>
     input, select {
         max-width: 100%;
+    }
+
+    .gj-picker table .disabled{
+        background-color: #e6e6e6 !important;
+    }
+
+    .gj-picker table tbody td:last-child {
+        background-color: #fa9b9b;
     }
 </style>
