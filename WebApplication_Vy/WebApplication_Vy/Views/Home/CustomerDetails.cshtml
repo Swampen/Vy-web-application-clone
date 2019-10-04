@@ -13,6 +13,7 @@
         if (ticket.Round_Trip === true ) {
            TripTickets.Trip = ticket;
            populateTripForm(ticket);
+           $('#hfPriceReturn').val(0);
         } else if(ticketData.length > 1) {
             TripTickets.ReturnTrip = ticket;
             populateReturnTripForm(ticket);
@@ -20,9 +21,9 @@
         } else {
             TripTickets.Trip = ticket;
             populateTripForm(ticket);
+            $('#hfPriceReturn').val(0);
         }
     });
-    $('#hfPriceReturn').val(0);
 
 
     function showHiddenCard(ticket) {
