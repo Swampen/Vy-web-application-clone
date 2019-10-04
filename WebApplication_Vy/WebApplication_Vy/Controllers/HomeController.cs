@@ -139,13 +139,6 @@ namespace WebApplication_Vy.Controllers
             var match = Regex.Match(zipcode.Postalcode, "[0-9]{4}");
             if (!match.Success) return "";
             var result = _zipSearchService.GetPostaltown(zipcode.Postalcode);
-
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("zip", "Not a valid Norwegian zipcode");
-                return result;
-            }
-
             return result;
         }
 
