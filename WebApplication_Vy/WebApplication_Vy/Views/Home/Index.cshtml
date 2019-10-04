@@ -122,8 +122,8 @@
         });
 
 
-        $("#dateandtime").on("change", function () {
-            date = new Date($("#dateandtime").val())
+        $("#date").on("change", function () {
+            date = new Date($("#date").val())
             date.setDate(date.getDate() - 1)
             $("#ReturnDate").datepicker("destroy");
             $("#ReturnDate").datepicker({
