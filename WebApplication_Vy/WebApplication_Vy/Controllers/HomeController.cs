@@ -73,24 +73,28 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            bool haveRoundTrip = (bool)Session["HaveRoundTrip"];
-            if (selectedTripDto.Round_Trip)
+            if (ModelState.IsValid)
             {
-                Session["ToTrip"] = selectedTripDto;
-                var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
-                ViewBag.Model = returnQuery;
-                return View();
+                bool haveRoundTrip = (bool)Session["HaveRoundTrip"];
+                if (selectedTripDto.Round_Trip)
+                {
+                    Session["ToTrip"] = selectedTripDto;
+                    var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
+                    ViewBag.Model = returnQuery;
+                    return View();
+                }
+                List<TripDTO> chosenTrips = new List<TripDTO>();
+                if (haveRoundTrip)
+                {
+                    var toTrip = (TripDTO)Session["ToTrip"];
+                    chosenTrips.Add(toTrip);
+                }
+                chosenTrips.Add(selectedTripDto);
+                Session["ChosenTrips"] = chosenTrips;
+                ViewBag.Model = chosenTrips;
+                return View("CustomerDetails");
             }
-            List<TripDTO> chosenTrips = new List<TripDTO>();
-            if (haveRoundTrip)
-            {
-                var toTrip = (TripDTO)Session["ToTrip"];
-                chosenTrips.Add(toTrip);
-            }
-            chosenTrips.Add(selectedTripDto);
-            Session["ChosenTrips"] = chosenTrips;
-            ViewBag.Model = chosenTrips;
-            return View("CustomerDetails");
+            return View();
         }
 
         [HttpGet]
