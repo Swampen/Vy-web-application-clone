@@ -122,6 +122,16 @@
         
     });
     
+    $(function () {
+        new Cleave('#card', {
+            creditCard: true,
+        });
+
+        new Cleave('#expiry', {
+            date: true,
+            datePattern: ['m', 'y']
+        });
+    });
     
     
     function getDuration(duration) {
@@ -226,12 +236,54 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="container">
+                <h4>Card info</h4>
+                <hr/>
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-12 p-0">
+                            @Html.EditorFor(model => model.CreditCard.Card_Number, new {htmlAttributes = new {placeholder = "Card number", id = "card", @class = "form-control card"}})
+                            @Html.ValidationMessageFor(model => model.CreditCard.Card_Number, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-7 p-0">
+                            @Html.EditorFor(model => model.CreditCard.Expiry_Date, new {htmlAttributes = new {placeholder = "MM/YY", id = "expiry", @class = "form-control card"}})
+                        </div>
+                        <div class="col-12 col-md-5 p-0">
+                            @Html.EditorFor(model => model.CreditCard.Cvc, new {htmlAttributes = new {placeholder = "CVC", id = "expiry", @class = "form-control card"}})
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.ValidationMessageFor(model => model.CreditCard.Expiry_Date, "", new {@class = "text-danger"})
+                    </div>
+                    <div class="row">
+                        @Html.ValidationMessageFor(model => model.CreditCard.Cvc, "", new {@class = "text-danger"})
+                    </div>
+                    <div class="row">
+                        <div class="col-12 p-0">
+                            @Html.EditorFor(model => model.CreditCard.Card_Holder, new {htmlAttributes = new {placeholder = "Card holder", @class = "form-control card"}})
+                            @Html.ValidationMessageFor(model => model.CreditCard.Card_Holder, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-success"/>
+                    </div>
+                </div>
+            </div>
+            
 
+                    
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Bekreft kjøp" class="btn btn-success" id="confirmPurchase"/>
                 </div>
             </div>
+
             <hr/>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-12 text-success">
@@ -239,5 +291,18 @@
                 </div>
             </div>
         </div>
+        <style>
+                .card {
+                    max-width: 100%;
+                }
+            </style>
     }
 </div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+   
+}

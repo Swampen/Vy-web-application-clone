@@ -19,6 +19,9 @@ namespace WebApplication_Vy.Models.DTO
         public string Surname { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
+        public string Email { get; set; }
+        
+        [Required(ErrorMessage = "This field is required")]
         public string Address { get; set; }
 
         [Required(ErrorMessage = "This field is required")]

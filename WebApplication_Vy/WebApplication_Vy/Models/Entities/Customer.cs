@@ -12,6 +12,7 @@ namespace WebApplication_Vy.Models.Entities
         public string Givenname { get; set; }
 
         public string Surname { get; set; }
+        public string Email { get; set; }
 
         public string Address { get; set; }
 
