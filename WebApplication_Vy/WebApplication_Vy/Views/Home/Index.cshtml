@@ -69,10 +69,6 @@
         var dateMax = new Date();
         dateMax.setDate(dateMax.getDate() + 80);
 
-        $("#date").focus(function () {
-            $(this).datepicker("show")
-        });
-
         //Start date picker
         $('#date').datepicker({
             minDate: date,
@@ -81,6 +77,8 @@
             format: "yyyy-mm-dd",
             weekStartDay: 1,
         });
+
+
         $('#ReturnDate').datepicker({
             minDate: date,
             uiLibrary: 'bootstrap4',
@@ -88,6 +86,13 @@
             format: "yyyy-mm-dd",
             weekStartDay: 1,
         });
+
+        $(".date-picker").next().hide()        
+
+        $(".date-picker").on("focus" , function() {
+            var btn = $(this).next().children("button")[0]
+            btn.click()
+        })        
 
         $("#date").on("change", function () {
             date = new Date($("#date").val())
@@ -100,6 +105,7 @@
                 format: "yyyy-mm-dd",
                 weekStartDay: 1,
             });
+            $(".date-picker").next().hide()        
             $("#ReturnDate").addClass("bg-white");
         });//End date picker
 
@@ -218,7 +224,7 @@
                         <div class="row">
                             <div class="col-auto col-xl-2 p-0"><!--spacing--></div>
                             <div class="col-12 col-xl-10">
-                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { placeholder = "YYYY-MM-DD", @readonly = "readonly", id = "date", @class = "form-control bg-white" } })
+                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { placeholder = "YYYY-MM-DD", @readonly = "readonly", id = "date", @class = "form-control bg-white date-picker" } })
                                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -258,7 +264,7 @@
                         <div class="row">
                             <div class="col-auto col-xl-2"><!--spacing--></div>
                             <div class="col-12 col-xl-10">
-                                @Html.EditorFor(model => model.Return_Date, new { htmlAttributes = new { placeholder = "YYYY-MM-DD", @readonly = "readonly", id = "ReturnDate", @class = "form-control bg-white" } })
+                                @Html.EditorFor(model => model.Return_Date, new { htmlAttributes = new { placeholder = "YYYY-MM-DD", @readonly = "readonly", id = "ReturnDate", @class = "form-control bg-white date-picker" } })
                                 @Html.ValidationMessageFor(model => model.Return_Date, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -374,5 +380,10 @@
 
     .gj-picker table tbody td:hover div{
         color: #28a745 !important;
+    }
+
+    .date-picker{
+        border-top-right-radius: 4px!important;
+        border-bottom-right-radius: 4px!important;
     }
 </style>
