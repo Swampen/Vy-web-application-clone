@@ -19,5 +19,7 @@ namespace WebApplication_Vy.Models.Entities
         public virtual Zipcode Zipcode { get; set; } 
 
         public virtual List<Ticket> Tickets { get; set; }
+        
+        public virtual List<CreditCard> CreditCards { get; set; }
     }
 }

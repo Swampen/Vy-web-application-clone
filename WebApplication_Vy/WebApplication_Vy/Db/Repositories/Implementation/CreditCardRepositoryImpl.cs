@@ -34,5 +34,13 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                     .FirstOrDefault(card => card.CreditCardNumber.Equals(cardNumber));
             }
         }
+
+        public CreditCard getCardByTicketId(int ticketId)
+        {
+            using (var db = new VyDbContext())
+            {
+                return db.Tickets.Find(ticketId).CreditCard;
+            }
+        }
     }
 }

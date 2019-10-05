@@ -48,6 +48,11 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                 Price = inTicket.Price,
                 TrainChanges = inTicket.TrainChanges
             };
+
+            CreditCard creditCard = new CreditCard
+            {
+                
+            };
             
             using (var db = new VyDbContext())
             {
@@ -70,7 +75,9 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                         Tickets = new List<Ticket>
                         {
                             ticket
+                            //inTicket
                         },
+                        CreditCards = inTicket.Customer.CreditCards
                     };
 
                     try
@@ -89,6 +96,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
 
                 try
                 {
+                    //setCreditCardIfNotExists(foundCustomer, inTicket.Customer.CreditCards[0]);
                     inTicket.Customer = foundCustomer;
                     foundCustomer.Tickets.Add(inTicket);
                     db.SaveChanges();
@@ -100,6 +108,24 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                     return false;
                 }
             }
+        }
+
+
+        private void setCreditCardIfNotExists(Customer foundCustomer, CreditCard creditCard)
+        {
+            if (!creditCardExists(foundCustomer, creditCard))
+            {
+                foundCustomer.CreditCards.Add(creditCard);
+            }
+        }
+        private bool creditCardExists(Customer foundCustomer, CreditCard creditCard)
+        {
+            return foundCustomer
+                .CreditCards
+                .Exists(card => card
+                    .CreditCardNumber
+                    .Equals(creditCard.CreditCardNumber)
+                );
         }
     }
 }

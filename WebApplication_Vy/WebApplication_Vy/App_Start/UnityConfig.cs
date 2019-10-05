@@ -22,6 +22,8 @@ namespace WebApplication_Vy
             container.RegisterType<IVyService, VyServiceImpl>();
             container.RegisterType<ITripService, TripServiceImpl>();
             container.RegisterType<IZipSearchService, ZipSearchServiceImpl>();
+            container.RegisterType<ICreditCardRepository, CreditCardRepositoryImpl>();
+            container.RegisterType<ICreditCardService, CreditCardServiceImpl>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

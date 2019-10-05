@@ -51,6 +51,7 @@ namespace WebApplication_Vy.Service.Implementation
                 cfg.CreateMap<Customer, CustomerDTO>().ReverseMap();
                 cfg.CreateMap<Trip, TripDTO>().ReverseMap();
                 cfg.CreateMap<Zipcode, ZipcodeDTO>().ReverseMap();
+                cfg.CreateMap<CreditCard, CardDTO>().ReverseMap();
             });
             var mapper = config.CreateMapper();
             var dto = mapper.Map<CustomerDTO>(entity);
@@ -110,15 +111,37 @@ namespace WebApplication_Vy.Service.Implementation
             ticket.Price = dto.Price;
             return ticket;
         }
-
+/*
         private Customer MapCustomerEntity(CustomerDTO dto)
+        {
+            Customer customer = new Customer
+            {
+                Givenname = dto.Givenname,
+                Surname = dto.Surname,
+                Address =  dto.Address,
+                CreditCards = new List<CreditCard>
+                {
+                    new CreditCard
+                    {
+                        CreditCardNumber = dto.CreditCards[0].Card_Number,
+                        Cvc = dto.CreditCards[0].Cvc,
+                        
+                    }
+                }
+                
+            };
+        }
+        */
+
+       private Customer MapCustomerEntity(CustomerDTO dto)
         {
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<TicketDTO, Ticket>();
                 cfg.CreateMap<TripDTO, Trip>();
-                cfg.CreateMap<CustomerDTO, Customer>();
+                cfg.CreateMap<CustomerDTO, Customer>().IncludeMembers();
                 cfg.CreateMap<ZipcodeDTO, Zipcode>();
+                cfg.CreateMap<CardDTO, CreditCard>();
             });
             var mapper = new Mapper(config);
             var entity = mapper.Map<Customer>(dto);

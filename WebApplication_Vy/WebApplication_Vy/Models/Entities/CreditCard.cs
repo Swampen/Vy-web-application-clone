@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string CardholderName { get; set; }
         public string CreditCardNumber { get; set; }
-        public string Cvc { get; set; }
-        public Customer CardHolder { get; set; }
+        public int Cvc { get; set; }
+        public virtual Customer CardHolder { get; set; }
     }
 }

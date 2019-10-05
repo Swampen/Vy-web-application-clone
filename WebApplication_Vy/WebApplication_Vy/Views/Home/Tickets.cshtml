@@ -21,6 +21,10 @@
             console.log(this)
             $(this).next().slideToggle()
         });
+        
+        $("#paymentDetails").on("clicked", function() {
+          console.log($(this).val());
+        }) 
     });
 </script>
 
@@ -53,6 +57,7 @@
                         <th scope="col">Time</th>
                         <th scope="col">Duration</th>
                         <th scope="col">Price</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,6 +69,13 @@
                             <td>@t.DepartureTime - @t.ArrivalTime</td>
                             <td>@t.Duration</td>
                             <td>@t.Price</td>
+                            <td>            
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="@t.Id" name="Betalingsinformasjon" class="btn btn-success" id="paymentDetails"/>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     }
                 </tbody>

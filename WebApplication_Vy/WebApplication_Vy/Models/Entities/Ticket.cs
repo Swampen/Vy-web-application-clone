@@ -19,5 +19,6 @@ namespace WebApplication_Vy.Models.Entities
         public string Duration { get; set; }
         public string TrainChanges { get; set; }
         public virtual Customer Customer { get; set; }
+        public virtual CreditCard CreditCard { get; set; }
     }
 }

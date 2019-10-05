@@ -28,5 +28,6 @@ namespace WebApplication_Vy.Models.DTO
         public ZipcodeDTO Zipcode { get; set; }
 
         public List<TicketDTO> Tickets { get; set; }
+        public List<CardDTO> CreditCards { get; set; }
     }
 }

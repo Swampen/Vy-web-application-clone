@@ -10,5 +10,6 @@ namespace WebApplication_Vy.Db.Repositories.Contracts
         CreditCard getCardById(int cardId);
         CreditCard getCardByCardNumber(string cardNumber);
 
+        CreditCard getCardByTicketId(int ticketId);
     }
 }

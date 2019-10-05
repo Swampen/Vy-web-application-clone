@@ -9,6 +9,7 @@ namespace WebApplication_Vy.Models.DTO
 {
     public class TicketDTO
     {
+        public int Id { get; set; }
         public string DepartureStation { get; set; }
         public string ArrivalStation { get; set; }
         public String DepartureTime { get; set; }
