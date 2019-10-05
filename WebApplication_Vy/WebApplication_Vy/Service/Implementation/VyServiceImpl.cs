@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Xml;
 using AutoMapper;
+using Microsoft.Ajax.Utilities;
+using NUnit.Framework;
 using WebApplication_Vy.Db.Repositories.Contracts;
 using WebApplication_Vy.Models.DTO;
 using WebApplication_Vy.Models.DTO.TripData;
@@ -80,6 +82,78 @@ namespace WebApplication_Vy.Service.Implementation
             return entity;
         }
 
+
+
+        private Ticket MapTicketEntity(TicketDTO dto)
+        {
+            Ticket ticket = new Ticket();
+            ticket.Customer = MapCustomerEntity(dto.Customer);
+            ticket.ArrivalStation = dto.ArrivalStation;
+            ticket.DepartureStation = dto.DepartureStation;
+            ticket.ArrivalTime = dto.ArrivalTime;
+            ticket.DepartureTime = dto.DepartureTime;
+            ticket.Duration = dto.Duration;
+            ticket.TrainChanges = dto.TrainChanges;
+            ticket.Price = dto.Price;
+            return ticket;
+        }
+        
+        private Customer MapCustomerEntity(CustomerDTO dto)
+        {
+            Customer customer = new Customer
+            {
+                Givenname = dto.Givenname,
+                Surname = dto.Surname,
+                Address = dto.Address,
+                Zipcode = mapZipCodeEntity(dto.Zipcode),
+                Email = dto.Email,
+                CreditCards = mapCreditCardEntity(dto.CreditCards)
+            };
+            return customer;
+        }
+
+        private List<CreditCard> mapCreditCardEntity(List<CardDTO> cardDtos)
+        {
+            var creditCards = new List<CreditCard>();
+            cardDtos.ForEach(dto =>
+            {
+                var cc = new CreditCard();
+                cc.Cvc = dto.Cvc;
+                cc.CardholderName = dto.Card_Holder;
+                cc.CreditCardNumber = dto.Card_Number;
+                creditCards.Add(cc);
+            });
+            return creditCards;
+        }
+
+        private Zipcode mapZipCodeEntity(ZipcodeDTO dto)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ZipcodeDTO, Zipcode>(); 
+                
+            });
+            var mapper = new Mapper(config);
+            return mapper.Map<Zipcode>(dto);
+        }
+        
+/*
+       private Customer MapCustomerEntity(CustomerDTO dto)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TicketDTO, Ticket>();
+                cfg.CreateMap<TripDTO, Trip>();
+                cfg.CreateMap<CustomerDTO, Customer>().IncludeMembers();
+                cfg.CreateMap<ZipcodeDTO, Zipcode>();
+                cfg.CreateMap<CardDTO, CreditCard>();
+            });
+            var mapper = new Mapper(config);
+            var entity = mapper.Map<Customer>(dto);
+            return entity;
+        }
+        */
+
         //TODO: Remove if not needed
         /*
         private TripTicket MapTicketEntity(SubmitPurchaseDTO dto)
@@ -97,55 +171,5 @@ namespace WebApplication_Vy.Service.Implementation
             return entity;
         }
         */
-
-        private Ticket MapTicketEntity(TicketDTO dto)
-        {
-            Ticket ticket = new Ticket();
-            ticket.Customer = MapCustomerEntity(dto.Customer);
-            ticket.ArrivalStation = dto.ArrivalStation;
-            ticket.DepartureStation = dto.DepartureStation;
-            ticket.ArrivalTime = dto.ArrivalTime;
-            ticket.DepartureTime = dto.DepartureTime;
-            ticket.Duration = dto.Duration;
-            ticket.TrainChanges = dto.TrainChanges;
-            ticket.Price = dto.Price;
-            return ticket;
-        }
-/*
-        private Customer MapCustomerEntity(CustomerDTO dto)
-        {
-            Customer customer = new Customer
-            {
-                Givenname = dto.Givenname,
-                Surname = dto.Surname,
-                Address =  dto.Address,
-                CreditCards = new List<CreditCard>
-                {
-                    new CreditCard
-                    {
-                        CreditCardNumber = dto.CreditCards[0].Card_Number,
-                        Cvc = dto.CreditCards[0].Cvc,
-                        
-                    }
-                }
-                
-            };
-        }
-        */
-
-       private Customer MapCustomerEntity(CustomerDTO dto)
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<TicketDTO, Ticket>();
-                cfg.CreateMap<TripDTO, Trip>();
-                cfg.CreateMap<CustomerDTO, Customer>().IncludeMembers();
-                cfg.CreateMap<ZipcodeDTO, Zipcode>();
-                cfg.CreateMap<CardDTO, CreditCard>();
-            });
-            var mapper = new Mapper(config);
-            var entity = mapper.Map<Customer>(dto);
-            return entity;
-        }
     }
 }
