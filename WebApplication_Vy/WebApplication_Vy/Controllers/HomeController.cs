@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using Microsoft.Ajax.Utilities;
 using WebApplication_Vy.Db;
 using WebApplication_Vy.Models.DTO;
 using WebApplication_Vy.Models.DTO.TripData;
@@ -116,10 +118,11 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetPaymentDetails(int ticketId)
+        public string GetPaymentDetails(int ticketId)
         {
-            ViewBag.Model = _creditCardService.GetCreditCard(id);
-            return null;
+            var serializer = new JavaScriptSerializer();
+            CardDTO card = _creditCardService.GetCreditCard(ticketId);
+            return serializer.Serialize(card);
         }
 
         [HttpGet]
