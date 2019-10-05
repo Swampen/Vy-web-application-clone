@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
     $(function () {
-        var time = ["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00", "12:00","13:00", "14:00","15:00", "16:00","17:00", "18:00","19:00","20:00","21:00","22:00","23:00"];
+        var time = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
 
         var dropdown = "";
         for (var i of time) {
@@ -14,10 +14,9 @@
         }
         $("#time").append(dropdown);
         $("#Return_Time").append(dropdown);
-        
 
         var stations = [];
-        var stationsData = fetch("https://itinerary.cloud.nsb.no/api/stops", { "credentials": "omit", "headers": { "accept": "application/json", "sec-fetch-mode": "cors", "x-language": "no" }, "referrer": "https://www.vy.no/bestill/velg-togavgang?from=Oslo%20S&fromDisplayName=Oslo%20S&fromType=train-station-name&to=Bergen&toDisplayName=Bergen&toType=train-station-name&departureDatetime=2019-09-24%2010%3A28&petFree=false&pasCats=1&numPasCats=1", "referrerPolicy": "no-referrer-when-downgrade", "body": null, "method": "GET", "mode": "cors" })
+        fetch("https://itinerary.cloud.nsb.no/api/stops", { "credentials": "omit", "headers": { "accept": "application/json", "sec-fetch-mode": "cors", "x-language": "no" }, "referrer": "https://www.vy.no/bestill/velg-togavgang?from=Oslo%20S&fromDisplayName=Oslo%20S&fromType=train-station-name&to=Bergen&toDisplayName=Bergen&toType=train-station-name&departureDatetime=2019-09-24%2010%3A28&petFree=false&pasCats=1&numPasCats=1", "referrerPolicy": "no-referrer-when-downgrade", "body": null, "method": "GET", "mode": "cors" })
             .then(data => data.json()).then(data => {
                 $.each(data, function (index, value) {
                     if (value.active && value.type === "TRAIN") {
@@ -28,40 +27,45 @@
             });
         console.log(stations);
 
-       $("#Round_Trip").on("click", function(e) {
-         
-             console.log(this);
-             $("#Round_Trip").val(true);
-             $("#Direct_Trip").prop('checked', false);
-             $("#Return_Time").prop('required', true);
-             $("#ReturnDiv").slideDown();
-       });
-       
-       $("#SwitchButton").on("click", function(e) {
-         
-        var destinationTemp = $("#Destination").val();
-        var departureTemp = $("#Departure").val();
-        
-        console.log("Route switched to " + destinationTemp + ", " + departureTemp);
-        
-        $("#Destination").val(departureTemp);
-        $("#Departure").val(destinationTemp);
-       });
-       
-       $("#Direct_Trip").on("click", function(e) {
-           
-            console.log(this);
-            $("#Round_Trip").val(false);
-            $("#Round_Trip").prop('checked', false);
-            $("#Return_Time").prop('required', false)
-            $("#ReturnDiv").slideUp();
-       });
-        
+        $("#SwitchButton").on("click", function (e) {
+
+            var destinationTemp = $("#Arrival").val();
+            var departureTemp = $("#Departure").val();
+
+            $("#Arrival").val(departureTemp);
+            $("#Departure").val(destinationTemp);
+        });
+
+        $("#SwitchButton").on("hover").css("cursor", "pointer");
+
+        $('#Round_Trip').bootstrapToggle({
+            off: 'One way',
+            on: 'Round trip',
+            onstyle: "success"
+        });
+
+        //Setting the button to off on load
+        $("#Round_Trip").prop("checked", false);
+        $('#Round_Trip').bootstrapToggle('off')
+
+        $("#Round_Trip").change(function () {
+
+            if (this.checked) {
+                $("#ReturnDiv").slideDown();
+                $("#Return_Date").prop('required', true)
+                $("#Return_Time").prop('required', true)
+            } else {
+                $("#ReturnDiv").slideUp();
+                $("#Return_Date").prop('required', false)
+                $("#Return_Time").prop('required', false)
+            }
+        });
+
         var date = new Date();
-        date.setDate(date.getDate()-1);
+        date.setDate(date.getDate() - 1);
 
         //Form spesific javascript
-        $('#dateandtime').datepicker({
+        $('#date').datepicker({
             minDate: date,
             uiLibrary: 'bootstrap4',
             format: "yyyy-mm-dd",
@@ -75,7 +79,7 @@
         });
 
         $('.stations').autocomplete({
-            source: stations 
+            source: stations
         });
 
         $("#adult").children("input").val(1);
@@ -84,8 +88,9 @@
         $("#senior").children("input").val(0);
 
         var totalTickets = 1;
+        var maxTickets = 10
 
-        $(".add-sub-ticket").on("click", ".pluss", function (e) {
+        $(".add-sub-ticket").on("click", ".pluss", function () {
             var value = $(this).siblings("input").val();
             if (value == 0) {
                 $(this).siblings(".minus").attr("disabled", false);
@@ -94,9 +99,13 @@
             ++totalTickets;
             $(this).siblings("input").val(value);
             $(this).siblings("b").text(value);
+
+            if (totalTickets >= maxTickets) {
+                $(".pluss").attr("disabled", true)
+            }
         });
 
-        $(".add-sub-ticket").on("click", ".minus", function (e) {
+        $(".add-sub-ticket").on("click", ".minus", function () {
             if (totalTickets <= 1) return
             var value = $(this).siblings("input").val();
             --value;
@@ -106,224 +115,248 @@
             if (value <= 0) {
                 $(this).attr("disabled", true);
             }
+
+            if (totalTickets < maxTickets) {
+                $(".pluss").attr("disabled", false)
+            }
         });
 
+
+        $("#date").on("change", function () {
+            date = new Date($("#date").val())
+            date.setDate(date.getDate() - 1)
+            $("#ReturnDate").datepicker("destroy");
+            $("#ReturnDate").datepicker({
+                minDate: date,
+                uiLibrary: 'bootstrap4',
+                format: "yyyy-mm-dd",
+                weekStartDay: 1,
+            });
+            $("#ReturnDate").addClass("bg-white");
+
+        });
     });
 </script>
 <div id="ajax_form" class="container">
     @using (Ajax.BeginForm("Index", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }))
     {
         @Html.AntiForgeryToken()
-        <div align="center" style="padding-bottom: 100px">
-            <h1>Hei, hvor vil du reise?</h1>
-        </div>
-        
-        <div class="row h-100 justify-content-center align-items-center">
-                
-            <div class="col-sm">
-                <div class="form-group">
-                    <div class="col">
-                        <div class="row float-right">
-                            @Html.LabelFor(model => model.Departure_Station, htmlAttributes: new {@class = "control-label col-md-2"})
-                        </div>
-                    </div>
-                    <div class="col float-right">
-                        @Html.EditorFor(model => model.Departure_Station, new {htmlAttributes = new {id = "Departure", @class = "stations form-control float-right"}})
-                        <p id="chosen"></p>
-                        @Html.ValidationMessageFor(model => model.Departure_Station, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <a class="btn btn-lg px-1 " id="SwitchButton" role="button"> <img src="../../Content/arrows.png" height="30" alt="arrows"></a>
-            </div>
-                
-            <div class="col-sm">
-                <div class="form-group">
-                    <div class="col">
-                        <div class="row float-left">
-                            @Html.LabelFor(model => model.Arrival_Station, htmlAttributes: new {@class = "control-label col-md-2"})
-                        </div>
-                    </div>
-                    <div class="col float-left">
-                        @Html.EditorFor(model => model.Arrival_Station, new {htmlAttributes = new {id = "Destination", @class = "stations form-control float-left"}})
-                        <label id="postaltown"></label>
-                        @Html.ValidationMessageFor(model => model.Arrival_Station, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        
-        <div class="col h-100">
-            <div class="row h-100 justify-content-center align-items-center">    
-                <div class="form-check" style="margin: 40px">
-                    <input class="form-check-input" type="radio" id="Direct_Trip" checked>
-                    <label class="form-check-label" for="exampleRadios1">
-                        Default radio
-                    </label>
-                </div>
-                <div class="inputGroup" style="margin: 40px">
-                    <input class="form-check-input" type="radio" name="Round_Trip" id="Round_Trip" value="false">
-                    <label class="form-check-label" for="exampleRadios2">
-                        Second default radio
-                    </label>
-                </div>
-            </div>
-        </div>
-        
-
-        <div class="col h-100">
-            <div class="row h-100 justify-content-center align-items-center">
-                <div class="col-sm">
-                    <div class="form-group">
-                        <div class="col">
-                            <div class="row float-right">
-                                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-                                <div class="form-group">
-                                    <div class="col" style="margin-left: 55% ">
-                                        @Html.LabelFor(model => model.Date, htmlAttributes: new {@class = "control-label col-md-2"})
-                                    </div>
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Date, new {htmlAttributes = new {id = "dateandtime", @class = "form-control"}})
-                                        @Html.ValidationMessageFor(model => model.Date, "", new {@class = "text-danger"})
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-
-                <div class="col-sm">
-                    <div class="row ">
-                        <div class="form-group">
-                            <div class="col">
-                                <div class="row" style="margin-left: 20%">
-                                    @Html.LabelFor(model => model.Time, htmlAttributes: new {@class = "control-label col-md-10"})
-                                    <div class="col">
-                                        <select id="time" name="Time" class="custom-select form-control" required>
-                                            <option value="" selected>Choose a time...</option>
-                                        </select>
-
-                                        @Html.ValidationMessageFor(model => model.Time, "", new {@class = "text-danger"})
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div id="ReturnDiv" style="display: none">    
-            <div class="col h-100">
-                <div class="row h-100 justify-content-center align-items-center">
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <div class="col">
-                                <div class="row float-right">
-                                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-                                    <div class="form-group">
-                                        <div class="col" style="margin-left: 55% ">
-                                            @Html.LabelFor(model => model.Return_Date, htmlAttributes: new {@class = "control-label col-md-2"})
-                                        </div>
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Return_Date, new {htmlAttributes = new {id = "ReturnDate", @class = "form-control"}})
-                                            @Html.ValidationMessageFor(model => model.Return_Date, "", new {@class = "text-danger"})
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                
-
-                    <div class="col-sm">
-                        <div class="row ">
-                            <div class="form-group">
-                                <div class="col">
-                                    <div class="row" style="margin-left: 20%">
-                                        @Html.LabelFor(model => model.Return_Time, htmlAttributes: new {@class = "control-label col-md-10"})
-                                        <div class="col">
-                                            <select id="Return_Time" name="Return_Time" class="custom-select form-control">
-                                                <option value="" selected>Choose a time...</option>
-                                            </select>
-
-                                            @Html.ValidationMessageFor(model => model.Return_Time, "", new {@class = "text-danger"})
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-         </div>  
-         
-         <div class="row">
-             <div class="col">
-                 <div class="row">
-                     <div id="adult" class="w-100 text-right add-sub-ticket">
-                         @Html.LabelFor(model => model.Adult, htmlAttributes: new { @class = "control-label" })
-                         <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm"><span>-</span></button>
-                         @Html.HiddenFor(model => model.Adult, new { @class = "control-label" })<b class="mt-1">1</b>
-                         <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span class="vertical-align-center">+</span></button>
-                         @Html.ValidationMessageFor(model => model.Adult, "", new { @class = "text-danger" })
-                     </div>
-                 </div>
-                 <div class="row">
-                     <div id="child" class="w-100 text-right add-sub-ticket">
-                         @Html.LabelFor(model => model.Child, htmlAttributes: new { @class = "control-label" })
-                         <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
-                         @Html.HiddenFor(model => model.Child, new { @class = "control-label" })<b class="mt-1">0</b>
-                         <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
-                         @Html.ValidationMessageFor(model => model.Child, "", new { @class = "text-danger" })
-                     </div>
-                 </div>
-             </div>
-             <div class="col-sm-1">
-             </div>
-             <div class="col">
-                 <div class="row">
-                     <div id="student" class="w-100 add-sub-ticket">
-                         <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
-                         @Html.HiddenFor(model => model.Student, new { @class = "control-label" })<b class="mt-1">0</b>
-                         <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
-                         @Html.LabelFor(model => model.Student, htmlAttributes: new { @class = "control-label" })
-                         @Html.ValidationMessageFor(model => model.Student, "", new { @class = "text-danger" })
-                     </div>
-                 </div>
-                 <div class="row">
-                     <div id="senior" class="w-100 add-sub-ticket">
-                          <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
-                          @Html.HiddenFor(model => model.Senior, new { @class = "control-label " })<b class="mt-1">0</b>
-                          <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
-                          @Html.LabelFor(model => model.Senior, htmlAttributes: new { @class = "control-label" })
-                          @Html.ValidationMessageFor(model => model.Senior, "", new { @class = "text-danger" })
-                     </div>
-                 </div>
-             </div>
-         </div>
-        
-            
         <div align="center">
-            <div class="form-group">
-                <div class="col-sm">
-                    <input type="submit" value="Videre" class="btn btn-secondary btn-lg btn-block m-5"/>
-                </div>
-            </div>
-            <hr/>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-12 text-success">
-                    @ViewBag.Records
-                </div>
-            </div>
+            <h1>Welcome! Where do you want to travel?</h1>
         </div>
-        
-       
+        <div class="row pt-5">
+            <div class="col-auto col-md-1"><!--spacing--></div>
+
+            <div class="col-12 col-md-10">
+                <!-- from - to row -->
+                <div class="row">
+                    <div class="col-12 col-md-5">
+                        <div class="row">
+                            <div class="col-auto col-md-9">
+
+                            </div>
+                            <div class="col-12 col-md-3">
+                                @Html.LabelFor(model => model.Departure_Station, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                @Html.EditorFor(model => model.Departure_Station, new { htmlAttributes = new { id = "Departure", @class = "stations form-control d-inline-block" } })
+                                @Html.ValidationMessageFor(model => model.Departure_Station, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2 text-center mt-4">
+                        <img class="img-fluid" id="SwitchButton" src="../../Content/SwitcherBlueGrey80.svg" height="30" alt="arrows">
+                    </div>
+                    <div class="col-12 col-md-5">
+                        <div class="row">
+
+                            <div class="col-12 col-md-3">
+                                @Html.LabelFor(model => model.Arrival_Station, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-auto col-md-9"> <!-- spacer --></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                @Html.EditorFor(model => model.Arrival_Station, new { htmlAttributes = new { id = "Arrival", @class = "stations form-control" } })
+                                @Html.ValidationMessageFor(model => model.Arrival_Station, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Direct - retur buttons -->
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <span>One way or roundtrip?</span>
+                            </div>
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col-12 text-center">
+                                <input id="Round_Trip" type="checkbox" value="true" name="Round_Trip">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- date - time -->
+                <div class="row mt-3">
+                    <div class="col-12 col-sm-7 col-md-5">
+                        <div class="row">
+                            <div class="col-auto col-xl-2 p-0"><!--spacing--></div>
+                            <div class="col-12 col-xl-10">
+                                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-auto col-xl-2 p-0"><!--spacing--></div>
+                            <div class="col-12 col-xl-10">
+                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @readonly = "readonly", id = "date", @class = "form-control bg-white" } })
+                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-auto col-md-2 p-0"><!--spacing--></div>
+
+                    <div class="col-12 col-sm-5 col-md-5">
+                        <div class="row">
+                            <div class="col-12 col-xl-10">
+                                @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-xl-10">
+                                <select id="time" name="Time" class="custom-select form-control" required>
+                                    <option value="" selected>Choose a time...</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- hidden return div -->
+                <div class="row mt-3" id="ReturnDiv" style="display: none">
+                    <div class="col-12 col-sm-7 col-md-5">
+                        <div class="row">
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
+                            <div class="col-12 col-xl-10">
+                                @Html.LabelFor(model => model.Return_Date, htmlAttributes: new { id = "Return_Date", @class = "control-label" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
+                            <div class="col-12 col-xl-10">
+                                @Html.EditorFor(model => model.Return_Date, new { htmlAttributes = new { @readonly = "readonly", id = "ReturnDate", @class = "form-control bg-white" } })
+                                @Html.ValidationMessageFor(model => model.Return_Date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- spacing -->
+                    <div class="col-auto col-md-2 p-0"></div>
+
+                    <div class="col-12 col-sm-5 col-md-5">
+                        <div class="row">
+                            <div class="col-12 col-xl-10">
+                                @Html.LabelFor(model => model.Return_Time, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-xl-10">
+                                <select id="Return_Time" name="Return_Time" class="custom-select form-control" required>
+                                    <option value="" selected>Choose a time...</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.Return_Time, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-auto col-xl-2"><!--spacing--></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Select people -->
+                <div class="row mt-3">
+                    <div class="col-12 col-md-5">
+                        <div class="row">
+                            <div id="adult" class="w-100 add-sub-ticket sub-ticket-left">
+                                @Html.LabelFor(model => model.Adult, htmlAttributes: new { @class = "control-label" })
+                                <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm"><span>-</span></button>
+                                @Html.HiddenFor(model => model.Adult, new { @class = "control-label" })<b class="mt-1">1</b>
+                                <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span class="vertical-align-center">+</span></button>
+                                @Html.ValidationMessageFor(model => model.Adult, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div id="child" class="w-100 add-sub-ticket sub-ticket-left">
+                                @Html.LabelFor(model => model.Child, htmlAttributes: new { @class = "control-label" })
+                                <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
+                                @Html.HiddenFor(model => model.Child, new { @class = "control-label" })<b class="mt-1">0</b>
+                                <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
+                                @Html.ValidationMessageFor(model => model.Child, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- spacing -->
+                    <div class="col-auto col-md-2"></div>
+
+                    <div class="col col-md-5">
+                        <div class="row">
+                            <div id="student" class="w-100 add-sub-ticket">
+                                <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
+                                @Html.HiddenFor(model => model.Student, new { @class = "control-label" })<b class="mt-1">0</b>
+                                <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
+                                @Html.LabelFor(model => model.Student, htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.Student, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div id="senior" class="w-100 add-sub-ticket">
+                                <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
+                                @Html.HiddenFor(model => model.Senior, new { @class = "control-label " })<b class="mt-1">0</b>
+                                <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
+                                @Html.LabelFor(model => model.Senior, htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.Senior, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div align="center" class="mt-2">
+                    <div class="form-group">
+                        <div class="col-12 col-md-5">
+                            <input type="submit" value="Search" class="btn btn-outline-success pl-3 pr-3 submit" />
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-12 text-success">
+                            @ViewBag.Records
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-auto col-md-1 p-0"><!--spacing--></div>
+        </div>
     }
 </div>
 
-       
+
+
+
+
+<style>
+    input, select {
+        max-width: 100%;
+    }
+</style>

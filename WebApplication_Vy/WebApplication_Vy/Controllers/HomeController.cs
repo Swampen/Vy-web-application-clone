@@ -43,52 +43,55 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Index(TripQueryDTO tripQuery)
         {
-            Session["HaveRoundTrip"] = tripQuery.Round_Trip;
-            if (tripQuery.Round_Trip)
+            if (ModelState.IsValid)
             {
-                var returnTripQuery = new TripQueryDTO
+                Session["HaveRoundTrip"] = tripQuery.Round_Trip;
+                if (tripQuery.Round_Trip)
                 {
-                    Departure_Station = tripQuery.Arrival_Station,
-                    Arrival_Station = tripQuery.Departure_Station,
-                    Date = tripQuery.Return_Date,
-                    Time = tripQuery.Return_Time,
-                    Round_Trip = false,
-                    Adult = tripQuery.Adult,
-                    Child = tripQuery.Child,
-                    Student = tripQuery.Student,
-                    Senior = tripQuery.Senior
-                };
-                Session["ReturnTripQuery"] = returnTripQuery;
+                    var returnTripQuery = new TripQueryDTO()
+                    {
+                        Departure_Station = tripQuery.Arrival_Station,
+                        Arrival_Station = tripQuery.Departure_Station,
+                        Date = tripQuery.Return_Date,
+                        Time = tripQuery.Return_Time,
+                        Round_Trip = false,
+                        Adult = tripQuery.Adult,
+                        Child = tripQuery.Child,
+                        Student = tripQuery.Student,
+                        Senior = tripQuery.Senior,
+                    };
+                    Session["ReturnTripQuery"] = returnTripQuery;
+                }
+                ViewBag.Model = tripQuery;
+
+                return View("Trips");
             }
-
-            ViewBag.Model = tripQuery;
-
-            return View("Trips");
+            return View();
         }
 
+        
 
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            var haveRoundTrip = (bool) Session["HaveRoundTrip"];
-            if (selectedTripDto.Round_Trip)
-            {
-                Session["ToTrip"] = selectedTripDto;
-                var returnQuery = (TripQueryDTO) Session["ReturnTripQuery"];
-                ViewBag.Model = returnQuery;
-                return View();
-            }
-
-            var chosenTrips = new List<TripDTO>();
-            if (haveRoundTrip)
-            {
-                var toTrip = (TripDTO) Session["ToTrip"];
-                chosenTrips.Add(toTrip);
-            }
-
-            chosenTrips.Add(selectedTripDto);
-            ViewBag.Model = chosenTrips;
-            return View("CustomerDetails");
+                bool haveRoundTrip = (bool)Session["HaveRoundTrip"];
+                if (selectedTripDto.Round_Trip)
+                {
+                    Session["ToTrip"] = selectedTripDto;
+                    var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
+                    ViewBag.Model = returnQuery;
+                    return View();
+                }
+                List<TripDTO> chosenTrips = new List<TripDTO>();
+                if (haveRoundTrip)
+                {
+                    var toTrip = (TripDTO)Session["ToTrip"];
+                    chosenTrips.Add(toTrip);
+                }
+                chosenTrips.Add(selectedTripDto);
+                Session["ChosenTrips"] = chosenTrips;
+                ViewBag.Model = chosenTrips;
+                return View("CustomerDetails");
         }
 
         [HttpGet]
@@ -110,13 +113,14 @@ namespace WebApplication_Vy.Controllers
                     success = _vyService.CreateTicket(submitPurchaseDto.ReturnTripTicket);
                     Console.WriteLine("Returnticket success");
                 }
-
                 if (success) return RedirectToAction("tickets");
             }
 
-            return View("tickets");
+            var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
+            ViewBag.Model = chosenTrips;
+            return View("CustomerDetails");
         }
-
+        
         [HttpGet]
         public string GetPaymentDetails(int ticketId)
         {
@@ -143,13 +147,6 @@ namespace WebApplication_Vy.Controllers
             var match = Regex.Match(zipcode.Postalcode, "[0-9]{4}");
             if (!match.Success) return "";
             var result = _zipSearchService.GetPostaltown(zipcode.Postalcode);
-
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("zip", "Not a valid Norwegian zipcode");
-                return result;
-            }
-
             return result;
         }
 

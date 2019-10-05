@@ -184,6 +184,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTO\Validation\ExistingStationAttribute.cs" />
     <Compile Include="Models\DTO\CardDTO.cs" />
     <Compile Include="Models\DTO\CustomerDTO.cs" />
     <Compile Include="Models\DTO\SubmitPurchaseDTO.cs" />
@@ -199,9 +200,9 @@
     <Compile Include="Models\DTO\ZipcodeDTO.cs" />
     <Compile Include="Models\Entities\CreditCard.cs" />
     <Compile Include="Models\Entities\Customer.cs" />
+    <Compile Include="Models\Entities\Station.cs" />
     <Compile Include="Models\Entities\TripData\Line.cs" />
     <Compile Include="Models\Entities\TripData\Schedule.cs" />
-    <Compile Include="Models\Entities\TripData\Station.cs" />
     <Compile Include="Models\Entities\Ticket.cs" />
     <Compile Include="Models\Entities\TripData\Trip.cs" />
     <Compile Include="Models\Entities\TripData\TripInterval.cs" />
@@ -219,16 +220,22 @@
     <Compile Include="Service\Implementation\ZipSearchServiceImpl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\VyDB.mdf" />
+    <Content Include="App_Data\VyDB_log.ldf">
+      <DependentUpon>VyDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\Assets\finished.svg" />
     <Content Include="Content\Assets\train.svg" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
     <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-toggle.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min_new.css" />
     <Content Include="Content\gijgo.min.css" />
+    <Content Include="Content\stations.xml" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -270,12 +277,12 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="Content\trips.xml" />
     <Content Include="Content\vy.png" />
     <Content Include="Content\zipcodes.xml" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap-toggle.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -356,7 +363,6 @@
     <Content Include="Views\Home\Card.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\DAO\" />
   </ItemGroup>
   <ItemGroup>

@@ -84,7 +84,7 @@ trips = fetch("https://booking.cloud.nsb.no/api/itineraries/search", {
                                 <div><input type='text' hidden name=Date value='${value.departureScheduled.split("T")[0]}'></div>
                                 <div><input type='text' hidden name=Departure_Station value='${value.from}'></div>
                                 <div><input type='text' hidden name=Arrival_Station value='${value.to}'></div>
-                                <div><input type='checkbox' hidden name=Round_Trip value='${trip.Round_Trip}' checked></div>
+                                <div><input type='checkbox' hidden name=Round_Trip value='${trip.Round_Trip ? true : false}' checked></div>
                             </div>\
                             <div id='hidden_${i}' class='row mt-4' style='display: none;'>
                             </div>\
