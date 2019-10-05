@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Microsoft.Ajax.Utilities;
 using WebApplication_Vy.Db;
 using WebApplication_Vy.Models.DTO;
 using WebApplication_Vy.Models.DTO.TripData;
@@ -15,6 +13,7 @@ namespace WebApplication_Vy.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ICreditCardService _creditCardService;
         private readonly ITripService _tripService;
         private readonly IVyService _vyService;
         private readonly IZipSearchService _zipSearchService;
@@ -22,11 +21,13 @@ namespace WebApplication_Vy.Controllers
         public HomeController(
             IVyService vyService,
             ITripService tripService,
-            IZipSearchService zipSearchService)
+            IZipSearchService zipSearchService,
+            ICreditCardService creditCardService)
         {
             _vyService = vyService;
             _tripService = tripService;
             _zipSearchService = zipSearchService;
+            _creditCardService = creditCardService;
 
             var db = new VyDbContext();
             db.Database.Initialize(true);
@@ -68,29 +69,29 @@ namespace WebApplication_Vy.Controllers
             return View();
         }
 
-
+        
 
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            bool haveRoundTrip = (bool)Session["HaveRoundTrip"];
-            if (selectedTripDto.Round_Trip)
-            {
-                Session["ToTrip"] = selectedTripDto;
-                var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
-                ViewBag.Model = returnQuery;
-                return View();
-            }
-            List<TripDTO> chosenTrips = new List<TripDTO>();
-            if (haveRoundTrip)
-            {
-                var toTrip = (TripDTO)Session["ToTrip"];
-                chosenTrips.Add(toTrip);
-            }
-            chosenTrips.Add(selectedTripDto);
-            Session["ChosenTrips"] = chosenTrips;
-            ViewBag.Model = chosenTrips;
-            return View("CustomerDetails");
+                bool haveRoundTrip = (bool)Session["HaveRoundTrip"];
+                if (selectedTripDto.Round_Trip)
+                {
+                    Session["ToTrip"] = selectedTripDto;
+                    var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
+                    ViewBag.Model = returnQuery;
+                    return View();
+                }
+                List<TripDTO> chosenTrips = new List<TripDTO>();
+                if (haveRoundTrip)
+                {
+                    var toTrip = (TripDTO)Session["ToTrip"];
+                    chosenTrips.Add(toTrip);
+                }
+                chosenTrips.Add(selectedTripDto);
+                Session["ChosenTrips"] = chosenTrips;
+                ViewBag.Model = chosenTrips;
+                return View("CustomerDetails");
         }
 
         [HttpGet]
@@ -105,7 +106,6 @@ namespace WebApplication_Vy.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var success = _vyService.CreateTicket(submitPurchaseDto.TripTicket);
                 if (submitPurchaseDto.ReturnTripTicket.ArrivalStation != null)
                 {
@@ -119,6 +119,14 @@ namespace WebApplication_Vy.Controllers
             var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
             ViewBag.Model = chosenTrips;
             return View("CustomerDetails");
+        }
+        
+        [HttpGet]
+        public string GetPaymentDetails(int ticketId)
+        {
+            var serializer = new JavaScriptSerializer();
+            CardDTO card = _creditCardService.GetCreditCard(ticketId);
+            return serializer.Serialize(card);
         }
 
         [HttpGet]
@@ -139,19 +147,12 @@ namespace WebApplication_Vy.Controllers
             var match = Regex.Match(zipcode.Postalcode, "[0-9]{4}");
             if (!match.Success) return "";
             var result = _zipSearchService.GetPostaltown(zipcode.Postalcode);
-
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("zip", "Not a valid Norwegian zipcode");
-                return result;
-            }
-
             return result;
         }
 
         public ActionResult Tickets()
         {
-            List<CustomerDTO> customers = _vyService.GetCustomerDtos();
+            var customers = _vyService.GetCustomerDtos();
             return View(customers);
         }
     }

@@ -48,6 +48,11 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                 Price = inTicket.Price,
                 TrainChanges = inTicket.TrainChanges
             };
+
+            CreditCard creditCard = new CreditCard
+            {
+                
+            };
             
             using (var db = new VyDbContext())
             {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 using WebApplication_Vy.Models.DTO.Validation;
 
 namespace WebApplication_Vy.Models.DTO
@@ -21,8 +17,10 @@ namespace WebApplication_Vy.Models.DTO
 
         [Required]
         [RegularExpression(@"[0-9]{3}", ErrorMessage = "Not a valid CVC")]
+        [MaxLength(3)]
+        [MinLength(3)]
         [Display(Name = "CVC")]
-        public int Cvc { get; set; }
+        public string Cvc { get; set; }
 
         [Required]
         [Display(Name = "Cardholder name")]

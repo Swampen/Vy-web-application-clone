@@ -18,6 +18,24 @@
         $("#table").on("click", ".button-row", function () {
             $(this).next().slideToggle()
         });
+        
+        $("#table").on("click","#paymentDetails", function() {
+           id =  $(this).val();
+           console.log("this" + id);
+           $.ajax({
+                      url: "@Url.Action("GetPaymentDetails", "home")",
+                      type: "POST",
+                      data: JSON.stringify(id),
+                      contentType: "application/json;charset=utf-8",
+                      success: function (data) 
+                      {
+                          console.log(data);
+                      },
+                      error: function (x, y, z) {
+                          alert(x + '\n' + y + '\n' + z);
+                      }
+                  });
+        })
     });
 </script>
 
@@ -50,6 +68,7 @@
                         <th scope="col">Time</th>
                         <th scope="col">Duration</th>
                         <th scope="col">Price</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,6 +80,13 @@
                             <td>@t.DepartureTime - @t.ArrivalTime</td>
                             <td>@t.Duration</td>
                             <td>@t.Price</td>
+                            <td>            
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="@t.Id" class="btn btn-success" id="paymentDetails"/>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     }
                 </tbody>
