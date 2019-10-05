@@ -101,11 +101,6 @@ namespace WebApplication_Vy.Controllers
         {
             if (ModelState.IsValid)
             {
-                submitPurchaseDto
-                    .TripTicket
-                    .Customer
-                    .CreditCards = new List<CardDTO>{submitPurchaseDto.CreditCard};
-
                 var success = _vyService.CreateTicket(submitPurchaseDto.TripTicket);
                 if (submitPurchaseDto.ReturnTripTicket.ArrivalStation != null)
                 {
@@ -121,7 +116,7 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetPaymentDetails(int id)
+        public ActionResult GetPaymentDetails(int ticketId)
         {
             ViewBag.Model = _creditCardService.GetCreditCard(id);
             return null;

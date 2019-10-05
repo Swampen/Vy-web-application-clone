@@ -17,6 +17,7 @@ namespace WebApplication_Vy.Models.DTO
         public int Price { get; set; }
         public string Duration { get; set; }
         public string TrainChanges { get; set; }
+        public CardDTO CreditCard { get; set; }
         public CustomerDTO Customer { get; set; }
     }
 }

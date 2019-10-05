@@ -7,15 +7,6 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
 {
     public class CreditCardRepositoryImpl : ICreditCardRepository
     {
-        public List<CreditCard> getCardsByCustomerId(int customerId)
-        {
-            using (var db = new VyDbContext())
-            {
-                return db.CreditCards
-                    .Where(card => card.CardHolder.Id.Equals(customerId))
-                    .ToList();
-            }
-        }
 
         public CreditCard getCardById(int cardId)
         {
@@ -39,7 +30,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
         {
             using (var db = new VyDbContext())
             {
-                return db.Tickets.Find(ticketId).CreditCard;
+                return db.Tickets.FirstOrDefault(ticket => ticket.Id == ticketId).CreditCard;
             }
         }
     }

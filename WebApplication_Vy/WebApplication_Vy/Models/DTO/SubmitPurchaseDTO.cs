@@ -6,6 +6,5 @@ namespace WebApplication_Vy.Models.DTO
     {
         public TicketDTO TripTicket { get; set; }
         public TicketDTO ReturnTripTicket { get; set; }
-        public CardDTO CreditCard { get; set; }
     }
 }

@@ -95,6 +95,7 @@ namespace WebApplication_Vy.Service.Implementation
             ticket.Duration = dto.Duration;
             ticket.TrainChanges = dto.TrainChanges;
             ticket.Price = dto.Price;
+            ticket.CreditCard = mapCreditCardEntity(dto.CreditCard);
             return ticket;
         }
         
@@ -107,23 +108,17 @@ namespace WebApplication_Vy.Service.Implementation
                 Address = dto.Address,
                 Zipcode = mapZipCodeEntity(dto.Zipcode),
                 Email = dto.Email,
-                CreditCards = mapCreditCardEntity(dto.CreditCards)
             };
             return customer;
         }
 
-        private List<CreditCard> mapCreditCardEntity(List<CardDTO> cardDtos)
+        private CreditCard mapCreditCardEntity(CardDTO cardDto)
         {
-            var creditCards = new List<CreditCard>();
-            cardDtos.ForEach(dto =>
-            {
                 var cc = new CreditCard();
-                cc.Cvc = dto.Cvc;
-                cc.CardholderName = dto.Card_Holder;
-                cc.CreditCardNumber = dto.Card_Number;
-                creditCards.Add(cc);
-            });
-            return creditCards;
+                cc.Cvc = cardDto.Cvc;
+                cc.CardholderName = cardDto.Card_Holder;
+                cc.CreditCardNumber = cardDto.Card_Number;
+                return cc;
         }
 
         private Zipcode mapZipCodeEntity(ZipcodeDTO dto)

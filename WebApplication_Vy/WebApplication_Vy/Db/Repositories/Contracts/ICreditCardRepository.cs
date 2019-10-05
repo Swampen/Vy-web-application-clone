@@ -6,7 +6,6 @@ namespace WebApplication_Vy.Db.Repositories.Contracts
 {
     public interface ICreditCardRepository
     {
-        List<CreditCard> getCardsByCustomerId(int customerId);
         CreditCard getCardById(int cardId);
         CreditCard getCardByCardNumber(string cardNumber);
 
