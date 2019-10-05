@@ -22,9 +22,20 @@
             $(this).next().slideToggle()
         });
         
-        $("#paymentDetails").on("clicked", function() {
-          console.log($(this).val());
-        }) 
+        $("#paymentDetails").on("click", function() {
+           id =  $(this).val();
+           $.ajax({
+                      url: "@Url.Action("GetPaymentDetails", "home")",
+                      type: "GET",
+                      dataType: "json",
+                      success: function (card) {
+                          console.log(card);
+                      },
+                      error: function (x, y, z) {
+                          alert(x + '\n' + y + '\n' + z);
+                      }
+                  });
+        })
     });
 </script>
 
@@ -72,7 +83,7 @@
                             <td>            
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="@t.Id" name="Betalingsinformasjon" class="btn btn-success" id="paymentDetails"/>
+                                        <input type="submit" value="@t.Id" class="btn btn-success" id="paymentDetails"/>
                                     </div>
                                 </div>
                             </td>
