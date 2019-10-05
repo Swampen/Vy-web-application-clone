@@ -220,10 +220,6 @@
     <Compile Include="Service\Implementation\ZipSearchServiceImpl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\VyDB.mdf" />
-    <Content Include="App_Data\VyDB_log.ldf">
-      <DependentUpon>VyDB.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\Assets\finished.svg" />
     <Content Include="Content\Assets\train.svg" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -363,6 +359,7 @@
     <Content Include="Views\Home\Card.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Models\DAO\" />
   </ItemGroup>
   <ItemGroup>

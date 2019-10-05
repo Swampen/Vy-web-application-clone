@@ -152,16 +152,13 @@
                 <div class="row">
                     <div class="col-12 col-md-5">
                         <div class="row">
-                            <div class="col-auto col-md-9">
-
-                            </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 text-md-right">
                                 @Html.LabelFor(model => model.Departure_Station, htmlAttributes: new { @class = "control-label" })
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                @Html.EditorFor(model => model.Departure_Station, new { htmlAttributes = new { id = "Departure", @class = "stations form-control d-inline-block" } })
+                                @Html.EditorFor(model => model.Departure_Station, new { htmlAttributes = new { placeholder = "Departure station", id = "Departure", @class = "stations form-control d-inline-block" } })
                                 @Html.ValidationMessageFor(model => model.Departure_Station, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -172,14 +169,13 @@
                     <div class="col-12 col-md-5">
                         <div class="row">
 
-                            <div class="col-12 col-md-3">
+                            <div class="col-12">
                                 @Html.LabelFor(model => model.Arrival_Station, htmlAttributes: new { @class = "control-label" })
                             </div>
-                            <div class="col-auto col-md-9"> <!-- spacer --></div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                @Html.EditorFor(model => model.Arrival_Station, new { htmlAttributes = new { id = "Arrival", @class = "stations form-control" } })
+                                @Html.EditorFor(model => model.Arrival_Station, new { htmlAttributes = new { placeholder = "Arrival station", id = "Arrival", @class = "stations form-control" } })
                                 @Html.ValidationMessageFor(model => model.Arrival_Station, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -214,7 +210,7 @@
                         <div class="row">
                             <div class="col-auto col-xl-2 p-0"><!--spacing--></div>
                             <div class="col-12 col-xl-10">
-                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @readonly = "readonly", id = "date", @class = "form-control bg-white" } })
+                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { placeholder = "yyyy-mm-dd", @readonly = "readonly", id = "date", @class = "form-control bg-white" } })
                                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -286,8 +282,10 @@
                 <div class="row mt-3">
                     <div class="col-12 col-md-5">
                         <div class="row">
-                            <div id="adult" class="w-100 add-sub-ticket sub-ticket-left">
+                            <div class="col-12 col-md-6 text-center text-md-right">
                                 @Html.LabelFor(model => model.Adult, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div id="adult" class="col-12 col-md-6 add-sub-ticket sub-ticket-left">
                                 <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm"><span>-</span></button>
                                 @Html.HiddenFor(model => model.Adult, new { @class = "control-label" })<b class="mt-1">1</b>
                                 <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span class="vertical-align-center">+</span></button>

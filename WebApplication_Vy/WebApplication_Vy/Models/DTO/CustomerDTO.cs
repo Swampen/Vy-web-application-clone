@@ -11,7 +11,7 @@ namespace WebApplication_Vy.Models.DTO
     {
         public int Id { get; set; }
 
-        [Display(Name = "Given name")]
+        [Display(Name = "Name")]
         [Required(ErrorMessage = "This field is required")]
         public string Givenname { get; set; }
 

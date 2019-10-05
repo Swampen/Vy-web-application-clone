@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public string CardholderName { get; set; }
         public string CreditCardNumber { get; set; }
-        public int Cvc { get; set; }
+        public string Cvc { get; set; }
     }
 }
