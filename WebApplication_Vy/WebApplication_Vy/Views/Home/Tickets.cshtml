@@ -22,14 +22,17 @@
             $(this).next().slideToggle()
         });
         
-        $("#paymentDetails").on("click", function() {
+        $("#table").on("click","#paymentDetails", function() {
            id =  $(this).val();
+           console.log("this" + id);
            $.ajax({
                       url: "@Url.Action("GetPaymentDetails", "home")",
-                      type: "GET",
-                      dataType: "json",
-                      success: function (card) {
-                          console.log(card);
+                      type: "POST",
+                      data: JSON.stringify(id),
+                      contentType: "application/json;charset=utf-8",
+                      success: function (data) 
+                      {
+                          console.log(data);
                       },
                       error: function (x, y, z) {
                           alert(x + '\n' + y + '\n' + z);
