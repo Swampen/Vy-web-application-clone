@@ -110,6 +110,7 @@ namespace WebApplication_Vy.Controllers
                 if (submitPurchaseDto.ReturnTripTicket.ArrivalStation != null)
                 {
                     submitPurchaseDto.ReturnTripTicket.Customer = submitPurchaseDto.TripTicket.Customer;
+                    submitPurchaseDto.ReturnTripTicket.CreditCard = submitPurchaseDto.TripTicket.CreditCard;
                     success = _vyService.CreateTicket(submitPurchaseDto.ReturnTripTicket);
                     Console.WriteLine("Returnticket success");
                 }
