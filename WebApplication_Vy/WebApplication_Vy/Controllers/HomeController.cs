@@ -67,11 +67,11 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            var haveRoundTrip = (bool) Session["HaveRoundTrip"];
+            var haveRoundTrip = (bool)Session["HaveRoundTrip"];
             if (selectedTripDto.Round_Trip)
             {
                 Session["ToTrip"] = selectedTripDto;
-                var returnQuery = (TripQueryDTO) Session["ReturnTripQuery"];
+                var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
                 ViewBag.Model = returnQuery;
                 return View();
             }
@@ -79,7 +79,7 @@ namespace WebApplication_Vy.Controllers
             var chosenTrips = new List<TripDTO>();
             if (haveRoundTrip)
             {
-                var toTrip = (TripDTO) Session["ToTrip"];
+                var toTrip = (TripDTO)Session["ToTrip"];
                 chosenTrips.Add(toTrip);
             }
 
@@ -113,7 +113,7 @@ namespace WebApplication_Vy.Controllers
                 if (success) return RedirectToAction("tickets");
             }
 
-            var chosenTrips = (List<TripDTO>) Session["ChosenTrips"];
+            var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
             ViewBag.Model = chosenTrips;
             return View("CustomerDetails");
         }
@@ -135,6 +135,12 @@ namespace WebApplication_Vy.Controllers
                 dto.Tickets.ForEach(ticketDto => { _vyService.MaskCreditCardNumber(ticketDto.CreditCard); });
             });
             return View(customers);
+        }
+
+        public ActionResult DeleteTicket(int ticketId)
+        {
+            bool success = _vyService.DeleteTicket(ticketId);
+            return RedirectToAction("Tickets");
         }
     }
 }

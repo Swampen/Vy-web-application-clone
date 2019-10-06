@@ -13,6 +13,8 @@ namespace WebApplication_Vy.Db.Repositories.Contracts
 
         bool CreateTicket(Ticket inTicket);
 
+        bool DeleteTicket(int ticketId);
+
         Zipcode FindZipcode(string postalcode);
     }
 }

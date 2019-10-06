@@ -102,5 +102,20 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                 }
             }
         }
+
+        public bool DeleteTicket(int ticketId)
+        {
+            var db = new VyDbContext();
+            try {
+                Ticket ticket = db.Tickets.Find(ticketId);
+                db.Tickets.Remove(ticket);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e){
+                System.Diagnostics.Debug.WriteLine(e);
+                return false;
+            }
+        }
     }
 }

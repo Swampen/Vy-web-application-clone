@@ -11,6 +11,8 @@ namespace WebApplication_Vy.Service.Contracts
 
         bool CreateTicket(TicketDto ticketDto);
 
+        bool DeleteTicket(int ticketId);
+
         void MaskCreditCardNumber(CardDto cardDto);
     }
 }

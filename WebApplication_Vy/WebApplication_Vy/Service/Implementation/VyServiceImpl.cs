@@ -51,22 +51,27 @@ namespace WebApplication_Vy.Service.Implementation
             var ticket = MapTicketEntity(ticketDto);
             return _vyRepository.CreateTicket(ticket);
         }
-/*
-        private CustomerDTO MapCustomerDto(Customer entity)
+
+        public bool DeleteTicket(int ticketId)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Ticket, TicketDTO>().ReverseMap();
-                cfg.CreateMap<Customer, CustomerDTO>().ReverseMap();
-                cfg.CreateMap<Trip, TripDTO>().ReverseMap();
-                cfg.CreateMap<Zipcode, ZipcodeDTO>().ReverseMap();
-                cfg.CreateMap<CreditCard, CardDTO>().ReverseMap();
-            });
-            var mapper = config.CreateMapper();
-            var dto = mapper.Map<CustomerDTO>(entity);
-            return dto;
+            return _vyRepository.DeleteTicket(ticketId);
         }
-*/
+        /*
+                private CustomerDTO MapCustomerDto(Customer entity)
+                {
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<Ticket, TicketDTO>().ReverseMap();
+                        cfg.CreateMap<Customer, CustomerDTO>().ReverseMap();
+                        cfg.CreateMap<Trip, TripDTO>().ReverseMap();
+                        cfg.CreateMap<Zipcode, ZipcodeDTO>().ReverseMap();
+                        cfg.CreateMap<CreditCard, CardDTO>().ReverseMap();
+                    });
+                    var mapper = config.CreateMapper();
+                    var dto = mapper.Map<CustomerDTO>(entity);
+                    return dto;
+                }
+        */
 
         private CustomerDto mapCustomerDto(Customer customer)
         {
@@ -179,23 +184,23 @@ namespace WebApplication_Vy.Service.Implementation
             var mapper = new Mapper(config);
             return mapper.Map<Zipcode>(dto);
         }
-        
-/*
-       private Customer MapCustomerEntity(CustomerDTO dto)
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<TicketDTO, Ticket>();
-                cfg.CreateMap<TripDTO, Trip>();
-                cfg.CreateMap<CustomerDTO, Customer>().IncludeMembers();
-                cfg.CreateMap<ZipcodeDTO, Zipcode>();
-                cfg.CreateMap<CardDTO, CreditCard>();
-            });
-            var mapper = new Mapper(config);
-            var entity = mapper.Map<Customer>(dto);
-            return entity;
-        }
-        */
+
+        /*
+               private Customer MapCustomerEntity(CustomerDTO dto)
+                {
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<TicketDTO, Ticket>();
+                        cfg.CreateMap<TripDTO, Trip>();
+                        cfg.CreateMap<CustomerDTO, Customer>().IncludeMembers();
+                        cfg.CreateMap<ZipcodeDTO, Zipcode>();
+                        cfg.CreateMap<CardDTO, CreditCard>();
+                    });
+                    var mapper = new Mapper(config);
+                    var entity = mapper.Map<Customer>(dto);
+                    return entity;
+                }
+                */
 
         //TODO: Remove if not needed
         /*
@@ -214,7 +219,7 @@ namespace WebApplication_Vy.Service.Implementation
             return entity;
         }
         */
-        
+
         /*
 private TicketDTO MapTicketDto(Ticket entity)
 {
