@@ -329,6 +329,7 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\View_specific_scripts\customerDetails.js" />
     <Content Include="Scripts\View_specific_scripts\index.js" />
+    <Content Include="Scripts\View_specific_scripts\tickets.js" />
     <Content Include="Scripts\View_specific_scripts\trips.js" />
     <Content Include="Views\Ticket\TicketResult.cshtml" />
     <Content Include="Web.config" />
