@@ -65,6 +65,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                         Givenname = inTicket.Customer.Givenname,
                         Surname = inTicket.Customer.Surname,
                         Address = inTicket.Customer.Address,
+                        Email = inTicket.Customer.Email,
                         Zipcode = db
                             .Zipcodes
                             .FirstOrDefault(zip => zip.Postalcode == inTicket.Customer.Zipcode.Postalcode),
