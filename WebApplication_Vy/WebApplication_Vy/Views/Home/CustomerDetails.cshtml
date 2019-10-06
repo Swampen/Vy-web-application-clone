@@ -133,6 +133,21 @@
             datePattern: ['m', 'y']
         });
     });
+    function goBack() {
+
+      var state = '@Session["HaveRoundTrip"]';
+      var boolState = (state === 'True');
+      
+      if (boolState){
+          console.log("Round Trip")
+          history.go(-2);
+      }else{
+          console.log("Direct Trip")
+          history.back();
+      }
+        
+    }
+    
 
 
     function getDuration(duration) {
@@ -311,10 +326,18 @@
             </div>
             <!--End card-->
         </div>
-
+         
         <div class="row">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Bekreft kjøp" class="btn btn-success" id="confirmPurchase" />
+            <div class="col-12 col-lg-4">
+                <div class="col-md-offset-2 col-12 m-3">
+                    <input type="submit" value="Back to trips" class="btn btn-secondary active" id="backToTripSelector" onclick="goBack()"/>
+                </div>
+            </div>
+            
+            <div class="col-12 col-lg-8">
+                <div class="col-md-offset-2 col-12  m-3">
+                    <input type="submit" value="Bekreft kjøp" class="btn btn-success" id="confirmPurchase" />
+                </div>
             </div>
         </div>
 
@@ -324,6 +347,7 @@
                 @ViewBag.Records
             </div>
         </div>
+        
     }
 </div>
 
