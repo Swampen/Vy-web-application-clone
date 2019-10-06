@@ -9,25 +9,25 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
 {
     public class VyRepositoryImpl : IVyRepository
     {
-        public List<Ticket> findAllTickets()
+        public List<Ticket> FindAllTickets()
         {
             var db = new VyDbContext();
             return db.Tickets.ToList();
         }
 
-        public List<Customer> findAllCustomers()
+        public List<Customer> FindAllCustomers()
         {
             var db = new VyDbContext();
             return db.Customers.ToList();
         }
 
-        public List<Zipcode> findAllZipcodes()
+        public List<Zipcode> FindAllZipcodes()
         {
             var db = new VyDbContext();
             return db.Zipcodes.ToList();
         }
 
-        public Zipcode findZipcode(string postalcode)
+        public Zipcode FindZipcode(string postalcode)
         {
             var db = new VyDbContext();
             var zipcode = db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == postalcode);
@@ -36,7 +36,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
         
         //TODO: Vi gjør litt dobbelt opp med mapping når vi først går fra dto til
         //entitet, for så å mappe til en ny ticket i denne metoden. Her kan det gjøres en god del optimalisering
-        public bool createTicket(Ticket inTicket)
+        public bool CreateTicket(Ticket inTicket)
         {
             Ticket ticket = new Ticket
             {

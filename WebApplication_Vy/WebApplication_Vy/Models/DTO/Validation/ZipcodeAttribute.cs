@@ -11,7 +11,7 @@ namespace WebApplication_Vy.Models.DTO.Validation
 
         public override bool IsValid(object value)
         {
-            var zipcodes = _repository.findAllZipcodes();
+            var zipcodes = _repository.FindAllZipcodes();
             Debug.WriteLine(value);
             var zipcode = (string) value;
 

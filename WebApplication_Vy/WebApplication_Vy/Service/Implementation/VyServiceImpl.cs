@@ -29,7 +29,7 @@ namespace WebApplication_Vy.Service.Implementation
         
         public List<CustomerDTO> GetCustomerDtos()
         {
-            var entities = _vyRepository.findAllCustomers();
+            var entities = _vyRepository.FindAllCustomers();
             var dtos = new List<CustomerDTO>();
             foreach (var entity in entities) dtos.Add(mapCustomerDto(entity));
             return dtos;
@@ -37,7 +37,7 @@ namespace WebApplication_Vy.Service.Implementation
 
         public List<TicketDTO> GetTicketDtos()
         {
-            var customers = _vyRepository.findAllCustomers();
+            var customers = _vyRepository.FindAllCustomers();
             var dtos = new List<TicketDTO>();
             foreach (var customer in customers)
             foreach (var ticket in customer.Tickets)
@@ -49,7 +49,7 @@ namespace WebApplication_Vy.Service.Implementation
         public bool CreateTicket(TicketDTO ticketDto)
         {
             var ticket = MapTicketEntity(ticketDto);
-            return _vyRepository.createTicket(ticket);
+            return _vyRepository.CreateTicket(ticket);
         }
 /*
         private CustomerDTO MapCustomerDto(Customer entity)

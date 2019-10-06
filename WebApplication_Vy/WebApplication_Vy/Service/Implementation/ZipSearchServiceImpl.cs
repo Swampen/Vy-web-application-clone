@@ -21,7 +21,7 @@ namespace WebApplication_Vy.Service.Implementation
             var match = Regex.Match(postalcode, "[0-9]{4}");
             if (!match.Success) return "";
 
-            var zipcode = _vyRepository.findZipcode(postalcode);
+            var zipcode = _vyRepository.FindZipcode(postalcode);
             if (zipcode == null) return "";
             return MapZipcodeDTO(zipcode).Postaltown;
         }
