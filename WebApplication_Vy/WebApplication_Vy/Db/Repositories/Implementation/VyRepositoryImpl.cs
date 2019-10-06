@@ -33,9 +33,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
             var zipcode = db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == postalcode);
             return zipcode;
         }
-        
-        //TODO: Vi gjør litt dobbelt opp med mapping når vi først går fra dto til
-        //entitet, for så å mappe til en ny ticket i denne metoden. Her kan det gjøres en god del optimalisering
+
         public bool CreateTicket(Ticket inTicket)
         {
             Ticket ticket = new Ticket
