@@ -173,7 +173,6 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Db\Repositories\Contracts\ICreditCardRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\ITripRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\IVyRepository.cs" />
