@@ -26,11 +26,11 @@ namespace WebApplication_Vy.Service.Implementation
             return MapZipcodeDTO(zipcode).Postaltown;
         }
 
-        private ZipcodeDTO MapZipcodeDTO(Zipcode entity)
+        private ZipcodeDto MapZipcodeDTO(Zipcode entity)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Zipcode, ZipcodeDTO>().ReverseMap());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Zipcode, ZipcodeDto>().ReverseMap());
             var mapper = config.CreateMapper();
-            var dto = mapper.Map<ZipcodeDTO>(entity);
+            var dto = mapper.Map<ZipcodeDto>(entity);
             return dto;
         }
     }

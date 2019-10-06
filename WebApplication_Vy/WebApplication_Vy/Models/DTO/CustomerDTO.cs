@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace WebApplication_Vy.Models.DTO
 {
-
-    public class CustomerDTO
+    public class CustomerDto
     {
         public int Id { get; set; }
 
@@ -20,13 +16,13 @@ namespace WebApplication_Vy.Models.DTO
 
         [Required(ErrorMessage = "This field is required")]
         public string Email { get; set; }
-        
+
         [Required(ErrorMessage = "This field is required")]
         public string Address { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
-        public ZipcodeDTO Zipcode { get; set; }
+        public ZipcodeDto Zipcode { get; set; }
 
-        public List<TicketDTO> Tickets { get; set; }
+        public List<TicketDto> Tickets { get; set; }
     }
 }

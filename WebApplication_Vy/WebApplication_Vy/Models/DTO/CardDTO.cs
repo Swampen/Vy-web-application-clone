@@ -3,7 +3,7 @@ using WebApplication_Vy.Models.DTO.Validation;
 
 namespace WebApplication_Vy.Models.DTO
 {
-    public class CardDTO
+    public class CardDto
     {
         [Required]
         [RegularExpression(@"[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}", ErrorMessage = "Not a valid credit card")]

@@ -5,12 +5,12 @@ namespace WebApplication_Vy.Service.Contracts
 {
     public interface IVyService
     {
-        List<CustomerDTO> GetCustomerDtos();
+        List<CustomerDto> GetCustomerDtos();
 
-        List<TicketDTO> GetTicketDtos();
+        List<TicketDto> GetTicketDtos();
 
-        bool CreateTicket(TicketDTO ticketDto);
+        bool CreateTicket(TicketDto ticketDto);
 
-        void MaskCreditCardNumber(CardDTO cardDto);
+        void MaskCreditCardNumber(CardDto cardDto);
     }
 }

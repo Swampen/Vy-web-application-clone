@@ -97,7 +97,7 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegisterTicket(SubmitPurchaseDTO submitPurchaseDto)
+        public ActionResult RegisterTicket(SubmitPurchaseDto submitPurchaseDto)
         {
             if (ModelState.IsValid)
             {
@@ -119,7 +119,7 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        public string SearchZip(ZipcodeDTO zipcode)
+        public string SearchZip(ZipcodeDto zipcode)
         {
             var match = Regex.Match(zipcode.Postalcode, "[0-9]{4}");
             if (!match.Success) return "";

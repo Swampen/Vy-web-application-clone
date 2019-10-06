@@ -16,21 +16,21 @@ namespace WebApplication_Vy.Service.Implementation
             _creditCardRepository = creditCardRepository;
         }
 
-        public CardDTO GetCreditCard(int id)
+        public CardDto GetCreditCard(int id)
         {
             return mapCardDto(_creditCardRepository.GetCardById(id));
         }
 
-        public CardDTO GetCreditCardFromTicketId(int ticketId)
+        public CardDto GetCreditCardFromTicketId(int ticketId)
         {
             return mapCardDto(_creditCardRepository.GetCardByTicketId(ticketId));
         }
 
-        private CardDTO mapCardDto(CreditCard creditCard)
+        private CardDto mapCardDto(CreditCard creditCard)
         {
-            var config = new MapperConfiguration(cfg => { cfg.CreateMap<CreditCard, CardDTO>().ReverseMap(); });
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<CreditCard, CardDto>().ReverseMap(); });
             var mapper = config.CreateMapper();
-            var dto = mapper.Map<CardDTO>(creditCard);
+            var dto = mapper.Map<CardDto>(creditCard);
             return dto;
         }
     }

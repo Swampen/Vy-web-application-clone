@@ -13,7 +13,7 @@ namespace WebApplication_Vy.Models.Profiles
     {
         public CusToCusDTOProfile()
         {
-            CreateMap<Customer, CustomerDTO>();
+            CreateMap<Customer, CustomerDto>();
         }
     }
 
@@ -21,7 +21,7 @@ namespace WebApplication_Vy.Models.Profiles
     {
         public TicToTicDTOProfile()
         {
-            CreateMap<Ticket, TicketDTO>();
+            CreateMap<Ticket, TicketDto>();
         }
     }
 
@@ -37,7 +37,7 @@ namespace WebApplication_Vy.Models.Profiles
     {
         public ZipToZipDTOProfile()
         {
-            CreateMap<Zipcode, ZipcodeDTO>();
+            CreateMap<Zipcode, ZipcodeDto>();
         }
     }
 

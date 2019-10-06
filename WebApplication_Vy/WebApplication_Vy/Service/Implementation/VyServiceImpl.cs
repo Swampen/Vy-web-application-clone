@@ -22,23 +22,23 @@ namespace WebApplication_Vy.Service.Implementation
             _vyRepository = vyRepository;
         }
 
-        public void MaskCreditCardNumber(CardDTO cardDto)
+        public void MaskCreditCardNumber(CardDto cardDto)
         {
             cardDto.Card_Number = "**** **** **** " + cardDto.Card_Number.Remove(0, 15);
         }
         
-        public List<CustomerDTO> GetCustomerDtos()
+        public List<CustomerDto> GetCustomerDtos()
         {
             var entities = _vyRepository.FindAllCustomers();
-            var dtos = new List<CustomerDTO>();
+            var dtos = new List<CustomerDto>();
             foreach (var entity in entities) dtos.Add(mapCustomerDto(entity));
             return dtos;
         }
 
-        public List<TicketDTO> GetTicketDtos()
+        public List<TicketDto> GetTicketDtos()
         {
             var customers = _vyRepository.FindAllCustomers();
-            var dtos = new List<TicketDTO>();
+            var dtos = new List<TicketDto>();
             foreach (var customer in customers)
             foreach (var ticket in customer.Tickets)
                 dtos.Add(mapTicketDto(ticket));
@@ -46,7 +46,7 @@ namespace WebApplication_Vy.Service.Implementation
         }
 
 
-        public bool CreateTicket(TicketDTO ticketDto)
+        public bool CreateTicket(TicketDto ticketDto)
         {
             var ticket = MapTicketEntity(ticketDto);
             return _vyRepository.CreateTicket(ticket);
@@ -68,12 +68,12 @@ namespace WebApplication_Vy.Service.Implementation
         }
 */
 
-        private CustomerDTO mapCustomerDto(Customer customer)
+        private CustomerDto mapCustomerDto(Customer customer)
         {
-            var ticketDtos = new List<TicketDTO>();
+            var ticketDtos = new List<TicketDto>();
             customer.Tickets.ForEach(ticket => ticketDtos.Add(mapTicketDto(ticket)));
             
-            return new CustomerDTO
+            return new CustomerDto
             {
                 Id = customer.Id,
                 Address = customer.Address,
@@ -85,18 +85,18 @@ namespace WebApplication_Vy.Service.Implementation
             };
         }
 
-        private ZipcodeDTO mapZipcodeDto(Zipcode zipcode)
+        private ZipcodeDto mapZipcodeDto(Zipcode zipcode)
         {
-            return new ZipcodeDTO
+            return new ZipcodeDto
             {
                 Postalcode = zipcode.Postalcode,
                 Postaltown = zipcode.Postaltown
             };
         }
 
-        private TicketDTO mapTicketDto(Ticket ticket)
+        private TicketDto mapTicketDto(Ticket ticket)
         {
-            return new TicketDTO
+            return new TicketDto
             {
                 ArrivalStation = ticket.ArrivalStation,
                 ArrivalTime = ticket.ArrivalTime,
@@ -110,9 +110,9 @@ namespace WebApplication_Vy.Service.Implementation
             };
         }
 
-        private CardDTO mapCardDto(CreditCard card)
+        private CardDto mapCardDto(CreditCard card)
         {
-            return new CardDTO
+            return new CardDto
             {
                 Card_Number = card.CreditCardNumber,
                 Card_Holder = card.CardholderName,
@@ -132,7 +132,7 @@ namespace WebApplication_Vy.Service.Implementation
 
 
 
-        private Ticket MapTicketEntity(TicketDTO dto)
+        private Ticket MapTicketEntity(TicketDto dto)
         {
             Ticket ticket = new Ticket();
             ticket.Customer = MapCustomerEntity(dto.Customer);
@@ -147,7 +147,7 @@ namespace WebApplication_Vy.Service.Implementation
             return ticket;
         }
         
-        private Customer MapCustomerEntity(CustomerDTO dto)
+        private Customer MapCustomerEntity(CustomerDto dto)
         {
             Customer customer = new Customer
             {
@@ -160,7 +160,7 @@ namespace WebApplication_Vy.Service.Implementation
             return customer;
         }
 
-        private CreditCard mapCreditCardEntity(CardDTO cardDto)
+        private CreditCard mapCreditCardEntity(CardDto cardDto)
         {
                 var cc = new CreditCard();
                 cc.Cvc = cardDto.Cvc;
@@ -169,11 +169,11 @@ namespace WebApplication_Vy.Service.Implementation
                 return cc;
         }
 
-        private Zipcode mapZipCodeEntity(ZipcodeDTO dto)
+        private Zipcode mapZipCodeEntity(ZipcodeDto dto)
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<ZipcodeDTO, Zipcode>(); 
+                cfg.CreateMap<ZipcodeDto, Zipcode>(); 
                 
             });
             var mapper = new Mapper(config);

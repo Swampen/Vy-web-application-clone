@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace WebApplication_Vy.Models.DTO
+﻿namespace WebApplication_Vy.Models.DTO
 {
-    public class SubmitPurchaseDTO
+    public class SubmitPurchaseDto
     {
-        public TicketDTO TripTicket { get; set; }
-        public TicketDTO ReturnTripTicket { get; set; }
+        public TicketDto TripTicket { get; set; }
+        public TicketDto ReturnTripTicket { get; set; }
     }
 }
