@@ -83,21 +83,35 @@
     $(".date-picker").eq(0).next().hide()
     $(".date-picker").eq(1).next().hide()
 
+    var dateFocus = false;
     $("#date").on("focus", function () {
-        var btn = $(this).next().children("button")[0]
-        console.log(btn)
-        btn.click()
+        if (!dateFocus) {
+            var btn = $(this).next().children("button")[0]
+            btn.click()
+            dateFocus = true;
+        }
     })
 
+    $("#date").on("focusout", function () {
+        dateFocus = false;
+    })
+
+    var returnDateFocus = false;
     $("#ReturnDiv").on("focus", "#ReturnDate", function () {
-        var btn = $(this).next().children("button")[0]
-        console.log(btn)
-        btn.click()
+        if (!returnDateFocus) {
+            var btn = $(this).next().children("button")[0]
+            btn.click()
+            returnDateFocus = true;
+        }
+    })
+
+    $("#ReturnDiv").on("focusout", "#ReturnDate", function () {
+        returnDateFocus = false;
     })
 
     $("#date").on("change", function () {
         date = new Date($("#date").val())
-        date.setDate(date.getDate() - 1)
+        date.setDate(date.getDate() - 1);
         $("#ReturnDate").datepicker("destroy");
         $("#ReturnDate").datepicker({
             minDate: date,
@@ -106,8 +120,8 @@
             format: "yyyy-mm-dd",
             weekStartDay: 1,
         });
-        $("#ReturnDate").addClass("bg-white");
-        $("#ReturnDate").next().hide()
+        $("#ReturnDate").addClass("bg-white").addClass("date-picker");
+        $("#ReturnDate").next().hide();
     });//End date picker
 
 
