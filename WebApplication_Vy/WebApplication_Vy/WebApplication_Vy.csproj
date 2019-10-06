@@ -352,7 +352,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\DAO\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
