@@ -3,23 +3,7 @@
 @{
     ViewBag.Title = "Customers";
 }
-<script type="text/javascript">
-    $(function () {
-
-        $("#table").on("mouseenter", ".button-row", function () {
-            $(this).css('cursor', 'pointer')
-            $(this).css('background-color', '#e6e6e6')
-        });
-
-        $("#table").on("mouseleave", ".button-row", function () {
-            $(this).css('background-color', '#ffffff')
-        });
-
-        $("#table").on("click", ".button-row", function () {
-            $(this).next().slideToggle()
-        });
-    });
-</script>
+<script type="text/javascript" src="~/Scripts/View_specific_scripts/tickets.js"></script>
 
 <div class="row">
     <h2>Customers</h2>
@@ -27,20 +11,20 @@
 
 <div class="row pl-1">
     <p>
-        @Html.ActionLink("New Ticket", "Index", "Home", null, new { @class = "text-success" })
+        @Html.ActionLink("New Ticket", "Index", "Home", null, new { @class = "btn btn-outline-success" })
     </p>
 </div>
 <div id="table">
     @foreach (var item in Model)
     {
-        <div class="row button-row p-3 border-top">
-            <div class="col">
+        <div class="row button-row p-3 border-top mt-2" style="background-color: rgba(40, 167, 69, 0.50);">
+            <div class="col font-weight-bold">
                 @item.Givenname
             </div>
-            <div class="col">
+            <div class="col font-weight-bold">
                 @item.Surname
-            </div>           
-            <div class="col">
+            </div>
+            <div class="col font-weight-bold">
                 @item.Email
             </div>
         </div>
