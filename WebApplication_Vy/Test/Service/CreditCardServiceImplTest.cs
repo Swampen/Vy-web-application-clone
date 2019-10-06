@@ -26,9 +26,5 @@ namespace Test.Service
             _creditCardService = new CreditCardServiceImpl(CreditCardRepositoryMock.GetCreditCardFromTicketIdMock());
             Assert.IsInstanceOf<CardDto>(_creditCardService.GetCreditCardFromTicketId(1));
         }
-        
-        [Test]
-        
-        
     }
 }
