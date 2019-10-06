@@ -1,9 +1,8 @@
 ﻿$(function () {
     $("#trips").hide();
-    console.log(trip);
 
     var people = { Adult: trip.Adult, Child: trip.Child, Student: trip.Student, Senior: trip.Senior }
-    console.log(people)
+
     //Querry to vy api
     var itineraries = "";
     fetch("https://booking.cloud.nsb.no/api/itineraries/search", {
@@ -49,21 +48,17 @@
                         priceDetails += "<div class='row'>\
                                                 <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice + ",-</div>\
                                             </div>"
-                        price += originalPrice;
-                    }
-                } else if (p === "Child" || p === "Senior") {
-                    if (ammount > 0) {
+                        price += originalPrice * ammount;
+                    } else if (p === "Child" || p === "Senior") {
                         priceDetails += "<div class='row'>\
-                                                <div class='col text-center ml-2 mr-2'>" + p + "  -  " + originalPrice * 0.5 + ",-</div>\
+                                                <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice * 0.5 + ",-</div>\
                                             </div>"
-                        price += originalPrice * 0.5;
-                    }
-                } else if (p === "Student") {
-                    if (ammount > 0) {
+                        price += originalPrice * 0.5 * ammount;
+                    }else if (p === "Student") {
                         priceDetails += "<div class='row'>\
-                                                <div class='col text-center ml-2 mr-2'>" + p + "  -  " + originalPrice * 0.75 + ",-</div>\
+                                                <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice * 0.75 + ",-</div>\
                                             </div>"
-                        price += originalPrice * 0.75;
+                        price += originalPrice * 0.75 * ammount;
                     }
                 }
 
