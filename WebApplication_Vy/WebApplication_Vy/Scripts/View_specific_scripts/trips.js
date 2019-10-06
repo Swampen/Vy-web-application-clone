@@ -48,17 +48,17 @@
                         priceDetails += "<div class='row'>\
                                                 <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice + ",-</div>\
                                             </div>"
-                        price += originalPrice;
+                        price += originalPrice * ammount;
                     } else if (p === "Child" || p === "Senior") {
                         priceDetails += "<div class='row'>\
                                                 <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice * 0.5 + ",-</div>\
                                             </div>"
-                        price += originalPrice * 0.5;
+                        price += originalPrice * 0.5 * ammount;
                     }else if (p === "Student") {
                         priceDetails += "<div class='row'>\
                                                 <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice * 0.75 + ",-</div>\
                                             </div>"
-                        price += originalPrice * 0.75;
+                        price += originalPrice * 0.75 * ammount;
                     }
                 }
 
