@@ -6,6 +6,21 @@
 
 <script type="text/javascript">
     let ticketData = @Html.Raw(Json.Encode(ViewBag.Model));
+    
+function goBack() {
+    var state = '@Session["HaveRoundTrip"]';
+    var boolState = (state === 'True');
+    
+    if (boolState){
+      console.log("Round Trip")
+      history.go(-2);
+    }else{
+      console.log("Direct Trip")
+      history.back();
+   }    
+}
+      
+
 </script>
 <script type="text/javascript" src="~/Scripts/View_specific_scripts/customerDetails.js"></script>
 
@@ -49,7 +64,7 @@
 <div id="ajax_form" class="container">
     <div class="row">
         <div class="col-12">
-            <h5>Customer info</h5>
+            <h5 class="display-4">Customer info</h5>
         </div>
     </div>
 
@@ -185,13 +200,18 @@
             </div>
             <!--End card-->
         </div>
-
-        <div class="row mt-4">
-            <div class="col-md-10">
-                <input type="submit" value="Confirm" class="btn btn-success" id="confirmPurchase" />
+        <div class="row">
+            <div class="row-12 mt-4">
+                <div class="col-md-12">
+                    <input type="button" value="Back to trip" class="btn btn-secondary active" id="backToTrip" onclick="goBack()" />
+                </div>
+            </div>
+            <div class="row-12 mt-4">
+                <div class="col-md-12">
+                    <input type="submit" value="Confirm" class="btn btn-success" id="confirmPurchase" />
+                </div>
             </div>
         </div>
-
         <hr />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-12 text-success">

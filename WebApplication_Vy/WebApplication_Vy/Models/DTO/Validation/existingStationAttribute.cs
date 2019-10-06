@@ -19,9 +19,10 @@ namespace WebApplication_Vy.Models.DTO.Validation
             var stations = _repository.FindAllStations();
             Debug.WriteLine(value);
             var station = (string)value;
+            station = station.ToLower();
 
-            foreach(var s in stations)
-                if (s.Name == station)
+            foreach (var s in stations)
+                    if ((s.Name).ToLower() == station)
                     return true;
             return false;
         }
