@@ -11,7 +11,7 @@
     $("#table").on("mouseleave", ".button-row", function () {
         var row = $(this)
         if (!row.hasClass("clicked")){
-            row.css('background-color', 'rgba(40, 167, 69, 0.50)')
+            row.css('background-color', '#DBF0E0')
         }
     });
 
