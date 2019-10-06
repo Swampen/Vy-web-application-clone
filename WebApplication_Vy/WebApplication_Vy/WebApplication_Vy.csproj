@@ -330,7 +330,6 @@
     <Content Include="Scripts\View_specific_scripts\customerDetails.js" />
     <Content Include="Scripts\View_specific_scripts\index.js" />
     <Content Include="Scripts\View_specific_scripts\trips.js" />
-    <Content Include="Views\Home\PaymentDetails.cshtml" />
     <Content Include="Views\Ticket\TicketResult.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

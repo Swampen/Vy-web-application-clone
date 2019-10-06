@@ -27,10 +27,10 @@
         <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
-                    @Html.ActionLink("Home", "index", "Home", new { @class = "nav-link" })
+                    @Html.ActionLink("Home", "index", "Home", null, new { @class = "nav-link" })
                 </li>
                 <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
-                    @Html.ActionLink("Tickets", "tickets", "Home", new { @class = "nav-link" })
+                    @Html.ActionLink("Tickets", "tickets", "Home", null, new { @class = "nav-link" })
                 </li>
             </ul>
         </div>
