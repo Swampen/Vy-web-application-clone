@@ -8,7 +8,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
     public class CreditCardRepositoryImpl : ICreditCardRepository
     {
 
-        public CreditCard getCardById(int cardId)
+        public CreditCard GetCardById(int cardId)
         {
             using (var db = new VyDbContext())
             {
@@ -17,7 +17,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
             }
         }
 
-        public CreditCard getCardByCardNumber(string cardNumber)
+        public CreditCard GetCardByCardNumber(string cardNumber)
         {
             using (var db = new VyDbContext())
             {
@@ -26,7 +26,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
             }
         }
 
-        public CreditCard getCardByTicketId(int ticketId)
+        public CreditCard GetCardByTicketId(int ticketId)
         {
             using (var db = new VyDbContext())
             {

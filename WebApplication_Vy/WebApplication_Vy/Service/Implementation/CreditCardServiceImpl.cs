@@ -18,12 +18,12 @@ namespace WebApplication_Vy.Service.Implementation
 
         public CardDTO GetCreditCard(int id)
         {
-            return mapCardDto(_creditCardRepository.getCardById(id));
+            return mapCardDto(_creditCardRepository.GetCardById(id));
         }
 
         public CardDTO GetCreditCardFromTicketId(int ticketId)
         {
-            return mapCardDto(_creditCardRepository.getCardByTicketId(ticketId));
+            return mapCardDto(_creditCardRepository.GetCardByTicketId(ticketId));
         }
 
         private CardDTO mapCardDto(CreditCard creditCard)

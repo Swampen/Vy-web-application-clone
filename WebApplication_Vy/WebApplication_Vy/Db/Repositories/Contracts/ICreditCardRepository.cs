@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using WebApplication_Vy.Models.DTO;
-using WebApplication_Vy.Models.Entities;
+﻿using WebApplication_Vy.Models.Entities;
 
 namespace WebApplication_Vy.Db.Repositories.Contracts
 {
     public interface ICreditCardRepository
     {
-        CreditCard getCardById(int cardId);
-        CreditCard getCardByCardNumber(string cardNumber);
+        CreditCard GetCardById(int cardId);
+        CreditCard GetCardByCardNumber(string cardNumber);
 
-        CreditCard getCardByTicketId(int ticketId);
+        CreditCard GetCardByTicketId(int ticketId);
     }
 }
