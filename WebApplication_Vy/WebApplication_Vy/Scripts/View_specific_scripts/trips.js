@@ -137,16 +137,29 @@
     });
 
     $("#trips").on("mouseenter", ".button-row", function () {
-        $(this).css('cursor', 'pointer')
-        $(this).css('background-color', '#e6e6e6')
+        var row = $(this)
+        row.css('cursor', 'pointer')
+        if (!row.hasClass("clicked")) {
+            row.css('background-color', '#e6e6e6')
+        }
     });
 
     $("#trips").on("mouseleave", ".button-row", function () {
-        $(this).css('background-color', '#ffffff')
+        var row = $(this)
+        if (!row.hasClass("clicked")) {
+            row.css('background-color', '#ffffff')
+        }
     });
 
     $("#trips").on("click", ".button-row", function () {
-        $(this).next().slideToggle()
+        var row = $(this)
+        if (row.hasClass("clicked")) {
+            row.removeClass("clicked");
+            row.css('background-color', '#e6e6e6')
+        } else {
+            row.addClass("clicked");
+        }
+        row.next().slideToggle()
     })
 
     $("#trips").on("click", "a", function (e) {
