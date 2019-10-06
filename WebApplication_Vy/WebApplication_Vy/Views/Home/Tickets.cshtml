@@ -35,8 +35,13 @@
                           alert(x + '\n' + y + '\n' + z);
                       }
                   });
-        })
+        });
+        
+        $("#cardNumber").val()
     });
+    function formatCardNumber(cardNumber) {
+      return `**** **** **** ${cardNumber.substr(-4)}`
+    }
 </script>
 
 <div class="row">
@@ -68,6 +73,7 @@
                         <th scope="col">Time</th>
                         <th scope="col">Duration</th>
                         <th scope="col">Price</th>
+                        <th scope="col">Credit Card</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -80,13 +86,7 @@
                             <td>@t.DepartureTime - @t.ArrivalTime</td>
                             <td>@t.Duration</td>
                             <td>@t.Price</td>
-                            <td>            
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="@t.Id" class="btn btn-success" id="paymentDetails"/>
-                                    </div>
-                                </div>
-                            </td>
+                            <td id="cardNumber">@t.CreditCard.Card_Number</td>
                         </tr>
                     }
                 </tbody>

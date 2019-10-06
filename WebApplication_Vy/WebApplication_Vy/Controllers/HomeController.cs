@@ -154,6 +154,13 @@ namespace WebApplication_Vy.Controllers
         public ActionResult Tickets()
         {
             var customers = _vyService.GetCustomerDtos();
+            customers.ForEach(dto =>
+            {
+                dto.Tickets.ForEach(ticketDto =>
+                {
+                    _vyService.MaskCreditCardNumber(ticketDto.CreditCard);
+                });
+            });
             return View(customers);
         }
     }

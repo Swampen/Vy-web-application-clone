@@ -46,12 +46,8 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                 ArrivalTime = inTicket.ArrivalTime,
                 Duration = inTicket.Duration,
                 Price = inTicket.Price,
-                TrainChanges = inTicket.TrainChanges
-            };
-
-            CreditCard creditCard = new CreditCard
-            {
-                
+                TrainChanges = inTicket.TrainChanges,
+                CreditCard = inTicket.CreditCard
             };
             
             using (var db = new VyDbContext())
