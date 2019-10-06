@@ -4,7 +4,7 @@
     ViewBag.Title = "Trips";
 }
 <div class="row">
-    <h2 class="display-4">Showing alternatives from @ViewBag.Model.Departure_Station to @ViewBag.Model.Arrival_Station</h2>
+    <h2 class="display-4">Showing alternatives from <span>@ViewBag.Model.Departure_Station</span> to <span>@ViewBag.Model.Arrival_Station</span></h2>
 </div>
 <div class="row sub-header">
 </div>
@@ -32,3 +32,11 @@
         Please try another departure. <button class="btn btn-primary" onclick="window.history.go(-1);">Go Back</button>
     </div>
 </div>
+
+<style>
+    
+    h2 span {
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+</style>
