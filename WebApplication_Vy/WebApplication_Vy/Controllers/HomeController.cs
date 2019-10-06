@@ -129,19 +129,7 @@ namespace WebApplication_Vy.Controllers
             CardDTO card = _creditCardService.GetCreditCard(ticketId);
             return serializer.Serialize(card);
         }
-
-        [HttpGet]
-        public ActionResult Card()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Card(CardDTO creditCardDTO)
-        {
-            return View();
-        }
-
+        
         [HttpPost]
         public string SearchZip(ZipcodeDTO zipcode)
         {
