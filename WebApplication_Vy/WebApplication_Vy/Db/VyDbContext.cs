@@ -51,7 +51,6 @@ namespace WebApplication_Vy.Db
                 foreach (var station in stations)
                     try
                     {
-                        Debug.WriteLine(station.Element("Name"));
                         context.Stations.Add(new Station()
                         {
                             Name = (string)station.Element("Name")

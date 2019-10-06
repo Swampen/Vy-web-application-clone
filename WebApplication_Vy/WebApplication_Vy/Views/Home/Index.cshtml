@@ -25,7 +25,10 @@
                 });
                 stations.sort();
             });
-        console.log(stations);
+
+        $('.stations').autocomplete({
+            source: stations
+        });
 
         $("#SwitchButton").on("click", function (e) {
 
@@ -38,18 +41,18 @@
 
         $("#SwitchButton").on("hover").css("cursor", "pointer");
 
+        //Start round trips select 
         $('#Round_Trip').bootstrapToggle({
             off: 'One way',
             on: 'Round trip',
-            onstyle: "success"
+            onstyle: "success",
+            offstyle: "secondary",
         });
 
-        //Setting the button to off on load
         $("#Round_Trip").prop("checked", false);
         $('#Round_Trip').bootstrapToggle('off')
 
         $("#Round_Trip").change(function () {
-
             if (this.checked) {
                 $("#ReturnDiv").slideDown();
                 $("#ReturnDate").prop('required', true)
@@ -59,29 +62,55 @@
                 $("#ReturnDate").prop('required', false)
                 $("#Return_Time").prop('required', false)
             }
-        });
+        });//End round trip select
 
         var date = new Date();
         date.setDate(date.getDate() - 1);
+        var dateMax = new Date();
+        dateMax.setDate(dateMax.getDate() + 80);
 
-        //Form spesific javascript
+        //Start date picker
         $('#date').datepicker({
             minDate: date,
             uiLibrary: 'bootstrap4',
+            maxDate: dateMax,
             format: "yyyy-mm-dd",
             weekStartDay: 1,
         });
+
+
         $('#ReturnDate').datepicker({
             minDate: date,
             uiLibrary: 'bootstrap4',
+            maxDate: dateMax,
             format: "yyyy-mm-dd",
             weekStartDay: 1,
         });
 
-        $('.stations').autocomplete({
-            source: stations
-        });
+        $(".date-picker").next().hide()        
 
+        $(".date-picker").on("focus" , function() {
+            var btn = $(this).next().children("button")[0]
+            btn.click()
+        })        
+
+        $("#date").on("change", function () {
+            date = new Date($("#date").val())
+            date.setDate(date.getDate() - 1)
+            $("#ReturnDate").datepicker("destroy");
+            $("#ReturnDate").datepicker({
+                minDate: date,
+                uiLibrary: 'bootstrap4',
+                maxDate: dateMax,
+                format: "yyyy-mm-dd",
+                weekStartDay: 1,
+            });
+            $(".date-picker").next().hide()        
+            $("#ReturnDate").addClass("bg-white");
+        });//End date picker
+
+
+        //Start people select
         $("#adult").children("input").val(1);
         $("#child").children("input").val(0);
         $("#student").children("input").val(0);
@@ -119,22 +148,7 @@
             if (totalTickets < maxTickets) {
                 $(".pluss").attr("disabled", false)
             }
-        });
-
-
-        $("#date").on("change", function () {
-            date = new Date($("#date").val())
-            date.setDate(date.getDate() - 1)
-            $("#ReturnDate").datepicker("destroy");
-            $("#ReturnDate").datepicker({
-                minDate: date,
-                uiLibrary: 'bootstrap4',
-                format: "yyyy-mm-dd",
-                weekStartDay: 1,
-            });
-            $("#ReturnDate").addClass("bg-white");
-
-        });
+        });//End people select
     });
 </script>
 <div id="ajax_form" class="container">
@@ -210,7 +224,7 @@
                         <div class="row">
                             <div class="col-auto col-xl-2 p-0"><!--spacing--></div>
                             <div class="col-12 col-xl-10">
-                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { placeholder = "YYYY-MM-DD", @readonly = "readonly", id = "date", @class = "form-control bg-white" } })
+                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { placeholder = "YYYY-MM-DD", @readonly = "readonly", id = "date", @class = "form-control bg-white date-picker" } })
                                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -250,7 +264,7 @@
                         <div class="row">
                             <div class="col-auto col-xl-2"><!--spacing--></div>
                             <div class="col-12 col-xl-10">
-                                @Html.EditorFor(model => model.Return_Date, new { htmlAttributes = new { placeholder = "YYYY-MM-DD", @readonly = "readonly", id = "ReturnDate", @class = "form-control bg-white" } })
+                                @Html.EditorFor(model => model.Return_Date, new { htmlAttributes = new { placeholder = "YYYY-MM-DD", @readonly = "readonly", id = "ReturnDate", @class = "form-control bg-white date-picker" } })
                                 @Html.ValidationMessageFor(model => model.Return_Date, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -282,20 +296,20 @@
                 <div class="row mt-3">
                     <div class="col-12 col-md-6 p-0">
                         <div class="row mt-2">
-                            <div class="col-12 col-md-6 col-lg-8 col-xl-9 text-center text-md-right">
+                            <div class="col-12 col-md-6 col-lg-8  text-center text-md-right">
                                 @Html.LabelFor(model => model.Adult, htmlAttributes: new { @class = "control-label" })
                             </div>
-                            <div id="adult" class="col-12 col-md-6 col-lg-4 col-xl-3 text-md-left text-center add-sub-ticket">
+                            <div id="adult" class="col-12 col-md-6 col-lg-4 text-md-left text-center add-sub-ticket">
                                 <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm"><span>-</span></button>
                                 @Html.HiddenFor(model => model.Adult, new { @class = "control-label" })<b class="mt-1">1</b>
                                 <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span class="vertical-align-center">+</span></button>
                             </div>
                         </div>
                         <div class="row mt-2">
-                            <div class="col-12 col-md-6 col-lg-8 col-xl-9 text-center text-md-right">
+                            <div class="col-12 col-md-6 col-lg-8  text-center text-md-right">
                                 @Html.LabelFor(model => model.Child, htmlAttributes: new { @class = "control-label" })
                             </div>
-                            <div id="child" class="col-12 col-md-6 col-lg-4 col-xl-3 text-md-left text-center add-sub-ticket">
+                            <div id="child" class="col-12 col-md-6 col-lg-4  text-md-left text-center add-sub-ticket">
                                 <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
                                 @Html.HiddenFor(model => model.Child, new { @class = "control-label" })<b class="mt-1">0</b>
                                 <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
@@ -305,22 +319,22 @@
 
                     <div class="col col-md-6 p-0">
                         <div class="row mt-2">
-                            <div id="student" class="col-12 col-md-6 col-lg-4 col-xl-3 order-md-6 order-2 text-md-right text-center add-sub-ticket">
+                            <div id="student" class="col-12 col-md-6 col-lg-4  order-md-6 order-2 text-md-right text-center add-sub-ticket">
                                 <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
                                 @Html.HiddenFor(model => model.Student, new { @class = "control-label" })<b class="mt-1">0</b>
                                 <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-8 col-xl-9 order-1 order-md-6 text-md-left text-center">
+                            <div class="col-12 col-md-6 col-lg-8  order-1 order-md-6 text-md-left text-center">
                                 @Html.LabelFor(model => model.Student, htmlAttributes: new { @class = "control-label" })
                             </div>
                         </div>
                         <div class="row mt-2">
-                            <div id="senior" class="col-12 col-md-6 col-lg-4 col-xl-3 order-md-6 order-2 text-md-right text-center add-sub-ticket">
+                            <div id="senior" class="col-12 col-md-6 col-lg-4  order-md-6 order-2 text-md-right text-center add-sub-ticket">
                                 <button type="button" class="minus btn btn-secondary btn-circle btn-circle-sm" disabled><span>-</span></button>
                                 @Html.HiddenFor(model => model.Senior, new { @class = "control-label " })<b class="mt-1">0</b>
                                 <button type="button" class="pluss btn btn-success btn-circle btn-circle-sm"><span>+</span></button>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-8 col-xl-9 order-md-6 order-1 text-md-left text-center">
+                            <div class="col-12 col-md-6 col-lg-8 order-md-6 order-1 text-md-left text-center">
                                 @Html.LabelFor(model => model.Senior, htmlAttributes: new { @class = "control-label" })
                             </div>
                         </div>
@@ -330,7 +344,7 @@
                 <div align="center" class="mt-2">
                     <div class="form-group">
                         <div class="col-12 col-md-5">
-                            <input type="submit" value="Search" class="btn btn-outline-success pl-3 pr-3 submit" />
+                            <input type="submit" value="Search" class="btn btn-success pl-3 pr-3 submit" />
                         </div>
                     </div>
                     <hr />
@@ -347,13 +361,29 @@
         </div>
     }
 </div>
-
-
-
-
-
 <style>
     input, select {
         max-width: 100%;
+    }
+
+    .gj-picker table .disabled {
+        background-color: #e6e6e6 !important;
+    }
+
+    .gj-picker table tbody td:last-child {
+        background-color: #fa9b9b;
+    }
+
+    .gj-picker table tbody td div:hover {
+        font-weight: bold;
+    }
+
+    .gj-picker table tbody td:hover div{
+        color: #28a745 !important;
+    }
+
+    .date-picker{
+        border-top-right-radius: 4px!important;
+        border-bottom-right-radius: 4px!important;
     }
 </style>

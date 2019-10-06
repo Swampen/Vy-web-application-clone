@@ -367,9 +367,7 @@
 		<Name>Håreina</Name>
 	</Station>
 	<Station>
-		<Name>H</Name>
-	</Station>ö	<Station>
-		<Name>gboda</Name>
+		<Name>Högboda</Name>
 	</Station>
 	<Station>
 		<Name>Høn</Name>
@@ -684,6 +682,9 @@
 		<Name>Oslo S</Name>
 	</Station>
 	<Station>
+		<Name>Oslo</Name>
+	</Station>
+	<Station>
 		<Name>Oteråga</Name>
 	</Station>
 	<Station>
@@ -936,15 +937,16 @@
 		<Name>Trofors</Name>
 	</Station>
 	<Station>
-		<Name>Trollh</Name>
-	</Station>ä	<Station>
-		<Name>ttan</Name>
+		<Name>Trollhättan</Name>
 	</Station>
 	<Station>
 		<Name>Trondheim Lufthavn</Name>
 	</Station>
 	<Station>
 		<Name>Trondheim S</Name>
+	</Station>
+	<Station>
+		<Name>Trondheim</Name>
 	</Station>
 	<Station>
 		<Name>Trykkerud</Name>
@@ -1031,9 +1033,7 @@
 		<Name>Voss</Name>
 	</Station>
 	<Station>
-		<Name>V</Name>
-	</Station>ä	<Station>
-		<Name>lsviken</Name>
+		<Name>Välsviken</Name>
 	</Station>
 	<Station>
 		<Name>Ygre</Name>
@@ -1081,9 +1081,7 @@
 		<Name>Østersund</Name>
 	</Station>
 	<Station>
-		<Name>Østersund V</Name>
-	</Station>ä	<Station>
-		<Name>stra</Name>
+		<Name>Østersund Västra</Name>
 	</Station>
 	<Station>
 		<Name>Øxnered</Name>
