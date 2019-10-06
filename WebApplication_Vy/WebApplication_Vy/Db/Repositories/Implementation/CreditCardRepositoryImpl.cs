@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using WebApplication_Vy.Db.Repositories.Contracts;
 using WebApplication_Vy.Models.Entities;
 
@@ -7,7 +6,6 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
 {
     public class CreditCardRepositoryImpl : ICreditCardRepository
     {
-
         public CreditCard GetCardById(int cardId)
         {
             using (var db = new VyDbContext())
@@ -30,7 +28,9 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
         {
             using (var db = new VyDbContext())
             {
-                return db.Tickets.FirstOrDefault(ticket => ticket.Id == ticketId).CreditCard;
+                
+                Ticket foundTicket = db.Tickets.FirstOrDefault(ticket => ticket.Id == ticketId);
+                return foundTicket?.CreditCard;
             }
         }
     }
