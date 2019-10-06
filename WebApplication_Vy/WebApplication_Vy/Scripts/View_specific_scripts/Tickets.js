@@ -3,14 +3,14 @@
     $("#table").on("mouseenter", ".button-row", function () {
         var row = $(this)
         row.css('cursor', 'pointer')
-        if (!row.hasClass("clicked")){
+        if (!row.hasClass("clicked")) {
             row.css('background-color', '#e6e6e6')
         }
     });
 
     $("#table").on("mouseleave", ".button-row", function () {
         var row = $(this)
-        if (!row.hasClass("clicked")){
+        if (!row.hasClass("clicked")) {
             row.css('background-color', '#DBF0E0')
         }
     });
@@ -43,5 +43,17 @@
                 alert(x + '\n' + y + '\n' + z);
             }
         });
+    });
+
+    $('#delete').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var id = button[0].id // Extract info from data-* attributes
+        console.log(id)
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+        var url = `/home/deleteTicket?ticketId=${id}`
+        var modal = $(this)
+        modal.find("#confirmBtn").attr("href", url)
     });
 });
