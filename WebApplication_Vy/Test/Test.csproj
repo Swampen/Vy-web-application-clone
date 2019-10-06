@@ -120,8 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="Db\Repositories\TripRepositoryImplTest.cs" />
-    <Compile Include="MockUtil\TripRepositoryMock.cs" />
+    <Compile Include="MockUtil\VyRepositoryMock.cs" />
     <Compile Include="Service\TripServiceImplTest.cs" />
     <Compile Include="Service\VyServiceImplTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
