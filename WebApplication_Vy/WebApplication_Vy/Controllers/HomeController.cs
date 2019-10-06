@@ -122,14 +122,6 @@ namespace WebApplication_Vy.Controllers
             return View("CustomerDetails");
         }
         
-        [HttpGet]
-        public string GetPaymentDetails(int ticketId)
-        {
-            var serializer = new JavaScriptSerializer();
-            CardDTO card = _creditCardService.GetCreditCard(ticketId);
-            return serializer.Serialize(card);
-        }
-        
         [HttpPost]
         public string SearchZip(ZipcodeDTO zipcode)
         {
