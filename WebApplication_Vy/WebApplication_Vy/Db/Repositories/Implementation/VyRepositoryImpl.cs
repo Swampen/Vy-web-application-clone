@@ -55,8 +55,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                 var foundCustomer = db
                     .Customers
                     .FirstOrDefault(customer =>
-                        customer.Givenname == inTicket.Customer.Givenname &&
-                        customer.Surname == inTicket.Customer.Surname);
+                        customer.Email.Equals(inTicket.Customer.Email));
 
                 if (foundCustomer == null)
                 {
