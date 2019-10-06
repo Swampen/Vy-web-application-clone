@@ -189,8 +189,6 @@
     <Compile Include="Models\DTO\CustomerDTO.cs" />
     <Compile Include="Models\DTO\SubmitPurchaseDTO.cs" />
     <Compile Include="Models\DTO\TicketDTO.cs" />
-    <Compile Include="Models\DTO\TripData\ScheduleDTO.cs" />
-    <Compile Include="Models\DTO\TripData\StationDTO.cs" />
     <Compile Include="Models\DTO\TripData\TripIntervalDTO.cs" />
     <Compile Include="Models\DTO\TripData\TripDTO.cs" />
     <Compile Include="Models\DTO\TripData\TripQueryDTO.cs" />
