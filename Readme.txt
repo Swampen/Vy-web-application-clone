@@ -1,4 +1,4 @@
-README for oppgave 1 i webapps.
+﻿README for oppgave 1 i webapps.
 
 Vi har i denne oppgaven laget en web-applikasjon som etterlikner Vy.no sin løsning for kjøp av billetter. Vi planla til å begynne med å lage en større database for å håndtere strekninger, avganger og priser, men skrinla dette da vi fant ut av at vi kunne benytte oss av et public API fra vy som gav oss all denne dataen. Lagring av kundedata, billetter og betalingsinformasjon gjøres ved hjelp av en datbasestruktur opprettet med Entity-framework code first. 
 
@@ -29,5 +29,7 @@ I denne oppgaven har vi benyttet følgende rammeverk:
 	-Unity: Dependency injection
 	-Bootstrap: CSS/HTML framework
 	-JQuery: JS framework for interakjson med DOM
+	-Gijgo: JQuery plugin for dato velger
+	-Cleave.js: JS framework for formatering av input felt
 	-AutoMapper: rammeverk for automagisk mapping mellom entiteter og DTOer
 	-Moq: Mocking rammeverk for testing
