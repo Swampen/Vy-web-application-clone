@@ -46,12 +46,8 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                 ArrivalTime = inTicket.ArrivalTime,
                 Duration = inTicket.Duration,
                 Price = inTicket.Price,
-                TrainChanges = inTicket.TrainChanges
-            };
-
-            CreditCard creditCard = new CreditCard
-            {
-                
+                TrainChanges = inTicket.TrainChanges,
+                CreditCard = inTicket.CreditCard
             };
             
             using (var db = new VyDbContext())
@@ -59,8 +55,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                 var foundCustomer = db
                     .Customers
                     .FirstOrDefault(customer =>
-                        customer.Givenname == inTicket.Customer.Givenname &&
-                        customer.Surname == inTicket.Customer.Surname);
+                        customer.Email.Equals(inTicket.Customer.Email));
 
                 if (foundCustomer == null)
                 {
@@ -69,6 +64,7 @@ namespace WebApplication_Vy.Db.Repositories.Implementation
                         Givenname = inTicket.Customer.Givenname,
                         Surname = inTicket.Customer.Surname,
                         Address = inTicket.Customer.Address,
+                        Email = inTicket.Customer.Email,
                         Zipcode = db
                             .Zipcodes
                             .FirstOrDefault(zip => zip.Postalcode == inTicket.Customer.Zipcode.Postalcode),

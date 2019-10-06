@@ -10,5 +10,7 @@ namespace WebApplication_Vy.Service.Contracts
         List<TicketDTO> GetTicketDtos();
 
         bool CreateTicket(TicketDTO ticketDto);
+
+        void MaskCreditCardNumber(CardDTO cardDto);
     }
 }
