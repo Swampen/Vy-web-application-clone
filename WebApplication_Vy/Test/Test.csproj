@@ -120,8 +120,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="MockUtil\CreditCardRepositoryMock.cs" />
     <Compile Include="MockUtil\VyRepositoryMock.cs" />
-    <Compile Include="Service\TripServiceImplTest.cs" />
+    <Compile Include="Service\CreditCardServiceImplTest.cs" />
     <Compile Include="Service\VyServiceImplTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
