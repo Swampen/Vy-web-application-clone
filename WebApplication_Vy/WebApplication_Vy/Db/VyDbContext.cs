@@ -42,30 +42,10 @@ namespace WebApplication_Vy.Db
                         Debug.WriteLine("XML config is wrong");
                         Console.WriteLine(e.StackTrace);
                         throw;
-                    } 
-                    
-                var stationsXML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "stations.xml");
-                Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "stations.xml");
-                var stations = stationsXML.Descendants("Station");
-
-                foreach (var station in stations)
-                    try
-                    {
-                        context.Stations.Add(new Station()
-                        {
-                            Name = (string)station.Element("Name")
-                        });
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine("XML config is wrong");
-                        Console.WriteLine(e.StackTrace);
-                        throw;
                     }
 
                 base.Seed(context);
             }
         }
-
     }
 }
