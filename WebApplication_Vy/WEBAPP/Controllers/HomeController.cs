@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using BLL.Service.Contracts;
 using DAL.Db;
 using DAL.DTO;
@@ -13,13 +14,17 @@ namespace WebApplication_Vy.Controllers
     {
         private readonly IVyService _vyService;
         private readonly IZipSearchService _zipSearchService;
+        private readonly IStationService _stationService;
 
         public HomeController(
             IVyService vyService,
-            IZipSearchService zipSearchService)
+            IZipSearchService zipSearchService,
+            IStationService stationService
+            )
         {
             _vyService = vyService;
             _zipSearchService = zipSearchService;
+            _stationService = stationService;
 
             var db = new VyDbContext();
             db.Database.Initialize(true);
@@ -66,11 +71,11 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            var haveRoundTrip = (bool)Session["HaveRoundTrip"];
+            var haveRoundTrip = (bool) Session["HaveRoundTrip"];
             if (selectedTripDto.Round_Trip)
             {
                 Session["ToTrip"] = selectedTripDto;
-                var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
+                var returnQuery = (TripQueryDTO) Session["ReturnTripQuery"];
                 ViewBag.Model = returnQuery;
                 return View();
             }
@@ -78,7 +83,7 @@ namespace WebApplication_Vy.Controllers
             var chosenTrips = new List<TripDTO>();
             if (haveRoundTrip)
             {
-                var toTrip = (TripDTO)Session["ToTrip"];
+                var toTrip = (TripDTO) Session["ToTrip"];
                 chosenTrips.Add(toTrip);
             }
 
@@ -112,7 +117,7 @@ namespace WebApplication_Vy.Controllers
                 if (success) return RedirectToAction("tickets");
             }
 
-            var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
+            var chosenTrips = (List<TripDTO>) Session["ChosenTrips"];
             ViewBag.Model = chosenTrips;
             return View("CustomerDetails");
         }
@@ -135,11 +140,19 @@ namespace WebApplication_Vy.Controllers
             });
             return View(customers);
         }
-
+        
+        [HttpDelete]
         public ActionResult DeleteTicket(int ticketId)
         {
-            bool success = _vyService.DeleteTicket(ticketId);
+            var success = _vyService.DeleteTicket(ticketId);
             return RedirectToAction("Tickets");
+        }
+
+        [HttpGet]
+        public string GetAllStations()
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            return serializer.Serialize(_stationService.getAllStations());
         }
     }
 }

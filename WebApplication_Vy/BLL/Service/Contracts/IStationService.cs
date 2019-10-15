@@ -1,7 +1,10 @@
-﻿namespace BLL.Service.Contracts
+﻿using System.Collections.Generic;
+using DAL.DTO;
+
+namespace BLL.Service.Contracts
 {
-    public class IstationService
+    public interface IStationService
     {
-        
+        List<StationDTO> getAllStations();
     }
 }

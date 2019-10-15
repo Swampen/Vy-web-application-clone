@@ -46,9 +46,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Contracts\ICreditCardService.cs" />
     <Compile Include="Service\Contracts\IJsonSerializerService.cs" />
+    <Compile Include="Service\Contracts\IStationService.cs" />
     <Compile Include="Service\Contracts\IVyService.cs" />
     <Compile Include="Service\Contracts\IZipSearchService.cs" />
     <Compile Include="Service\Implementation\CreditCardServiceImpl.cs" />
+    <Compile Include="Service\Implementation\StationServiceImpl.cs" />
     <Compile Include="Service\Implementation\VyServiceImpl.cs" />
     <Compile Include="Service\Implementation\ZipSearchServiceImpl.cs" />
   </ItemGroup>
