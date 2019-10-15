@@ -4,40 +4,81 @@
     var people = { Adult: trip.Adult, Child: trip.Child, Student: trip.Student, Senior: trip.Senior }
 
     //Querry to vy api
-    var itineraries = "";
-    fetch("https://booking.cloud.nsb.no/api/itineraries/search", {
-        "credentials": "omit", "headers": { "accept": "application/json", "content-type": "application/json", "sec-fetch-mode": "cors", "x-language": "no" },
-        "referrer": "https://www.vy.no/bestill/velg-togavgang?from=" + trip.Departure_Station + "%20S&fromDisplayName=" + trip.Departure_Station + "%20S&fromType=train-station-name&to=" + trip.Arrival_Station + "&toDisplayName=" + trip.Arrival_Station + "&toType=train-station-name&departureDatetime=" + trip.Date + "%20" + trip.Time.split(":")[0] + "%3A" + trip.Time.split(":")[1] + "&petFree=false&pasCats=1&numPasCats=1",
-        "referrerPolicy": "no-referrer-when-downgrade", "body": "{\"to\":\"" + trip.Arrival_Station + "\",\"from\":\"" + trip.Departure_Station + "\",\"time\":\"" + trip.Date + "T" + trip.Time + "\",\"limitResultsToSameDay\":true,\"language\":\"no\",\"passengers\":[{\"type\":\"ADULT\",\"customerNumber\":null,\"discount\":\"NONE\",\"extras\":[]}],\"priceNecessity\":\"REQUIRED\"}", "method": "POST", "mode": "cors"
+    let itineraries = "";
+    fetch("https://api.entur.io/sales/v1/offers/search/graphql", {
+        "credentials": "omit", "headers": { "accept-language": "nob", "content-type": "application/json", "entur-pos": "Entur Web", "et-client-id": "entur-client-web", "et-client-name": "entur-client-web", "sec-fetch-mode": "cors", "x-correlation-id": "146537f8-5beb-47d6-a50f-02b6825909d3" }, "referrerPolicy": "same-origin", "body": 
+            "{\"query\":\"query tripPatterns( \
+                $numTripPatterns:Int!, \
+                $from:Location!, \
+                $to:Location!, \
+                $dateTime:DateTime!, \
+                $arriveBy:Boolean!, \
+                $modes:[Mode]!, \
+                $transportSubmodes:[TransportSubmodeFilter], \
+                $maxPreTransitWalkDistance:Float, \
+                $walkSpeed:Float, \
+                $minimumTransferTime:Int, \
+                $useFlex:Boolean, \
+                $banned:InputBanned, \
+                $whiteListed:InputWhiteListed )\
+            { trip( \
+                numTripPatterns: $numTripPatterns \
+                wheelchair: false \
+                from: $from \
+                to: $to \
+                dateTime: $dateTime \
+                arriveBy: $arriveBy \
+                modes: $modes \
+                transportSubmodes: $transportSubmodes \
+                maxPreTransitWalkDistance: $maxPreTransitWalkDistance \
+                walkSpeed: $walkSpeed \
+                minimumTransferTime: $minimumTransferTime \
+                useFlex: $useFlex banned: $banned \
+                whiteListed: $whiteListed ) \
+            { tripPatterns { startTime endTime duration distance legs { ...legFields } } } } fragment legFields on Leg { mode aimedStartTime aimedEndTime transportSubmode expectedStartTime expectedEndTime realtime distance duration interchangeFrom { ...interchangeFields } interchangeTo { ...interchangeFields } toEstimatedCall { ...toEstimatedCallFields } fromEstimatedCall { ...fromEstimatedCallFields } pointsOnLink { points length } fromPlace { ...placeFields } toPlace { ...placeFields } intermediateQuays { id name stopPlace { ...stopPlaceFields } } authority { id name url } operator { id name url } line { ...lineFields } transportSubmode serviceJourney { ...serviceJourneyFields } fromEstimatedCall { date } intermediateEstimatedCalls { ...intermediateEstimatedCallFields } situations { ...situationFields } ride } fragment lineFields on Line { publicCode name transportSubmode id flexibleLineType bookingArrangements { bookingMethods bookingNote minimumBookingPeriod bookingContact { phone url } } } fragment interchangeFields on Interchange { staySeated guaranteed } fragment toEstimatedCallFields on EstimatedCall { forBoarding requestStop forAlighting destinationDisplay { frontText } notices { text } } fragment fromEstimatedCallFields on EstimatedCall { forBoarding requestStop forAlighting destinationDisplay { frontText } notices { text } } fragment placeFields on Place { name latitude longitude quay { id name stopPlace { ...stopPlaceFields } publicCode } } fragment serviceJourneyFields on ServiceJourney { id publicCode journeyPattern { line { transportSubmode notices { text } } notices { text } } notices { text } } fragment intermediateEstimatedCallFields on EstimatedCall { quay { id name stopPlace { id } } forAlighting forBoarding requestStop cancellation aimedArrivalTime expectedArrivalTime actualArrivalTime aimedDepartureTime expectedDepartureTime actualDepartureTime } fragment stopPlaceFields on StopPlace { id name description tariffZones { id } parent { name id } } fragment situationFields on PtSituationElement { situationNumber summary { value } description { language value } detail { value } validityPeriod { startTime endTime } reportType infoLinks { uri label } }\",\
+	        \"variables\":{\"numTripPatterns\":10,\"from\":{\"place\":\"NSR:StopPlace:59872\"},\"to\":{\"place\":\"NSR:StopPlace:58952\"},\"dateTime\":\"2019-10-20T09:39:59+02:00\",\"arriveBy\":false,\"modes\":[\"rail\",\"foot\",\"bus\"],\"transportSubmodes\":[{\"transportMode\":\"rail\",\"transportSubmodes\":[\"international\",\"interregionalRail\",\"local\",\"longDistance\",\"nightRail\",\"regionalRail\",\"touristRailway\"]},{\"transportMode\":\"bus\",\"transportSubmodes\":[\"railReplacementBus\"]}],\"maxPreTransitWalkDistance\":2000,\"walkSpeed\":1.3,\"minimumTransferTime\":120,\"banned\":{\"authorities\":\"FLT:Authority:FLT\"}}}", "method": "POST", "mode": "cors"
     }).then(data => data.json()).then(data => {
-        //Loads the result
-        itineraries = data.itineraries;
+        //Loads the result  
+        itineraries = data.data.trip.tripPatterns;
+
         if (itineraries.length === 0) {
             $("#alert").show();
         }
+        console.log(itineraries);
+        
         //For each departure
         $.each(itineraries, function (i, value) {
             //Finds how many changes it has
-            var steps = value.legs;
-            var changes = -1;
-            for (var train of steps) {
-                if (train.transportType == "TRAIN") {
+            let steps = value.legs;
+            let lastTrain = 0;
+            let changes = -1;
+            for (let i in steps) {
+                if (steps[i].mode == "rail") {
+                    lastTrain = i;
                     changes++;
                 }
             }
-
             //Price section
-            var countZero = 0;
-            var originalPrice = value.priceOptions[value.priceOptions.length - 1].amount
-            if (originalPrice == null) {
-                countZero++;
-                if (countZero == itineraries.length) {
-                    $("#alert").show();
-                }
-                return true;
-            }
-            var price = 0;
-            var priceDetails = "<div class='col m-3'>\
+            //let countZero = 0;
+            //let originalPrice = value.priceOptions[value.priceOptions.length - 1].amount
+            //if (originalPrice == null) {
+            //    countZero++;
+            //    if (countZero == itineraries.length) {
+            //        $("#alert").show();
+            //    }
+            //    return true;
+            //}
+            let price = 0;
+            let originalPrice = 0;
+            fetch("https://europe-west1-entur-prod.cloudfunctions.net/tripDetail/v1/trip-patterns", {
+                "credentials": "omit", "headers": { "accept-language": "nob", "content-type": "application/json", "entur-pos": "Entur Web", "et-client-id": "entur-client-web", "et-client-name": "entur-client-web", "sec-fetch-mode": "cors", "x-correlation-id": "c8711541-ef79-4091-b20b-53c66252c4f8" }, "referrerPolicy": "same-origin", "body":
+                    "{\"tripPatternIds\":[\"" + value.id + "\"],\
+                    \"travellers\":[{\"count\":1,\"userTypes\":[\"ADULT\"],\"name\":\"Voksen\",\"userProfileIds\":[\"\"]}]}", "method": "PATCH", "mode": "cors"
+            }).then(data => data.json()).then(data => {
+                console.log(data);
+            })
+
+            let priceDetails = "<div class='col m-3'>\
                                         <div class='row'>\
                                             <div class='w-100 text-center'><button type='button' class='price-btn p-2 btn btn-primary'>Show price details</button></div >\
                                         </div>\
@@ -67,7 +108,7 @@
 
 
             //Sets suitable text to the ammount of changes
-            var changesText;
+            let changesText;
             if (changes == 0) {
                 changesText = "Direct";
             } else if (changes == 1) {
@@ -76,23 +117,33 @@
                 changesText = changes + " changes";
             }
 
-            const temp = value.duration;
-            const duration = (temp.days !== 0 ? temp.days + "d " : "") + (temp.hours !== 0 ? temp.hours + "h " : "") + (temp.minutes !== 0 ? temp.minutes + "m " : "")
+            const startTime = new Date(value.startTime);
+            const endTime = new Date(value.endTime);
+            let seconds = (endTime.getTime() - startTime.getTime()) / 1000;
+
+            let days = Math.floor(seconds / (3600 * 24));
+            seconds -= days * 3600 * 24;
+            let hours = Math.floor(seconds / 3600);
+            seconds -= hours * 3600;
+            let minutes = Math.floor(seconds / 60);
+
+            const duration = (days !== 0 ? days + "d " : "") + (hours !== 0 ? hours + "h " : "") + (minutes !== 0 ? minutes + "m " : "")
+            console.log(duration);
 
             //Displays the result
             $("#trips").append(`<div class='container'><form action='/home/trips' method='POST'>
                         <div id='${i}' class='border-top border-bottom rounded form-group'>
                             <div class='row text-center button-row p-3 '>
                                 <div class='col font-weight-bold'>
-                                    <input type='text' hidden name='Departure_Time' value='${value.departureScheduled.match("[0-9]{2}:[0-9]{2}")}'>${value.departureScheduled.match("[0-9]{2}:[0-9]{2}")}<span> - </span>
-                                    <input type='text' hidden name='Arrival_Time' value='${value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}")}'>${value.arrivalScheduled.match("[0-9]{2}:[0-9]{2}")}
+                                    <input type='text' hidden name='Departure_Time' value='${value.startTime.match("[0-9]{2}:[0-9]{2}")}'>${value.startTime.match("[0-9]{2}:[0-9]{2}")}<span> - </span>
+                                    <input type='text' hidden name='Arrival_Time' value='${value.endTime.match("[0-9]{2}:[0-9]{2}")}'>${value.endTime.match("[0-9]{2}:[0-9]{2}")}
                                 </div>
                                 <div class='col' ><input type='text' hidden name=Duration value='${duration}'>${duration}</div>
                                 <div class='col' ><input type='text' hidden name=Train_Changes value='${changesText}'>${changesText}</div>
                                 <div class='col' ><input type='number' hidden name=Price value='${price}'>${price} kr</div>
-                                <div><input type='text' hidden name=Date value='${value.departureScheduled.split("T")[0]}'></div>
-                                <div><input type='text' hidden name=Departure_Station value='${value.from}'></div>
-                                <div><input type='text' hidden name=Arrival_Station value='${value.to}'></div>
+                                <div><input type='text' hidden name=Date value='${value.startTime.split("T")[0]}'></div>
+                                <div><input type='text' hidden name=Departure_Station value='${value.legs[0].fromPlace.name}'></div>
+                                <div><input type='text' hidden name=Arrival_Station value='${value.legs[lastTrain].fromPlace.name}'></div>
                                 <div><input type='checkbox' hidden name=Round_Trip value='${trip.Round_Trip ? true : false}' checked></div>
                             </div>\
                             <div id='hidden_${i}' class='row mt-4' style='display: none;'>
@@ -103,17 +154,17 @@
             //Appends more info, but hidden
             var hidden_content = "<div class='col ml-5'>"
             $.each(value.legs, function (j, leg) {
-                if (leg.transportType == "TRAIN") {
-                    $.each(this.stops, function (k, stop) {
+                if (leg.mode == "rail") {
+                    $.each(this.intermediateQuays, function (k, stop) {
                         if (k == 0) {
-                            hidden_content += "<div class='row font-weight-bold'>" + stop.name + "</div>"
-                            hidden_content += "<div class='border-left border-success pl-4'>\<div class='row'><a href=''>" + (leg.stops.length - 1) + " stops</a></div>"
+                            hidden_content += "<div class='row font-weight-bold'>" + value.legs[j].fromPlace.name + "</div>"
+                            hidden_content += "<div class='border-left border-success pl-4'>\<div class='row'><a href=''>" + (leg.intermediateQuays.length + 1) + " stops</a></div>"
                             hidden_content += "<div class='col ml-0' style='display: none;'><div class='pl-3'>"
-                        } else if (k == leg.stops.length - 1) {
+                        } else if (k == leg.intermediateQuays.length - 1) {
                             hidden_content += "</div></div></div>"
-                            hidden_content += "<div class='row mb-3 font-weight-bold'>" + stop.name + "</div>"
+                            hidden_content += "<div class='row mb-3 font-weight-bold'>" + value.legs[j].toPlace.name + "</div>"
                         } else {
-                            hidden_content += "<div class='row'>" + stop.name + "</div>"
+                            hidden_content += "<div class='row'>" + /([\s\S]*?)(stasjon)/g.exec(stop.name)[1] + "</div>"
                         }
                     })
                 }
