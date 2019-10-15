@@ -67,7 +67,7 @@ namespace WebApplication_Vy.Db
                 try
                 {
                     var data = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                        @"Content\valgdagen.csv"));
+                        @"Content\stops.csv"));
                     var reader = new StringReader(data);
                     reader.ReadLine();
                     string line;
