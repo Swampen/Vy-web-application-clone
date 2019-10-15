@@ -1,10 +1,10 @@
-﻿using NUnit.Framework;
+﻿using BLL.Service.Contracts;
+using BLL.Service.Implementation;
+using DAL.Db.Repositories.Implementation;
+using DAL.DTO;
+using NUnit.Framework;
 using NUnit.Framework.Internal.Commands;
 using Test.MockUtil;
-using WebApplication_Vy.Db.Repositories.Implementation;
-using WebApplication_Vy.Models.DTO;
-using WebApplication_Vy.Service.Contracts;
-using WebApplication_Vy.Service.Implementation;
 
 namespace Test.Service
 {

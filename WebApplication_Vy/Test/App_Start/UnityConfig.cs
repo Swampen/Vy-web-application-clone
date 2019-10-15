@@ -2,8 +2,6 @@ using System.Web.Mvc;
 using Moq;
 using Unity;
 using Unity.Mvc5;
-using WebApplication_Vy.Db.Repositories.Contracts;
-using WebApplication_Vy.Db.Repositories.Implementation;
 
 namespace Test
 {
