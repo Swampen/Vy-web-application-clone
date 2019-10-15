@@ -7,12 +7,12 @@ namespace DAL.DTO.TripData
     {
         [Display(Name = "From")]
         [Required(ErrorMessage = "This field is required")]
-        [ExistingStation(ErrorMessage = "Invalid departure station")]
+        //[ExistingStation(ErrorMessage = "Invalid departure station")]
         public string Departure_Station { get; set; }
         
         [Display(Name = "To")]
         [Required(ErrorMessage = "This field is required")]
-        [ExistingStation(ErrorMessage = "Invalid arrival station")]
+        //[ExistingStation(ErrorMessage = "Invalid arrival station")]
         public string Arrival_Station { get; set; }
 
         [Display(Name = "Departure date")]

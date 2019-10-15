@@ -63,7 +63,6 @@ namespace WebApplication_Vy.Controllers
             return View();
         }
 
-
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
