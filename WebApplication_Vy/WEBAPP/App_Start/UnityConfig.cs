@@ -17,11 +17,15 @@ namespace WebApplication_Vy
             // register all your components with the container here
             // it is NOT necessary to register your controllers
             // e.g. container.RegisterType<ITestService, TestService>();
+            
+            //Repositories
             container.RegisterType<IVyRepository, VyRepositoryImpl>();
-            container.RegisterType<ITripRepository, TripRepositoryImpl>();
+            container.RegisterType<ICreditCardRepository, CreditCardRepositoryImpl>();
+            container.RegisterType<IStationRepository, StationRepositoryImpl>();
+            
+            //Services
             container.RegisterType<IVyService, VyServiceImpl>();
             container.RegisterType<IZipSearchService, ZipSearchServiceImpl>();
-            container.RegisterType<ICreditCardRepository, CreditCardRepositoryImpl>();
             container.RegisterType<ICreditCardService, CreditCardServiceImpl>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));

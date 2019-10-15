@@ -7,7 +7,7 @@ namespace DAL.DTO.Validation
 {
     public class ExistingStationAttribute : ValidationAttribute
     {
-        private readonly ITripRepository _repository = new TripRepositoryImpl();
+        private readonly IStationRepository _repository = new StationRepositoryImpl();
 
         public override bool IsValid(object value)
         {
