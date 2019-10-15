@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MODEL.Models.Entities
+﻿namespace DAL.DTO
 {
-    public class Station
+    public class StationDTO
     {
-        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string StopId { get; set; }

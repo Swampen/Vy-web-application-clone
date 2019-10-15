@@ -65,6 +65,7 @@
     <Compile Include="DTO\CardDTO.cs" />
     <Compile Include="DTO\CustomerDTO.cs" />
     <Compile Include="DTO\Profiles\VyProfile.cs" />
+    <Compile Include="DTO\StationDTO.cs" />
     <Compile Include="DTO\SubmitPurchaseDTO.cs" />
     <Compile Include="DTO\TicketDTO.cs" />
     <Compile Include="DTO\TripData\TripDTO.cs" />
