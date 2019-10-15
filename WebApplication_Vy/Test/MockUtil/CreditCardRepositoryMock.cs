@@ -1,7 +1,7 @@
-﻿using Moq;
+﻿using DAL.Db.Repositories.Contracts;
+using MODEL.Models.Entities;
+using Moq;
 using NUnit.Framework;
-using WebApplication_Vy.Db.Repositories.Contracts;
-using WebApplication_Vy.Models.Entities;
 
 namespace Test.MockUtil
 {

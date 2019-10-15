@@ -134,6 +134,18 @@
     <Folder Include="Views" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{e38318f6-cad2-482e-ab5f-e2250a057ffc}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{624258e6-b00f-40c7-b74c-f50098a69f35}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MODEL\MODEL.csproj">
+      <Project>{6b8bf009-49a0-4db3-aa96-c2c157831d0a}</Project>
+      <Name>MODEL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WEBAPP\WEBAPP.csproj">
       <Project>{d7c3321d-cf19-4cf1-9b9d-e4d6ea6b224f}</Project>
       <Name>WEBAPP</Name>

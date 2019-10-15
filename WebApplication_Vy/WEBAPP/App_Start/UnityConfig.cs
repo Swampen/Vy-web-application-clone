@@ -1,10 +1,10 @@
 using System.Web.Mvc;
+using DAL.Db.Repositories.Contracts;
+using DAL.Db.Repositories.Implementation;
+using DAL.Service.Contracts;
+using DAL.Service.Implementation;
 using Unity;
 using Unity.Mvc5;
-using WebApplication_Vy.Db.Repositories.Contracts;
-using WebApplication_Vy.Db.Repositories.Implementation;
-using WebApplication_Vy.Service.Contracts;
-using WebApplication_Vy.Service.Implementation;
 
 namespace WebApplication_Vy 
 {
