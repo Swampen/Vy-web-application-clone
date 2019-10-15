@@ -45,24 +45,24 @@ namespace WebApplication_Vy.Db
                         throw;
                     }
                 
-                var stationsXML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "stations.xml");
-                Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "stations.xml");
-                var stations = stationsXML.Descendants("Station");
+                //var stationsXML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "stations.xml");
+                //Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "stations.xml");
+                //var stations = stationsXML.Descendants("Station");
 
-                foreach (var station in stations)
-                    try
-                    {
-                        context.Stations.Add(new Station()
-                        {
-                            Name = (string)station.Element("Name")
-                        });
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine("XML config is wrong");
-                        Console.WriteLine(e.StackTrace);
-                        throw;
-                    }
+                //foreach (var station in stations)
+                //    try
+                //    {
+                //        context.Stations.Add(new Station()
+                //        {
+                //            Name = (string)station.Element("Name")
+                //        });
+                //    }
+                //    catch (Exception e)
+                //    {
+                //        Debug.WriteLine("XML config is wrong");
+                //        Console.WriteLine(e.StackTrace);
+                //        throw;
+                //    }
                 
                 try
                 {
@@ -77,8 +77,8 @@ namespace WebApplication_Vy.Db
                         var strings = line.Split(',');
                         context.Stations.Add(new Station
                         {
-                            Name = strings[0],
-                            StopId = strings[1]
+                            Name = strings[1],
+                            StopId = strings[0]
                         });
                     }
                 }
