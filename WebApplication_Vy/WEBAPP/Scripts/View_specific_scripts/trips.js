@@ -70,19 +70,27 @@
             //}
             let price = 0;
             let originalPrice = 0;
+            let havePrice = false;
             fetch("https://europe-west1-entur-prod.cloudfunctions.net/tripDetail/v1/trip-patterns", {
                 "credentials": "omit", "headers": { "accept-language": "nob", "content-type": "application/json", "entur-pos": "Entur Web", "et-client-id": "entur-client-web", "et-client-name": "entur-client-web", "sec-fetch-mode": "cors", "x-correlation-id": "c8711541-ef79-4091-b20b-53c66252c4f8" }, "referrerPolicy": "same-origin", "body":
                     "{\"tripPatternIds\":[\"" + value.id + "\"],\
                     \"travellers\":[{\"count\":1,\"userTypes\":[\"ADULT\"],\"name\":\"Voksen\",\"userProfileIds\":[\"\"]}]}", "method": "PATCH", "mode": "cors"
             }).then(data => data.json()).then(data => {
-                console.log(data.price);
+                const priceText = ['OFFERS_SOLD_OUT', 'SEATING_INFO_UNAVAILABLE'];
+                console.log(data.price)
+                if (priceText.includes(data.price)) {
+                    havePrice = false;
+                } else {
+                havePrice = true;
+                    price = data.price; 
+                }
             })
 
-            let priceDetails = "<div class='col m-3'>\
-                                        <div class='row'>\
-                                            <div class='w-100 text-center'><button type='button' class='price-btn p-2 btn btn-primary'>Show price details</button></div >\
-                                        </div>\
-                                        <div style='display: none;'>"
+            let priceDetails = `<div class='col m-3'>
+                                        <div class='row'>
+                                            <div class='w-100 text-center'><button type='button' class='price-btn p-2 btn btn-primary'>Show price details</button></div >
+                                        </div>
+                                        <div style='display: none;'>`
             $.each(people, function (p, ammount) {
                 if (ammount > 0) {
                     if (p === "Adult") {
@@ -128,7 +136,6 @@
             let minutes = Math.floor(seconds / 60);
 
             const duration = (days !== 0 ? days + "d " : "") + (hours !== 0 ? hours + "h " : "") + (minutes !== 0 ? minutes + "m " : "")
-            console.log(duration);
 
             //Displays the result
             $("#trips").append(`<div class='container'><form action='/home/trips' method='POST'>
@@ -171,7 +178,7 @@
             });
             hidden_content += "</div>";
             hidden_content += priceDetails;
-            hidden_content += "<div class='col text-right m-3' > <button type='submit' class='btn btn-success'>Select</button></div>";
+            hidden_content += `<div class='col text-right m-3' > <button type='submit' ${havePrice? '' : 'disabled'} class='btn btn-success'>Select</button></div>`;
 
             $("#hidden_" + i).append(hidden_content);
 
