@@ -45,6 +45,7 @@ namespace WebApplication_Vy.Db
                         throw;
                     }
                 
+                // TODO: fjern senere
                 //var stationsXML = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "stations.xml");
                 //Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "stations.xml");
                 //var stations = stationsXML.Descendants("Station");
