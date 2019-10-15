@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
 using DAL.DTO;
@@ -18,7 +19,7 @@ namespace BLL.Service.Implementation
         
         public List<StationDTO> getAllStations()
         {
-            List<StationDTO> stationDtos = new List<StationDTO>();
+            var stationDtos = new List<StationDTO>();
             _stationRepository
                 .FindAllStations()
                 .ForEach(station => { stationDtos.Add(MapStationDto(station)); });

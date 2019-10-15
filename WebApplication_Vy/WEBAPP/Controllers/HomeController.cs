@@ -152,11 +152,7 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult GetAllStations()
         {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var liste = _stationService.getAllStations();
-            Console.WriteLine(liste.Count);
-           // return Json(serializer.Serialize(_stationService.getAllStations()));
-           return Json(new {id = 1});
+            return Json(_stationService.getAllStations());
         }
     }
 }
