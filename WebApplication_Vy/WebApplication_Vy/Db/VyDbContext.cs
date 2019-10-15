@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.IO;
 using System.Web;
 using System.Xml.Linq;
 using WebApplication_Vy.Models.Entities;
@@ -62,6 +63,30 @@ namespace WebApplication_Vy.Db
                         Console.WriteLine(e.StackTrace);
                         throw;
                     }
+                
+                try
+                {
+                    var data = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                        @"Content\valgdagen.csv"));
+                    var reader = new StringReader(data);
+                    reader.ReadLine();
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        Console.WriteLine(line);
+                        var strings = line.Split(';');
+                        context.Stations.Add(new Station
+                        {
+                            Name = strings[0],
+                            StopId = strings[1]
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
                 base.Seed(context);
             }
         }
