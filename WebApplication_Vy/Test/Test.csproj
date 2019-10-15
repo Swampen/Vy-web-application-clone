@@ -127,17 +127,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebApplication_Vy\WebApplication_Vy.csproj">
-      <Project>{d7c3321d-cf19-4cf1-9b9d-e4d6ea6b224f}</Project>
-      <Name>WebApplication_Vy</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WEBAPP\WEBAPP.csproj">
+      <Project>{d7c3321d-cf19-4cf1-9b9d-e4d6ea6b224f}</Project>
+      <Name>WEBAPP</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
