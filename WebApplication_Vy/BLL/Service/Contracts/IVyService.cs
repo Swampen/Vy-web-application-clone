@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using DAL.DTO;
 
-namespace DAL.Service.Contracts
+namespace BLL.Service.Contracts
 {
     public interface IVyService
     {

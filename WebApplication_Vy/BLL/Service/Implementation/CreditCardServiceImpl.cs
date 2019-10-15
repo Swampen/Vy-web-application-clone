@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
 using DAL.DTO;
-using DAL.Service.Contracts;
 using MODEL.Models.Entities;
 
-namespace DAL.Service.Implementation
+namespace BLL.Service.Implementation
 {
     public class CreditCardServiceImpl : ICreditCardService
     {

@@ -1,4 +1,4 @@
-﻿namespace DAL.Service.Contracts
+﻿namespace BLL.Service.Contracts
 {
     public interface IJsonSerializerService
     {

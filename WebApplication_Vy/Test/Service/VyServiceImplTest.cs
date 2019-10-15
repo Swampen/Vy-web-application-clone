@@ -1,7 +1,7 @@
-﻿using DAL.Db.Repositories.Implementation;
+﻿using BLL.Service.Contracts;
+using BLL.Service.Implementation;
+using DAL.Db.Repositories.Implementation;
 using DAL.DTO;
-using DAL.Service.Contracts;
-using DAL.Service.Implementation;
 using NUnit.Framework;
 using NUnit.Framework.Internal.Commands;
 using Test.MockUtil;

@@ -1,6 +1,6 @@
 ﻿using DAL.DTO;
 
-namespace DAL.Service.Contracts
+namespace BLL.Service.Contracts
 {
     public interface ICreditCardService
     {

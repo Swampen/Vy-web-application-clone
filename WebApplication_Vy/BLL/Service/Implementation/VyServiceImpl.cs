@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using AutoMapper;
+using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
 using DAL.DTO;
 using DAL.DTO.TripData;
-using DAL.Service.Contracts;
 using MODEL.Models.Entities;
 using MODEL.Models.Entities.TripData;
 
-namespace DAL.Service.Implementation
+namespace BLL.Service.Implementation
 {
     public class VyServiceImpl : IVyService
     {

@@ -1,6 +1,6 @@
-﻿using DAL.DTO;
-using DAL.Service.Contracts;
-using DAL.Service.Implementation;
+﻿using BLL.Service.Contracts;
+using BLL.Service.Implementation;
+using DAL.DTO;
 using NUnit.Framework;
 using Test.MockUtil;
 

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using BLL.Service.Contracts;
 using DAL.Db;
 using DAL.DTO;
 using DAL.DTO.TripData;
-using DAL.Service.Contracts;
 
 namespace WebApplication_Vy.Controllers
 {

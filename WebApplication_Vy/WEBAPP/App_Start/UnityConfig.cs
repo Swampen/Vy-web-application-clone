@@ -1,8 +1,8 @@
 using System.Web.Mvc;
+using BLL.Service.Contracts;
+using BLL.Service.Implementation;
 using DAL.Db.Repositories.Contracts;
 using DAL.Db.Repositories.Implementation;
-using DAL.Service.Contracts;
-using DAL.Service.Implementation;
 using Unity;
 using Unity.Mvc5;
 
