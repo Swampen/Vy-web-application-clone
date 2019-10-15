@@ -74,7 +74,7 @@ namespace WebApplication_Vy.Db
                     while ((line = reader.ReadLine()) != null)
                     {
                         Console.WriteLine(line);
-                        var strings = line.Split(';');
+                        var strings = line.Split(',');
                         context.Stations.Add(new Station
                         {
                             Name = strings[0],
