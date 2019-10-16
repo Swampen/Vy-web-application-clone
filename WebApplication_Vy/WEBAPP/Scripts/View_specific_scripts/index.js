@@ -47,19 +47,6 @@
             console.log(ui);
         }
     });
-    
-    let teststations = [];
-    $.ajax({
-        url: "Home/GetAllStations/",
-        type: "POST",
-        dataType: "json",
-        success: function (data) {
-            console.log(data);
-        },
-        error: function (x, y, z) {
-            alert(x + '\n' + y + '\n' + z);
-        }
-    });
 
     $("#SwitchButton").on("click", function (e) {
 

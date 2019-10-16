@@ -7,7 +7,6 @@ using BLL.Service.Contracts;
 using DAL.Db;
 using DAL.DTO;
 using DAL.DTO.TripData;
-using Microsoft.Ajax.Utilities;
 
 namespace WebApplication_Vy.Controllers
 {
@@ -149,10 +148,11 @@ namespace WebApplication_Vy.Controllers
             return RedirectToAction("Tickets");
         }
 
-        [HttpPost]
-        public ActionResult GetAllStations()
+        [HttpGet]
+        public string GetAllStations()
         {
-            return Json(_stationService.getAllStations());
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            return serializer.Serialize(_stationService.getAllStations());
         }
     }
 }
