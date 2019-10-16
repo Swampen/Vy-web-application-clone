@@ -5,7 +5,7 @@
 }
 <script type="text/javascript" src="~/Scripts/View_specific_scripts/index.js"></script>
 <div id="ajax_form" class="container">
-    @using (Ajax.BeginForm("Index", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }, new { id = "form" }))
+    @using (Ajax.BeginForm("Index", "Home", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "Success" }, new { id = "form" }))
     {
         @Html.AntiForgeryToken()
         <div align="center">

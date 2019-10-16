@@ -53,9 +53,9 @@
         "credentials": "omit", "headers": { "accept-language": "nob", "content-type": "application/json", "entur-pos": "Vy lookalike", "et-client-id": "OsloMet - Webapplication course group 41", "et-client-name": "OsloMet - Webapplication course group 41", "sec-fetch-mode": "cors", "x-correlation-id": "146537f8-5beb-47d6-a50f-02b6825909d3" }, "referrerPolicy": "same-origin",
         "body": `{"query": 
             "query tripPatterns( $numTripPatterns:Int!, $from:Location!, $to:Location!, $dateTime:DateTime!, $arriveBy:Boolean!, $modes:[Mode]!, $transportSubmodes:[TransportSubmodeFilter], $maxPreTransitWalkDistance:Float, $walkSpeed:Float, $minimumTransferTime:Int, $useFlex:Boolean, $banned:InputBanned, $whiteListed:InputWhiteListed ){ trip( numTripPatterns: $numTripPatterns wheelchair: false from: $from to: $to dateTime: $dateTime arriveBy: $arriveBy modes: $modes transportSubmodes: $transportSubmodes maxPreTransitWalkDistance: $maxPreTransitWalkDistance walkSpeed: $walkSpeed minimumTransferTime: $minimumTransferTime useFlex: $useFlex banned: $banned whiteListed: $whiteListed ) { tripPatterns { startTime endTime duration distance legs { ...legFields } } } } fragment legFields on Leg { mode aimedStartTime aimedEndTime transportSubmode expectedStartTime expectedEndTime realtime distance duration interchangeFrom { ...interchangeFields } interchangeTo { ...interchangeFields } toEstimatedCall { ...toEstimatedCallFields } fromEstimatedCall { ...fromEstimatedCallFields } pointsOnLink { points length } fromPlace { ...placeFields } toPlace { ...placeFields } intermediateQuays { id name stopPlace { ...stopPlaceFields } } authority { id name url } operator { id name url } line { ...lineFields } transportSubmode serviceJourney { ...serviceJourneyFields } fromEstimatedCall { date } intermediateEstimatedCalls { ...intermediateEstimatedCallFields } situations { ...situationFields } ride } fragment lineFields on Line { publicCode name transportSubmode id flexibleLineType bookingArrangements { bookingMethods bookingNote minimumBookingPeriod bookingContact { phone url } } } fragment interchangeFields on Interchange { staySeated guaranteed } fragment toEstimatedCallFields on EstimatedCall { forBoarding requestStop forAlighting destinationDisplay { frontText } notices { text } } fragment fromEstimatedCallFields on EstimatedCall { forBoarding requestStop forAlighting destinationDisplay { frontText } notices { text } } fragment placeFields on Place { name latitude longitude quay { id name stopPlace { ...stopPlaceFields } publicCode } } fragment serviceJourneyFields on ServiceJourney { id publicCode journeyPattern { line { transportSubmode notices { text } } notices { text } } notices { text } } fragment intermediateEstimatedCallFields on EstimatedCall { quay { id name stopPlace { id } } forAlighting forBoarding requestStop cancellation aimedArrivalTime expectedArrivalTime actualArrivalTime aimedDepartureTime expectedDepartureTime actualDepartureTime } fragment stopPlaceFields on StopPlace { id name description tariffZones { id } parent { name id } } fragment situationFields on PtSituationElement { situationNumber summary { value } description { language value } detail { value } validityPeriod { startTime endTime } reportType infoLinks { uri label } }",
-	        "variables":${JSON.stringify(variables)}}`, 
-            "method": "POST", "mode": "cors"
-            //"variables":{"numTripPatterns":10,"from":{"place":"NSR:StopPlace:59872"},"to":{"place":"NSR:StopPlace:58952"},"dateTime":"2019-10-20T09:39:59+02:00","arriveBy":false,"modes":["rail","foot","bus"],"transportSubmodes":[{"transportMode":"rail","transportSubmodes":["international","interregionalRail","local","longDistance","nightRail","regionalRail","touristRailway"]},{"transportMode":"bus","transportSubmodes":["railReplacementBus"]}],"maxPreTransitWalkDistance":2000,"walkSpeed":1.3,"minimumTransferTime":120,"banned":{"authorities":"FLT:Authority:FLT"}}}`,
+	        "variables":${JSON.stringify(variables)}}`,
+        "method": "POST", "mode": "cors"
+        //"variables":{"numTripPatterns":10,"from":{"place":"NSR:StopPlace:59872"},"to":{"place":"NSR:StopPlace:58952"},"dateTime":"2019-10-20T09:39:59+02:00","arriveBy":false,"modes":["rail","foot","bus"],"transportSubmodes":[{"transportMode":"rail","transportSubmodes":["international","interregionalRail","local","longDistance","nightRail","regionalRail","touristRailway"]},{"transportMode":"bus","transportSubmodes":["railReplacementBus"]}],"maxPreTransitWalkDistance":2000,"walkSpeed":1.3,"minimumTransferTime":120,"banned":{"authorities":"FLT:Authority:FLT"}}}`,
     }).then(data => data.json()).then(data => {
         //Loads the result  
         itineraries = data.data.trip.tripPatterns;
@@ -65,11 +65,6 @@
         }
         console.log(itineraries);
 
-        let ids = [];
-        for (it of itineraries) {
-            ids.push(it.id);
-        }
-        
         //For each departure
         $.each(itineraries, function (i, value) {
             //Finds how many changes it has
@@ -86,20 +81,22 @@
             let price = 0;
             let originalPrice = 0;
             let havePrice = false;
-            //fetch("https://europe-west1-entur-prod.cloudfunctions.net/tripDetail/v1/trip-patterns", {
-            //    "credentials": "omit", "headers": { "accept-language": "nob", "content-type": "application/json", "entur-pos": "Jurney Planner", "et-client-id": "OsloMet - Webapplication course group 39", "et-client-name": "entur-client-web", "sec-fetch-mode": "cors", "x-correlation-id": "c8711541-ef79-4091-b20b-53c66252c4f8" }, "referrerPolicy": "same-origin", "body":
-            //        "{\"tripPatternIds\":[" + "\"" + ids.join("\",\"") + "\"" +"],\
-            //        \"travellers\":[{\"count\":1,\"userTypes\":[\"ADULT\"],\"name\":\"Voksen\"}]}", "method": "PATCH", "mode": "cors"
-            //}).then(data => data.json()).then(data => {
-            //    const priceText = ['OFFERS_SOLD_OUT', 'SEATING_INFO_UNAVAILABLE'];
-            //    console.log(data)
-            //    if (priceText.includes(data.price)) {
-            //        havePrice = false;
-            //    } else {
-            //        havePrice = true;
-            //        price = data.price;
-            //    }
-            //})
+            fetch("https://europe-west1-entur-prod.cloudfunctions.net/tripDetail/v1/trip-patterns", {
+                "credentials": "omit", "headers": { "accept-language": "nob", "content-type": "application/json", "entur-pos": "Jurney Planner", "et-client-id": "OsloMet - Webapplication course group 39", "et-client-name": "entur-client-web", "sec-fetch-mode": "cors", "x-correlation-id": "c8711541-ef79-4091-b20b-53c66252c4f8" }, "referrerPolicy": "same-origin", "body":
+                    "{\"tripPatternIds\":[\"" + value.id + "\"" + "],\
+                    \"travellers\":[{\"count\":1,\"userTypes\":[\"ADULT\"],\"name\":\"Voksen\"}]}", "method": "PATCH", "mode": "cors"
+            }).then(data => data.json()).then(data => {
+                console.log(data)
+                $("#" + value.id).children().eq(0).children("#totPrice").children("input").val(data.price)
+                //const priceText = ['OFFERS_SOLD_OUT', 'SEATING_INFO_UNAVAILABLE'];
+                //console.log(data)
+                //if (priceText.includes(data.price)) {
+                //    havePrice = false;
+                //} else {
+                //    havePrice = true;
+                //    price = data.price;
+                //}
+            })
 
             let priceDetails = `<div class='col m-3'>
                                         <div class='row'>
@@ -118,7 +115,7 @@
                                                 <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice * 0.5 + ",-</div>\
                                             </div>"
                         price += originalPrice * 0.5 * ammount;
-                    }else if (p === "Student") {
+                    } else if (p === "Student") {
                         priceDetails += "<div class='row'>\
                                                 <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice * 0.75 + ",-</div>\
                                             </div>"
@@ -154,7 +151,7 @@
 
             //Displays the result
             $("#trips").append(`<div class='container'><form action='/home/trips' method='POST'>
-                        <div id='${i}' class='border-top border-bottom rounded form-group'>
+                        <div id='${value.id}' class='border-top border-bottom rounded form-group'>
                             <div class='row text-center button-row p-3 '>
                                 <div class='col font-weight-bold'>
                                     <input type='text' hidden name='Departure_Time' value='${value.startTime.match("[0-9]{2}:[0-9]{2}")}'>${value.startTime.match("[0-9]{2}:[0-9]{2}")}<span> - </span>
@@ -162,7 +159,7 @@
                                 </div>
                                 <div class='col' ><input type='text' hidden name=Duration value='${duration}'>${duration}</div>
                                 <div class='col' ><input type='text' hidden name=Train_Changes value='${changesText}'>${changesText}</div>
-                                <div class='col' ><input type='number' hidden name=Price value='${price}'>${price} kr</div>
+                                <div class='col' id=totPrice ><input type='number' hidden name=Price value='${price}'>${price} kr</div>
                                 <div><input type='text' hidden name=Date value='${value.startTime.split("T")[0]}'></div>
                                 <div><input type='text' hidden name=Departure_Station value='${value.legs[0].fromPlace.name}'></div>
                                 <div><input type='text' hidden name=Arrival_Station value='${value.legs[lastTrain].fromPlace.name}'></div>
@@ -193,7 +190,7 @@
             });
             hidden_content += "</div>";
             hidden_content += priceDetails;
-            hidden_content += `<div class='col text-right m-3' > <button type='submit' ${havePrice? '' : 'disabled'} class='btn btn-success'>Select</button></div>`;
+            hidden_content += `<div class='col text-right m-3' > <button type='submit' ${havePrice ? '' : 'disabled'} class='btn btn-success'>Select</button></div>`;
 
             $("#hidden_" + i).append(hidden_content);
 
