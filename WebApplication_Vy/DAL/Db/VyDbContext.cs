@@ -72,9 +72,6 @@ namespace DAL.Db
             }
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
