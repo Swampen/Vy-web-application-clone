@@ -16,7 +16,17 @@ namespace BLL.Service.Implementation
         {
             _stationRepository = stationRepository;
         }
-        
+
+        public Dictionary<string, string> getAllKeyValueStations()
+        {
+            Dictionary<string, string> stations = new Dictionary<string, string>();
+            foreach (var station in _stationRepository.FindAllStations())
+            {
+                stations.Add(station.Name, station.StopId);
+            }
+            return stations;
+        }
+
         public List<StationDTO> getAllStations()
         {
             var stationDtos = new List<StationDTO>();

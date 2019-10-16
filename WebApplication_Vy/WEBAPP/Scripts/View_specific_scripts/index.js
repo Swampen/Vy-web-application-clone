@@ -19,32 +19,24 @@
     //        stations.sort();
     //    });
     let stations = [];
+    let names = []
     $.ajax({
         url: "/home/GetAllStations",
         type: 'GET',
         contentType: "application/json;charset=utf-8",
         success: function (response) {
-            ids = JSON.parse(response);
-            console.log(ids)
-            for (station of ids) {
-                stations.push(station.Name)
+            stations = JSON.parse(response);
+            for (var key in stations) {
+                names.push(key)
             }
+            console.log(stations);
         }
     });
+
     $('.stations').autocomplete({
         source: function (request, response) {
-            response($.map(ids, function (value, key) {
-                return {
-                    label: value.Name,
-                    value: value.StopId
-                }
-            }));
-            //let results = $.ui.autocomplete.filter(stations, request.term);
-            //response(results.slice(0, 10));
-        },
-        select: function (event, ui) {
-            $('#Departure').val(ui.item.label);
-            console.log(ui);
+            let results = $.ui.autocomplete.filter(names, request.term);
+            response(results.slice(0, 10));
         }
     });
 
@@ -189,4 +181,9 @@
             $(".pluss").attr("disabled", false)
         }
     });//End people select
+
+    $("#form").on("submit", e => {
+        $("#Departure_stationId").val(stations[$("#Departure").val()]);
+        $("#Arrival_stationId").val(stations[$("#Arrival").val()]);
+    });
 });

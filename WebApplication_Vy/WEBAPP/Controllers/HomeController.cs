@@ -152,7 +152,7 @@ namespace WebApplication_Vy.Controllers
         public string GetAllStations()
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            return serializer.Serialize(_stationService.getAllStations());
+            return serializer.Serialize(_stationService.getAllKeyValueStations());
         }
     }
 }

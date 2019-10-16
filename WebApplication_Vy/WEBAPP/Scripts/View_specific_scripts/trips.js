@@ -6,10 +6,10 @@
     const variables = {
         numTripPatterns: 10,
         from: {
-            place: "NSR:StopPlace:59872"
+            place: trip.Departure_StationId
         },
         to: {
-            place: "NSR:StopPlace:58952"
+            place: trip.Arrival_StationId
         },
         dateTime: trip.Date + "T" + trip.Time,
         arriveBy: false,
@@ -83,15 +83,6 @@
                 }
             }
             //Price section
-            //let countZero = 0;
-            //let originalPrice = value.priceOptions[value.priceOptions.length - 1].amount
-            //if (originalPrice == null) {
-            //    countZero++;
-            //    if (countZero == itineraries.length) {
-            //        $("#alert").show();
-            //    }
-            //    return true;
-            //}
             let price = 0;
             let originalPrice = 0;
             let havePrice = false;
