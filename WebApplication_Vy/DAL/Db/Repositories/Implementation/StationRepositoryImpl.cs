@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DAL.Db.Repositories.Contracts;
 using MODEL.Models.Entities;
@@ -11,7 +12,16 @@ namespace DAL.Db.Repositories.Implementation
         {
             using (var db = new VyDbContext())
             {
-                return db.Stations.ToList();
+                try
+                {
+                    return db.Stations.ToList();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                
             }
         }
     }
