@@ -62,6 +62,7 @@
     <Compile Include="Db\Repositories\Implementation\StationRepositoryImpl.cs" />
     <Compile Include="Db\Repositories\Implementation\VyRepositoryImpl.cs" />
     <Compile Include="Db\VyDbContext.cs" />
+    <Compile Include="DTO\AdminUserDTO.cs" />
     <Compile Include="DTO\CardDTO.cs" />
     <Compile Include="DTO\CustomerDTO.cs" />
     <Compile Include="DTO\Profiles\VyProfile.cs" />
