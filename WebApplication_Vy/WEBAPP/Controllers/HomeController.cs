@@ -55,7 +55,9 @@ namespace WebApplication_Vy.Controllers
                     var returnTripQuery = new TripQueryDTO
                     {
                         Departure_Station = tripQuery.Arrival_Station,
+                        Departure_StationId = tripQuery.Arrival_StationId,
                         Arrival_Station = tripQuery.Departure_Station,
+                        Arrival_StationId = tripQuery.Departure_StationId,
                         Date = tripQuery.Return_Date,
                         Time = tripQuery.Return_Time,
                         Round_Trip = false,

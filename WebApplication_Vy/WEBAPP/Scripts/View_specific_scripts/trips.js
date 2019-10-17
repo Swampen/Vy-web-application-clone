@@ -47,7 +47,7 @@
     }
 
 
-    //Querry to vy api
+    //Querry to entur api
     let itineraries = "";
     fetch("https://api.entur.io/sales/v1/offers/search/graphql", {
         "credentials": "omit", "headers": { "accept-language": "nob", "content-type": "application/json", "entur-pos": "Vy lookalike", "et-client-id": "OsloMet - Webapplication course group 41", "et-client-name": "OsloMet - Webapplication course group 41", "sec-fetch-mode": "cors", "x-correlation-id": "146537f8-5beb-47d6-a50f-02b6825909d3" }, "referrerPolicy": "same-origin",
@@ -55,7 +55,6 @@
             "query tripPatterns( $numTripPatterns:Int!, $from:Location!, $to:Location!, $dateTime:DateTime!, $arriveBy:Boolean!, $modes:[Mode]!, $transportSubmodes:[TransportSubmodeFilter], $maxPreTransitWalkDistance:Float, $walkSpeed:Float, $minimumTransferTime:Int, $useFlex:Boolean, $banned:InputBanned, $whiteListed:InputWhiteListed ){ trip( numTripPatterns: $numTripPatterns wheelchair: false from: $from to: $to dateTime: $dateTime arriveBy: $arriveBy modes: $modes transportSubmodes: $transportSubmodes maxPreTransitWalkDistance: $maxPreTransitWalkDistance walkSpeed: $walkSpeed minimumTransferTime: $minimumTransferTime useFlex: $useFlex banned: $banned whiteListed: $whiteListed ) { tripPatterns { startTime endTime duration distance legs { ...legFields } } } } fragment legFields on Leg { mode aimedStartTime aimedEndTime transportSubmode expectedStartTime expectedEndTime realtime distance duration interchangeFrom { ...interchangeFields } interchangeTo { ...interchangeFields } toEstimatedCall { ...toEstimatedCallFields } fromEstimatedCall { ...fromEstimatedCallFields } pointsOnLink { points length } fromPlace { ...placeFields } toPlace { ...placeFields } intermediateQuays { id name stopPlace { ...stopPlaceFields } } authority { id name url } operator { id name url } line { ...lineFields } transportSubmode serviceJourney { ...serviceJourneyFields } fromEstimatedCall { date } intermediateEstimatedCalls { ...intermediateEstimatedCallFields } situations { ...situationFields } ride } fragment lineFields on Line { publicCode name transportSubmode id flexibleLineType bookingArrangements { bookingMethods bookingNote minimumBookingPeriod bookingContact { phone url } } } fragment interchangeFields on Interchange { staySeated guaranteed } fragment toEstimatedCallFields on EstimatedCall { forBoarding requestStop forAlighting destinationDisplay { frontText } notices { text } } fragment fromEstimatedCallFields on EstimatedCall { forBoarding requestStop forAlighting destinationDisplay { frontText } notices { text } } fragment placeFields on Place { name latitude longitude quay { id name stopPlace { ...stopPlaceFields } publicCode } } fragment serviceJourneyFields on ServiceJourney { id publicCode journeyPattern { line { transportSubmode notices { text } } notices { text } } notices { text } } fragment intermediateEstimatedCallFields on EstimatedCall { quay { id name stopPlace { id } } forAlighting forBoarding requestStop cancellation aimedArrivalTime expectedArrivalTime actualArrivalTime aimedDepartureTime expectedDepartureTime actualDepartureTime } fragment stopPlaceFields on StopPlace { id name description tariffZones { id } parent { name id } } fragment situationFields on PtSituationElement { situationNumber summary { value } description { language value } detail { value } validityPeriod { startTime endTime } reportType infoLinks { uri label } }",
 	        "variables":${JSON.stringify(variables)}}`,
         "method": "POST", "mode": "cors"
-        //"variables":{"numTripPatterns":10,"from":{"place":"NSR:StopPlace:59872"},"to":{"place":"NSR:StopPlace:58952"},"dateTime":"2019-10-20T09:39:59+02:00","arriveBy":false,"modes":["rail","foot","bus"],"transportSubmodes":[{"transportMode":"rail","transportSubmodes":["international","interregionalRail","local","longDistance","nightRail","regionalRail","touristRailway"]},{"transportMode":"bus","transportSubmodes":["railReplacementBus"]}],"maxPreTransitWalkDistance":2000,"walkSpeed":1.3,"minimumTransferTime":120,"banned":{"authorities":"FLT:Authority:FLT"}}}`,
     }).then(data => data.json()).then(data => {
         //Loads the result  
         itineraries = data.data.trip.tripPatterns;
@@ -78,6 +77,19 @@
                 }
             }
 
+            //Alternative price
+            //$.ajax({
+            //    url: "https://api.entur.io/sales/v1/offers/search/trip/trip-pattern/" + value.id,
+            //    type: 'GET',
+            //   'entur-pos': "Vy lookalike",
+            //    'et-client-id': "OsloMet - Webapplication course group 41",
+            //    'et-client-name': "OsloMet - Webapplication course group 41",
+            //    contentType: "application/json;charset=utf-8",
+            //    success: function (response) {
+            //        console.log(response.offers[0].salesPackageConfig.prices[0].amount)
+            //    }
+            //});
+            console.log(value.id)
             //Price section
             let price = 0;
             let originalPrice = 0;
@@ -86,7 +98,8 @@
                     "{\"tripPatternIds\":[\"" + value.id + "\"" + "],\
                     \"travellers\":[{\"count\":1,\"userTypes\":[\"ADULT\"],\"name\":\"Voksen\"}]}", "method": "PATCH", "mode": "cors"
             }).then(data => data.json()).then(data => {
-                console.log(data)
+
+                
 
                 originalPrice = data.price;
 
