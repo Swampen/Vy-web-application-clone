@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -15,16 +14,16 @@ namespace WebApplication_Vy.Controllers
     public class HomeController : Controller
     {
         private static readonly ILog Log = LogHelper.GetLogger();
-        
+        private readonly IStationService _stationService;
+
         private readonly IVyService _vyService;
         private readonly IZipSearchService _zipSearchService;
-        private readonly IStationService _stationService;
 
         public HomeController(
             IVyService vyService,
             IZipSearchService zipSearchService,
             IStationService stationService
-            )
+        )
         {
             _vyService = vyService;
             _zipSearchService = zipSearchService;
@@ -145,7 +144,7 @@ namespace WebApplication_Vy.Controllers
             });
             return View(customers);
         }
-        
+
         [HttpDelete]
         public ActionResult DeleteTicket(int ticketId)
         {
@@ -156,7 +155,7 @@ namespace WebApplication_Vy.Controllers
         [HttpGet]
         public string GetAllStations()
         {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var serializer = new JavaScriptSerializer();
             return serializer.Serialize(_stationService.getAllKeyValueStations());
         }
     }
