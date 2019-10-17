@@ -8,10 +8,12 @@ using DAL.Db;
 using DAL.DTO;
 using DAL.DTO.TripData;
 using log4net;
+using WebApplication_Vy.Utils.Filters;
 using WebApplication_Vy.Utils.Logging;
 
 namespace WebApplication_Vy.Controllers
 {
+    [ControllerExceptionFilter]
     public class HomeController : Controller
     {
         private static readonly ILog Log = LogHelper.GetLogger();
