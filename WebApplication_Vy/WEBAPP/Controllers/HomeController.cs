@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -7,11 +8,14 @@ using BLL.Service.Contracts;
 using DAL.Db;
 using DAL.DTO;
 using DAL.DTO.TripData;
+using log4net;
 
 namespace WebApplication_Vy.Controllers
 {
     public class HomeController : Controller
     {
+        private static readonly ILog Log = LogHelper.GetLogger();
+        
         private readonly IVyService _vyService;
         private readonly IZipSearchService _zipSearchService;
         private readonly IStationService _stationService;
@@ -32,6 +36,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
+            Log.Error("Hello world from log4net framework");
             Session["HaveRoundTrip"] = false;
             Session["ChosenTrips"] = new List<TripDTO>();
             return View();
