@@ -44,7 +44,7 @@
                         <div class="row">
                             <div class="col-12">
                                 @Html.EditorFor(model => model.Arrival_Station, new { htmlAttributes = new { placeholder = "Arrival station", id = "Arrival", @class = "stations form-control" } })
-                                @Html.HiddenFor(model => model.Arrival_StationId, new { id = "Arrival_stationId"})
+                                @Html.HiddenFor(model => model.Arrival_StationId, new { id = "Arrival_stationId" })
                                 @Html.ValidationMessageFor(model => model.Arrival_Station, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -213,6 +213,7 @@
 
             <div class="col-auto col-md-1 p-0"><!--spacing--></div>
         </div>
+        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#login">Login</button>
     }
 </div>
 
@@ -226,18 +227,23 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div>
-                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { placeholder = "Username" } })
-                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div>
+                        <input />
+                    </div>
                 </div>
-                <div>
-                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { placeholder = "Password" } })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div>
+                        <input />
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <a id="confirmBtn" href="" class="btn btn-danger">Delete</a>
+                <a id="confirmBtn" href="" class="btn btn-success">Login</a>
             </div>
         </div>
     </div>

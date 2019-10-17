@@ -10,7 +10,7 @@ namespace DAL.DTO
         public bool SuperUltra { get; set; }
         
         [Required(ErrorMessage = "Please fill in your email address")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
         
         [Required(ErrorMessage = "Please enter your password")]
         public string Password { get; set; }
