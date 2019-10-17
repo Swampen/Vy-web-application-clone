@@ -77,6 +77,10 @@
       <Project>{6b8bf009-49a0-4db3-aa96-c2c157831d0a}</Project>
       <Name>MODEL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UTILS\UTILS.csproj">
+      <Project>{dd8cf2c1-8728-419b-9a68-993fdb03d257}</Project>
+      <Name>UTILS</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

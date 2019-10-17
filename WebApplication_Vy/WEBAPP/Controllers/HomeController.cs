@@ -8,8 +8,8 @@ using DAL.Db;
 using DAL.DTO;
 using DAL.DTO.TripData;
 using log4net;
-using WebApplication_Vy.Utils.Filters;
-using WebApplication_Vy.Utils.Logging;
+using UTILS.Utils.Filters;
+using UTILS.Utils.Logging;
 
 namespace WebApplication_Vy.Controllers
 {

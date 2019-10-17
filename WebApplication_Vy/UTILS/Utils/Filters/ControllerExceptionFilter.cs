@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 using log4net;
-using WebApplication_Vy.Utils.Logging;
+using UTILS.Utils.Logging;
 
-namespace WebApplication_Vy.Utils.Filters
+namespace UTILS.Utils.Filters
 {
     public class ControllerExceptionFilter : ActionFilterAttribute
     {

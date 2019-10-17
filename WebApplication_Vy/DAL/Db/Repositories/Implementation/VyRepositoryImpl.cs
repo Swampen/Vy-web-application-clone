@@ -1,14 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using DAL.Db.Repositories.Contracts;
+using log4net;
 using MODEL.Models.Entities;
+using UTILS.Utils.Logging;
 
 namespace DAL.Db.Repositories.Implementation
 {
     public class VyRepositoryImpl : IVyRepository
     {
+        private static readonly ILog Log = LogHelper.GetLogger();
         public List<Ticket> FindAllTickets()
         {
             var db = new VyDbContext();
@@ -78,8 +82,7 @@ namespace DAL.Db.Repositories.Implementation
                     }
                     catch (Exception error)
                     {
-                        Console.WriteLine(error);
-                        Console.WriteLine(error.StackTrace);
+                        Log.Error(error.Message);
                         return false;
                     }
                 }

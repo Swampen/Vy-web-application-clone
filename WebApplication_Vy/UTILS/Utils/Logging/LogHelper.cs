@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using log4net;
 
-namespace WebApplication_Vy.Utils.Logging
+namespace UTILS.Utils.Logging
 {
     public class LogHelper
     {
