@@ -8,6 +8,7 @@ using DAL.Db;
 using DAL.DTO;
 using DAL.DTO.TripData;
 using log4net;
+using WebApplication_Vy.Utils.Logging;
 
 namespace WebApplication_Vy.Controllers
 {
@@ -35,7 +36,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
-            Log.Error("Hello world from log4net framework");
+            Log.Info("Application started, log4net running.....");
             Session["HaveRoundTrip"] = false;
             Session["ChosenTrips"] = new List<TripDTO>();
             return View();
