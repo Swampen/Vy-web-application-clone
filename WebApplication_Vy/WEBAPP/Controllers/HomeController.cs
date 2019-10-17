@@ -7,20 +7,26 @@ using BLL.Service.Contracts;
 using DAL.Db;
 using DAL.DTO;
 using DAL.DTO.TripData;
+using log4net;
+using UTILS.Utils.Filters;
+using UTILS.Utils.Logging;
 
 namespace WebApplication_Vy.Controllers
 {
+    [ControllerExceptionFilter]
     public class HomeController : Controller
     {
+        private static readonly ILog Log = LogHelper.GetLogger();
+        private readonly IStationService _stationService;
+
         private readonly IVyService _vyService;
         private readonly IZipSearchService _zipSearchService;
-        private readonly IStationService _stationService;
 
         public HomeController(
             IVyService vyService,
             IZipSearchService zipSearchService,
             IStationService stationService
-            )
+        )
         {
             _vyService = vyService;
             _zipSearchService = zipSearchService;
@@ -32,6 +38,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
+            Log.Info("Application started, log4net running.....");
             Session["HaveRoundTrip"] = false;
             Session["ChosenTrips"] = new List<TripDTO>();
             return View();
@@ -140,7 +147,7 @@ namespace WebApplication_Vy.Controllers
             });
             return View(customers);
         }
-        
+
         [HttpDelete]
         public ActionResult DeleteTicket(int ticketId)
         {
@@ -151,7 +158,7 @@ namespace WebApplication_Vy.Controllers
         [HttpGet]
         public string GetAllStations()
         {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var serializer = new JavaScriptSerializer();
             return serializer.Serialize(_stationService.getAllKeyValueStations());
         }
     }
