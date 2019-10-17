@@ -4,8 +4,7 @@ namespace BLL.Service.Implementation
 {
     public class LoginService
     {
-
-        public String ComputeHash(String Password)
+        public string ComputeHash(String Password)
         {
             var algoritme = System.Security.Cryptography.SHA512.Create();
             byte[] inndata;
@@ -16,10 +15,5 @@ namespace BLL.Service.Implementation
             
             return HashedPword;
         }
-        
-        
-        
-        
-        
     }
 }
