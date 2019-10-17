@@ -80,23 +80,24 @@
             //Price section
             let price = 0;
             let originalPrice = 0;
-            let havePrice = false;
             fetch("https://europe-west1-entur-prod.cloudfunctions.net/tripDetail/v1/trip-patterns", {
                 "credentials": "omit", "headers": { "accept-language": "nob", "content-type": "application/json", "entur-pos": "Jurney Planner", "et-client-id": "OsloMet - Webapplication course group 39", "et-client-name": "entur-client-web", "sec-fetch-mode": "cors", "x-correlation-id": "c8711541-ef79-4091-b20b-53c66252c4f8" }, "referrerPolicy": "same-origin", "body":
                     "{\"tripPatternIds\":[\"" + value.id + "\"" + "],\
                     \"travellers\":[{\"count\":1,\"userTypes\":[\"ADULT\"],\"name\":\"Voksen\"}]}", "method": "PATCH", "mode": "cors"
             }).then(data => data.json()).then(data => {
                 console.log(data)
-                $("#" + value.id).children().eq(0).children("#totPrice").children("input").val(data.price)
-                //const priceText = ['OFFERS_SOLD_OUT', 'SEATING_INFO_UNAVAILABLE'];
-                //console.log(data)
-                //if (priceText.includes(data.price)) {
-                //    havePrice = false;
-                //} else {
-                //    havePrice = true;
-                //    price = data.price;
-                //}
-            })
+                const priceText = ['OFFERS_SOLD_OUT', 'SEATING_INFO_UNAVAILABLE'];
+                if (priceText.includes(data.price)) {
+                    $("#" + value.id).children().eq(0).children("#totPrice").children("input").val(0);
+                    $("#" + value.id).children().eq(0).children("#totPrice").text("No seates available");
+
+                } else {
+                    $("#" + value.id).children().eq(0).children("#totPrice").children("input").val(data.price);
+                    $("#" + value.id).children().eq(0).children("#totPrice").text(data.price + " kr");
+                    $("#" + value.id).children().eq(1).children(".btn-select").children("button").attr("disabled", false);
+                    originalPrice = data.price;
+                }
+            });
 
             let priceDetails = `<div class='col m-3'>
                                         <div class='row'>
@@ -159,10 +160,10 @@
                                 </div>
                                 <div class='col' ><input type='text' hidden name=Duration value='${duration}'>${duration}</div>
                                 <div class='col' ><input type='text' hidden name=Train_Changes value='${changesText}'>${changesText}</div>
-                                <div class='col' id=totPrice ><input type='number' hidden name=Price value='${price}'>${price} kr</div>
+                                <div class='col' id=totPrice ><input type='text' hidden name=Price value='${price}'>${price} kr</div>
                                 <div><input type='text' hidden name=Date value='${value.startTime.split("T")[0]}'></div>
                                 <div><input type='text' hidden name=Departure_Station value='${value.legs[0].fromPlace.name}'></div>
-                                <div><input type='text' hidden name=Arrival_Station value='${value.legs[lastTrain].fromPlace.name}'></div>
+                                <div><input type='text' hidden name=Arrival_Station value='${value.legs[lastTrain].toPlace.name}'></div>
                                 <div><input type='checkbox' hidden name=Round_Trip value='${trip.Round_Trip ? true : false}' checked></div>
                             </div>\
                             <div id='hidden_${i}' class='row mt-4' style='display: none;'>
@@ -190,7 +191,7 @@
             });
             hidden_content += "</div>";
             hidden_content += priceDetails;
-            hidden_content += `<div class='col text-right m-3' > <button type='submit' ${havePrice ? '' : 'disabled'} class='btn btn-success'>Select</button></div>`;
+            hidden_content += `<div class='col text-right m-3 btn-select'> <button type='submit' disabled class='btn btn-success'>Select</button></div>`;
 
             $("#hidden_" + i).append(hidden_content);
 
