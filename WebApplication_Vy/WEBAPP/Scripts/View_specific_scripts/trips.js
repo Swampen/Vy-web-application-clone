@@ -77,6 +77,7 @@
                     changes++;
                 }
             }
+
             //Price section
             let price = 0;
             let originalPrice = 0;
@@ -86,46 +87,58 @@
                     \"travellers\":[{\"count\":1,\"userTypes\":[\"ADULT\"],\"name\":\"Voksen\"}]}", "method": "PATCH", "mode": "cors"
             }).then(data => data.json()).then(data => {
                 console.log(data)
+
+                originalPrice = data.price;
+
                 const priceText = ['OFFERS_SOLD_OUT', 'SEATING_INFO_UNAVAILABLE'];
-                if (priceText.includes(data.price)) {
-                    $("#" + value.id).children().eq(0).children("#totPrice").children("input").val(0);
-                    $("#" + value.id).children().eq(0).children("#totPrice").text("No seates available");
+                if (priceText.includes(originalPrice)) {
+                    $("#totPrice" + data.tripPatternId).text("No seates available");
+                    $("#totPrice" + data.tripPatternId).append(`<input type='text' hidden name=Price value='0'>`);
 
                 } else {
-                    $("#" + value.id).children().eq(0).children("#totPrice").children("input").val(data.price);
-                    $("#" + value.id).children().eq(0).children("#totPrice").text(data.price + " kr");
-                    $("#" + value.id).children().eq(1).children(".btn-select").children("button").attr("disabled", false);
-                    originalPrice = data.price;
+                    let priceDetails = `<div class='row'>
+                                        <div class='w-100 text-center'>
+                                            <button type='button' class='price-btn p-2 btn btn-primary'>Show price details</button>
+                                        </div >
+                                    </div>
+                                    <div style='display: none;'>`
+
+                    let calculated = 0;
+                    $.each(people, function (p, ammount) {
+                        if (ammount > 0) {
+                            if (p === "Adult") {
+                                calculated = originalPrice;
+                                priceDetails += "<div class='row'>\
+                                                    <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice + ",-</div>\
+                                                </div>";
+                                price += calculated * ammount;
+                            } else if (p === "Child" || p === "Senior") {
+                                calculated = parseInt(originalPrice * 0.5, 10);
+                                priceDetails += "<div class='row'>\
+                                                    <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + calculated + ",-</div>\
+                                                </div>"
+                                price += calculated * ammount;
+                            } else if (p === "Student") {
+                                calculated = parseInt(originalPrice * 0.75, 10);
+                                priceDetails += "<div class='row'>\
+                                                    <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + calculated + ",-</div>\
+                                                </div>"
+                                price += calculated * ammount;
+                            }
+                        }
+
+                    });
+                    priceDetails += "</div>"//end price section
+                    $("#priceDetails" + data.tripPatternId).append(priceDetails);
+
+
+                    $("#totPrice" + data.tripPatternId).text(price + " kr");
+                    $("#totPrice" + data.tripPatternId).append(`<input type='text' hidden name=Price value='${price}'>`);
+                    $("#" + data.tripPatternId).children().eq(1).children(".btn-select").children("button").attr("disabled", false);
                 }
+                
             });
 
-            let priceDetails = `<div class='col m-3'>
-                                        <div class='row'>
-                                            <div class='w-100 text-center'><button type='button' class='price-btn p-2 btn btn-primary'>Show price details</button></div >
-                                        </div>
-                                        <div style='display: none;'>`
-            $.each(people, function (p, ammount) {
-                if (ammount > 0) {
-                    if (p === "Adult") {
-                        priceDetails += "<div class='row'>\
-                                                <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice + ",-</div>\
-                                            </div>"
-                        price += originalPrice * ammount;
-                    } else if (p === "Child" || p === "Senior") {
-                        priceDetails += "<div class='row'>\
-                                                <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice * 0.5 + ",-</div>\
-                                            </div>"
-                        price += originalPrice * 0.5 * ammount;
-                    } else if (p === "Student") {
-                        priceDetails += "<div class='row'>\
-                                                <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice * 0.75 + ",-</div>\
-                                            </div>"
-                        price += originalPrice * 0.75 * ammount;
-                    }
-                }
-
-            });
-            priceDetails += "</div></div>"//end price section
 
 
             //Sets suitable text to the ammount of changes
@@ -160,7 +173,12 @@
                                 </div>
                                 <div class='col' ><input type='text' hidden name=Duration value='${duration}'>${duration}</div>
                                 <div class='col' ><input type='text' hidden name=Train_Changes value='${changesText}'>${changesText}</div>
-                                <div class='col' id=totPrice ><input type='text' hidden name=Price value='${price}'>${price} kr</div>
+                                <div class='col' id=totPrice${value.id}>
+                                    
+                                    <div class="spinner-grow text-success" role="status">
+                                      <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
                                 <div><input type='text' hidden name=Date value='${value.startTime.split("T")[0]}'></div>
                                 <div><input type='text' hidden name=Departure_Station value='${value.legs[0].fromPlace.name}'></div>
                                 <div><input type='text' hidden name=Arrival_Station value='${value.legs[lastTrain].toPlace.name}'></div>
@@ -190,7 +208,7 @@
                 }
             });
             hidden_content += "</div>";
-            hidden_content += priceDetails;
+            hidden_content += `<div id="priceDetails${value.id}" class="col m-3"></div>`;
             hidden_content += `<div class='col text-right m-3 btn-select'> <button type='submit' disabled class='btn btn-success'>Select</button></div>`;
 
             $("#hidden_" + i).append(hidden_content);
