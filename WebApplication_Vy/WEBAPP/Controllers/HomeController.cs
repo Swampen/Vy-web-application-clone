@@ -32,6 +32,10 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
+            if(Session["AdminLogin"] == null)
+            {
+                Session["AdminLogin"] = false;
+            }
             Session["HaveRoundTrip"] = false;
             Session["ChosenTrips"] = new List<TripDTO>();
             return View();
@@ -174,9 +178,9 @@ namespace WebApplication_Vy.Controllers
             else
             {
                 //TODO: fyll inn dette løpet
-                return new EmptyResult();
+                return Redirect(Request.UrlReferrer.ToString());
             }
-            
+
         }
 
         public ActionResult AdminPage()
@@ -199,13 +203,14 @@ namespace WebApplication_Vy.Controllers
 
             //Denne metoden skal sjekke oppgitt brukernavn og passord opp mot database og return true om det er en match
             //Passordet her vil måtte kjøre igjennom hasj metoden
+            //Vil ta in en LoginDTO istedet
 
             /* 
              List<Admins> admins = GetAllAdmins();
-             String hash = ComputeHash(Password);
+             String hash = ComputeHash(in.Password);
 
             foreach(a in admins){
-                if(Username == a.Username){
+                if(in.Username == a.Username){
                     if(hash == a.Password){
                         return true;
                     }

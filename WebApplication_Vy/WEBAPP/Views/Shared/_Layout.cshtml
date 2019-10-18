@@ -32,6 +32,9 @@
                 <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
                     @Html.ActionLink("Tickets", "tickets", "Home", null, new { @class = "nav-link" })
                 </li>
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
+                    @Html.ActionLink("Admin", "adminPage", "Home", null, new { @class = "nav-link" })
+                </li>
             </ul>
             <div class="form-inline my-2 my-lg-0 mr-5">
                 <button type="button" class="btn btn nav-link" data-toggle="modal" data-target="#login">Login</button>
