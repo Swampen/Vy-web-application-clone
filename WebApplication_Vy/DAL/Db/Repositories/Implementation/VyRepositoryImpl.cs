@@ -37,6 +37,12 @@ namespace DAL.Db.Repositories.Implementation
             return zipcode;
         }
 
+        public List<Admin> FindAllAdmins()
+        {
+            var db = new VyDbContext();
+            return db.Admins.ToList();
+        } 
+
         public bool CreateTicket(Ticket inTicket)
         {
             var ticket = new Ticket

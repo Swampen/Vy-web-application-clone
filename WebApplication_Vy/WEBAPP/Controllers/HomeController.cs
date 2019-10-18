@@ -194,11 +194,15 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult AdminPage()
         {
+
+
             //sjekker om du er logget inn som admin og hvis du er det redirecter den til AdminPage
             //Foreløpig kjøres det bare en refresh hvis du ikke er logget inn.
             bool valid = (bool)Session["AdminLogin"];
             if (valid)
             {
+                var admins = _vyService.GetAdminUserDtos();
+                ViewBag.Model = admins;
                 return View();
             }
             else

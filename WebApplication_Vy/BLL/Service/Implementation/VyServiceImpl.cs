@@ -41,6 +41,14 @@ namespace BLL.Service.Implementation
             return dtos;
         }
 
+        public List<AdminUserDTO> GetAdminUserDtos()
+        {
+            var admins = _vyRepository.FindAllAdmins();
+            var dtos = new List<AdminUserDTO>();
+            foreach(var admin in admins)
+                dtos.Add(mapAdminUserDto(admin));
+            return dtos;
+        }
 
         public bool CreateTicket(TicketDto ticketDto)
         {
@@ -157,6 +165,14 @@ namespace BLL.Service.Implementation
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<ZipcodeDto, Zipcode>(); });
             var mapper = new Mapper(config);
             return mapper.Map<Zipcode>(dto);
+        }
+
+        private AdminUserDTO mapAdminUserDto(Admin admin){
+            var adminDto = new AdminUserDTO();
+            adminDto.Username = admin.Username;
+            adminDto.Password = admin.Password;
+            adminDto.SuperUltra = admin.SuperUltra;
+            return adminDto;
         }
     }
 }

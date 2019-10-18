@@ -20,6 +20,7 @@ namespace DAL.Db
         public DbSet<Zipcode> Zipcodes { get; set; }
         public DbSet<Station> Stations { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
+        public DbSet<Admin> Admins { get; set; }
 
         public class VyDbInitializer<T> : CreateDatabaseIfNotExists<VyDbContext>
         {
