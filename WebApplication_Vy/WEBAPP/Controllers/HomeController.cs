@@ -163,7 +163,7 @@ namespace WebApplication_Vy.Controllers
             String Password = "admin";
 
             //Sjekker om credentials er valid
-            bool match = checkCredentials(Username, Password);
+            bool match = CheckCredentials(Username, Password);
 
             //hvis riktig sett AdminLogin til true og refresh
             if (match)
@@ -194,7 +194,7 @@ namespace WebApplication_Vy.Controllers
             }
         }
 
-        public bool checkCredentials(String Username, String Password)
+        public bool CheckCredentials(String Username, String Password)
         {
 
             //Denne metoden skal sjekke oppgitt brukernavn og passord opp mot database og return true om det er en match
