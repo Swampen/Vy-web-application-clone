@@ -1,42 +1,45 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using DAL.Db.Repositories.Contracts;
+using log4net;
 using MODEL.Models.Entities;
+using UTILS.Utils.Logging;
 
 namespace DAL.Db.Repositories.Implementation
 {
     public class VyRepositoryImpl : IVyRepository
     {
+        private static readonly ILog Log = LogHelper.GetLogger();
+
         public List<Ticket> FindAllTickets()
         {
             var db = new VyDbContext();
-            return Enumerable.ToList<Ticket>(db.Tickets);
+            return db.Tickets.ToList();
         }
 
         public List<Customer> FindAllCustomers()
         {
             var db = new VyDbContext();
-            return Enumerable.ToList<Customer>(db.Customers);
+            return db.Customers.ToList();
         }
 
         public List<Zipcode> FindAllZipcodes()
         {
             var db = new VyDbContext();
-            return Enumerable.ToList<Zipcode>(db.Zipcodes);
+            return db.Zipcodes.ToList();
         }
 
         public Zipcode FindZipcode(string postalcode)
         {
             var db = new VyDbContext();
-            var zipcode = Queryable.FirstOrDefault<Zipcode>(db.Zipcodes, zip => zip.Postalcode == postalcode);
+            var zipcode = db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == postalcode);
             return zipcode;
         }
 
         public bool CreateTicket(Ticket inTicket)
         {
-            Ticket ticket = new Ticket
+            var ticket = new Ticket
             {
                 DepartureStation = inTicket.DepartureStation,
                 ArrivalStation = inTicket.ArrivalStation,
@@ -47,11 +50,11 @@ namespace DAL.Db.Repositories.Implementation
                 TrainChanges = inTicket.TrainChanges,
                 CreditCard = inTicket.CreditCard
             };
-            
+
             using (var db = new VyDbContext())
             {
-                var foundCustomer = Queryable.FirstOrDefault<Customer>(db
-                        .Customers, customer =>
+                var foundCustomer = db
+                    .Customers.FirstOrDefault(customer =>
                         customer.Email.Equals(inTicket.Customer.Email));
 
                 if (foundCustomer == null)
@@ -62,24 +65,25 @@ namespace DAL.Db.Repositories.Implementation
                         Surname = inTicket.Customer.Surname,
                         Address = inTicket.Customer.Address,
                         Email = inTicket.Customer.Email,
-                        Zipcode = Queryable.FirstOrDefault<Zipcode>(db
-                                .Zipcodes, zip => zip.Postalcode == inTicket.Customer.Zipcode.Postalcode),
+                        Zipcode = db
+                            .Zipcodes.FirstOrDefault(zip => zip.Postalcode == inTicket.Customer.Zipcode.Postalcode),
                         Tickets = new List<Ticket>
                         {
                             ticket
-                        },
+                        }
                     };
 
                     try
                     {
                         db.Customers.Add(customer);
                         db.SaveChanges();
+                        Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                                 "Create ticket event succeded for customerId: " + customer.Id);
                         return true;
                     }
                     catch (Exception error)
                     {
-                        Console.WriteLine(error);
-                        Console.WriteLine(error.StackTrace);
+                        Log.Error(LogEventPrefixes.DATABASE_ERROR + error.Message, error);
                         return false;
                     }
                 }
@@ -89,11 +93,13 @@ namespace DAL.Db.Repositories.Implementation
                     inTicket.Customer = foundCustomer;
                     foundCustomer.Tickets.Add(inTicket);
                     db.SaveChanges();
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                             "Create ticket event succeded for customerId: " + foundCustomer.Id);
                     return true;
                 }
                 catch (Exception error)
                 {
-                    Debug.WriteLine(error);
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + error.Message, error);
                     return false;
                 }
             }
@@ -102,14 +108,18 @@ namespace DAL.Db.Repositories.Implementation
         public bool DeleteTicket(int ticketId)
         {
             var db = new VyDbContext();
-            try {
-                Ticket ticket = db.Tickets.Find(ticketId);
+            try
+            {
+                var ticket = db.Tickets.Find(ticketId);
                 db.Tickets.Remove(ticket);
                 db.SaveChanges();
+                Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                         "Deleted ticketId: " + ticket.Id);
                 return true;
             }
-            catch (Exception e){
-                System.Diagnostics.Debug.WriteLine(e);
+            catch (Exception e)
+            {
+                Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
                 return false;
             }
         }

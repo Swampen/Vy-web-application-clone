@@ -47,7 +47,7 @@
     }
 
 
-    //Querry to vy api
+    //Querry to entur api
     let itineraries = "";
     fetch("https://api.entur.io/sales/v1/offers/search/graphql", {
         "credentials": "omit", "headers": { "accept-language": "nob", "content-type": "application/json", "entur-pos": "Vy lookalike", "et-client-id": "OsloMet - Webapplication course group 41", "et-client-name": "OsloMet - Webapplication course group 41", "sec-fetch-mode": "cors", "x-correlation-id": "146537f8-5beb-47d6-a50f-02b6825909d3" }, "referrerPolicy": "same-origin",
@@ -55,7 +55,6 @@
             "query tripPatterns( $numTripPatterns:Int!, $from:Location!, $to:Location!, $dateTime:DateTime!, $arriveBy:Boolean!, $modes:[Mode]!, $transportSubmodes:[TransportSubmodeFilter], $maxPreTransitWalkDistance:Float, $walkSpeed:Float, $minimumTransferTime:Int, $useFlex:Boolean, $banned:InputBanned, $whiteListed:InputWhiteListed ){ trip( numTripPatterns: $numTripPatterns wheelchair: false from: $from to: $to dateTime: $dateTime arriveBy: $arriveBy modes: $modes transportSubmodes: $transportSubmodes maxPreTransitWalkDistance: $maxPreTransitWalkDistance walkSpeed: $walkSpeed minimumTransferTime: $minimumTransferTime useFlex: $useFlex banned: $banned whiteListed: $whiteListed ) { tripPatterns { startTime endTime duration distance legs { ...legFields } } } } fragment legFields on Leg { mode aimedStartTime aimedEndTime transportSubmode expectedStartTime expectedEndTime realtime distance duration interchangeFrom { ...interchangeFields } interchangeTo { ...interchangeFields } toEstimatedCall { ...toEstimatedCallFields } fromEstimatedCall { ...fromEstimatedCallFields } pointsOnLink { points length } fromPlace { ...placeFields } toPlace { ...placeFields } intermediateQuays { id name stopPlace { ...stopPlaceFields } } authority { id name url } operator { id name url } line { ...lineFields } transportSubmode serviceJourney { ...serviceJourneyFields } fromEstimatedCall { date } intermediateEstimatedCalls { ...intermediateEstimatedCallFields } situations { ...situationFields } ride } fragment lineFields on Line { publicCode name transportSubmode id flexibleLineType bookingArrangements { bookingMethods bookingNote minimumBookingPeriod bookingContact { phone url } } } fragment interchangeFields on Interchange { staySeated guaranteed } fragment toEstimatedCallFields on EstimatedCall { forBoarding requestStop forAlighting destinationDisplay { frontText } notices { text } } fragment fromEstimatedCallFields on EstimatedCall { forBoarding requestStop forAlighting destinationDisplay { frontText } notices { text } } fragment placeFields on Place { name latitude longitude quay { id name stopPlace { ...stopPlaceFields } publicCode } } fragment serviceJourneyFields on ServiceJourney { id publicCode journeyPattern { line { transportSubmode notices { text } } notices { text } } notices { text } } fragment intermediateEstimatedCallFields on EstimatedCall { quay { id name stopPlace { id } } forAlighting forBoarding requestStop cancellation aimedArrivalTime expectedArrivalTime actualArrivalTime aimedDepartureTime expectedDepartureTime actualDepartureTime } fragment stopPlaceFields on StopPlace { id name description tariffZones { id } parent { name id } } fragment situationFields on PtSituationElement { situationNumber summary { value } description { language value } detail { value } validityPeriod { startTime endTime } reportType infoLinks { uri label } }",
 	        "variables":${JSON.stringify(variables)}}`,
         "method": "POST", "mode": "cors"
-        //"variables":{"numTripPatterns":10,"from":{"place":"NSR:StopPlace:59872"},"to":{"place":"NSR:StopPlace:58952"},"dateTime":"2019-10-20T09:39:59+02:00","arriveBy":false,"modes":["rail","foot","bus"],"transportSubmodes":[{"transportMode":"rail","transportSubmodes":["international","interregionalRail","local","longDistance","nightRail","regionalRail","touristRailway"]},{"transportMode":"bus","transportSubmodes":["railReplacementBus"]}],"maxPreTransitWalkDistance":2000,"walkSpeed":1.3,"minimumTransferTime":120,"banned":{"authorities":"FLT:Authority:FLT"}}}`,
     }).then(data => data.json()).then(data => {
         //Loads the result  
         itineraries = data.data.trip.tripPatterns;
@@ -77,54 +76,82 @@
                     changes++;
                 }
             }
+
+            //Alternative price
+            //$.ajax({
+            //    url: "https://api.entur.io/sales/v1/offers/search/trip/trip-pattern/" + value.id,
+            //    type: 'GET',
+            //   'entur-pos': "Vy lookalike",
+            //    'et-client-id': "OsloMet - Webapplication course group 41",
+            //    'et-client-name': "OsloMet - Webapplication course group 41",
+            //    contentType: "application/json;charset=utf-8",
+            //    success: function (response) {
+            //        console.log(response.offers[0].salesPackageConfig.prices[0].amount)
+            //    }
+            //});
+            console.log(value.id)
             //Price section
             let price = 0;
             let originalPrice = 0;
-            let havePrice = false;
             fetch("https://europe-west1-entur-prod.cloudfunctions.net/tripDetail/v1/trip-patterns", {
                 "credentials": "omit", "headers": { "accept-language": "nob", "content-type": "application/json", "entur-pos": "Jurney Planner", "et-client-id": "OsloMet - Webapplication course group 39", "et-client-name": "entur-client-web", "sec-fetch-mode": "cors", "x-correlation-id": "c8711541-ef79-4091-b20b-53c66252c4f8" }, "referrerPolicy": "same-origin", "body":
                     "{\"tripPatternIds\":[\"" + value.id + "\"" + "],\
                     \"travellers\":[{\"count\":1,\"userTypes\":[\"ADULT\"],\"name\":\"Voksen\"}]}", "method": "PATCH", "mode": "cors"
             }).then(data => data.json()).then(data => {
-                console.log(data)
-                $("#" + value.id).children().eq(0).children("#totPrice").children("input").val(data.price)
-                //const priceText = ['OFFERS_SOLD_OUT', 'SEATING_INFO_UNAVAILABLE'];
-                //console.log(data)
-                //if (priceText.includes(data.price)) {
-                //    havePrice = false;
-                //} else {
-                //    havePrice = true;
-                //    price = data.price;
-                //}
-            })
 
-            let priceDetails = `<div class='col m-3'>
-                                        <div class='row'>
-                                            <div class='w-100 text-center'><button type='button' class='price-btn p-2 btn btn-primary'>Show price details</button></div >
-                                        </div>
-                                        <div style='display: none;'>`
-            $.each(people, function (p, ammount) {
-                if (ammount > 0) {
-                    if (p === "Adult") {
-                        priceDetails += "<div class='row'>\
-                                                <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice + ",-</div>\
-                                            </div>"
-                        price += originalPrice * ammount;
-                    } else if (p === "Child" || p === "Senior") {
-                        priceDetails += "<div class='row'>\
-                                                <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice * 0.5 + ",-</div>\
-                                            </div>"
-                        price += originalPrice * 0.5 * ammount;
-                    } else if (p === "Student") {
-                        priceDetails += "<div class='row'>\
-                                                <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice * 0.75 + ",-</div>\
-                                            </div>"
-                        price += originalPrice * 0.75 * ammount;
-                    }
+                
+
+                originalPrice = data.price;
+
+                const priceText = ['OFFERS_SOLD_OUT', 'SEATING_INFO_UNAVAILABLE'];
+                if (priceText.includes(originalPrice)) {
+                    $("#totPrice" + data.tripPatternId).text("No seates available");
+                    $("#totPrice" + data.tripPatternId).append(`<input type='text' hidden name=Price value='0'>`);
+
+                } else {
+                    let priceDetails = `<div class='row'>
+                                        <div class='w-100 text-center'>
+                                            <button type='button' class='price-btn p-2 btn btn-primary'>Show price details</button>
+                                        </div >
+                                    </div>
+                                    <div style='display: none;'>`
+
+                    let calculated = 0;
+                    $.each(people, function (p, ammount) {
+                        if (ammount > 0) {
+                            if (p === "Adult") {
+                                calculated = originalPrice;
+                                priceDetails += "<div class='row'>\
+                                                    <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + originalPrice + ",-</div>\
+                                                </div>";
+                                price += calculated * ammount;
+                            } else if (p === "Child" || p === "Senior") {
+                                calculated = parseInt(originalPrice * 0.5, 10);
+                                priceDetails += "<div class='row'>\
+                                                    <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + calculated + ",-</div>\
+                                                </div>"
+                                price += calculated * ammount;
+                            } else if (p === "Student") {
+                                calculated = parseInt(originalPrice * 0.75, 10);
+                                priceDetails += "<div class='row'>\
+                                                    <div class='col text-center ml-2 mr-2'>" + ammount + " " + p + "  -  " + calculated + ",-</div>\
+                                                </div>"
+                                price += calculated * ammount;
+                            }
+                        }
+
+                    });
+                    priceDetails += "</div>"//end price section
+                    $("#priceDetails" + data.tripPatternId).append(priceDetails);
+
+
+                    $("#totPrice" + data.tripPatternId).text(price + " kr");
+                    $("#totPrice" + data.tripPatternId).append(`<input type='text' hidden name=Price value='${price}'>`);
+                    $("#" + data.tripPatternId).children().eq(1).children(".btn-select").children("button").attr("disabled", false);
                 }
-
+                
             });
-            priceDetails += "</div></div>"//end price section
+
 
 
             //Sets suitable text to the ammount of changes
@@ -159,10 +186,15 @@
                                 </div>
                                 <div class='col' ><input type='text' hidden name=Duration value='${duration}'>${duration}</div>
                                 <div class='col' ><input type='text' hidden name=Train_Changes value='${changesText}'>${changesText}</div>
-                                <div class='col' id=totPrice ><input type='number' hidden name=Price value='${price}'>${price} kr</div>
+                                <div class='col' id=totPrice${value.id}>
+                                    
+                                    <div class="spinner-grow text-success" role="status">
+                                      <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
                                 <div><input type='text' hidden name=Date value='${value.startTime.split("T")[0]}'></div>
                                 <div><input type='text' hidden name=Departure_Station value='${value.legs[0].fromPlace.name}'></div>
-                                <div><input type='text' hidden name=Arrival_Station value='${value.legs[lastTrain].fromPlace.name}'></div>
+                                <div><input type='text' hidden name=Arrival_Station value='${value.legs[lastTrain].toPlace.name}'></div>
                                 <div><input type='checkbox' hidden name=Round_Trip value='${trip.Round_Trip ? true : false}' checked></div>
                             </div>\
                             <div id='hidden_${i}' class='row mt-4' style='display: none;'>
@@ -189,8 +221,8 @@
                 }
             });
             hidden_content += "</div>";
-            hidden_content += priceDetails;
-            hidden_content += `<div class='col text-right m-3' > <button type='submit' ${havePrice ? '' : 'disabled'} class='btn btn-success'>Select</button></div>`;
+            hidden_content += `<div id="priceDetails${value.id}" class="col m-3"></div>`;
+            hidden_content += `<div class='col text-right m-3 btn-select'> <button type='submit' disabled class='btn btn-success'>Select</button></div>`;
 
             $("#hidden_" + i).append(hidden_content);
 
