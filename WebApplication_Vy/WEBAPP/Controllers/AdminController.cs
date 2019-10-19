@@ -38,6 +38,23 @@ namespace WebApplication_Vy.Controllers
             return View();
         }
 
+        public ActionResult Tickets()
+        {
+            var customers = _vyService.GetCustomerDtos();
+            customers.ForEach(dto =>
+            {
+                dto.Tickets.ForEach(ticketDto => { _vyService.MaskCreditCardNumber(ticketDto.CreditCard); });
+            });
+            return View(customers);
+        }
+
+        [HttpDelete]
+        public ActionResult DeleteTicket(int ticketId)
+        {
+            var success = _vyService.DeleteTicket(ticketId);
+            return RedirectToAction("Tickets");
+        }
+
         public ActionResult Stations()
         {
             //sjekker om du er logget inn som admin og hvis du er det redirecter den til AdminPage

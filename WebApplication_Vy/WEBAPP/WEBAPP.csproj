@@ -312,7 +312,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Tickets.cshtml" />
+    <Content Include="Views\Admin\Tickets.cshtml" />
     <Content Include="Views\Home\CustomerDetails.cshtml" />
     <Content Include="Views\Home\Trips.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />

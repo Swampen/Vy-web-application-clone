@@ -127,7 +127,7 @@ namespace WebApplication_Vy.Controllers
                     Console.WriteLine("Returnticket success");
                 }
 
-                if (success) return RedirectToAction("tickets");
+                if (success) return RedirectToAction("Index");
             }
 
             var chosenTrips = (List<TripDTO>) Session["ChosenTrips"];
@@ -142,23 +142,6 @@ namespace WebApplication_Vy.Controllers
             if (!match.Success) return "";
             var result = _zipSearchService.GetPostaltown(zipcode.Postalcode);
             return result;
-        }
-
-        public ActionResult Tickets()
-        {
-            var customers = _vyService.GetCustomerDtos();
-            customers.ForEach(dto =>
-            {
-                dto.Tickets.ForEach(ticketDto => { _vyService.MaskCreditCardNumber(ticketDto.CreditCard); });
-            });
-            return View(customers);
-        }
-
-        [HttpDelete]
-        public ActionResult DeleteTicket(int ticketId)
-        {
-            var success = _vyService.DeleteTicket(ticketId);
-            return RedirectToAction("Tickets");
         }
 
         [HttpGet]
