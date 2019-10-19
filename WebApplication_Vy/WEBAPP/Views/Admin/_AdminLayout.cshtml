@@ -5,27 +5,27 @@
 <button class="btn btn-success mb-3" id="menu-toggle">Toggle menu</button>
 <div class="row">
     <!-- Sidebar -->
-    <div id="sidebar-container" class="col-12 col-lg-2 m-0">
+    <div id="sidebar-container" class="col-12 col-lg-2 p-0" style="background-color: #2A3F54">
 
-        <div class="bg-light border-right" id="sidebar-wrapper">
+        <div id="sidebar-wrapper" >
             <ul class="navbar-nav mr-auto text-center">
-                <li>
-                    <a class="text-uppercase navbar-brand">Admin Panel</a>
+                <li class="bg-light">
+                    <h5 class="nav-link text-dark">Admin Panel</h5>
                 </li>
-                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
-                    @Html.ActionLink("Dashboard", "index", "admin", null, new { @class = "nav-link bg-success text-white" })
+                <li class="nav-item @(ViewBag.Title == "Dashboard" ? "bg-secondary" : "")">
+                    @Html.ActionLink("Dashboard", "index", "admin", null, new { @class = "nav-link bg- text-white" })
                 </li>
-                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Stations" ? "active" : "")">
-                    @Html.ActionLink("Stations", "staions", "admin", null, new { @class = "nav-link bg-success text-white" })
+                <li class="nav-item @(ViewBag.Title == "Stations" ? "bg-secondary" : "")">
+                    @Html.ActionLink("Stations", "stations", "admin", null, new { @class = "nav-link text-white" })
                 </li>
-                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Tickets" ? "active" : "")">
-                    @Html.ActionLink("Tickets", "tickets", "admin", null, new { @class = "nav-link bg-success text-white" })
+                <li class="nav-item @(ViewBag.Title == "Tickets" ? "bg-secondary" : "")">
+                    @Html.ActionLink("Tickets", "tickets", "admin", null, new { @class = "nav-link text-white" })
                 </li>
-                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Customers" ? "active" : "")">
-                    @Html.ActionLink("Customers", "customers", "admin", null, new { @class = "nav-link bg-success text-white" })
+                <li class="nav-item @(ViewBag.Title == "Customers" ? "bg-secondary" : "")">
+                    @Html.ActionLink("Customers", "customers", "admin", null, new { @class = "nav-link text-white" })
                 </li>
-                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Logs" ? "active" : "")">
-                    @Html.ActionLink("Logs", "logs", "admin", null, new { @class = "nav-link bg-success text-white" })
+                <li class="nav-item @(ViewBag.Title == "Logs" ? "bg-secondary" : "")">
+                    @Html.ActionLink("Logs", "logs", "admin", null, new { @class = "nav-link text-white" })
                 </li>
             </ul>
         </div>
