@@ -241,7 +241,7 @@ namespace WebApplication_Vy.Controllers
             else return false;
         }
 
-        [HttpPatch]
+        [HttpPost]
         public ActionResult EditStation(StationDTO station)
         {
             var success = _vyService.ChangeStation(station);

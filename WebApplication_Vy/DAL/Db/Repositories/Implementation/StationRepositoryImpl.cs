@@ -16,8 +16,9 @@ namespace DAL.Db.Repositories.Implementation
             {
                 try
                 {
-                    return db.Stations.ToList();
-                }
+                    List<Station> stations = db.Stations.ToList();
+                    return stations.OrderBy(s => s.Name).ToList();
+                    }
                 catch (Exception e)
                 {
                     Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);

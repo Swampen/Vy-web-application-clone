@@ -183,6 +183,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\VyDB.mdf" />
+    <Content Include="App_Data\VyDB_log.ldf">
+      <DependentUpon>VyDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\Assets\finished.svg" />
     <Content Include="Content\Assets\train.svg" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -321,9 +325,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\AdminPage.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

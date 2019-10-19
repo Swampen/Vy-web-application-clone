@@ -10,39 +10,43 @@
     <div class="col-6">
     </div>
 </div>
-    @foreach (var s in Model)
-    {
-        <div class="row">
-            <div class="col-2"></div>
-            <div class="col-4">
-                @s.Name
-            </div>
-            <div class="col-4">
-                <button type="button" class="btn btn-outline-warning" data-toggle="modal" id="@s.Name" data-target="#edit">Edit</button>
-            </div>
-            <div class="col-2"></div>
+@foreach (var s in Model)
+{
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-4">
+            @s.Name
         </div>
-    }
+        <div class="col-4">
+            <button type="button" class="btn btn-outline-warning" data-toggle="modal" id="@s.Id" data-target="#edit">Edit</button>
+        </div>
+        <div class="col-2"></div>
+    </div>
+}
 
-    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Change name?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Change name?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/home/EditStation" method="POST">
                 <div class="modal-body">
-                    <input id="nameInput" placeholder="New name" name="newName" />
+                    <input id="nameInput" placeholder="New name" name="Name" class="form-control"/>
+                    <input hidden value="" id="changeStationId" name="Id" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a id="confirmBtn" href="" class="btn btn-warning">Change name</a>
+                    <button type="submit" class="btn btn-secondary">Change</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
+</div>
+
 <script>
     $('#edit').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
@@ -51,10 +55,10 @@
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 
-        
+
         var modal = $(this)
-        var url = `/home/EditStation?Id=${id}}`
-        modal.find("#confirmBtn").attr("href", url)
-        
+        modal.find("#nameInput").val("")
+        modal.find("#changeStationId").val(id);
+
     });
 </script>
