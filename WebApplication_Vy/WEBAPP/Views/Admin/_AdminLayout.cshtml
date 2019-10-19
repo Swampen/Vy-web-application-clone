@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<button class="btn btn-success mb-3" id="menu-toggle">Toggle Menu</button>
+<div class="row">
+    <!-- Sidebar -->
+    <div id="sidebar-container" class="col-2 m-0">
+
+        <div class="bg-light border-right toggle" id="sidebar-wrapper">
+            <ul class="navbar-nav mr-auto text-center">
+                <li>
+                    <p class="text-uppercase">Admin Panel </p>
+                </li>
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
+                    @Html.ActionLink("Stations", "staions", "admin", null, new { @class = "nav-link bg-success text-white" })
+                </li>
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
+                    @Html.ActionLink("Tickets", "tickets", "admin", null, new { @class = "nav-link bg-success text-white" })
+                </li>
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
+                    @Html.ActionLink("Customers", "customers", "admin", null, new { @class = "nav-link bg-success text-white" })
+                </li>
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
+                    @Html.ActionLink("Customers", "customers", "admin", null, new { @class = "nav-link bg-success text-white" })
+                </li>
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
+                    @Html.ActionLink("Logs", "logs", "admin", null, new { @class = "nav-link bg-success text-white" })
+                </li>
+            </ul>
+        </div>
+    </div><!-- sidebar-container END -->
+    <div class="col-8">
+
+        @RenderBody()
+    </div>
+
+    <script>
+        $(function () {
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                if ($("#sidebar-container").hasClass("toggled")) {
+                    $('#sidebar-container').show('slide', { direction: 'left' });
+                } else {
+                    $('#sidebar-container').hide('slide', { direction: 'left' });
+                }
+                $("#sidebar-container").toggleClass("toggled");
+            });
+        })
+    </script>
+
+    <style>
+    </style>
+</div>
+
+
