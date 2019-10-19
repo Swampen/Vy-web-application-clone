@@ -13,26 +13,32 @@
     </div>
 
     <div class="row">
-        <div class="col-2"></div>
-        <div class="col-4">
-            Name
-        </div>
-        <div class="col-6">
+        <div class="col">
+            <table id="table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="th-sm">
+                            Station
+                        </th>
+                        <th class="th-sm">
+                            Edit
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var s in Model)
+                    {
+                        <tr>
+                            <td>@s.Name</td>
+                            <td class="text-center"><button type="button" class="btn btn-warning" data-toggle="modal" id="@s.Id" data-station="@s.Name" data-target="#edit">Edit</button></td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
-    @foreach (var s in Model)
-    {
-        <div class="row">
-            <div class="col-2"></div>
-            <div class="col-4">
-                @s.Name
-            </div>
-            <div class="col-4">
-                <button type="button" class="btn btn-outline-warning" data-toggle="modal" id="@s.Id" data-target="#edit">Edit</button>
-            </div>
-            <div class="col-2"></div>
-        </div>
-    }
 
     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -57,18 +63,30 @@
         </div>
     </div>
 </div>
+
 <script>
-    $('#edit').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var id = button[0].id // Extract info from data-* attributes
-        console.log(id)
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    $(function () {
+        $('#edit').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var id = button[0].id
+            var station = button[0].dataset["station"]
+            
+            var modal = $(this)
+            modal.find("#nameInput").val(station)
+            modal.find("#changeStationId").val(id);
+        });
+
+        $('#table').DataTable({
+            scrollY: 475
+        });
+        $('.dataTables_length').addClass('bs-select');
+        $("#table_filter").parent().addClass("row")
+        $("#table_filter").find("input").addClass("form-control");
+        $("#table_filter").addClass("col-12 col-md-7 pt-2")
+        $("#table_length").find("select").addClass("form-control");
+        $("#table_length").addClass("col-12 col-md-5 pt-2")
+
+    })
 
 
-        var modal = $(this)
-        modal.find("#nameInput").val("")
-        modal.find("#changeStationId").val(id);
-
-    });
 </script>
