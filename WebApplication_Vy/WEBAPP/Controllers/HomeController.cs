@@ -201,8 +201,6 @@ namespace WebApplication_Vy.Controllers
             bool valid = (bool)Session["AdminLogin"];
             if (valid)
             {
-                var admins = _vyService.GetAdminUserDtos();
-                ViewBag.Model = admins;
                 return View();
             }
             else

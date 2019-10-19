@@ -1,29 +1,4 @@
-﻿@model List<DAL.DTO.AdminUserDTO>
+﻿
 
 <h2>Welcome To The Admin Panel</h2>
 
-<div class="row">
-    <div class="col-4">
-        Username
-    </div>
-    <div class="col-4">
-        Superuser
-    </div>
-    <div class="col-4">
-
-    </div>
-</div>
-@foreach(var user in Model)
-{
-    <div class="row">
-        <div class="col-4">
-            @user.Username
-        </div>
-        <div class="col-4">
-            @user.SuperUltra
-        </div>
-        <div class="col-4">
-            <button class="">Delete</button>
-        </div>
-    </div>
-}

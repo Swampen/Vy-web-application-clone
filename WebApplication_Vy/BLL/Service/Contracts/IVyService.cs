@@ -9,8 +9,6 @@ namespace BLL.Service.Contracts
 
         List<TicketDto> GetTicketDtos();
 
-        List<AdminUserDTO> GetAdminUserDtos();
-
         bool CreateTicket(TicketDto ticketDto);
 
         bool DeleteTicket(int ticketId);
