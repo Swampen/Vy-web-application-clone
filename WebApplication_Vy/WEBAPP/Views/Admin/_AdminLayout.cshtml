@@ -2,36 +2,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<button class="btn btn-success mb-3" id="menu-toggle">Toggle Menu</button>
+<button class="btn btn-success mb-3" id="menu-toggle">Toggle menu</button>
 <div class="row">
     <!-- Sidebar -->
-    <div id="sidebar-container" class="col-2 m-0">
+    <div id="sidebar-container" class="col-12 col-lg-2 m-0">
 
-        <div class="bg-light border-right toggle" id="sidebar-wrapper">
+        <div class="bg-light border-right" id="sidebar-wrapper">
             <ul class="navbar-nav mr-auto text-center">
                 <li>
-                    <p class="text-uppercase">Admin Panel </p>
+                    <a class="text-uppercase navbar-brand">Admin Panel</a>
                 </li>
                 <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
+                    @Html.ActionLink("Dashboard", "index", "admin", null, new { @class = "nav-link bg-success text-white" })
+                </li>
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Stations" ? "active" : "")">
                     @Html.ActionLink("Stations", "staions", "admin", null, new { @class = "nav-link bg-success text-white" })
                 </li>
-                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Tickets" ? "active" : "")">
                     @Html.ActionLink("Tickets", "tickets", "admin", null, new { @class = "nav-link bg-success text-white" })
                 </li>
-                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Customers" ? "active" : "")">
                     @Html.ActionLink("Customers", "customers", "admin", null, new { @class = "nav-link bg-success text-white" })
                 </li>
-                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
-                    @Html.ActionLink("Customers", "customers", "admin", null, new { @class = "nav-link bg-success text-white" })
-                </li>
-                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
+                <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Logs" ? "active" : "")">
                     @Html.ActionLink("Logs", "logs", "admin", null, new { @class = "nav-link bg-success text-white" })
                 </li>
             </ul>
         </div>
     </div><!-- sidebar-container END -->
-    <div class="col-8">
 
+    <div class="col-12 col-lg-8">
         @RenderBody()
     </div>
 
@@ -45,6 +45,16 @@
                     $('#sidebar-container').hide('slide', { direction: 'left' });
                 }
                 $("#sidebar-container").toggleClass("toggled");
+            });
+
+            $(window).resize(function () {
+                if ($(window).width() < 992) {
+                    $('#sidebar-container').css("max-width", "100%");
+                    $('#sidebar-container').addClass("navbar-expand");
+                } else {
+                    $('#sidebar-container').css("max-width", "175px");
+                    $('#sidebar-container').removeClass("navbar-expand");
+                }
             });
         })
     </script>

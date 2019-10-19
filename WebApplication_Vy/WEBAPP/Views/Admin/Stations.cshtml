@@ -1,5 +1,10 @@
 ﻿@model List<DAL.DTO.StationDTO>
 
+@{
+    ViewBag.Title = "Stations";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
 <h2>Welcome To The Admin Panel</h2>
 
 <div class="row">
@@ -35,7 +40,7 @@
             </div>
             <form action="/home/EditStation" method="POST">
                 <div class="modal-body">
-                    <input id="nameInput" placeholder="New name" name="Name" class="form-control"/>
+                    <input id="nameInput" placeholder="New name" name="Name" class="form-control" />
                     <input hidden value="" id="changeStationId" name="Id" />
                 </div>
                 <div class="modal-footer">
