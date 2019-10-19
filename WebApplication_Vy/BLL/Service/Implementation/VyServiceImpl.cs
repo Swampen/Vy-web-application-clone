@@ -52,9 +52,9 @@ namespace BLL.Service.Implementation
             return _vyRepository.DeleteTicket(ticketId);
         }
 
-        public bool ChangeStation(StationDTO station)
+        public bool ChangeStation(StationDTO stationdto)
         {
-            return _vyRepository.ChangeStation(dto);
+            return _vyRepository.ChangeStation(stationdto);
         }
 
         private CustomerDto mapCustomerDto(Customer customer)

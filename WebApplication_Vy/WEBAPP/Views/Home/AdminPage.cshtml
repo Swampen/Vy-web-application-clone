@@ -18,7 +18,7 @@
                 @s.Name
             </div>
             <div class="col-4">
-                <button type="button" class="btn btn-outline-warning" data-toggle="modal" id="@s.Id" data-target="#edit">Edit</button>
+                <button type="button" class="btn btn-outline-warning" data-toggle="modal" id="@s.Name" data-target="#edit">Edit</button>
             </div>
             <div class="col-2"></div>
         </div>
@@ -53,11 +53,8 @@
 
         
         var modal = $(this)
+        var url = `/home/EditStation?Id=${id}}`
+        modal.find("#confirmBtn").attr("href", url)
         
     });
-
-    $("#confirmBtn").on("hover", function () {
-        var url = `/home/EditStation?Id=${id}&newName=${$("#nameInput").val()}`
-        modal.find("#confirmBtn").attr("href", url)
-    }); 
 </script>
