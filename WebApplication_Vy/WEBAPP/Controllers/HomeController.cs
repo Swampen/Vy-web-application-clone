@@ -201,7 +201,8 @@ namespace WebApplication_Vy.Controllers
             bool valid = (bool)Session["AdminLogin"];
             if (valid)
             {
-                return View();
+                var stations = _stationService.getAllStations();
+                return View(stations);
             }
             else
             {
