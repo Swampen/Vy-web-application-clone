@@ -41,15 +41,6 @@ namespace BLL.Service.Implementation
             return dtos;
         }
 
-        public List<AdminUserDTO> GetAdminUserDtos()
-        {
-            var admins = _vyRepository.FindAllAdmins();
-            var dtos = new List<AdminUserDTO>();
-            foreach(var admin in admins)
-                dtos.Add(mapAdminUserDto(admin));
-            return dtos;
-        }
-
         public bool CreateTicket(TicketDto ticketDto)
         {
             var ticket = MapTicketEntity(ticketDto);

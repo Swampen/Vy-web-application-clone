@@ -11,8 +11,6 @@ namespace DAL.Db.Repositories.Contracts
 
         List<Zipcode> FindAllZipcodes();
 
-        List<Admin> FindAllAdmins();
-
         bool CreateTicket(Ticket inTicket);
 
         bool DeleteTicket(int ticketId);
