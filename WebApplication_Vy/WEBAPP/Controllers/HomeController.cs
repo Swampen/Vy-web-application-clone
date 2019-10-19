@@ -198,7 +198,7 @@ namespace WebApplication_Vy.Controllers
 
             //sjekker om du er logget inn som admin og hvis du er det redirecter den til AdminPage
             //Foreløpig kjøres det bare en refresh hvis du ikke er logget inn.
-            bool valid = (bool)Session["AdminLogin"];
+            /*bool valid = (bool)Session["AdminLogin"];
             if (valid)
             {
                 var stations = _stationService.getAllStations();
@@ -207,7 +207,9 @@ namespace WebApplication_Vy.Controllers
             else
             {
                 return Redirect(Request.UrlReferrer.ToString());
-            }
+            }*/
+            var stations = _stationService.getAllStations();
+            return View(stations);
         }
 
         public bool CheckCredentials(String Username, String Password)
@@ -237,6 +239,13 @@ namespace WebApplication_Vy.Controllers
                 return true;
             }
             else return false;
+        }
+
+        [HttpPatch]
+        public ActionResult EditStation(StationDTO station)
+        {
+            var success = _vyService.ChangeStation(station);
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }

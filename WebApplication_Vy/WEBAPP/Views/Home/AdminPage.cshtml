@@ -34,13 +34,30 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input placeholder="New name" />
-                    <input type="hidden" value="" />
+                    <input id="nameInput" placeholder="New name" name="newName" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a id="confirmBtn" href="" class="btn btn-danger">Delete</a>
+                    <a id="confirmBtn" href="" class="btn btn-warning">Change name</a>
                 </div>
             </div>
         </div>
     </div>
+<script>
+    $('#edit').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var id = button[0].id // Extract info from data-* attributes
+        console.log(id)
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+        
+        var modal = $(this)
+        
+    });
+
+    $("#confirmBtn").on("hover", function () {
+        var url = `/home/EditStation?Id=${id}&newName=${$("#nameInput").val()}`
+        modal.find("#confirmBtn").attr("href", url)
+    }); 
+</script>

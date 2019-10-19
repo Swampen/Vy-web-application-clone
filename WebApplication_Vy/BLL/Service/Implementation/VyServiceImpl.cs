@@ -36,8 +36,8 @@ namespace BLL.Service.Implementation
             var customers = _vyRepository.FindAllCustomers();
             var dtos = new List<TicketDto>();
             foreach (var customer in customers)
-            foreach (var ticket in customer.Tickets)
-                dtos.Add(mapTicketDto(ticket));
+                foreach (var ticket in customer.Tickets)
+                    dtos.Add(mapTicketDto(ticket));
             return dtos;
         }
 
@@ -50,6 +50,11 @@ namespace BLL.Service.Implementation
         public bool DeleteTicket(int ticketId)
         {
             return _vyRepository.DeleteTicket(ticketId);
+        }
+
+        public bool ChangeStation(StationDTO station)
+        {
+            return _vyRepository.ChangeStation(dto);
         }
 
         private CustomerDto mapCustomerDto(Customer customer)
@@ -156,14 +161,6 @@ namespace BLL.Service.Implementation
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<ZipcodeDto, Zipcode>(); });
             var mapper = new Mapper(config);
             return mapper.Map<Zipcode>(dto);
-        }
-
-        private AdminUserDTO mapAdminUserDto(Admin admin){
-            var adminDto = new AdminUserDTO();
-            adminDto.Username = admin.Username;
-            adminDto.Password = admin.Password;
-            adminDto.SuperUltra = admin.SuperUltra;
-            return adminDto;
         }
     }
 }

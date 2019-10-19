@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DAL.Db.Repositories.Contracts;
+using DAL.DTO;
 using log4net;
 using MODEL.Models.Entities;
 using UTILS.Utils.Logging;
@@ -116,6 +117,25 @@ namespace DAL.Db.Repositories.Implementation
                 Log.Info(LogEventPrefixes.DATABASE_ACCESS +
                          "Deleted ticketId: " + ticket.Id);
                 return true;
+            }
+            catch (Exception e)
+            {
+                Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
+                return false;
+            }
+        }
+
+        public bool ChangeStation(StationDTO stationdto)
+        {
+            var db = new VyDbContext();
+            try
+            {
+                var station = db.Stations.Find(stationdto.Id);
+                station.Name = stationdto.Name;
+                db.SaveChanges();
+                Log.Info(LogEventPrefixes.DATABASE_ACCESS + "Changed stationId: " + station.Id);
+                return true;
+                
             }
             catch (Exception e)
             {
