@@ -15,9 +15,9 @@ namespace DAL.Db.Repositories.Implementation
             using (var db = new VyDbContext())
             {
                 
-                var user = db.AdminUsers.FirstOrDefault(
+                var user = Queryable.FirstOrDefault(
                     db.AdminUsers,
-                    b => b.Password == password && b.UserName == username);
+                    admin => admin.UserName.Equals(username) && admin.Password.Equals(password));
                 if (user == null)
                 {
                     return false;
