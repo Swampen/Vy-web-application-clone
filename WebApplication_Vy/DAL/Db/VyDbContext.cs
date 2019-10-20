@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Web;
 using System.Xml.Linq;
+using MODEL.Models;
 using MODEL.Models.Entities;
 
 namespace DAL.Db
@@ -20,6 +21,8 @@ namespace DAL.Db
         public DbSet<Zipcode> Zipcodes { get; set; }
         public DbSet<Station> Stations { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
+        
+        public DbSet<AdminUser> AdminUsers { get; set; }
 
         public class VyDbInitializer<T> : CreateDatabaseIfNotExists<VyDbContext>
         {

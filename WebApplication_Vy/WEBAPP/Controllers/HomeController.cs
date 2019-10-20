@@ -4,9 +4,13 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using BLL.Service.Contracts;
+using BLL.Service.Implementation;
 using DAL.Db;
+using DAL.Db.Repositories.Contracts;
+using DAL.Db.Repositories.Implementation;
 using DAL.DTO;
 using DAL.DTO.TripData;
+using MODEL.Models;
 
 namespace WebApplication_Vy.Controllers
 {
@@ -15,16 +19,19 @@ namespace WebApplication_Vy.Controllers
         private readonly IVyService _vyService;
         private readonly IZipSearchService _zipSearchService;
         private readonly IStationService _stationService;
+        private readonly ILoginService _loginService;
 
         public HomeController(
             IVyService vyService,
             IZipSearchService zipSearchService,
-            IStationService stationService
+            IStationService stationService,
+            ILoginService loginService
             )
         {
             _vyService = vyService;
             _zipSearchService = zipSearchService;
             _stationService = stationService;
+            _loginService = loginService;
 
             var db = new VyDbContext();
             db.Database.Initialize(true);
@@ -154,5 +161,44 @@ namespace WebApplication_Vy.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             return serializer.Serialize(_stationService.getAllKeyValueStations());
         }
+
+        public ActionResult GetAdminView()
+        {
+            string View;
+            
+            if (Session["Authenticated"] == null)
+            {
+                Session["Authenticated"] = false;
+            }
+
+            if ((bool)Session["Authenticated"])
+            {
+                View = "AdminView";
+            }
+            else
+            {
+                View = "index";
+            }
+
+            return RedirectToAction(View);
+        }
+
+        public ActionResult login(string UserName, string Password)
+        {
+            string View;
+            if (_loginService.Login(UserName, Password))
+            {
+                Session["Authenticated"] = true;
+                View = "AdminView";
+            }
+            else
+            {
+                Session["Authenticated"] = false;
+                View = "Index";
+            }
+
+            return RedirectToAction(View);
+        }
+
     }
 }

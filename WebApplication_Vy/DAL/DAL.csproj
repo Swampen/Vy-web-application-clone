@@ -56,9 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Db\Repositories\Contracts\ICreditCardRepository.cs" />
+    <Compile Include="Db\Repositories\Contracts\ILoginRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\IStationRepository.cs" />
     <Compile Include="Db\Repositories\Contracts\IVyRepository.cs" />
     <Compile Include="Db\Repositories\Implementation\CreditCardRepositoryImpl.cs" />
+    <Compile Include="Db\Repositories\Implementation\LoginRepositoryImpl.cs" />
     <Compile Include="Db\Repositories\Implementation\StationRepositoryImpl.cs" />
     <Compile Include="Db\Repositories\Implementation\VyRepositoryImpl.cs" />
     <Compile Include="Db\VyDbContext.cs" />
