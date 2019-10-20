@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Text;
 using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
 using DAL.Db.Repositories.Implementation;
@@ -34,13 +35,14 @@ namespace BLL.Service.Implementation
           return algorithm.ComputeHash(plainTextWithSaltBytes);            
         }
 
-        
-        
+
+
         public bool Login(string Username, string Password)
         {
-            string salt = "somthing random"
-            adminUser.Password = GenerateSaltedHash(Encoding.UTF8.GetBytes(Password),Encoding.UTF8.GetBytes(salt))
-            if (_loginRepository.UserInDB(Username, Password))
+            string salt = "somthing random";
+            var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt))
+                .ToString();
+            if (_loginRepository.UserInDB(Username, hashedPassword))
                 return true;
             else
             {
@@ -48,11 +50,35 @@ namespace BLL.Service.Implementation
             }
         }
 
-        public bool RegisterUser(string Username, string Password, string SecretAdminPassword)
+        byte[] ILoginService.GenerateSaltedHash(byte[] plaintext, byte[] salt)
         {
+            return GenerateSaltedHash(plaintext, salt);
+        }
+
+        public bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword)
+        {
+            string salt = "somthing random";
+                
             if (SecretAdminPassword.Equals("ADMINISTRATOR"))
             {
-                
+                AdminUser user = new AdminUser();
+                user.Password = (GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)))
+                    .ToString();
+                user.UserName = Username;
+                try
+                {
+                    _loginRepository.RegisterUser(user);
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
     }

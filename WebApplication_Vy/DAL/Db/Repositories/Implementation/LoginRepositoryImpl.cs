@@ -72,7 +72,7 @@ namespace DAL.Db.Repositories.Implementation
                         UserName = adminUser.UserName,
                         Id = adminUser.Id,
                         Password = adminUser.Password,
-                    },
+                    };
                     try
                     {
                         db.AdminUsers.Add(user);
