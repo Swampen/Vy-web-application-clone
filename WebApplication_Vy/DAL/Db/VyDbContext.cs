@@ -2,15 +2,18 @@
 using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Web;
 using System.Xml.Linq;
 using MODEL.Models;
 using MODEL.Models.Entities;
+using UTILS.Utils.Auth;
 
 namespace DAL.Db
 {
     public class VyDbContext : DbContext, IDisposable
     {
+        private static HashingFunctionality Hasher = new HashingFunctionality();
         public VyDbContext() : base("name=VyDb")
         {
             Database.SetInitializer(new VyDbInitializer<VyDbContext>());
@@ -74,10 +77,12 @@ namespace DAL.Db
 
                 try
                 {
+                    string salt = "somthing random";
+                    var hashedPword = Hasher.GenerateSaltedHash(Encoding.UTF8.GetBytes("admin"), Encoding.UTF8.GetBytes(salt)).ToString();
                     AdminUser superAdmin = new AdminUser
                     {
                         UserName = "admin",
-                        Password = "admin",
+                        Password = hashedPword,
                         SuperAdmin = true,
                     };
                     context.AdminUsers.Add(superAdmin);

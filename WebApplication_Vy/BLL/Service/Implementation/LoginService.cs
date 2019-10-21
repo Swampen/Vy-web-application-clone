@@ -39,11 +39,24 @@ namespace BLL.Service.Implementation
         public bool Login(string Username, string Password)
         {
             string salt = "somthing random";
-            var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt))
-                .ToString();
-            if (_loginRepository.UserInDB(Username, hashedPassword)) 
-                return true;
-            return false;
+            try
+            {
+                 var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt))
+                    .ToString();
+                 if (_loginRepository.UserInDB(Username, hashedPassword))
+                 {
+                     Console.WriteLine("True");
+                     return true;
+                 }
+                 Console.WriteLine("login error in Login");
+                 return false;
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine(error);
+                return false;
+            }
+           
         }
         
 

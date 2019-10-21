@@ -209,16 +209,21 @@ namespace WebApplication_Vy.Controllers
             else return false;
         }
 
+        [HttpPost]
         public ActionResult Login(AdminUserDTO adminUserDTO)
         {
-            if (_loginService.Login(adminUserDTO.Username, adminUserDTO.Password))
+            var login = _loginService.Login(adminUserDTO.Username, adminUserDTO.Password);
+            Console.WriteLine(login);
+            if (login)
             {
                 Session["Auth"] = true;
-                return Redirect("/admin");
+                Console.WriteLine("login succeeded");
+                return Redirect("http://localhost:5000/admin");
             }
             else
             {
                 Session["Auth"] = false;
+                Console.WriteLine("login failed");
                 return RedirectToAction("Index");
             }
         }
@@ -228,7 +233,7 @@ namespace WebApplication_Vy.Controllers
             if (_loginService.RegisterAdminUser(Username, Password, SecretAdminPassword))
             {
                 Session["Auth"] = true;
-                return Redirect("/admin");
+                return Redirect("http://localhost:5000/admin");
             }
             else
             {
