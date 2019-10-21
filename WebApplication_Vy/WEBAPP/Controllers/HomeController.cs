@@ -221,5 +221,24 @@ namespace WebApplication_Vy.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        public ActionResult Registrer(string Username, string Password, string SecretAdminPassword)
+        {
+            if (_loginService.RegisterAdminUser(Username, Password, SecretAdminPassword))
+            {
+                Session["Auth"] = true;
+                return Redirect("/admin");
+            }
+            else
+            {
+                Session["Auth"] = false;
+                return RedirectToAction("Index");
+            }
+
+            
+            
+            
+            
+        }
     }
 }
