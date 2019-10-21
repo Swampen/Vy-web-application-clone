@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Linq;
 using DAL.Db.Repositories.Contracts;
+using log4net;
 using MODEL.Models;
+using UTILS.Utils.Logging;
 
 namespace DAL.Db.Repositories.Implementation
 {
     public class LoginRepositoryImpl : ILoginRepository
     {
+        private static readonly ILog Log = LogHelper.GetLogger();
 
         public bool UserInDB(string username, string hashedPassword)
         {
@@ -57,13 +60,14 @@ namespace DAL.Db.Repositories.Implementation
                     db.AdminUsers.Add(user);
                     db.SaveChanges();
                     Console.WriteLine("User with username: " + adminUser.UserName);
-                    //TODO: LOGGING HERE
+                    
                     return true;
                 }
                 catch (Exception error)
                 {
                     Console.WriteLine(error);
                     Console.WriteLine(error.StackTrace);
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + error.Message, error);
                     return false;
                 }
             }
