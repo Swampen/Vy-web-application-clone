@@ -31,7 +31,7 @@
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0 mr-5">
-                <button type="button" class="btn btn nav-link" data-toggle="modal" data-target="#login">Login</button>
+                <button type="button" class="btn btn-outline-success nav-link" data-toggle="modal" data-target="#login">Login</button>
             </div>
         </div>
     </nav>
@@ -46,38 +46,26 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div>
-                            <input type="text" placeholder="Username" class="form-control"/>
+                    <form action="/home/login" method="post">
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="UserName" placeholder="Username" class="form-control w-75" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-1"></div>
-                        <div>
-                            <input type="password" placeholder="Password" class="form-control"/>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <input type="password" name="Password" placeholder="Password" class="form-control w-75"  />
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a id="loginBtn" href="" class="btn btn-success">Login</a>
+                    <button class="btn btn-success">Login</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <script type="text/javascript">
-        $(function () {
-            $('#login').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget) // Button that triggered the modal
-                var url = `/home/ConfirmLogin`
-                var modal = $(this)
-                modal.find("#loginBtn").attr("href", url)
-            });
-        })
-    </script>
 
     <div class="body-content">
         @RenderBody()

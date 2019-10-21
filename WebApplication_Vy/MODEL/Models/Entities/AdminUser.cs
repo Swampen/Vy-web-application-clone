@@ -9,6 +9,6 @@ namespace MODEL.Models
         public string UserName { get; set; }
         public string Password { get; set; }
 
-        public bool SuperAdmin { get; }
+        public bool SuperAdmin { get; set; }
     }
 }
