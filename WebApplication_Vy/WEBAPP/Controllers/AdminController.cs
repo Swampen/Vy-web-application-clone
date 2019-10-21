@@ -15,16 +15,18 @@ namespace WebApplication_Vy.Controllers
     {
         private static readonly ILog Log = LogHelper.GetLogger();
         private readonly IStationService _stationService;
-
+        private readonly ICustomerService _customerService;
         private readonly IVyService _vyService;
 
         public AdminController(
             IVyService vyService,
-            IStationService stationService
+            IStationService stationService,
+            ICustomerService customerService
         )
         {
             _vyService = vyService;
             _stationService = stationService;
+            _customerService = customerService;
 
             var db = new VyDbContext();
             db.Database.Initialize(true);
@@ -68,8 +70,8 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Customers()
         {
-            
-            return View();
+            var customers = _customerService.getAllCustomerDtos();
+            return View(customers);
         }
     }
 }

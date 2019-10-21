@@ -18,6 +18,7 @@ namespace WebApplication_Vy
             container.RegisterType<IVyRepository, VyRepositoryImpl>();
             container.RegisterType<ICreditCardRepository, CreditCardRepositoryImpl>();
             container.RegisterType<IStationRepository, StationRepositoryImpl>();
+            container.RegisterType<ICustomerRepository, CustomerRepositoryImpl>();
             
             //Services
             container.RegisterType<IVyService, VyServiceImpl>();

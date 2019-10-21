@@ -7,6 +7,6 @@ namespace BLL.Service.Contracts
     {
         List<CustomerDto> getAllCustomerDtos();
 
-        bool changeCustomer(CustomerDto customer);
+        bool updateCustomer(CustomerDto customer);
     }
 }

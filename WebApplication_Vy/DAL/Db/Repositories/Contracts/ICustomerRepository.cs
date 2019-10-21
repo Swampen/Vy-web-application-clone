@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace DAL.Db.Repositories.Contracts
 {
-    interface ICustomerRepository
+    public interface ICustomerRepository
     {
         List<Customer> getAllCustomers();
 
-        bool changeCustomer(Customer innCustomer);
+        bool updateCustomer(Customer innCustomer);
+
+        bool deleteCustomer(int customerId);
     }
 }
