@@ -44,7 +44,7 @@
                         <div class="row">
                             <div class="col-12">
                                 @Html.EditorFor(model => model.Arrival_Station, new { htmlAttributes = new { placeholder = "Arrival station", id = "Arrival", @class = "stations form-control" } })
-                                @Html.HiddenFor(model => model.Arrival_StationId, new { id = "Arrival_stationId"})
+                                @Html.HiddenFor(model => model.Arrival_StationId, new { id = "Arrival_stationId" })
                                 @Html.ValidationMessageFor(model => model.Arrival_Station, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -213,6 +213,8 @@
 
             <div class="col-auto col-md-1 p-0"><!--spacing--></div>
         </div>
+        //TODO: Flytte login inn i navbar
+
     }
 </div>
 <style>

@@ -6,10 +6,10 @@ namespace DAL.Db.Repositories.Contracts
     {
         bool getLoginConfirmation(string Username, string Password);
 
-        bool UserInDB(string username, string password);
+        bool UserInDB(string username, string hashedPassword);
 
         bool DoseAdminUserExcist(AdminUser adminUser);
 
-        bool RegisterUser(AdminUser adminUser);
+        bool RegisterAdminUser(AdminUser adminUser);
     }
 }

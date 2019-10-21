@@ -8,11 +8,11 @@ namespace DAL.Db.Repositories.Implementation
     public class LoginRepositoryImpl : ILoginRepository
     {
 
-        public bool UserInDB(string username, string password)
+        public bool UserInDB(string username, string hashedPassword)
         {
             using (var db = new VyDbContext())
             {
-                var user = db.AdminUsers.FirstOrDefault(admin => admin.UserName.Equals(username) && admin.Password.Equals(password));
+                var user = db.AdminUsers.FirstOrDefault(admin => admin.UserName.Equals(username) && admin.Password.Equals(hashedPassword));
                 
                 return user != null;
             }
@@ -35,20 +35,19 @@ namespace DAL.Db.Repositories.Implementation
             }
         }
 
-        public bool RegisterUser(AdminUser adminUser)
+        public bool RegisterAdminUser(AdminUser adminUser)
         { 
             var user = new AdminUser
             {
                 UserName = adminUser.UserName,
-                Id = adminUser.Id,
                 Password = adminUser.Password
                 
             };
             using (var db = new VyDbContext())
             {
-                var userAlreadyExcist = db.AdminUsers.FirstOrDefault(admin => admin.UserName.Equals(adminUser.UserName));
+                var excistingAdmin = db.AdminUsers.FirstOrDefault(admin => admin.UserName.Equals(adminUser.UserName));
 
-                if (userAlreadyExcist != null)
+                if (excistingAdmin != null)
                 {
                     return false;
                 }
@@ -58,6 +57,7 @@ namespace DAL.Db.Repositories.Implementation
                     db.AdminUsers.Add(user);
                     db.SaveChanges();
                     Console.WriteLine("User with username: " + adminUser.UserName);
+                    //TODO: LOGGING HERE
                     return true;
                 }
                 catch (Exception error)

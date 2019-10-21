@@ -8,16 +8,6 @@
     $("#time").append(dropdown);
     $("#Return_Time").append(dropdown);
 
-    //var stations = [];
-    //fetch("https://itinerary.cloud.nsb.no/api/stops", { "credentials": "omit", "headers": { "accept": "application/json", "sec-fetch-mode": "cors", "x-language": "no" }, "referrer": "https://www.vy.no/bestill/velg-togavgang?from=Oslo%20S&fromDisplayName=Oslo%20S&fromType=train-station-name&to=Bergen&toDisplayName=Bergen&toType=train-station-name&departureDatetime=2019-09-24%2010%3A28&petFree=false&pasCats=1&numPasCats=1", "referrerPolicy": "no-referrer-when-downgrade", "body": null, "method": "GET", "mode": "cors" })
-    //    .then(data => data.json()).then(data => {
-    //        $.each(data, function (index, value) {
-    //            if (value.active && value.type === "TRAIN") {
-    //                stations.push(value.name)
-    //            }
-    //        });
-    //        stations.sort();
-    //    });
     let stations = [];
     let names = []
     $.ajax({

@@ -36,11 +36,10 @@ namespace BLL.Service.Implementation
             var customers = _vyRepository.FindAllCustomers();
             var dtos = new List<TicketDto>();
             foreach (var customer in customers)
-            foreach (var ticket in customer.Tickets)
-                dtos.Add(mapTicketDto(ticket));
+                foreach (var ticket in customer.Tickets)
+                    dtos.Add(mapTicketDto(ticket));
             return dtos;
         }
-
 
         public bool CreateTicket(TicketDto ticketDto)
         {
@@ -51,6 +50,11 @@ namespace BLL.Service.Implementation
         public bool DeleteTicket(int ticketId)
         {
             return _vyRepository.DeleteTicket(ticketId);
+        }
+
+        public bool ChangeStation(StationDTO stationdto)
+        {
+            return _vyRepository.ChangeStation(stationdto);
         }
 
         private CustomerDto mapCustomerDto(Customer customer)

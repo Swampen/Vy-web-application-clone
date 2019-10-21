@@ -57,6 +57,10 @@
       <HintPath>..\packages\EntityFramework.6.3.0-preview9-19423-04\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
       <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
@@ -172,6 +176,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -179,6 +184,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\VyDB.mdf" />
+    <Content Include="App_Data\VyDB_log.ldf">
+      <DependentUpon>VyDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\Assets\finished.svg" />
     <Content Include="Content\Assets\train.svg" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -254,6 +263,10 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Scripts\cleave-phone.no.js" />
     <Content Include="Scripts\cleave.min.js" />
+    <Content Include="Scripts\datatables.css" />
+    <Content Include="Scripts\datatables.js" />
+    <Content Include="Scripts\datatables.min.css" />
+    <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -303,7 +316,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Tickets.cshtml" />
+    <Content Include="Views\Admin\Tickets.cshtml" />
     <Content Include="Views\Home\CustomerDetails.cshtml" />
     <Content Include="Views\Home\Trips.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
@@ -315,10 +328,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Admin\Stations.cshtml" />
+    <Content Include="Views\Admin\_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
@@ -340,6 +354,10 @@
     <ProjectReference Include="..\MODEL\MODEL.csproj">
       <Project>{6b8bf009-49a0-4db3-aa96-c2c157831d0a}</Project>
       <Name>MODEL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UTILS\UTILS.csproj">
+      <Project>{dd8cf2c1-8728-419b-9a68-993fdb03d257}</Project>
+      <Name>UTILS</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

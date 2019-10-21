@@ -1,0 +1,69 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/DataTable")
+@Scripts.Render("~/bundles/DataTables")
+
+<button class="btn btn-success mb-3" id="menu-toggle">Toggle menu</button>
+<div class="row">
+    <!-- Sidebar -->
+    <div id="sidebar-container" class="col-12 col-lg-2 p-0" style="background-color: #2A3F54; max-width: 175px">
+
+        <div id="sidebar-wrapper" >
+            <ul class="navbar-nav mr-auto text-center">
+                <li class="bg-light">
+                    <h5 class="nav-link text-dark">Admin Panel</h5>
+                </li>
+                <li class="nav-item @(ViewBag.Title == "Dashboard" ? "bg-secondary" : "")">
+                    @Html.ActionLink("Dashboard", "index", "admin", null, new { @class = "nav-link bg- text-white" })
+                </li>
+                <li class="nav-item @(ViewBag.Title == "Stations" ? "bg-secondary" : "")">
+                    @Html.ActionLink("Stations", "stations", "admin", null, new { @class = "nav-link text-white" })
+                </li>
+                <li class="nav-item @(ViewBag.Title == "Tickets" ? "bg-secondary" : "")">
+                    @Html.ActionLink("Tickets", "tickets", "admin", null, new { @class = "nav-link text-white" })
+                </li>
+                <li class="nav-item @(ViewBag.Title == "Customers" ? "bg-secondary" : "")">
+                    @Html.ActionLink("Customers", "customers", "admin", null, new { @class = "nav-link text-white" })
+                </li>
+                <li class="nav-item @(ViewBag.Title == "Logs" ? "bg-secondary" : "")">
+                    @Html.ActionLink("Logs", "logs", "admin", null, new { @class = "nav-link text-white" })
+                </li>
+            </ul>
+        </div>
+    </div><!-- sidebar-container END -->
+
+    <div class="col-12 col-lg-8">
+        @RenderBody()
+    </div>
+
+    <script>
+        $(function () {
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                if ($("#sidebar-container").hasClass("toggled")) {
+                    $('#sidebar-container').show('slide', { direction: 'left' });
+                } else {
+                    $('#sidebar-container').hide('slide', { direction: 'left' });
+                }
+                $("#sidebar-container").toggleClass("toggled");
+            });
+
+            $(window).resize(function () {
+                if ($(window).width() < 992) {
+                    $('#sidebar-container').css("max-width", "100%");
+                    $('#sidebar-container').addClass("navbar-expand");
+                } else {
+                    $('#sidebar-container').css("max-width", "175px");
+                    $('#sidebar-container').removeClass("navbar-expand");
+                }
+            });
+        })
+    </script>
+
+    <style>
+    </style>
+</div>
+
+

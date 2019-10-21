@@ -12,6 +12,13 @@ namespace WebApplication_Vy
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery-ui*"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/DataTables").Include(
+            "~/Scripts/datatables.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/DataTable").Include(
+            "~/Content/datatables.min.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.validate*"));
                 

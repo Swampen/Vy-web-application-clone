@@ -10,7 +10,7 @@ namespace BLL.Service.Contracts
 
         bool isTokenValid(string token);
 
-        string GenerateToken(IAuthContainerModel model);
+        //string GenerateToken(IAuthContainerModel model);
 
         IEnumerable<Claim> GetTokenClaims(string token);
     }

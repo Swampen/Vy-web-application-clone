@@ -4,34 +4,35 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using BLL.Service.Contracts;
-using BLL.Service.Implementation;
 using DAL.Db;
-using DAL.Db.Repositories.Contracts;
-using DAL.Db.Repositories.Implementation;
 using DAL.DTO;
 using DAL.DTO.TripData;
-using MODEL.Models;
+using log4net;
+using UTILS.Utils.Filters;
+using UTILS.Utils.Logging;
 
 namespace WebApplication_Vy.Controllers
 {
+    [ControllerExceptionFilter]
     public class HomeController : Controller
     {
+        private static readonly ILog Log = LogHelper.GetLogger();
+        private readonly IStationService _stationService;
+
         private readonly IVyService _vyService;
         private readonly IZipSearchService _zipSearchService;
-        private readonly IStationService _stationService;
+
         private readonly ILoginService _loginService;
 
         public HomeController(
             IVyService vyService,
             IZipSearchService zipSearchService,
-            IStationService stationService,
-            ILoginService loginService
-            )
+            IStationService stationService
+        )
         {
             _vyService = vyService;
             _zipSearchService = zipSearchService;
             _stationService = stationService;
-            _loginService = loginService;
 
             var db = new VyDbContext();
             db.Database.Initialize(true);
@@ -39,6 +40,11 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Index()
         {
+            if(Session["AdminLogin"] == null)
+            {
+                Session["AdminLogin"] = false;
+            }
+            Log.Info("Application started, log4net running.....");
             Session["HaveRoundTrip"] = false;
             Session["ChosenTrips"] = new List<TripDTO>();
             return View();
@@ -55,7 +61,9 @@ namespace WebApplication_Vy.Controllers
                     var returnTripQuery = new TripQueryDTO
                     {
                         Departure_Station = tripQuery.Arrival_Station,
+                        Departure_StationId = tripQuery.Arrival_StationId,
                         Arrival_Station = tripQuery.Departure_Station,
+                        Arrival_StationId = tripQuery.Departure_StationId,
                         Date = tripQuery.Return_Date,
                         Time = tripQuery.Return_Time,
                         Round_Trip = false,
@@ -121,7 +129,7 @@ namespace WebApplication_Vy.Controllers
                     Console.WriteLine("Returnticket success");
                 }
 
-                if (success) return RedirectToAction("tickets");
+                if (success) return RedirectToAction("Index");
             }
 
             var chosenTrips = (List<TripDTO>) Session["ChosenTrips"];
@@ -138,67 +146,80 @@ namespace WebApplication_Vy.Controllers
             return result;
         }
 
-        public ActionResult Tickets()
-        {
-            var customers = _vyService.GetCustomerDtos();
-            customers.ForEach(dto =>
-            {
-                dto.Tickets.ForEach(ticketDto => { _vyService.MaskCreditCardNumber(ticketDto.CreditCard); });
-            });
-            return View(customers);
-        }
-        
-        [HttpDelete]
-        public ActionResult DeleteTicket(int ticketId)
-        {
-            var success = _vyService.DeleteTicket(ticketId);
-            return RedirectToAction("Tickets");
-        }
-
         [HttpGet]
         public string GetAllStations()
         {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var serializer = new JavaScriptSerializer();
             return serializer.Serialize(_stationService.getAllKeyValueStations());
         }
 
-        public ActionResult GetAdminView()
+        public ActionResult ConfirmLogin()
         {
-            string View;
-            
-            if (Session["Authenticated"] == null)
-            {
-                Session["Authenticated"] = false;
-            }
 
-            if ((bool)Session["Authenticated"])
+            //Only used for testing, remove later
+            String Username = "admin";
+            String Password = "admin";
+
+            //Sjekker om credentials er valid
+            bool match = CheckCredentials(Username, Password);
+
+            //hvis riktig sett AdminLogin til true og refresh
+            if (match)
             {
-                View = "AdminView";
+                Session["AdminLogin"] = true;
+                return Redirect(Request.UrlReferrer.ToString());
             }
             else
             {
-                View = "index";
+                //TODO: fyll inn dette løpet
+                return Redirect(Request.UrlReferrer.ToString());
             }
 
-            return RedirectToAction(View);
         }
 
-        public ActionResult login(string UserName, string Password)
+        
+
+        public bool CheckCredentials(String Username, String Password)
         {
-            string View;
-            if (_loginService.Login(UserName, Password))
+
+            //Denne metoden skal sjekke oppgitt brukernavn og passord opp mot database og return true om det er en match
+            //Passordet her vil måtte kjøre igjennom hasj metoden
+            //Vil ta in en LoginDTO istedet
+
+            /* 
+             List<Admins> admins = GetAllAdmins();
+             String hash = ComputeHash(in.Password);
+
+            foreach(a in admins){
+                if(in.Username == a.Username){
+                    if(hash == a.Password){
+                        return true;
+                    }
+                }
+            }
+            return false;
+             */
+
+            //Brukes til å teste andre ting ordentlig metode over i kommentarer
+            if (Username == "admin" && Password == "admin")
             {
-                Session["Authenticated"] = true;
-                View = "AdminView";
+                return true;
+            }
+            else return false;
+        }
+
+        public ActionResult Login(string Username, string Password)
+        {
+            if (_loginService.Login(Username, Password))
+            {
+                Session["Auth"] = true;
+                return Redirect("/admin");
             }
             else
             {
-                Session["Authenticated"] = false;
-                View = "Index";
+                Session["Auth"] = false;
+                return RedirectToAction("Index");
             }
-
-            return RedirectToAction(View);
         }
-
     }
 }

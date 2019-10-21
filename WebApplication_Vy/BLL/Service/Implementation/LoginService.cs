@@ -16,7 +16,7 @@ namespace BLL.Service.Implementation
             _loginRepository = loginRepository;
         }
 
-        private byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
+        public byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
         {
           HashAlgorithm algorithm = new SHA256Managed();
         
@@ -45,11 +45,7 @@ namespace BLL.Service.Implementation
                 return true;
             return false;
         }
-
-        byte[] ILoginService.GenerateSaltedHash(byte[] plaintext, byte[] salt)
-        {
-            return GenerateSaltedHash(plaintext, salt);
-        }
+        
 
         public bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword)
         {
@@ -64,7 +60,7 @@ namespace BLL.Service.Implementation
                 Console.WriteLine(user.ToString());
                 try
                 {
-                    _loginRepository.RegisterUser(user);
+                    _loginRepository.RegisterAdminUser(user);
                     return true;
                 }
                 catch (Exception e)

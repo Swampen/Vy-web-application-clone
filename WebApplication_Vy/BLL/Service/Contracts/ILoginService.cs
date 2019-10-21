@@ -4,7 +4,7 @@
     {
         bool Login(string Username, string Password);
 
-        byte[] GenerateSaltedHash(byte[] plaintext, byte[] salt);
+        byte[] GenerateSaltedHash(byte[] plainText, byte[] salt);
         
         bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword);
     }
