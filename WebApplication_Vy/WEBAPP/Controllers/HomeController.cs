@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -221,7 +221,7 @@ namespace WebApplication_Vy.Controllers
                 return RedirectToAction("Index");
             }
         }
-
+        [HttpPost]
         public ActionResult Registrer(string Username, string Password, string SecretAdminPassword)
         {
             if (_loginService.RegisterAdminUser(Username, Password, SecretAdminPassword))
@@ -234,11 +234,6 @@ namespace WebApplication_Vy.Controllers
                 Session["Auth"] = false;
                 return RedirectToAction("Index");
             }
-
-            
-            
-            
-            
         }
     }
 }

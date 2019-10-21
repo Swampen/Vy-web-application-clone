@@ -22,12 +22,6 @@ namespace DAL.Db.Repositories.Implementation
         }
 
 
-        public bool getLoginConfirmation(string Username, string Password)
-        {
-            throw new NotImplementedException();
-        }
-        
-
         public bool DoseAdminUserExcist(AdminUser adminUser)
         {
             using (var db = new VyDbContext())
@@ -44,7 +38,6 @@ namespace DAL.Db.Repositories.Implementation
             {
                 UserName = adminUser.UserName,
                 Password = adminUser.Password
-                
             };
             using (var db = new VyDbContext())
             {
