@@ -63,6 +63,7 @@
     <Compile Include="Service\Contracts\IZipSearchService.cs" />
     <Compile Include="Service\Implementation\AuthService.cs" />
     <Compile Include="Service\Implementation\CreditCardServiceImpl.cs" />
+    <Compile Include="Service\Implementation\JWTService.cs" />
     <Compile Include="Service\Implementation\LoginService.cs" />
     <Compile Include="Service\Implementation\StationServiceImpl.cs" />
     <Compile Include="Service\Implementation\VyServiceImpl.cs" />
