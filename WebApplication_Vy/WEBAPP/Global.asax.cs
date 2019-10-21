@@ -19,6 +19,7 @@ namespace WebApplication_Vy
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            DataBaseConfig.InitializeDatabase();
         }
     }
 }

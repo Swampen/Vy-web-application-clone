@@ -56,19 +56,5 @@ namespace Test.MockUtil
             mockRepo.Setup(mock => mock.DeleteTicket(It.IsAny<int>())).Returns(true);
             return mockRepo.Object;
         }
-
-/*
-        public static ITripRepository FindTripsMatching()
-        {
-            var mockTripRepository = new Mock<ITripRepository>();
-            mockTripRepository
-                .Setup(mock => mock.TripSearch(It.IsAny<string>()))
-                .Returns((string query) => Trips
-                    .Where(trip => trip.Route.Contains(query))
-                    .ToList());
-
-            return mockTripRepository.Object;
-        }
-        */
     }
 }
