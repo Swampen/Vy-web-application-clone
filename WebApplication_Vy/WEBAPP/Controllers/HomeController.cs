@@ -49,6 +49,7 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(TripQueryDTO tripQuery)
         {
             if (ModelState.IsValid)
@@ -114,6 +115,7 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult RegisterTicket(SubmitPurchaseDto submitPurchaseDto)
         {
             if (ModelState.IsValid)
