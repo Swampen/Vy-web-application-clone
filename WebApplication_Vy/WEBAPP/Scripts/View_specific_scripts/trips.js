@@ -99,7 +99,7 @@
                     \"travellers\":[{\"count\":1,\"userTypes\":[\"ADULT\"],\"name\":\"Voksen\"}]}", "method": "PATCH", "mode": "cors"
             }).then(data => data.json()).then(data => {
 
-                
+
 
                 originalPrice = data.price;
 
@@ -144,15 +144,12 @@
                     priceDetails += "</div>"//end price section
                     $("#priceDetails" + data.tripPatternId).append(priceDetails);
 
-
                     $("#totPrice" + data.tripPatternId).text(price + " kr");
                     $("#totPrice" + data.tripPatternId).append(`<input type='text' hidden name=Price value='${price}'>`);
                     $("#" + data.tripPatternId).children().eq(1).children(".btn-select").children("button").attr("disabled", false);
                 }
-                
+
             });
-
-
 
             //Sets suitable text to the ammount of changes
             let changesText;
@@ -204,10 +201,27 @@
 
             //Appends more info, but hidden
             var hidden_content = "<div class='col ml-5'>"
+            console.log(value.legs)
+            if (value.legs == 0) {
+            }
             $.each(value.legs, function (j, leg) {
                 if (leg.mode == "rail") {
+                    if (leg.intermediateQuays.length == 0) {
+                        hidden_content += "<div class='row font-weight-bold'>" + leg.fromPlace.name + "</div>"
+                        hidden_content += "<div class='border-left border-success pl-4'>\<div class='row'><p>1 stop</p></div>"
+                        hidden_content += "</div></div>"
+                        hidden_content += "<div class='row mb-3 font-weight-bold'>" + leg.toPlace.name + "</div>"
+                    }
                     $.each(this.intermediateQuays, function (k, stop) {
-                        if (k == 0) {
+                        if (leg.intermediateQuays.length == 1) {
+                            hidden_content += "<div class='row font-weight-bold'>" + value.legs[j].fromPlace.name + "</div>"
+                            hidden_content += "<div class='border-left border-success pl-4'>\<div class='row'><a href=''>" + (leg.intermediateQuays.length + 1) + " stops</a></div>"
+                            hidden_content += "<div class='col ml-0' style='display: none;'><div class='pl-3'>"
+                            hidden_content += "<div class='row'>" + /([\s\S]*?)(stasjon)/g.exec(stop.name)[1] + "</div>"
+                            hidden_content += "</div></div></div>"
+                            hidden_content += "<div class='row mb-3 font-weight-bold'>" + value.legs[j].toPlace.name + "</div>"
+                        }
+                        else if (k == 0) {
                             hidden_content += "<div class='row font-weight-bold'>" + value.legs[j].fromPlace.name + "</div>"
                             hidden_content += "<div class='border-left border-success pl-4'>\<div class='row'><a href=''>" + (leg.intermediateQuays.length + 1) + " stops</a></div>"
                             hidden_content += "<div class='col ml-0' style='display: none;'><div class='pl-3'>"

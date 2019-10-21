@@ -17,16 +17,13 @@ namespace WebApplication_Vy.Controllers
         private readonly IStationService _stationService;
 
         private readonly IVyService _vyService;
-        private readonly IZipSearchService _zipSearchService;
 
         public AdminController(
             IVyService vyService,
-            IZipSearchService zipSearchService,
             IStationService stationService
         )
         {
             _vyService = vyService;
-            _zipSearchService = zipSearchService;
             _stationService = stationService;
 
             var db = new VyDbContext();
@@ -48,7 +45,6 @@ namespace WebApplication_Vy.Controllers
             return View(customers);
         }
 
-        [HttpDelete]
         public ActionResult DeleteTicket(int ticketId)
         {
             var success = _vyService.DeleteTicket(ticketId);

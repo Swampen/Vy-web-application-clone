@@ -200,6 +200,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min_new.css" />
+    <Content Include="Content\datatables.min.css" />
     <Content Include="Content\gijgo.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -263,9 +264,6 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Scripts\cleave-phone.no.js" />
     <Content Include="Scripts\cleave.min.js" />
-    <Content Include="Scripts\datatables.css" />
-    <Content Include="Scripts\datatables.js" />
-    <Content Include="Scripts\datatables.min.css" />
     <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -303,7 +301,6 @@
     <Content Include="Scripts\View_specific_scripts\customerDetails.js" />
     <Content Include="Scripts\View_specific_scripts\index.js" />
     <Content Include="Scripts\View_specific_scripts\tickets.js" />
-    <Content Include="Scripts\View_specific_scripts\trips - Copy.js" />
     <Content Include="Scripts\View_specific_scripts\trips.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

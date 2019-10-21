@@ -19,15 +19,21 @@
             for (var key in stations) {
                 names.push(key)
             }
-            console.log(stations);
         }
     });
 
     $('.stations').autocomplete({
         source: function (request, response) {
-            let results = $.ui.autocomplete.filter(names, request.term);
+            //let results = $.ui.autocomplete.filter(names, request.term);
+            let results = []
+            const regex = new RegExp("^" + request.term)
+            results = names.filter(s => regex.test(s))
+            if (results.length == 0) {
+                results = $.ui.autocomplete.filter(names, request.term);
+            }
             response(results.slice(0, 10));
-        }
+        },
+        autoFocus: true,
     });
 
     $("#SwitchButton").on("click", function (e) {
