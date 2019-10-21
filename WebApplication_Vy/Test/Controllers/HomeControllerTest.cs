@@ -44,6 +44,12 @@ namespace Test.Controllers
             Assert.IsInstanceOf<ActionResult>(controller.Index());
             Assert.AreEqual("", viewResult.ViewName);
         }
+
+        [Test]
+        public void Index_AdminLoginShouldBeTrue()
+        {
+            
+        }
         
         [Test]
         public void Index_invalidModelState_shouldReturnIndex()
@@ -55,6 +61,7 @@ namespace Test.Controllers
 
             context.Setup(s => s.HttpContext.Session).Returns(session.Object);
             controller.ControllerContext = context.Object;
+            controller.ModelState.AddModelError("test", "test");
             
             TripQueryDTO tripQueryDto = new TripQueryDTO();
             

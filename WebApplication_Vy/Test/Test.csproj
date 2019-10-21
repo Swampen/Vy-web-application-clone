@@ -126,6 +126,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="MockUtil\CreditCardRepositoryMock.cs" />
+    <Compile Include="MockUtil\MockHttpSession.cs" />
     <Compile Include="MockUtil\VyRepositoryMock.cs" />
     <Compile Include="Service\CreditCardServiceImplTest.cs" />
     <Compile Include="Service\VyServiceImplTest.cs" />
