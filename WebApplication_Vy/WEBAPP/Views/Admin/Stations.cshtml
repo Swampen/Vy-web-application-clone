@@ -30,8 +30,12 @@
                     @foreach (var s in Model)
                     {
                         <tr>
-                            <td>@s.Name</td>
-                            <td class="text-center"><button type="button" class="btn btn-warning" data-toggle="modal" id="@s.Id" data-station="@s.Name" data-target="#edit">Edit</button></td>
+                            <td>
+                                @s.Name
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-warning" data-toggle="modal" id="@s.Id" data-station="@s.Name" data-target="#edit">Edit</button>
+                            </td>
                         </tr>
 
                     }
@@ -70,7 +74,7 @@
             var button = $(event.relatedTarget) // Button that triggered the modal
             var id = button[0].id
             var station = button[0].dataset["station"]
-            
+
             var modal = $(this)
             modal.find("#nameInput").val(station)
             modal.find("#changeStationId").val(id);

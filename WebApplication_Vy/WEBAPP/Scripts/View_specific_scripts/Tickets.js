@@ -51,7 +51,7 @@
         console.log(id);
        
 
-        var url = `/home/deleteTicket?ticketId=${id}`;
+        var url = `/admin/deleteTicket?ticketId=${id}`;
         var modal = $(this);
         modal.find("#confirmBtn").attr("href", url);
     });

@@ -329,6 +329,7 @@
     <Content Include="Views\Admin\Stations.cshtml" />
     <Content Include="Views\Admin\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Customers.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

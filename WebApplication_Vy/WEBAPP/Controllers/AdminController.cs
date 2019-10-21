@@ -53,18 +53,6 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Stations()
         {
-            //sjekker om du er logget inn som admin og hvis du er det redirecter den til AdminPage
-            //Foreløpig kjøres det bare en refresh hvis du ikke er logget inn.
-            /*bool valid = (bool)Session["AdminLogin"];
-            if (valid)
-            {
-                var stations = _stationService.getAllStations();
-                return View(stations);
-            }
-            else
-            {
-                return Redirect(Request.UrlReferrer.ToString());
-            }*/
             var stations = _stationService.getAllStations();
             return View(stations);
         }
@@ -76,6 +64,12 @@ namespace WebApplication_Vy.Controllers
         {
             var success = _vyService.ChangeStation(station);
             return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        public ActionResult Customers()
+        {
+            
+            return View();
         }
     }
 }
