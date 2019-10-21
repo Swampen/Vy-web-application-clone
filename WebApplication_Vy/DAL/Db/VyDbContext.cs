@@ -25,8 +25,7 @@ namespace DAL.Db
         {
             protected override void Seed(VyDbContext context)
             {
-                var zipxml = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
-                Debug.WriteLine(HttpContext.Current.Server.MapPath("~/Content/") + "zipcodes.xml");
+                var zipxml = XElement.Load(HttpContext.Current.Server.MapPath("~/Content/data/") + "zipcodes.xml");
                 var zipz = zipxml.Descendants("Zipcode");
 
                 foreach (var zipcode in zipz)
@@ -48,7 +47,7 @@ namespace DAL.Db
                 try
                 {
                     var data = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                        @"Content\stops.csv"));
+                        @"Content\data\stops.csv"));
                     var reader = new StringReader(data);
                     reader.ReadLine();
                     string line;

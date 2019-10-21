@@ -189,7 +189,9 @@
       <DependentUpon>VyDB.mdf</DependentUpon>
     </Content>
     <Content Include="Content\Assets\finished.svg" />
+    <Content Include="Content\Assets\SwitcherBlueGrey80.svg" />
     <Content Include="Content\Assets\train.svg" />
+    <Content Include="Content\Assets\vy.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -199,7 +201,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min_new.css" />
     <Content Include="Content\gijgo.min.css" />
-    <Content Include="Content\stations.xml" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -241,8 +242,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="Content\vy.png" />
-    <Content Include="Content\zipcodes.xml" />
+    <Content Include="Content\data\zipcodes.xml" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -276,6 +276,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Content\data\stops.csv" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
