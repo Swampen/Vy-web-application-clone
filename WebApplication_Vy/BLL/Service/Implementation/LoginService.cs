@@ -15,23 +15,22 @@ namespace BLL.Service.Implementation
         {
             _loginRepository = loginRepository;
         }
-        
-        static byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
+
+        private byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
         {
           HashAlgorithm algorithm = new SHA256Managed();
         
           byte[] plainTextWithSaltBytes = 
             new byte[plainText.Length + salt.Length];
         
-          for (int i = 0; i < plainText.Length; i++)
-          {
-            plainTextWithSaltBytes[i] = plainText[i];
-          }
-          for (int i = 0; i < salt.Length; i++)
-          {
-            plainTextWithSaltBytes[plainText.Length + i] = salt[i];
-          }
-        
+              for (int i = 0; i < plainText.Length; i++)
+              {
+                plainTextWithSaltBytes[i] = plainText[i];
+              }
+              for (int i = 0; i < salt.Length; i++)
+              {
+                plainTextWithSaltBytes[plainText.Length + i] = salt[i];
+              }
           return algorithm.ComputeHash(plainTextWithSaltBytes);            
         }
 
@@ -42,12 +41,9 @@ namespace BLL.Service.Implementation
             string salt = "somthing random";
             var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt))
                 .ToString();
-            if (_loginRepository.UserInDB(Username, hashedPassword))
+            if (_loginRepository.UserInDB(Username, hashedPassword)) 
                 return true;
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         byte[] ILoginService.GenerateSaltedHash(byte[] plaintext, byte[] salt)
@@ -65,6 +61,7 @@ namespace BLL.Service.Implementation
                 user.Password = (GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)))
                     .ToString();
                 user.UserName = Username;
+                Console.WriteLine(user.ToString());
                 try
                 {
                     _loginRepository.RegisterUser(user);
@@ -76,10 +73,8 @@ namespace BLL.Service.Implementation
                     throw;
                 }
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
     }
 }
