@@ -208,9 +208,9 @@ namespace WebApplication_Vy.Controllers
             else return false;
         }
 
-        public ActionResult Login(string Username, string Password)
+        public ActionResult Login(AdminUserDTO adminUserDTO)
         {
-            if (_loginService.Login(Username, Password))
+            if (_loginService.Login(adminUserDTO.Username, adminUserDTO.Password))
             {
                 Session["Auth"] = true;
                 return Redirect("/admin");
