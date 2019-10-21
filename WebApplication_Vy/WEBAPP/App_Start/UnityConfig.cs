@@ -18,12 +18,14 @@ namespace WebApplication_Vy
             container.RegisterType<IVyRepository, VyRepositoryImpl>();
             container.RegisterType<ICreditCardRepository, CreditCardRepositoryImpl>();
             container.RegisterType<IStationRepository, StationRepositoryImpl>();
+            container.RegisterType<ILoginRepository, LoginRepositoryImpl>();
             
             //Services
             container.RegisterType<IVyService, VyServiceImpl>();
             container.RegisterType<IZipSearchService, ZipSearchServiceImpl>();
             container.RegisterType<ICreditCardService, CreditCardServiceImpl>();
             container.RegisterType<IStationService, StationServiceImpl>();
+            container.RegisterType<ILoginService, LoginService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

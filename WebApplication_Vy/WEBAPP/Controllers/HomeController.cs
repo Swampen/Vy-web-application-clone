@@ -21,18 +21,19 @@ namespace WebApplication_Vy.Controllers
 
         private readonly IVyService _vyService;
         private readonly IZipSearchService _zipSearchService;
-
         private readonly ILoginService _loginService;
 
         public HomeController(
             IVyService vyService,
             IZipSearchService zipSearchService,
-            IStationService stationService
+            IStationService stationService,
+            ILoginService loginService
         )
         {
             _vyService = vyService;
             _zipSearchService = zipSearchService;
             _stationService = stationService;
+            _loginService = loginService;
 
             var db = new VyDbContext();
             db.Database.Initialize(true);

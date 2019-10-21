@@ -45,8 +45,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form action="/home/login" method="post">
+                <form action="/home/login" method="post">
+                    <div class="modal-body">
+                    
                         <div class="row">
                             <div class="col">
                                 <input type="text" name="UserName" placeholder="Username" class="form-control w-75" />
@@ -57,12 +58,13 @@
                                 <input type="password" name="Password" placeholder="Password" class="form-control w-75"  />
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success">Login</button>
-                </div>
+                   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-success">Login</button>
+                    </div> 
+                </form>
             </div>
         </div>
     </div>
