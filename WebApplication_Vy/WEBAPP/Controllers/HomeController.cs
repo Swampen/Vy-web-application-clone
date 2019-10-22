@@ -218,11 +218,17 @@ namespace WebApplication_Vy.Controllers
             {
                 Session["Auth"] = true;
                 Console.WriteLine("login succeeded");
+                if (adminUserDTO.SuperAdmin)
+                {
+                    Session["SuperAdmin"] = true;
+                }
+                
                 return Redirect("http://localhost:5000/admin");
             }
             else
             {
                 Session["Auth"] = false;
+                Session["SuperAdmin"] = false;
                 Console.WriteLine("login failed");
                 return RedirectToAction("Index");
             }
@@ -230,6 +236,7 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Registrer(string Username, string Password, string SecretAdminPassword)
         {
+            
             if (_loginService.RegisterAdminUser(Username, Password, SecretAdminPassword))
             {
                 Session["Auth"] = true;
