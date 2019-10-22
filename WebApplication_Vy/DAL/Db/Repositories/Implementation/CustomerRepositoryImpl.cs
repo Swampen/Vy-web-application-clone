@@ -21,13 +21,14 @@ namespace DAL.Db.Repositories.Implementation
 
             if (foundCustomer != null)
             {
+                Zipcode zip = db.Zipcodes.Find(innCustomer.Zipcode.Postalcode);
                 try
                 {
                     foundCustomer.Givenname = innCustomer.Givenname;
                     foundCustomer.Surname = innCustomer.Surname;
                     foundCustomer.Email = innCustomer.Email;
                     foundCustomer.Address = innCustomer.Address;
-                    foundCustomer.Zipcode = innCustomer.Zipcode;
+                    foundCustomer.Zipcode = zip;
                     foundCustomer.Givenname = innCustomer.Givenname;
                     db.SaveChanges();
                     Log.Info(LogEventPrefixes.DATABASE_ACCESS + "Updated information for customer with ID: " + innCustomer.Id);

@@ -60,6 +60,7 @@ namespace BLL.Service.Implementation
         {
             var customer = new Customer
             {
+                Id = dto.Id,
                 Givenname = dto.Givenname,
                 Surname = dto.Surname,
                 Address = dto.Address,

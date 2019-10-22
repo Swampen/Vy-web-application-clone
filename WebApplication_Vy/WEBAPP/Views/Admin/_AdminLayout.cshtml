@@ -8,9 +8,9 @@
 <button class="btn btn-success mb-3" id="menu-toggle">Toggle menu</button>
 <div class="row">
     <!-- Sidebar -->
-    <div id="sidebar-container" class="col-12 col-lg-2 p-0" style="background-color: #2A3F54; max-width: 175px">
+    <div id="sidebar-container" class="col-12 col-lg-2 p-0 border" style="background-color: #2A3F54; max-width: 175px">
 
-        <div id="sidebar-wrapper" >
+        <div id="sidebar-wrapper">
             <ul class="navbar-nav mr-auto text-center">
                 <li class="bg-light">
                     <h5 class="nav-link text-dark">Admin Panel</h5>
@@ -59,6 +59,14 @@
                     $('#sidebar-container').removeClass("navbar-expand");
                 }
             });
+
+            if ($(window).width() < 992) {
+                $('#sidebar-container').css("max-width", "100%");
+                $('#sidebar-container').addClass("navbar-expand");
+            } else {
+                $('#sidebar-container').css("max-width", "175px");
+                $('#sidebar-container').removeClass("navbar-expand");
+            }
         })
     </script>
 

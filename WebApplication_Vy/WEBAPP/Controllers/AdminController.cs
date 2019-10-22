@@ -76,16 +76,15 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult UpdateCustomer(CustomerDto c)
         {
-            var customers = new List<CustomerDto>();
+          
             if (ModelState.IsValid)
             {
                 if (_customerService.updateCustomer(c))
                 {
-                    customers = _customerService.getAllCustomerDtos();
-                    return View("Customers", customers);
+                    return RedirectToAction("Customers");
                 }
             }
-            customers = _customerService.getAllCustomerDtos();
+            var customers = _customerService.getAllCustomerDtos();
             return View("Customers", customers);
         }
 
