@@ -46,9 +46,35 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void Index_AdminLoginShouldBeTrue()
+        public void Index_AdminLoginShouldBeFalse()
         {
+            //Arrange
+            var controller = new HomeController(null, null, null);
+            controller.ControllerContext = getHttpSessionContext();
+            controller.Session["AdminLogin"] = null;
             
+            //Act
+            var actionResult = controller.Index();
+            var viewResult = actionResult as ViewResult;
+            
+            //Assert
+            Assert.IsFalse((bool)controller.Session["AdminLogin"]);
+        }
+
+        [Test]
+        public void Index_HaveRoundTripsShouldBeFalse()
+        {
+            //Arrange
+            var controller = new HomeController(null, null, null);
+            controller.ControllerContext = getHttpSessionContext();
+            controller.Session["HaveRoundTrip"] = null;
+            
+            //Act
+            var actionResult = controller.Index();
+            var viewResult = actionResult as ViewResult;
+            
+            //Assert
+            Assert.IsFalse((bool)controller.Session["HaveRoundTrip"]);
         }
         
         [Test]
@@ -73,6 +99,14 @@ namespace Test.Controllers
             Assert.IsNotNull(controller.Index());
             Assert.IsInstanceOf<ActionResult>(controller.Index());
             Assert.AreEqual("", viewResult.ViewName);
+        }
+
+        private ControllerContext getHttpSessionContext()
+        {
+            var context = new Mock<ControllerContext>();
+            var session = new MockHttpSession();
+            context.Setup(s => s.HttpContext.Session).Returns(session);
+            return context.Object;
         }
     }
 }

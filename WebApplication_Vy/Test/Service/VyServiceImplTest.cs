@@ -1,10 +1,12 @@
-﻿using BLL.Service.Contracts;
+﻿using System;
+using BLL.Service.Contracts;
 using BLL.Service.Implementation;
 using DAL.Db.Repositories.Implementation;
 using DAL.DTO;
 using NUnit.Framework;
 using NUnit.Framework.Internal.Commands;
 using Test.MockUtil;
+using WebApplication_Vy.Controllers;
 
 namespace Test.Service
 {
@@ -88,7 +90,7 @@ namespace Test.Service
             Assert.AreEqual(3, _service.GetCustomerDtos().Count);
             Assert.NotNull(_service.GetCustomerDtos().Find(dto => dto.Id == 1));
         }
-
+        
         [Test]
         public void GetTicketDtosTest()
         {
