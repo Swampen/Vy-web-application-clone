@@ -84,5 +84,5 @@ namespace DAL.Db.Repositories.Implementation
             }
         }
     }
-    }
 }
+
