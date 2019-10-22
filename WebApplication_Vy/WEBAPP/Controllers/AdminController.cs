@@ -35,24 +35,40 @@ namespace WebApplication_Vy.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
+            var session = (bool)Session["Auth"];
+            if (session)
+            {
+                return View();
+            }
+            return Redirect("http://localhost:5000/");
         }
 
         public ActionResult Tickets()
         {
-            var customers = _vyService.GetCustomerDtos();
-            customers.ForEach(dto =>
+            var session = (bool)Session["Auth"];
+            if (session)
             {
-                dto.Tickets.ForEach(ticketDto => { _vyService.MaskCreditCardNumber(ticketDto.CreditCard); });
-            });
-            return View(customers);
+                var customers = _vyService.GetCustomerDtos();
+                customers.ForEach(dto =>
+                {
+                    dto.Tickets.ForEach(ticketDto => { _vyService.MaskCreditCardNumber(ticketDto.CreditCard); });
+                });
+                return View(customers);
+            }
+
+            return Redirect("http://localhost:5000/");
         }
 
         [HttpDelete]
         public ActionResult DeleteTicket(int ticketId)
         {
-            var success = _vyService.DeleteTicket(ticketId);
-            return RedirectToAction("Tickets");
+            var session = (bool)Session["Auth"];
+            if (session)
+            {
+                var success = _vyService.DeleteTicket(ticketId);
+                return RedirectToAction("Tickets");
+            }
+            return Redirect("http://localhost:5000/");
         }
 
         public ActionResult Stations()
@@ -69,8 +85,14 @@ namespace WebApplication_Vy.Controllers
             {
                 return Redirect(Request.UrlReferrer.ToString());
             }*/
-            var stations = _stationService.getAllStations();
-            return View(stations);
+            var session = (bool)Session["Auth"];
+            if (session)
+            {
+                var stations = _stationService.getAllStations();
+                return View(stations);
+            }
+
+            return Redirect("http://localhost:5000/");
         }
 
 
@@ -80,6 +102,13 @@ namespace WebApplication_Vy.Controllers
         {
             var success = _vyService.ChangeStation(station);
             return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        public ActionResult Logout()
+        {
+            Session["Auth"] = false;
+            Console.WriteLine("Logout");
+            return Redirect("http://localhost:5000");
         }
     }
 }
