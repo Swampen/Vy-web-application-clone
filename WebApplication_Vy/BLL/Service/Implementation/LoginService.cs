@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
 using DAL.Db.Repositories.Implementation;
+using DAL.DTO;
 using MODEL.Models;
 
 namespace BLL.Service.Implementation
@@ -84,6 +86,24 @@ namespace BLL.Service.Implementation
             }
 
             return false;
+        }
+        public List<AdminUserDTO> GetAllAdmins()
+        {
+            var adminUserDtos = new List<AdminUserDTO>();
+            _loginRepository
+                .FindAllAdminUsers()
+                .ForEach(adminUser => {adminUserDtos.Add(MapUserAdminDto(adminUser)); });
+            return adminUserDtos;
+        }
+        private AdminUserDTO MapUserAdminDto(AdminUser admin)
+        {
+            return new AdminUserDTO
+            {
+                Id = admin.Id.ToString(),
+                Username = admin.UserName,
+                Password = admin.Password,
+                SuperAdmin = admin.SuperAdmin
+            };
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DAL.Db.Repositories.Contracts;
 using log4net;
 using MODEL.Models;
+using MODEL.Models.Entities;
 using UTILS.Utils.Logging;
 
 namespace DAL.Db.Repositories.Implementation
@@ -65,5 +67,22 @@ namespace DAL.Db.Repositories.Implementation
                 }
             }
         }
+        public List<AdminUser> FindAllAdminUsers()
+        {
+            using (var db = new VyDbContext())
+            {
+                try
+                {
+                    List<AdminUser> admin = db.AdminUsers.ToList();
+                    return admin.OrderBy(s => s.UserName).ToList();
+                }
+                catch (Exception e)
+                {
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
+                    throw;
+                }
+            }
+        }
+    }
     }
 }
