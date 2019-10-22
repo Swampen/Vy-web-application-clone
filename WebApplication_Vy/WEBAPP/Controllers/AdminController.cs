@@ -59,16 +59,37 @@ namespace WebApplication_Vy.Controllers
             return View(stations);
         }
 
-
-
         [HttpPost]
-        public ActionResult EditStation(StationDTO station)
+        public ActionResult UpdateStation(StationDTO station)
         {
             var success = _vyService.ChangeStation(station);
             return Redirect(Request.UrlReferrer.ToString());
         }
 
         public ActionResult Customers()
+        {
+            var customers = _customerService.getAllCustomerDtos();
+            ViewBag.updatedCustomer = false;
+            return View(customers);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateCustomer(CustomerDto c)
+        {
+            var customers = new List<CustomerDto>();
+            if (ModelState.IsValid)
+            {
+                if (_customerService.updateCustomer(c))
+                {
+                    customers = _customerService.getAllCustomerDtos();
+                    return View("Customers", customers);
+                }
+            }
+            customers = _customerService.getAllCustomerDtos();
+            return View("Customers", customers);
+        }
+
+        public ActionResult DeleteCustomer(int id)
         {
             var customers = _customerService.getAllCustomerDtos();
             return View(customers);

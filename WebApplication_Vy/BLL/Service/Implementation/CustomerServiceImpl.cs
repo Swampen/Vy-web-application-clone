@@ -22,28 +22,29 @@ namespace BLL.Service.Implementation
 
         public bool updateCustomer(CustomerDto customer)
         {
-            throw new NotImplementedException();
+            return _customerRepository.updateCustomer(MapCustomerEntity(customer));
         }
 
         public List<CustomerDto> getAllCustomerDtos()
         {
             var customersDtos = new List<CustomerDto>();
-            _customerRepository.getAllCustomers().ForEach(c => {
+            _customerRepository.getAllCustomers().ForEach(c =>
+            {
                 customersDtos.Add(MapCustomerDto(c));
             });
             return customersDtos;
         }
 
-        private CustomerDto MapCustomerDto(Customer customer)
+        private CustomerDto MapCustomerDto(Customer entity)
         {
             return new CustomerDto
             {
-                Id = customer.Id,
-                Givenname = customer.Givenname,
-                Surname = customer.Surname,
-                Address = customer.Address,
-                Email = customer.Address,
-                Zipcode = MapZipcodeDTO(customer.Zipcode)
+                Id = entity.Id,
+                Givenname = entity.Givenname,
+                Surname = entity.Surname,
+                Address = entity.Address,
+                Email = entity.Email,
+                Zipcode = MapZipcodeDTO(entity.Zipcode)
             };
         }
 
@@ -53,6 +54,26 @@ namespace BLL.Service.Implementation
             var mapper = config.CreateMapper();
             var dto = mapper.Map<ZipcodeDto>(entity);
             return dto;
+        }
+
+        private Customer MapCustomerEntity(CustomerDto dto)
+        {
+            var customer = new Customer
+            {
+                Givenname = dto.Givenname,
+                Surname = dto.Surname,
+                Address = dto.Address,
+                Zipcode = mapZipCodeEntity(dto.Zipcode),
+                Email = dto.Email
+            };
+            return customer;
+        }
+
+        private Zipcode mapZipCodeEntity(ZipcodeDto dto)
+        {
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<ZipcodeDto, Zipcode>(); });
+            var mapper = new Mapper(config);
+            return mapper.Map<Zipcode>(dto);
         }
     }
 }
