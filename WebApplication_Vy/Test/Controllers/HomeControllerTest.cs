@@ -211,7 +211,7 @@ namespace Test.Controllers
         } 
         
         [Test]
-        public void RegisterTicket_shouldReturnCustomerDetailsView()
+        public void RegisterTicket_POST_shouldReturnCustomerDetailsView()
         {
             //Arrange
             _homeController.ModelState.AddModelError("test", "test");
@@ -223,6 +223,21 @@ namespace Test.Controllers
 
             //Assert
             Assert.AreEqual("", viewResult.ViewName);
+        }
+
+        [Test]
+        public void RegisterTicket_shouldRedirectToIndex()
+        {
+            //Arrange
+            var vyService = new Mock<>();            
+            SubmitPurchaseDto submitPurchaseDto = new SubmitPurchaseDto();
+            
+            //Act
+            var actionResult = _homeController.RegisterTicket(submitPurchaseDto);
+            var viewResult = actionResult as ViewResult;
+
+            //Assert
+            Assert.AreEqual("Index", actionResult.ToString());
         }
     }
 }
