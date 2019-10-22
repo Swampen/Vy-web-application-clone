@@ -1,8 +1,6 @@
-﻿using System.Runtime.Remoting.Contexts;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using BLL.Service.Contracts;
-using BLL.Service.Implementation;
 using DAL.DTO.TripData;
 using Moq;
 using NUnit.Framework;
@@ -14,16 +12,77 @@ namespace Test.Controllers
     [TestFixture]
     public class HomeControllerTest
     {
-        private readonly IVyService _vyService;
-        private readonly IZipSearchService _zipSearch;
-        private readonly IStationService _stationService;
-        
         [SetUp]
         public void Setup()
         {
-            
+            _homeController = new HomeController(null, null, null)
+            {
+                ControllerContext = getHttpSessionContext()
+            };
+            _homeController.Session["AdminLogin"] = null;
+            _homeController.Session["HaveRoundTrip"] = null;
+            _homeController.Session["ChosenTrip"] = null;
+            _homeController.Session["ToTrip"] = null;
+            _homeController.Session["ReturnTripQuery"] = null;
         }
-        
+
+        [TearDown]
+        public void destroy()
+        {
+            _homeController = null;
+        }
+
+        private readonly IVyService _vyService;
+        private readonly IZipSearchService _zipSearch;
+        private readonly IStationService _stationService;
+        private HomeController _homeController;
+
+        private ControllerContext getHttpSessionContext()
+        {
+            var context = new Mock<ControllerContext>();
+            var session = new MockHttpSession();
+            context.Setup(s => s.HttpContext.Session).Returns(session);
+            return context.Object;
+        }
+
+        [Test]
+        public void Index_AdminLoginShouldBeFalse()
+        {
+            //Act
+            var actionResult = _homeController.Index();
+
+            //Assert
+            Assert.IsFalse((bool) _homeController.Session["AdminLogin"]);
+        }
+
+        [Test]
+        public void Index_HaveRoundTripsShouldBeFalse()
+        {
+            //Act
+            var actionResult = _homeController.Index();
+            var viewResult = actionResult as ViewResult;
+
+            //Assert
+            Assert.IsFalse((bool) _homeController.Session["HaveRoundTrip"]);
+        }
+
+        [Test]
+        public void Index_invalidModelState_shouldReturnIndex()
+        {
+            //Arrange
+            _homeController.ModelState.AddModelError("test", "test");
+
+            var tripQueryDto = new TripQueryDTO();
+
+            //Act
+            var actionResult = _homeController.Index(tripQueryDto);
+            var viewResult = actionResult as ViewResult;
+
+            //Assert
+            Assert.IsInstanceOf<ActionResult>(_homeController.Index());
+            Assert.AreEqual("", viewResult.ViewName);
+        }
+
         [Test]
         public void Index_shouldReturnIndex()
         {
@@ -34,11 +93,11 @@ namespace Test.Controllers
 
             context.Setup(s => s.HttpContext.Session).Returns(session.Object);
             controller.ControllerContext = context.Object;
-            
+
             //Act
             var actionResult = controller.Index();
             var viewResult = actionResult as ViewResult;
-         
+
             //Assert
             Assert.IsNotNull(controller.Index());
             Assert.IsInstanceOf<ActionResult>(controller.Index());
@@ -46,67 +105,81 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void Index_AdminLoginShouldBeFalse()
+        public void Index_shouldReturnTrips()
         {
             //Arrange
-            var controller = new HomeController(null, null, null);
-            controller.ControllerContext = getHttpSessionContext();
-            controller.Session["AdminLogin"] = null;
-            
+            var tripQueryDto = new TripQueryDTO();
+
             //Act
-            var actionResult = controller.Index();
+            var actionResult = _homeController.Index(tripQueryDto);
             var viewResult = actionResult as ViewResult;
-            
+
             //Assert
-            Assert.IsFalse((bool)controller.Session["AdminLogin"]);
+            Assert.IsInstanceOf<ActionResult>(_homeController.Index());
+            Assert.AreEqual("Trips", viewResult.ViewName);
         }
 
         [Test]
-        public void Index_HaveRoundTripsShouldBeFalse()
+        public void Trips_sessionChoosenTripsShouldNotBeNull()
         {
-            //Arrange
-            var controller = new HomeController(null, null, null);
-            controller.ControllerContext = getHttpSessionContext();
-            controller.Session["HaveRoundTrip"] = null;
-            
-            //Act
-            var actionResult = controller.Index();
-            var viewResult = actionResult as ViewResult;
-            
-            //Assert
-            Assert.IsFalse((bool)controller.Session["HaveRoundTrip"]);
-        }
-        
-        [Test]
-        public void Index_invalidModelState_shouldReturnIndex()
-        {
-            //Arrange
-            var controller = new HomeController(null, null, null);
-            var context = new Mock<ControllerContext>();
-            var session = new Mock<HttpSessionStateBase>();
+            //Arrrange
+            var tripDto = new TripDTO();
+            tripDto.Round_Trip = false;
+            _homeController.Session["HaveRoundTrip"] = false;
 
-            context.Setup(s => s.HttpContext.Session).Returns(session.Object);
-            controller.ControllerContext = context.Object;
-            controller.ModelState.AddModelError("test", "test");
-            
-            TripQueryDTO tripQueryDto = new TripQueryDTO();
-            
             //Act
-            var actionResult = controller.Index(tripQueryDto);
-            var viewResult = actionResult as ViewResult;
-         
+            _homeController.Trips(tripDto);
+
             //Assert
-            Assert.IsNotNull(controller.Index());
-            Assert.IsInstanceOf<ActionResult>(controller.Index());
+            Assert.IsNotNull(_homeController.Session["ChosenTrips"]);
+        }
+
+        [Test]
+        public void Trips_sessionToTripShouldBeNull()
+        {
+            //Arrrange
+            var tripDto = new TripDTO();
+            tripDto.Round_Trip = false;
+            _homeController.Session["HaveRoundTrip"] = false;
+
+            //Act
+            _homeController.Trips(tripDto);
+
+            //Assert
+            Assert.IsNull(_homeController.Session["ToTrip"]);
+        }
+
+        [Test]
+        public void Trips_shouldReturnCustomerDetailsView()
+        {
+            //Arrrange
+            var tripDto = new TripDTO();
+            tripDto.Round_Trip = false;
+            _homeController.Session["HaveRoundTrip"] = false;
+
+            //Act
+            var actionResult = _homeController.Trips(tripDto);
+            var viewResult = actionResult as ViewResult;
+
+            //Assert
+            Assert.IsNull(_homeController.Session["ToTrip"]);
+            Assert.AreEqual("CustomerDetails", viewResult.ViewName);
+        }
+
+        [Test]
+        public void Trips_shouldReturnTripsView()
+        {
+            //Arrrange
+            var tripDto = new TripDTO();
+            tripDto.Round_Trip = true;
+            _homeController.Session["HaveRoundTrip"] = true;
+
+            //Act
+            var actionResult = _homeController.Trips(tripDto);
+            var viewResult = actionResult as ViewResult;
+
+            //Assert
             Assert.AreEqual("", viewResult.ViewName);
-        }
-
-        private ControllerContext getHttpSessionContext()
-        {
-            var context = new Mock<ControllerContext>();
-            var session = new MockHttpSession();
-            context.Setup(s => s.HttpContext.Session).Returns(session);
-            return context.Object;
         }
     }
 }
