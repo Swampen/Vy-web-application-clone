@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 using BLL.Service.Contracts;
 using DAL.DTO;
@@ -23,6 +24,7 @@ namespace Test.Controllers
             _homeController.Session["AdminLogin"] = null;
             _homeController.Session["HaveRoundTrip"] = null;
             _homeController.Session["ChosenTrip"] = null;
+            _homeController.Session["ChosenTrips"] = null;
             _homeController.Session["ToTrip"] = null;
             _homeController.Session["ReturnTripQuery"] = null;
         }
@@ -243,6 +245,44 @@ namespace Test.Controllers
 
             //Assert
             Assert.AreEqual("Index", actionResult.RouteValues["action"]);
+        }
+
+        [Test]
+        public void RegisterTicket_shouldReturnCustomerDetailsView()
+        {
+            //Arrange
+            _homeController.ModelState.AddModelError("test", "test");
+            SubmitPurchaseDto submitPurchaseDto = new SubmitPurchaseDto();
+            _homeController.Session["ChosenTrips"] = new List<TripDTO>
+            {
+                new TripDTO{}
+            };
+            
+            //Act
+            var actionResult = _homeController.RegisterTicket(submitPurchaseDto);
+            var viewResult = actionResult as ViewResult;
+
+            //Assert
+            Assert.AreEqual("CustomerDetails", viewResult.ViewName);
+        }
+
+        [Test]
+        public void RegisterTicket_viewbagShouldBeSet()
+        {
+            //Arrange
+            _homeController.ModelState.AddModelError("test", "test");
+            SubmitPurchaseDto submitPurchaseDto = new SubmitPurchaseDto();
+            _homeController.Session["ChosenTrips"] = new List<TripDTO>
+            {
+                new TripDTO{}
+            };
+            
+            //Act
+            _homeController.RegisterTicket(submitPurchaseDto);
+
+            //Assert
+            Assert.IsNotNull(_homeController.ViewData["Model"]);
+            Assert.IsInstanceOf<List<TripDTO>>(_homeController.ViewData["Model"]);
         }
     }
 }
