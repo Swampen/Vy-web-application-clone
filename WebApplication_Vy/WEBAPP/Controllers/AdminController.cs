@@ -68,7 +68,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Customers()
         {
-            var customers = _customerService.getAllCustomerDtos();
+            var customers = _vyService.GetCustomerDtos();
             return View(customers);
         }
 

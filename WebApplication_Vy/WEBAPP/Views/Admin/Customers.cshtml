@@ -1,7 +1,7 @@
 ﻿@model List<DAL.DTO.CustomerDto>
 
 @{
-    ViewBag.Title = "Customer";
+    ViewBag.Title = "Customers";
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
 }
 
@@ -35,13 +35,13 @@
                             <td class="text-center">
                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#edit@(c.Id)">Edit</button> |
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#details@(c.Id)">Details</button> |
-                                @if (c.Tickets.Count() > 1)
+                                @if (c.Tickets.Count() >= 1)
                                 {
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-id="@c.Id" data-target="#delete">Delete</button>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-id="@c.Id" data-target="#cantdelete">Delete</button>
                                 }
                                 else
                                 {
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-id="@c.Id" data-target="#cantdelete">Delete</button>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-id="@c.Id" data-target="#delete">Delete</button>
                                 }
 
 
@@ -60,7 +60,7 @@
                                         <form action="/admin/updatecustomer" method="post">
                                             @Html.AntiForgeryToken()
                                             <div class="modal-body ml-1 mr-2">
-                                                @Html.HiddenFor(model => c.Id)
+                                                @Html.HiddenFor(model => c.Id, new { id = "" })
                                                 <div id="name" class="mt-2">
                                                     <div class="row">
                                                         <div class="col-12 p-0">
@@ -193,7 +193,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="cantDelete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="cantdelete" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
