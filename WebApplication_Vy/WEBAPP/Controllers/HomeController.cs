@@ -17,11 +17,11 @@ namespace WebApplication_Vy.Controllers
     public class HomeController : Controller
     {
         private static readonly ILog Log = LogHelper.GetLogger();
+        
         private readonly IStationService _stationService;
-
         private readonly IVyService _vyService;
         private readonly IZipSearchService _zipSearchService;
-
+        
         public HomeController(
             IVyService vyService,
             IZipSearchService zipSearchService,
@@ -32,10 +32,9 @@ namespace WebApplication_Vy.Controllers
             _zipSearchService = zipSearchService;
             _stationService = stationService;
 
-            var db = new VyDbContext();
-            db.Database.Initialize(true);
+            
         }
-
+        
         public ActionResult Index()
         {
             if(Session["AdminLogin"] == null)
@@ -47,6 +46,7 @@ namespace WebApplication_Vy.Controllers
             Session["ChosenTrips"] = new List<TripDTO>();
             return View();
         }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
