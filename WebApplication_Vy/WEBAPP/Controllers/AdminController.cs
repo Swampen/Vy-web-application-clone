@@ -69,7 +69,6 @@ namespace WebApplication_Vy.Controllers
         public ActionResult Customers()
         {
             var customers = _customerService.getAllCustomerDtos();
-            ViewBag.updatedCustomer = false;
             return View(customers);
         }
 
@@ -88,10 +87,10 @@ namespace WebApplication_Vy.Controllers
             return View("Customers", customers);
         }
 
-        public ActionResult DeleteCustomer(int id)
+        public ActionResult DeleteCustomer(int customerId)
         {
-            var customers = _customerService.getAllCustomerDtos();
-            return View(customers);
+            ViewBag.deleted = _customerService.deleteCustomer(customerId);
+            return RedirectToAction("Customers");
         }
     }
 }

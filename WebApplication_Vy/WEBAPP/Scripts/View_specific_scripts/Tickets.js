@@ -28,23 +28,6 @@
         row.next().slideToggle()
     });
 
-    $("#table").on("click", "#paymentDetails", function () {
-        id = $(this).val();
-        console.log("this" + id);
-        $.ajax({
-            url: "/home/GetPaymentDetails",
-            type: "POST",
-            data: JSON.stringify(id),
-            contentType: "application/json;charset=utf-8",
-            success: function (data) {
-                console.log(data);
-            },
-            error: function (x, y, z) {
-                alert(x + '\n' + y + '\n' + z);
-            }
-        });
-    });
-
     $('#delete').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var id = button[0].id;

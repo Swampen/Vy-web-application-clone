@@ -35,6 +35,11 @@ namespace BLL.Service.Implementation
             return customersDtos;
         }
 
+        public bool deleteCustomer(int id)
+        {
+            return _customerRepository.deleteCustomer(id);
+        }
+
         private CustomerDto MapCustomerDto(Customer entity)
         {
             return new CustomerDto
@@ -76,5 +81,6 @@ namespace BLL.Service.Implementation
             var mapper = new Mapper(config);
             return mapper.Map<Zipcode>(dto);
         }
+
     }
 }

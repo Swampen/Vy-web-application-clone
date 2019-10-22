@@ -42,6 +42,7 @@ namespace DAL.Db.Repositories.Implementation
             }
             else
             {
+                Log.Error(LogEventPrefixes.DATABASE_ERROR + "Could not find customer to update with ID: " + innCustomer.Id);
                 return false;
             }
         }
@@ -68,6 +69,7 @@ namespace DAL.Db.Repositories.Implementation
             }
             else
             {
+                Log.Error(LogEventPrefixes.DATABASE_ERROR + "Could not find customer to delete with ID: " + customerId);
                 return false;
             }
 

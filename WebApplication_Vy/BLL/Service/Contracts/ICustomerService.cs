@@ -8,5 +8,8 @@ namespace BLL.Service.Contracts
         List<CustomerDto> getAllCustomerDtos();
 
         bool updateCustomer(CustomerDto customer);
+
+        bool deleteCustomer(int id);
+
     }
 }
