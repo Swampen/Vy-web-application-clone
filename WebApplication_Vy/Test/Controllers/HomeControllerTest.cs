@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using BLL.Service.Contracts;
+using DAL.DTO;
 using DAL.DTO.TripData;
 using Moq;
 using NUnit.Framework;
@@ -56,7 +57,7 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void Index_HaveRoundTripsShouldBeFalse()
+        public void Index_POST_HaveRoundTripsShouldBeFalse()
         {
             //Act
             var actionResult = _homeController.Index();
@@ -67,7 +68,7 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void Index_invalidModelState_shouldReturnIndex()
+        public void Index_POST_invalidModelState_shouldReturnIndex()
         {
             //Arrange
             _homeController.ModelState.AddModelError("test", "test");
@@ -84,7 +85,7 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void Index_shouldReturnIndex()
+        public void Index_POST_shouldReturnIndex()
         {
             //Arrange
             var controller = new HomeController(null, null, null);
@@ -105,7 +106,7 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void Index_shouldReturnTrips()
+        public void Index_POST_shouldReturnTrips()
         {
             //Arrange
             var tripQueryDto = new TripQueryDTO();
@@ -120,7 +121,7 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void Trips_sessionChoosenTripsShouldNotBeNull()
+        public void Trips_POST_sessionChoosenTripsShouldNotBeNull()
         {
             //Arrrange
             var tripDto = new TripDTO();
@@ -135,7 +136,7 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void Trips_sessionToTripShouldBeNull()
+        public void Trips_POST_sessionToTripShouldBeNull()
         {
             //Arrrange
             var tripDto = new TripDTO();
@@ -150,7 +151,7 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void Trips_shouldReturnCustomerDetailsView()
+        public void Trips_POST_shouldReturnCustomerDetailsView()
         {
             //Arrrange
             var tripDto = new TripDTO();
@@ -167,7 +168,7 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void Trips_shouldReturnTripsView()
+        public void Trips_POST_shouldReturnTripsView()
         {
             //Arrrange
             var tripDto = new TripDTO();
@@ -176,6 +177,48 @@ namespace Test.Controllers
 
             //Act
             var actionResult = _homeController.Trips(tripDto);
+            var viewResult = actionResult as ViewResult;
+
+            //Assert
+            Assert.AreEqual("", viewResult.ViewName);
+        }
+
+        [Test]
+        public void Trips_GET_shouldReturnTripsView()
+        {
+            //Arrrange
+            var tripQueryDto = new TripQueryDTO();
+
+            //Act
+            var actionResult = _homeController.Trips(tripQueryDto);
+            var viewResult = actionResult as ViewResult;
+
+            //Assert
+            Assert.AreEqual("", viewResult.ViewName);
+        }
+
+        [Test]
+        public void Trips_GET_sessionChosenTripsShouldNotBeNull()
+        {
+            //Arrrange
+            var tripQueryDto = new TripQueryDTO();
+
+            //Act
+           _homeController.Trips(tripQueryDto);
+
+            //Assert
+            Assert.IsInstanceOf<System.Collections.Generic.List<TripDTO>>(_homeController.Session["ChosenTrips"]);
+        } 
+        
+        [Test]
+        public void RegisterTicket_shouldReturnCustomerDetailsView()
+        {
+            //Arrange
+            _homeController.ModelState.AddModelError("test", "test");
+            SubmitPurchaseDto submitPurchaseDto = new SubmitPurchaseDto();
+            
+            //Act
+            var actionResult = _homeController.RegisterTicket(submitPurchaseDto);
             var viewResult = actionResult as ViewResult;
 
             //Assert
