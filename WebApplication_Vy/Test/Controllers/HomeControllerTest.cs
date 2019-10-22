@@ -229,15 +229,20 @@ namespace Test.Controllers
         public void RegisterTicket_shouldRedirectToIndex()
         {
             //Arrange
-           // var vyService = new Mock<>();            
+            var vyService = VyServiceMock.CreateTicketMock();
+            _homeController = new HomeController(vyService, null, null);
             SubmitPurchaseDto submitPurchaseDto = new SubmitPurchaseDto();
-            
+            submitPurchaseDto.ReturnTripTicket = new TicketDto();
+            submitPurchaseDto.TripTicket = new TicketDto();
+            submitPurchaseDto.TripTicket.Customer = new CustomerDto();
+            submitPurchaseDto.TripTicket.CreditCard = new CardDto();
+            submitPurchaseDto.ReturnTripTicket.ArrivalStation = "test";
+
             //Act
-            var actionResult = _homeController.RegisterTicket(submitPurchaseDto);
-            var viewResult = actionResult as ViewResult;
+            var actionResult = (RedirectToRouteResult)_homeController.RegisterTicket(submitPurchaseDto);
 
             //Assert
-           // Assert.AreEqual("Index", actionResult.ToString());
+            Assert.AreEqual("Index", actionResult.RouteValues["action"]);
         }
     }
 }
