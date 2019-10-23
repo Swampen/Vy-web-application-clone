@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.ModelBinding;
 using DAL.Db.Repositories.Contracts;
 using log4net;
 using MODEL.Models;
@@ -15,12 +16,21 @@ namespace DAL.Db.Repositories.Implementation
 
         public bool UserInDB(string username, string hashedPassword)
         {
+            
+            AdminUser user = null;
             using (var db = new VyDbContext())
             {
-                var user = db.AdminUsers.FirstOrDefault(admin => admin.UserName.Equals(username) && admin.Password.Equals(hashedPassword));
+                user = db.AdminUsers.First(admin => admin.UserName == username && admin.Password == hashedPassword);
                 
-                return user != null;
+                Console.Write(user.ToString());
+
+                if (user != null)
+                {
+                    return true;
+                }
             }
+
+            return false;
         }
 
 

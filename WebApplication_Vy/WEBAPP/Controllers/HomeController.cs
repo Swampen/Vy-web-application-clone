@@ -153,62 +153,7 @@ namespace WebApplication_Vy.Controllers
             var serializer = new JavaScriptSerializer();
             return serializer.Serialize(_stationService.getAllKeyValueStations());
         }
-
-        public ActionResult ConfirmLogin()
-        {
-
-            //Only used for testing, remove later
-            String Username = "admin";
-            String Password = "admin";
-
-            //Sjekker om credentials er valid
-            bool match = CheckCredentials(Username, Password);
-
-            //hvis riktig sett AdminLogin til true og refresh
-            if (match)
-            {
-                Session["AdminLogin"] = true;
-                return Redirect(Request.UrlReferrer.ToString());
-            }
-            else
-            {
-                //TODO: fyll inn dette løpet
-                return Redirect(Request.UrlReferrer.ToString());
-            }
-
-        }
-
         
-
-        public bool CheckCredentials(String Username, String Password)
-        {
-
-            //Denne metoden skal sjekke oppgitt brukernavn og passord opp mot database og return true om det er en match
-            //Passordet her vil måtte kjøre igjennom hasj metoden
-            //Vil ta in en LoginDTO istedet
-
-            /* 
-             List<Admins> admins = GetAllAdmins();
-             String hash = ComputeHash(in.Password);
-
-            foreach(a in admins){
-                if(in.Username == a.Username){
-                    if(hash == a.Password){
-                        return true;
-                    }
-                }
-            }
-            return false;
-             */
-
-            //Brukes til å teste andre ting ordentlig metode over i kommentarer
-            if (Username == "admin" && Password == "admin")
-            {
-                return true;
-            }
-            else return false;
-        }
-
         [HttpPost]
         public ActionResult Login(AdminUserDTO adminUserDTO)
         {
@@ -227,10 +172,11 @@ namespace WebApplication_Vy.Controllers
             }
             else
             {
+                ModelState.AddModelError("", "Wrong username or password");
                 Session["Auth"] = false;
                 Session["SuperAdmin"] = false;
                 Console.WriteLine("login failed");
-                return RedirectToAction("Index");
+                return null;
             }
         }
         [HttpPost]
