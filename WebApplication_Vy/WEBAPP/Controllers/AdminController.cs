@@ -15,21 +15,18 @@ namespace WebApplication_Vy.Controllers
     {
         private static readonly ILog Log = LogHelper.GetLogger();
         private readonly IStationService _stationService;
-        private readonly ICustomerService _customerService;
         private readonly IVyService _vyService;
         private readonly ILoginService _loginService;
 
         public AdminController(
             IVyService vyService,
             IStationService stationService,
-            ILoginService loginService,
-            ICustomerService customerService
+            ILoginService loginService
         )
         {
             _vyService = vyService;
             _stationService = stationService;
             _loginService = loginService;
-            _customerService = customerService;
 
             var db = new VyDbContext();
             db.Database.Initialize(true);
@@ -47,18 +44,18 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-        //    var session = (bool)Session["Auth"];
-        //    if (session)
-        //    {
+            var session = (bool)Session["Auth"];
+            if (session)
+            {
                 var customers = _vyService.GetCustomerDtos();
                 customers.ForEach(dto =>
                 {
                     dto.Tickets.ForEach(ticketDto => { _vyService.MaskCreditCardNumber(ticketDto.CreditCard); });
                 });
                 return View(customers);
-            //}
+            }
 
-            //return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult DeleteTicket(int ticketId)
@@ -69,7 +66,7 @@ namespace WebApplication_Vy.Controllers
                 var success = _vyService.DeleteTicket(ticketId);
                 return RedirectToAction("Tickets");
             }
-            return Redirect("http://localhost:5000/");
+            return RedirectToAction("index", "home");
         }
 
         public ActionResult Stations()
@@ -87,6 +84,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Customers()
         {
+            Session["SuperUser"] = true;
             var customers = _vyService.GetCustomerDtos();
             return View(customers);
         }
@@ -97,18 +95,18 @@ namespace WebApplication_Vy.Controllers
 
             if (ModelState.IsValid)
             {
-                if (_customerService.updateCustomer(c))
+                if (_vyService.UpdateCustomer(c))
                 {
                     return RedirectToAction("Customers");
                 }
             }
-            var customers = _customerService.getAllCustomerDtos();
+            var customers = _vyService.GetCustomerDtos();
             return View("Customers", customers);
         }
 
         public ActionResult DeleteCustomer(int customerId)
         {
-            ViewBag.deleted = _customerService.deleteCustomer(customerId);
+            _vyService.DeleteCustomer(customerId);
             return RedirectToAction("Customers");
         }
 
@@ -116,29 +114,30 @@ namespace WebApplication_Vy.Controllers
         {
             Session["Auth"] = false;
             Console.WriteLine("Logout");
-            return Redirect("http://localhost:5000");
+            return RedirectToAction("index", "home");
+        }
+
+        public ActionResult Admins()
+        {
+            var admins = _loginService.GetAllAdmins();
+            return View(admins);
         }
 
         public ActionResult RegisterNewAdmin(AdminUserDTO adminUserDto)
         {
             try
             {
-                var session = (bool)Session["Auth"];
-                if (session)
-                {
-                    var superUser = (bool)Session["SuperUser"];
-                    if (superUser)
-                    {
-                        var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
-                            adminUserDto.Password, "ADMINISTRATOR");
-                        if (UserCreated)
-                        {
-                            return Redirect(Request.UrlReferrer.ToString());
-                        }
-                    }
-                    return Redirect(Request.UrlReferrer.ToString());
-                }
 
+                var superUser = (bool)Session["SuperUser"];
+                if (superUser)
+                {
+                    var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
+                        adminUserDto.Password, "ADMINISTRATOR");
+                    if (UserCreated)
+                    {
+                        return Redirect(Request.UrlReferrer.ToString());
+                    }
+                }
                 return Redirect(Request.UrlReferrer.ToString());
             }
             catch (Exception error)

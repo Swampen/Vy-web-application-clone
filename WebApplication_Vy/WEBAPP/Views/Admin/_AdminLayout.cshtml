@@ -30,10 +30,10 @@
                 <li class="nav-item @(ViewBag.Title == "Logs" ? "bg-secondary" : "")">
                     @Html.ActionLink("Logs", "logs", "admin", null, new { @class = "nav-link text-white" })
                 </li>
-                @if (Session["SuperAdmin"] != null && (bool)Session["SuperAdmin"])
+                @if (Session["SuperUser"] != null && (bool)Session["SuperUser"])
                 {
                     <li class="nav-item @(ViewBag.Title == "Admins" ? "bg-secondary" : "")">
-                        @Html.ActionLink("Register", "RegisterNewAdmin", "admin", null, new { @class = "nav-link text-white" })
+                        @Html.ActionLink("Admins", "admin", "admin", null, new { @class = "nav-link text-white" })
                     </li>
                 }
             </ul>

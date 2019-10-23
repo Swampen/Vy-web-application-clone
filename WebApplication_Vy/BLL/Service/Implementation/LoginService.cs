@@ -114,6 +114,7 @@ namespace BLL.Service.Implementation
         {
             return new AdminUserDTO
             {
+                Id = admin.Id,
                 Username = admin.UserName,
                 SuperAdmin = admin.SuperAdmin
             };

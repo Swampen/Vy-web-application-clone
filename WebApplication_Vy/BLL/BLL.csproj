@@ -60,7 +60,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Contracts\IAuthService.cs" />
     <Compile Include="Service\Contracts\ICreditCardService.cs" />
-    <Compile Include="Service\Contracts\ICustomerService.cs" />
     <Compile Include="Service\Contracts\ILoginService.cs" />
     <Compile Include="Service\Contracts\IStationService.cs" />
     <Compile Include="Service\Contracts\IVyService.cs" />
@@ -68,7 +67,6 @@
     <Compile Include="Service\Implementation\AuthService.cs" />
     <Compile Include="Service\Implementation\CreditCardServiceImpl.cs" />
     <Compile Include="Service\Implementation\JWTService.cs" />
-    <Compile Include="Service\Implementation\CustomerServiceImpl.cs" />
     <Compile Include="Service\Implementation\LoginService.cs" />
     <Compile Include="Service\Implementation\StationServiceImpl.cs" />
     <Compile Include="Service\Implementation\VyServiceImpl.cs" />

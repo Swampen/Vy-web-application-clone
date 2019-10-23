@@ -9,6 +9,10 @@ namespace BLL.Service.Contracts
 
         List<TicketDto> GetTicketDtos();
 
+        bool UpdateCustomer(CustomerDto customer);
+
+        bool DeleteCustomer(int id);
+
         bool CreateTicket(TicketDto ticketDto);
 
         bool DeleteTicket(int ticketId);

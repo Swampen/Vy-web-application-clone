@@ -12,10 +12,13 @@ namespace BLL.Service.Implementation
     public class VyServiceImpl : IVyService
     {
         private readonly IVyRepository _vyRepository;
+        private readonly ICustomerRepository _customerRepository;
 
-        public VyServiceImpl(IVyRepository vyRepository)
+
+        public VyServiceImpl(IVyRepository vyRepository, ICustomerRepository customerRepository)
         {
             _vyRepository = vyRepository;
+            _customerRepository = customerRepository;
         }
 
         public void MaskCreditCardNumber(CardDto cardDto)
@@ -161,6 +164,16 @@ namespace BLL.Service.Implementation
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<ZipcodeDto, Zipcode>(); });
             var mapper = new Mapper(config);
             return mapper.Map<Zipcode>(dto);
+        }
+
+        public bool UpdateCustomer(CustomerDto customer)
+        {
+            return _customerRepository.updateCustomer(MapCustomerEntity(customer));
+        }
+
+        public bool DeleteCustomer(int id)
+        {
+            return _customerRepository.deleteCustomer(id);
         }
     }
 }
