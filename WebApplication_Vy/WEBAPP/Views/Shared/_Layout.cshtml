@@ -61,18 +61,30 @@
                     </button>
                 </div>
                 <form action="/home/login" method="post">
+                    @Html.AntiForgeryToken()
                     <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                @if (TempData["error"] != null)
+                                {
+                                    <p class="text-danger">@TempData["error"]</p>
+                                }
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col">
-                                <input type="text" name="UserName" placeholder="Username" class="form-control w-75" required />
-                                <div class="invalid-feedback">Please fillout username</div>
+                                @Html.Label("Username", htmlAttributes: new { @class = "control-label" })
+                                @Html.Editor("Username", new { htmlAttributes = new { required="required", placeholder = "Username", @class = "form-control" } })
+                                @Html.ValidationMessage("Username", "", new { @class = "text-danger" })
+
                             </div>
                         </div>
                         <div class="row mt-2">
                             <div class="col">
-                                <input type="password" name="Password" placeholder="Password" class="form-control w-75" required />
-                                <div class="invalid-feedback">Please fillout password</div>
+                                @Html.Label("Password", htmlAttributes: new { type = "password", @class = "control-label" })
+                                @Html.Editor("Password", new { htmlAttributes = new { required="required", type = "password", placeholder = "Password", @class = "form-control" } })
+                                @Html.ValidationMessage("Password", "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -93,5 +105,13 @@
             <p>&copy; @DateTime.Now.2019 - Vy</p>
         </footer>
     </div>
+
+    @if (TempData["error"] != null)
+    {
+        <script type="text/javascript">
+            $("#login").modal("show")
+        </script>
+    }
+
 </body>
 </html>

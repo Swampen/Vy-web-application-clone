@@ -54,6 +54,7 @@
                     </button>
                 </div>
                 <form action="/admin/UpdateStation" method="POST">
+                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <input id="nameInput" placeholder="New name" name="Name" class="form-control" />
                         <input hidden value="" id="changeStationId" name="Id" />

@@ -7,7 +7,7 @@ namespace DAL.DTO
     {
         public int Id{ get; set; }
 
-        [Required(ErrorMessage = "Please fill in your email address")]
+        [Required(ErrorMessage = "Please fill in your username")]
         public string Username { get; set; }
         
         [Required(ErrorMessage = "Please enter your password")]

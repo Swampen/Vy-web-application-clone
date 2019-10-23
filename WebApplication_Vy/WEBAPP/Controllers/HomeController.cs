@@ -86,6 +86,7 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
             var haveRoundTrip = (bool) Session["HaveRoundTrip"];
@@ -157,10 +158,10 @@ namespace WebApplication_Vy.Controllers
         }
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(AdminUserDTO adminUserDTO)
         {
             var login = _loginService.Login(adminUserDTO);
-            Console.WriteLine(login);
             if (login)
             {
                 Session["Auth"] = true;
@@ -174,27 +175,11 @@ namespace WebApplication_Vy.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Wrong username or password");
+                TempData["error"] = "Wrong username or password";
                 Session["Auth"] = false;
                 Session["SuperAdmin"] = false;
-                Console.WriteLine("login failed");
                 return RedirectToAction("index");
             }
         }
-//        [HttpPost]
-//        public ActionResult Registrer(string Username, string Password, string SecretAdminPassword)
-//        {
-//            
-//            if (_loginService.RegisterAdminUser(Username, Password, SecretAdminPassword))
-//            {
-//                Session["Auth"] = true;
-//                return Redirect("http://localhost:5000/admin");
-//            }
-//            else
-//            {
-//                Session["Auth"] = false;
-//                return RedirectToAction("Index");
-//            }
-//        }
     }
 }

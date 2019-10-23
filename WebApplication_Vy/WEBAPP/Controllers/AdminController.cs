@@ -58,6 +58,7 @@ namespace WebApplication_Vy.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteTicket(int ticketId)
         {
             var session = (bool)Session["Auth"];
@@ -76,6 +77,7 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UpdateStation(StationDTO station)
         {
             var success = _vyService.ChangeStation(station);
@@ -90,6 +92,7 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UpdateCustomer(CustomerDto c)
         {
 
@@ -104,6 +107,8 @@ namespace WebApplication_Vy.Controllers
             return View("Customers", customers);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteCustomer(int customerId)
         {
             _vyService.DeleteCustomer(customerId);
@@ -113,9 +118,9 @@ namespace WebApplication_Vy.Controllers
         public ActionResult Logout()
         {
             Session["Auth"] = false;
-            Console.WriteLine("Logout");
             return RedirectToAction("index", "home");
         }
+
 
         public ActionResult Admins()
         {
@@ -123,6 +128,7 @@ namespace WebApplication_Vy.Controllers
             return View(admins);
         }
 
+        [ValidateAntiForgeryToken]
         public ActionResult RegisterNewAdmin(AdminUserDTO adminUserDto)
         {
             try
