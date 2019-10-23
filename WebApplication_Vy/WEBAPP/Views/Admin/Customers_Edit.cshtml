@@ -1,0 +1,89 @@
+﻿@model DAL.DTO.CustomerDto
+
+<td class="modal fade" id="edit@(Model.Id)" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Editing @Model.Email</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/admin/updatecustomer" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-body ml-1 mr-2">
+                    @Html.HiddenFor(model => Model.Id, new { id = "" })
+                    <div id="name" class="mt-2">
+                        <div class="row">
+                            <div class="col-12 p-0">
+                                @Html.LabelFor(model => Model.Givenname, new { @class = "control-label" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6 p-0">
+                                @Html.EditorFor(model => Model.Givenname, new { htmlAttributes = new { id = "", placeholder = "Given name", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => Model.Givenname, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-12 col-md-6 p-0">
+                                @Html.EditorFor(model => Model.Surname, new { htmlAttributes = new { id = "", placeholder = "Surname", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => Model.Surname, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--End name-->
+                    <!--Email-->
+                    <div id="email" class="mt-2">
+                        <div class="row">
+                            <div class="col p-0">
+                                @Html.LabelFor(model => Model.Email, new { @class = "control-label" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col p-0">
+                                @Html.EditorFor(model => Model.Email, new { htmlAttributes = new { id = "", placeholder = "example@email.com", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => Model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--End email-->
+                    <!--Address-->
+                    <div id="address" class="mt-2">
+                        <div class="row">
+                            <div class="col p-0">
+                                @Html.LabelFor(model => Model.Address, new { @class = "control-label" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col p-0">
+                                @Html.EditorFor(model => Model.Address, new { htmlAttributes = new { id = "", placeholder = "Street address", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => Model.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--End address-->
+                    <!--Postalcode-->
+                    <div id="post" class="mt-2">
+                        <div class="row">
+                            <div class="col p-0">
+                                @Html.LabelFor(model => Model.Zipcode.Postalcode, new { @class = "control-label" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-4 p-0">
+                                @Html.EditorFor(model => Model.Zipcode.Postalcode, new { htmlAttributes = new { placeholder = "Zipcode", id = "", @class = "postalcode form-control", data_id = @Model.Id } })
+                            </div>
+                            <div class="col-12 col-md-8 p-0">
+                                <input id="postaltown@(Model.Id)" class="form-control" disabled />
+                            </div>
+                            @Html.ValidationMessageFor(model => Model.Zipcode.Postalcode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</td>
