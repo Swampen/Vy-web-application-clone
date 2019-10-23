@@ -18,7 +18,7 @@ namespace WebApplication_Vy.Controllers
         private readonly ICustomerService _customerService;
         private readonly IVyService _vyService;
         private readonly ILoginService _loginService;
-        
+
         public AdminController(
             IVyService vyService,
             IStationService stationService,
@@ -42,23 +42,23 @@ namespace WebApplication_Vy.Controllers
             {
                 return View();
             }
-            return Redirect("http://localhost:5000/");
+            return RedirectToAction("index", "home");
         }
 
         public ActionResult Tickets()
         {
-            var session = (bool)Session["Auth"];
-            if (session)
-            {
+        //    var session = (bool)Session["Auth"];
+        //    if (session)
+        //    {
                 var customers = _vyService.GetCustomerDtos();
                 customers.ForEach(dto =>
                 {
                     dto.Tickets.ForEach(ticketDto => { _vyService.MaskCreditCardNumber(ticketDto.CreditCard); });
                 });
                 return View(customers);
-            }
+            //}
 
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "Home");
         }
 
         public ActionResult DeleteTicket(int ticketId)
@@ -94,7 +94,7 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult UpdateCustomer(CustomerDto c)
         {
-          
+
             if (ModelState.IsValid)
             {
                 if (_customerService.updateCustomer(c))
@@ -126,7 +126,7 @@ namespace WebApplication_Vy.Controllers
                 var session = (bool)Session["Auth"];
                 if (session)
                 {
-                    var superUser = (bool) Session["SuperUser"];
+                    var superUser = (bool)Session["SuperUser"];
                     if (superUser)
                     {
                         var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,

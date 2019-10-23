@@ -40,9 +40,9 @@ namespace WebApplication_Vy.Controllers
         
         public ActionResult Index()
         {
-            if(Session["AdminLogin"] == null)
+            if(Session["Auth"] == null)
             {
-                Session["AdminLogin"] = false;
+                Session["Auth"] = false;
             }
             Log.Info("Application started, log4net running.....");
             Session["HaveRoundTrip"] = false;

@@ -11,12 +11,18 @@
             </div>
             <div class="modal-body" id="info@(Model.Id)">
                 <div class="row">
+                    <div class="col-2 font-weight-bold">
+                        @Html.LabelFor(model => Model.Givenname, new { @class = "control-label" })
+                    </div>
                     <div class="col">
                         @Model.Givenname @Model.Surname
                     </div>
                 </div>
                 <hr />
                 <div class="row">
+                    <div class="col-2 font-weight-bold">
+                        @Html.LabelFor(model => model.Address, new { @class = "control-label" })
+                    </div>
                     <div class="col">
                         @Model.Address, <br />
                         @Model.Zipcode.Postalcode @Model.Zipcode.Postaltown

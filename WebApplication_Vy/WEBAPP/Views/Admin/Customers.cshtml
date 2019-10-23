@@ -47,9 +47,9 @@
 
                             </td>
 
-                            @Html.Partial("Customer_Edit", c)
+                            @Html.Partial("Customers_Edit", c)
 
-                            @Html.Partial("Customer_Details", c)
+                            @Html.Partial("Customers_Details", c)
                         </tr>
                     }
                 </tbody>
@@ -87,7 +87,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    You have to delete the tickets for this customer first
+                    <p class="border-bottom border-danger">
+                        You have to delete the tickets for this customer first
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
