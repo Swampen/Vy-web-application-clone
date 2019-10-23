@@ -18,14 +18,20 @@ namespace WebApplication_Vy.Controllers
         private readonly ICustomerService _customerService;
         private readonly IVyService _vyService;
 
+        private readonly ILoginService _loginService;
+        
         public AdminController(
             IVyService vyService,
+            IZipSearchService zipSearchService,
+            IStationService stationService,
+            ILoginService loginService
             IStationService stationService,
             ICustomerService customerService
         )
         {
             _vyService = vyService;
             _stationService = stationService;
+            _loginService = loginService;
             _customerService = customerService;
 
             var db = new VyDbContext();
@@ -34,23 +40,39 @@ namespace WebApplication_Vy.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
+            var session = (bool)Session["Auth"];
+            if (session)
+            {
+                return View();
+            }
+            return Redirect("http://localhost:5000/");
         }
 
         public ActionResult Tickets()
         {
-            var customers = _vyService.GetCustomerDtos();
-            customers.ForEach(dto =>
+            var session = (bool)Session["Auth"];
+            if (session)
             {
-                dto.Tickets.ForEach(ticketDto => { _vyService.MaskCreditCardNumber(ticketDto.CreditCard); });
-            });
-            return View(customers);
+                var customers = _vyService.GetCustomerDtos();
+                customers.ForEach(dto =>
+                {
+                    dto.Tickets.ForEach(ticketDto => { _vyService.MaskCreditCardNumber(ticketDto.CreditCard); });
+                });
+                return View(customers);
+            }
+
+            return Redirect("http://localhost:5000/");
         }
 
         public ActionResult DeleteTicket(int ticketId)
         {
-            var success = _vyService.DeleteTicket(ticketId);
-            return RedirectToAction("Tickets");
+            var session = (bool)Session["Auth"];
+            if (session)
+            {
+                var success = _vyService.DeleteTicket(ticketId);
+                return RedirectToAction("Tickets");
+            }
+            return Redirect("http://localhost:5000/");
         }
 
         public ActionResult Stations()
@@ -91,6 +113,42 @@ namespace WebApplication_Vy.Controllers
         {
             ViewBag.deleted = _customerService.deleteCustomer(customerId);
             return RedirectToAction("Customers");
+        }
+
+        public ActionResult Logout()
+        {
+            Session["Auth"] = false;
+            Console.WriteLine("Logout");
+            return Redirect("http://localhost:5000");
+        }
+
+        public ActionResult RegisterNewAdmin(AdminUserDTO adminUserDto)
+        {
+            try
+            {
+                var session = (bool)Session["Auth"];
+                if (session)
+                {
+                    var superUser = (bool) Session["SuperUser"];
+                    if (superUser)
+                    {
+                        var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
+                            adminUserDto.Password, "ADMINISTRATOR");
+                        if (UserCreated)
+                        {
+                            return Redirect(Request.UrlReferrer.ToString());
+                        }
+                    }
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
+
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine(error);
+                throw;
+            }
         }
     }
 }

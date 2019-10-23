@@ -18,6 +18,7 @@ namespace WebApplication_Vy
             container.RegisterType<IVyRepository, VyRepositoryImpl>();
             container.RegisterType<ICreditCardRepository, CreditCardRepositoryImpl>();
             container.RegisterType<IStationRepository, StationRepositoryImpl>();
+            container.RegisterType<ILoginRepository, LoginRepositoryImpl>();
             container.RegisterType<ICustomerRepository, CustomerRepositoryImpl>();
             
             //Services
@@ -26,6 +27,7 @@ namespace WebApplication_Vy
             container.RegisterType<ICreditCardService, CreditCardServiceImpl>();
             container.RegisterType<IStationService, StationServiceImpl>();
             container.RegisterType<ICustomerService, CustomerServiceImpl>();
+            container.RegisterType<ILoginService, LoginService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

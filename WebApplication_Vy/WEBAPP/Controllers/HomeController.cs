@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -21,16 +21,19 @@ namespace WebApplication_Vy.Controllers
         private readonly IStationService _stationService;
         private readonly IVyService _vyService;
         private readonly IZipSearchService _zipSearchService;
-        
+        private readonly ILoginService _loginService;
+
         public HomeController(
             IVyService vyService,
             IZipSearchService zipSearchService,
-            IStationService stationService
+            IStationService stationService,
+            ILoginService loginService
         )
         {
             _vyService = vyService;
             _zipSearchService = zipSearchService;
             _stationService = stationService;
+            _loginService = loginService;
 
             
         }
@@ -152,60 +155,46 @@ namespace WebApplication_Vy.Controllers
             var serializer = new JavaScriptSerializer();
             return serializer.Serialize(_stationService.getAllKeyValueStations());
         }
-
-        public ActionResult ConfirmLogin()
+        
+        [HttpPost]
+        public ActionResult Login(AdminUserDTO adminUserDTO)
         {
-
-            //Only used for testing, remove later
-            String Username = "admin";
-            String Password = "admin";
-
-            //Sjekker om credentials er valid
-            bool match = CheckCredentials(Username, Password);
-
-            //hvis riktig sett AdminLogin til true og refresh
-            if (match)
+            var login = _loginService.Login(adminUserDTO.Username, adminUserDTO.Password);
+            Console.WriteLine(login);
+            if (login)
             {
-                Session["AdminLogin"] = true;
-                return Redirect(Request.UrlReferrer.ToString());
+                Session["Auth"] = true;
+                Console.WriteLine("login succeeded");
+                if (adminUserDTO.SuperAdmin)
+                {
+                    Session["SuperAdmin"] = true;
+                }
+                
+                return Redirect("http://localhost:5000/admin");
             }
             else
             {
-                //TODO: fyll inn dette løpet
-                return Redirect(Request.UrlReferrer.ToString());
+                ModelState.AddModelError("", "Wrong username or password");
+                Session["Auth"] = false;
+                Session["SuperAdmin"] = false;
+                Console.WriteLine("login failed");
+                return null;
             }
-
         }
-
-        
-
-        public bool CheckCredentials(String Username, String Password)
+        [HttpPost]
+        public ActionResult Registrer(string Username, string Password, string SecretAdminPassword)
         {
-
-            //Denne metoden skal sjekke oppgitt brukernavn og passord opp mot database og return true om det er en match
-            //Passordet her vil måtte kjøre igjennom hasj metoden
-            //Vil ta in en LoginDTO istedet
-
-            /* 
-             List<Admins> admins = GetAllAdmins();
-             String hash = ComputeHash(in.Password);
-
-            foreach(a in admins){
-                if(in.Username == a.Username){
-                    if(hash == a.Password){
-                        return true;
-                    }
-                }
-            }
-            return false;
-             */
-
-            //Brukes til å teste andre ting ordentlig metode over i kommentarer
-            if (Username == "admin" && Password == "admin")
+            
+            if (_loginService.RegisterAdminUser(Username, Password, SecretAdminPassword))
             {
-                return true;
+                Session["Auth"] = true;
+                return Redirect("http://localhost:5000/admin");
             }
-            else return false;
+            else
+            {
+                Session["Auth"] = false;
+                return RedirectToAction("Index");
+            }
         }
     }
 }

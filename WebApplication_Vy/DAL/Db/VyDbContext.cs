@@ -2,14 +2,18 @@
 using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Web;
 using System.Xml.Linq;
+using MODEL.Models;
 using MODEL.Models.Entities;
+using UTILS.Utils.Auth;
 
 namespace DAL.Db
 {
     public class VyDbContext : DbContext, IDisposable
     {
+        private static HashingFunctionality Hasher = new HashingFunctionality();
         public VyDbContext() : base("name=VyDb")
         {
             Database.SetInitializer(new VyDbInitializer<VyDbContext>());
@@ -20,6 +24,8 @@ namespace DAL.Db
         public DbSet<Zipcode> Zipcodes { get; set; }
         public DbSet<Station> Stations { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
+
+        public DbSet<AdminUser> AdminUsers { get; set; }
 
         public class VyDbInitializer<T> : CreateDatabaseIfNotExists<VyDbContext>
         {
@@ -33,8 +39,8 @@ namespace DAL.Db
                     {
                         context.Zipcodes.Add(new Zipcode
                         {
-                            Postalcode = (string) zipcode.Element("Postalcode"),
-                            Postaltown = (string) zipcode.Element("Postaltown")
+                            Postalcode = (string)zipcode.Element("Postalcode"),
+                            Postaltown = (string)zipcode.Element("Postaltown")
                         });
                     }
                     catch (Exception e)
@@ -43,7 +49,7 @@ namespace DAL.Db
                         Console.WriteLine(e.StackTrace);
                         throw;
                     }
-                
+
                 try
                 {
                     var data = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
@@ -67,10 +73,28 @@ namespace DAL.Db
                     Console.WriteLine(e);
                     throw;
                 }
+
+                try
+                {
+                    string salt = "somthing random";
+                    var hashedPword = Hasher.GenerateSaltedHash(Encoding.UTF8.GetBytes("admin"), Encoding.UTF8.GetBytes(salt)).ToString();
+                    AdminUser superAdmin = new AdminUser
+                    {
+                        UserName = "admin",
+                        Password = hashedPword,
+                        SuperAdmin = true,
+                    };
+                    context.AdminUsers.Add(superAdmin);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
                 base.Seed(context);
             }
         }
 
-       
+
     }
 }
