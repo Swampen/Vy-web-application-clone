@@ -32,7 +32,7 @@
                 <tbody>
                     @foreach (var c in Model)
                     {
-                        <tr data-id="@c.Id">
+                        <tr data-id="@c.Id" class="customer-row">
                             <td>
                                 @c.Email
                             </td>
@@ -40,7 +40,7 @@
                                 @c.Surname
                             </td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tickets@(c.Id)">@c.Tickets.Count() &nbsp;|&nbsp; Details</button>
+                                <button type="button" class="btn btn-primary pt-0 pb-0 -0" data-toggle="modal" data-target="#tickets@(c.Id)">@c.Tickets.Count() &nbsp;|&nbsp; Details</button>
                             </td>
                             @Html.Partial("Tickets_Customer", c)
                         </tr>
@@ -70,5 +70,13 @@
         </div>
     </div>
 </div>
+
+<style>
+    .customer-row:hover{
+        cursor: pointer;
+        background-color: rgb(108, 117, 125) !important;
+        color: white;
+    }
+</style>
 
 

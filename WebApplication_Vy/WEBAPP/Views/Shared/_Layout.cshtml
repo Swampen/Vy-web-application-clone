@@ -39,7 +39,7 @@
             @if (Session["Auth"] != null && (bool)Session["Auth"])
             {
                 <div class="form-inline my-2 my-lg-0 mr-5">
-                    @Html.ActionLink("Logout", "Logout", "admin", null, new { @class = "btn btn-outline-warning nav-link" })
+                    @Html.ActionLink("Logout", "Logout", "admin", null, new { @class = "btn btn-secondary nav-link" })
                 </div>
             }
             else
