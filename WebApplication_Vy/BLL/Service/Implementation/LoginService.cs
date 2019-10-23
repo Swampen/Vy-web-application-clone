@@ -43,12 +43,10 @@ namespace BLL.Service.Implementation
             string salt = "somthing random";
             try
             {
-                 var hashedPassword = GenerateSaltedHash(adminUserDto.Password, 
+                 var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(adminUserDto.Password), 
                          Encoding.UTF8.GetBytes(salt));
-                 
-                 adminUserDto.Password = hashedPassword;
 
-                 AdminUser user = MapAdminUser(adminUserDto);
+                 AdminUser user = MapAdminUser(adminUserDto, hashedPassword);
                  
                  Console.WriteLine(user.ToString());
                  if (_loginRepository.UserInDB(user))
@@ -68,13 +66,12 @@ namespace BLL.Service.Implementation
            
         }
 
-        public AdminUser MapAdminUser(AdminUserDTO adminUserDto)
+        private AdminUser MapAdminUser(AdminUserDTO adminUserDto, byte[] hashedPassword)
         {
             var adminUser = new AdminUser();
             
             adminUser.UserName = adminUserDto.Username;
-            adminUser.Password = adminUserDto.Password;
-            adminUser.Id = adminUserDto.Id;
+            adminUser.Password = hashedPassword;
             adminUser.SuperAdmin = adminUserDto.SuperAdmin;
 
             return adminUser;
@@ -117,9 +114,7 @@ namespace BLL.Service.Implementation
         {
             return new AdminUserDTO
             {
-                Id = admin.Id,
                 Username = admin.UserName,
-                Password = admin.Password,
                 SuperAdmin = admin.SuperAdmin
             };
         }

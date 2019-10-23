@@ -11,7 +11,6 @@ namespace BLL.Service.Contracts
         byte[] GenerateSaltedHash(byte[] plainText, byte[] salt);
         
         bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword);
-        AdminUser MapAdminUser(AdminUserDTO adminUserDto);
         List<AdminUserDTO> GetAllAdmins();
     }
 }    
