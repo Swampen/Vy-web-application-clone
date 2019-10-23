@@ -78,7 +78,7 @@ namespace DAL.Db
                 try
                 {
                     string salt = "somthing random";
-                    var hashedPword = Hasher.GenerateSaltedHash(Encoding.UTF8.GetBytes("admin"), Encoding.UTF8.GetBytes(salt)).ToString();
+                    var hashedPword = Hasher.GenerateSaltedHash(Encoding.UTF8.GetBytes("admin"), Encoding.UTF8.GetBytes(salt));
                     AdminUser superAdmin = new AdminUser
                     {
                         UserName = "admin",

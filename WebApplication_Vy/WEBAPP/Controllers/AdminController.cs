@@ -115,33 +115,33 @@ namespace WebApplication_Vy.Controllers
             return Redirect("http://localhost:5000");
         }
 
-        public ActionResult RegisterNewAdmin(AdminUserDTO adminUserDto)
-        {
-            try
-            {
-                var session = (bool)Session["Auth"];
-                if (session)
-                {
-                    var superUser = (bool) Session["SuperUser"];
-                    if (superUser)
-                    {
-                        var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
-                            adminUserDto.Password, "ADMINISTRATOR");
-                        if (UserCreated)
-                        {
-                            return Redirect(Request.UrlReferrer.ToString());
-                        }
-                    }
-                    return Redirect(Request.UrlReferrer.ToString());
-                }
-
-                return Redirect(Request.UrlReferrer.ToString());
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine(error);
-                throw;
-            }
-        }
+//        public ActionResult RegisterNewAdmin(AdminUserDTO adminUserDto)
+//        {
+//            try
+//            {
+//                var session = (bool)Session["Auth"];
+//                if (session)
+//                {
+//                    var superUser = (bool) Session["SuperUser"];
+//                    if (superUser)
+//                    {
+//                        var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
+//                            adminUserDto.Password, "ADMINISTRATOR");
+//                        if (UserCreated)
+//                        {
+//                            return Redirect(Request.UrlReferrer.ToString());
+//                        }
+//                    }
+//                    return Redirect(Request.UrlReferrer.ToString());
+//                }
+//
+//                return Redirect(Request.UrlReferrer.ToString());
+//            }
+//            catch (Exception error)
+//            {
+//                Console.WriteLine(error);
+//                throw;
+//            }
+//        }
     }
 }

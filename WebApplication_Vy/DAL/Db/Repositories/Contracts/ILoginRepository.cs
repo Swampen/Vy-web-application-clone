@@ -6,7 +6,7 @@ namespace DAL.Db.Repositories.Contracts
     public interface ILoginRepository
     {
 
-        bool UserInDB(string username, string hashedPassword);
+        bool UserInDB(AdminUser adminUser);
 
         bool DoseAdminUserExcist(AdminUser adminUser);
 

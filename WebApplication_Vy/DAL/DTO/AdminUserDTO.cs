@@ -11,7 +11,7 @@ namespace DAL.DTO
         public string Username { get; set; }
         
         [Required(ErrorMessage = "Please enter your password")]
-        public string Password { get; set; }
+        public byte[] Password { get; set; }
         
         public bool SuperAdmin { get; set; }
     }

@@ -14,20 +14,19 @@ namespace DAL.Db.Repositories.Implementation
     {
         private static readonly ILog Log = LogHelper.GetLogger();
 
-        public bool UserInDB(string username, string hashedPassword)
+        public bool UserInDB(AdminUser inAdminUser)
         {
-            
-            AdminUser user = null;
             using (var db = new VyDbContext())
             {
-                user = db.AdminUsers.First(admin => admin.UserName == username && admin.Password == hashedPassword);
-                
-                Console.Write(user.ToString());
+               var query = db.AdminUsers.FirstOrDefault(admin => admin.UserName == inAdminUser.UserName && 
+                           admin.Password == inAdminUser.Password);
 
-                if (user != null)
-                {
-                    return true;
-                }
+               
+               Console.WriteLine(query);
+               if (query != null)
+               {
+                   return true;
+               }
             }
 
             return false;
@@ -46,11 +45,7 @@ namespace DAL.Db.Repositories.Implementation
 
         public bool RegisterAdminUser(AdminUser adminUser)
         { 
-            var user = new AdminUser
-            {
-                UserName = adminUser.UserName,
-                Password = adminUser.Password
-            };
+            
             using (var db = new VyDbContext())
             {
                 var excistingAdmin = db.AdminUsers.FirstOrDefault(admin => admin.UserName.Equals(adminUser.UserName));
@@ -62,7 +57,7 @@ namespace DAL.Db.Repositories.Implementation
                 
                 try
                 {
-                    db.AdminUsers.Add(user);
+                    db.AdminUsers.Add(adminUser);
                     db.SaveChanges();
                     Console.WriteLine("User with username: " + adminUser.UserName);
                     
