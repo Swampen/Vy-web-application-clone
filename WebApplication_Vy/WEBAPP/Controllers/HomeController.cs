@@ -170,7 +170,7 @@ namespace WebApplication_Vy.Controllers
                     Session["SuperAdmin"] = true;
                 }
                 
-                return Redirect("http://localhost:5000/admin");
+                return RedirectToAction("index", "admin");
             }
             else
             {
@@ -178,7 +178,7 @@ namespace WebApplication_Vy.Controllers
                 Session["Auth"] = false;
                 Session["SuperAdmin"] = false;
                 Console.WriteLine("login failed");
-                return null;
+                return RedirectToAction("index");
             }
         }
 //        [HttpPost]

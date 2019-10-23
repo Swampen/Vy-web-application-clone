@@ -183,7 +183,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Views\Admin\Register.cshtml" />
+    <Content Include="Views\Admin\Admins.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\VyDB.mdf" />

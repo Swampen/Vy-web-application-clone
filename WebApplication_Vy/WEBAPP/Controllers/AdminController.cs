@@ -17,12 +17,10 @@ namespace WebApplication_Vy.Controllers
         private readonly IStationService _stationService;
         private readonly ICustomerService _customerService;
         private readonly IVyService _vyService;
-
         private readonly ILoginService _loginService;
         
         public AdminController(
             IVyService vyService,
-            IZipSearchService zipSearchService,
             IStationService stationService,
             ILoginService loginService,
             ICustomerService customerService
