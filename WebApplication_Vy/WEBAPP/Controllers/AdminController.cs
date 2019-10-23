@@ -24,8 +24,7 @@ namespace WebApplication_Vy.Controllers
             IVyService vyService,
             IZipSearchService zipSearchService,
             IStationService stationService,
-            ILoginService loginService
-            IStationService stationService,
+            ILoginService loginService,
             ICustomerService customerService
         )
         {
