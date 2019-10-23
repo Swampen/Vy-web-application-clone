@@ -58,7 +58,7 @@ namespace WebApplication_Vy.Controllers
                 return View(customers);
             }
 
-            return Redirect("http://localhost:5000/");
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult DeleteTicket(int ticketId)
