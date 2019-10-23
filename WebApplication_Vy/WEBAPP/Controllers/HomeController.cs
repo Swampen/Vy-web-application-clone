@@ -159,14 +159,14 @@ namespace WebApplication_Vy.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(AdminUserDTO adminUserDTO)
+        public ActionResult Login(AdminUserDTO adminUserDto)
         {
-            var login = _loginService.Login(adminUserDTO);
+            var login = _loginService.Login(adminUserDto);
             if (login)
             {
                 Session["Auth"] = true;
                 Console.WriteLine("login succeeded");
-                if (adminUserDTO.SuperAdmin)
+                if (_loginService.isSuperAdmin(adminUserDto.Username))
                 {
                     Session["SuperAdmin"] = true;
                 }

@@ -13,5 +13,7 @@ namespace BLL.Service.Contracts
         bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword);
 
         List<AdminUserDTO> GetAllAdmins();
+
+        bool isSuperAdmin(string adminUsername);
     }
 }    

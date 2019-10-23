@@ -54,7 +54,6 @@ namespace WebApplication_Vy.Controllers
                 });
                 return View(customers);
             }
-
             return RedirectToAction("Index", "Home");
         }
 
@@ -133,18 +132,17 @@ namespace WebApplication_Vy.Controllers
         {
             try
             {
-
-                var superUser = (bool)Session["SuperUser"];
+                var superUser = (bool)Session["SuperAdmin"];
                 if (superUser)
                 {
                     var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
                         adminUserDto.Password, "ADMINISTRATOR");
                     if (UserCreated)
                     {
-                        return Redirect(Request.UrlReferrer.ToString());
+                        return RedirectToAction("admins");
                     }
                 }
-                return Redirect(Request.UrlReferrer.ToString());
+                return RedirectToAction("admins");
             }
             catch (Exception error)
             {

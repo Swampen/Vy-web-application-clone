@@ -20,20 +20,20 @@ namespace BLL.Service.Implementation
 
         public byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
         {
-          HashAlgorithm algorithm = new SHA256Managed();
-        
-          byte[] plainTextWithSaltBytes = 
-            new byte[plainText.Length + salt.Length];
-        
-              for (int i = 0; i < plainText.Length; i++)
-              {
+            HashAlgorithm algorithm = new SHA256Managed();
+
+            byte[] plainTextWithSaltBytes =
+              new byte[plainText.Length + salt.Length];
+
+            for (int i = 0; i < plainText.Length; i++)
+            {
                 plainTextWithSaltBytes[i] = plainText[i];
-              }
-              for (int i = 0; i < salt.Length; i++)
-              {
+            }
+            for (int i = 0; i < salt.Length; i++)
+            {
                 plainTextWithSaltBytes[plainText.Length + i] = salt[i];
-              }
-          return algorithm.ComputeHash(plainTextWithSaltBytes);            
+            }
+            return algorithm.ComputeHash(plainTextWithSaltBytes);
         }
 
 
@@ -43,51 +43,46 @@ namespace BLL.Service.Implementation
             string salt = "somthing random";
             try
             {
-                 var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(adminUserDto.Password), 
-                         Encoding.UTF8.GetBytes(salt));
+                var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(adminUserDto.Password),
+                        Encoding.UTF8.GetBytes(salt));
 
-                 AdminUser user = MapAdminUser(adminUserDto, hashedPassword);
-                 
-                 Console.WriteLine(user.ToString());
-                 if (_loginRepository.UserInDB(user))
-                 {
-                     Console.WriteLine("True");
-                     return true;
-                 }
-                 Console.WriteLine("login error in Login");
-                 return false;
+                AdminUser user = MapAdminUser(adminUserDto, hashedPassword);
+
+                if (_loginRepository.UserInDB(user))
+                {
+                    return true;
+                }
+                return false;
             }
             catch (Exception error)
             {
-                Console.Write("cought error here line 63");
                 Console.WriteLine(error);
                 return false;
             }
-           
+
         }
 
         private AdminUser MapAdminUser(AdminUserDTO adminUserDto, byte[] hashedPassword)
         {
             var adminUser = new AdminUser();
-            
+
             adminUser.UserName = adminUserDto.Username;
             adminUser.Password = hashedPassword;
             adminUser.SuperAdmin = adminUserDto.SuperAdmin;
 
             return adminUser;
         }
-        
+
 
         public bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword)
         {
             string salt = "somthing random";
-                
+
             if (SecretAdminPassword.Equals("ADMINISTRATOR"))
             {
                 AdminUser user = new AdminUser();
                 user.Password = (GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)));
                 user.UserName = Username;
-                Console.WriteLine(user.ToString());
                 try
                 {
                     _loginRepository.RegisterAdminUser(user);
@@ -107,7 +102,7 @@ namespace BLL.Service.Implementation
             var adminUserDtos = new List<AdminUserDTO>();
             _loginRepository
                 .FindAllAdminUsers()
-                .ForEach(adminUser => {adminUserDtos.Add(MapUserAdminDto(adminUser)); });
+                .ForEach(adminUser => { adminUserDtos.Add(MapUserAdminDto(adminUser)); });
             return adminUserDtos;
         }
         private AdminUserDTO MapUserAdminDto(AdminUser admin)
@@ -118,6 +113,11 @@ namespace BLL.Service.Implementation
                 Username = admin.UserName,
                 SuperAdmin = admin.SuperAdmin
             };
+        }
+
+        public bool isSuperAdmin(string adminUsername)
+        {
+            return _loginRepository.isSuperAdmin(adminUsername);
         }
     }
 }
