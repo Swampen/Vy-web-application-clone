@@ -159,7 +159,7 @@ namespace WebApplication_Vy.Controllers
         [HttpPost]
         public ActionResult Login(AdminUserDTO adminUserDTO)
         {
-            var login = _loginService.Login(adminUserDTO.Username, adminUserDTO.Password);
+            var login = _loginService.Login(adminUserDTO);
             Console.WriteLine(login);
             if (login)
             {
@@ -181,20 +181,20 @@ namespace WebApplication_Vy.Controllers
                 return null;
             }
         }
-        [HttpPost]
-        public ActionResult Registrer(string Username, string Password, string SecretAdminPassword)
-        {
-            
-            if (_loginService.RegisterAdminUser(Username, Password, SecretAdminPassword))
-            {
-                Session["Auth"] = true;
-                return Redirect("http://localhost:5000/admin");
-            }
-            else
-            {
-                Session["Auth"] = false;
-                return RedirectToAction("Index");
-            }
-        }
+//        [HttpPost]
+//        public ActionResult Registrer(string Username, string Password, string SecretAdminPassword)
+//        {
+//            
+//            if (_loginService.RegisterAdminUser(Username, Password, SecretAdminPassword))
+//            {
+//                Session["Auth"] = true;
+//                return Redirect("http://localhost:5000/admin");
+//            }
+//            else
+//            {
+//                Session["Auth"] = false;
+//                return RedirectToAction("Index");
+//            }
+//        }
     }
 }

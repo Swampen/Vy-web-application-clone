@@ -38,14 +38,18 @@ namespace BLL.Service.Implementation
 
 
 
-        public bool Login(string Username, string Password)
+        public bool Login(AdminUserDTO adminUserDto)
         {
             string salt = "somthing random";
             try
             {
-                 var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt))
-                    .ToString();
-                 if (_loginRepository.UserInDB(Username, hashedPassword))
+                 var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(adminUserDto.Password), 
+                         Encoding.UTF8.GetBytes(salt));
+
+                 AdminUser user = MapAdminUser(adminUserDto, hashedPassword);
+                 
+                 Console.WriteLine(user.ToString());
+                 if (_loginRepository.UserInDB(user))
                  {
                      Console.WriteLine("True");
                      return true;
@@ -55,10 +59,22 @@ namespace BLL.Service.Implementation
             }
             catch (Exception error)
             {
+                Console.Write("cought error here line 63");
                 Console.WriteLine(error);
                 return false;
             }
            
+        }
+
+        private AdminUser MapAdminUser(AdminUserDTO adminUserDto, byte[] hashedPassword)
+        {
+            var adminUser = new AdminUser();
+            
+            adminUser.UserName = adminUserDto.Username;
+            adminUser.Password = hashedPassword;
+            adminUser.SuperAdmin = adminUserDto.SuperAdmin;
+
+            return adminUser;
         }
         
 
@@ -69,8 +85,7 @@ namespace BLL.Service.Implementation
             if (SecretAdminPassword.Equals("ADMINISTRATOR"))
             {
                 AdminUser user = new AdminUser();
-                user.Password = (GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)))
-                    .ToString();
+                user.Password = (GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)));
                 user.UserName = Username;
                 Console.WriteLine(user.ToString());
                 try
@@ -99,9 +114,7 @@ namespace BLL.Service.Implementation
         {
             return new AdminUserDTO
             {
-                Id = admin.Id.ToString(),
                 Username = admin.UserName,
-                Password = admin.Password,
                 SuperAdmin = admin.SuperAdmin
             };
         }

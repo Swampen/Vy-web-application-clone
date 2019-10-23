@@ -5,7 +5,6 @@ namespace DAL.DTO
 {
     public class AdminUserDTO
     {
-        public string Id { get; set; }
 
         [Required(ErrorMessage = "Please fill in your email address")]
         public string Username { get; set; }
