@@ -52,7 +52,7 @@
                             @if (!s.SuperAdmin)
                             {
                                 <td class="text-center">
-                                    <a class="btn btn-danger" href="/admin/deleteAdmin?Id=@s.Id">Delete</a>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" id="@s.Id" data-target="#delete">Delete</button>
                                 </td>
                             }
                             else
@@ -64,6 +64,26 @@
                     }
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Deleting ticket?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this ticket?
+                </div>
+                <div class="modal-footer">
+                    <button id="close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a id="confirmBtn" href="" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -79,12 +99,16 @@
                 <form id="adminReg" action="/admin/RegisterNewAdmin" method="POST">
                     @Html.AntiForgeryToken()
                     <div class="modal-body">
+                        @if (TempData["error"] != null)
+                        {
+                            <p class="text-danger">@TempData["error"]</p>
+                        }
                         <label>Username</label>
-                        <input id="" placeholder="Username" type="text" name="Username" class="form-control"  required/>
+                        <input id="" placeholder="Username" type="text" name="Username" class="form-control" required />
                         <label>Password</label>
-                        <input id="password" placeholder="Password" data-rule-password="true" type="password" name="Password" class="form-control" required/>
+                        <input id="password" placeholder="Password" data-rule-password="true" type="password" name="Password" class="form-control" required />
                         <label>Confirm</label>
-                        <input id="password_again" data-rule-equalTo="#password" data-rule-password="true" placeholder="Confirm password" type="password" name="Name" class="form-control" required/>
+                        <input id="password_again" data-rule-equalTo="#password" data-rule-password="true" placeholder="Confirm password" type="password" name="Name" class="form-control" required />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -95,17 +119,15 @@
         </div>
     </div>
 </div>
-
 <script>
     $(function () {
-        $('#edit').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var id = button[0].id
-            var station = button[0].dataset["station"]
+        $('#delete').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget) // Button that triggered the modal
+            const id = button[0].id;
 
-            var modal = $(this)
-            modal.find("#nameInput").val(station)
-            modal.find("#changeStationId").val(id);
+            const url = `/admin/deleteAdmin?adminId=${id}`;
+            const modal = $(this);
+            modal.find("#confirmBtn").attr("href", url);
         });
 
         $('#table').DataTable({
@@ -117,9 +139,7 @@
         $("#table_filter").addClass("col-12 col-md-7 pt-2")
         $("#table_length").find("select").addClass("form-control");
         $("#table_length").addClass("col-12 col-md-5 pt-2")
-        
+
         $("#adminReg").validate();
     })
-
-
 </script>

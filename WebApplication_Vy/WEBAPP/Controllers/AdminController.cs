@@ -149,15 +149,16 @@ namespace WebApplication_Vy.Controllers
                 {
                     return RedirectToAction("admins");
                 }
+                TempData["error"] = "Admin already exists";
             }
             return RedirectToAction("admins");
         }
 
-        public ActionResult DeleteAdmin(int Id)
+        public ActionResult DeleteAdmin(int adminId)
         {
             if (Session["SuperAdmin"] != null && (bool)Session["SuperAdmin"])
             {
-                var success = _loginService.DeleteAdmin(Id);
+                var success = _loginService.DeleteAdmin(adminId);
             }
             return RedirectToAction("admins");
         }
