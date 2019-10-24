@@ -13,7 +13,7 @@ namespace DAL.Db
 {
     public class VyDbContext : DbContext, IDisposable
     {
-        private static HashingFunctionality Hasher = new HashingFunctionality();
+        private static HashingAndSaltingService Hasher = new HashingAndSaltingService();
         public VyDbContext() : base("name=VyDb")
         {
             Database.SetInitializer(new VyDbInitializer<VyDbContext>());
@@ -76,13 +76,14 @@ namespace DAL.Db
 
                 try
                 {
-                    string salt = "somthing random";
+                    string salt = Hasher.MakeSalt();
                     var hashedPword = Hasher.GenerateSaltedHash(Encoding.UTF8.GetBytes("admin"), Encoding.UTF8.GetBytes(salt));
                     AdminUser superAdmin = new AdminUser
                     {
                         UserName = "admin",
                         Password = hashedPword,
                         SuperAdmin = true,
+                        salt = salt
                     };
                     context.AdminUsers.Add(superAdmin);
                 }

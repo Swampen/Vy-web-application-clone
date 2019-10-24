@@ -8,12 +8,13 @@ namespace BLL.Service.Contracts
     {
         bool Login(AdminUserDTO adminUserDto);
 
-        byte[] GenerateSaltedHash(byte[] plainText, byte[] salt);
-        
         bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword);
+
+        bool DeleteAdmin(int Id);
 
         List<AdminUserDTO> GetAllAdmins();
 
         bool isSuperAdmin(string adminUsername);
+        
     }
 }    

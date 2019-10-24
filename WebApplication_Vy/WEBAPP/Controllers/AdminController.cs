@@ -55,7 +55,6 @@ namespace WebApplication_Vy.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteTicket(int ticketId)
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
@@ -117,7 +116,6 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteCustomer(int customerId)
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
@@ -142,14 +140,24 @@ namespace WebApplication_Vy.Controllers
         public ActionResult RegisterNewAdmin(AdminUserDTO adminUserDto)
         {
 
-            if (Session["SuperAdmin"] == null && (bool)Session["SuperAdmin"])
+            if (Session["SuperAdmin"] != null && (bool)Session["SuperAdmin"])
             {
+                
                 var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
                     adminUserDto.Password, "ADMINISTRATOR");
                 if (UserCreated)
                 {
                     return RedirectToAction("admins");
                 }
+            }
+            return RedirectToAction("admins");
+        }
+
+        public ActionResult DeleteAdmin(int Id)
+        {
+            if (Session["SuperAdmin"] != null && (bool)Session["SuperAdmin"])
+            {
+                var success = _loginService.DeleteAdmin(Id);
             }
             return RedirectToAction("admins");
         }

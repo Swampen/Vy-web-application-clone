@@ -11,8 +11,13 @@ namespace DAL.Db.Repositories.Contracts
         bool DoseAdminUserExcist(AdminUser adminUser);
 
         bool RegisterAdminUser(AdminUser adminUser);
+
+        bool DeleteAdmin(int Id);
+
         List<AdminUser> FindAllAdminUsers();
 
         bool isSuperAdmin(string adminUsername);
+
+        string getSalt(string username);
     }
 }

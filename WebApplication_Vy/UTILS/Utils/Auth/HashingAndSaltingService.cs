@@ -1,8 +1,9 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 
 namespace UTILS.Utils.Auth
 {
-    public class HashingFunctionality
+    public class HashingAndSaltingService
     {
         public byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
                 {
@@ -20,6 +21,17 @@ namespace UTILS.Utils.Auth
                         plainTextWithSaltBytes[plainText.Length + i] = salt[i];
                       }
                   return algorithm.ComputeHash(plainTextWithSaltBytes);            
+                }
+        public string MakeSalt()
+                {
+                    byte[] randomArray = new byte[10];
+                    string randomString;
+        
+                    var rng = new RNGCryptoServiceProvider();
+                    rng.GetBytes(randomArray);
+                    randomString = Convert.ToBase64String(randomArray);
+        
+                    return randomString;
                 }
     }
 }
