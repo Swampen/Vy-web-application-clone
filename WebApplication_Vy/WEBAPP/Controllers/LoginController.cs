@@ -20,6 +20,7 @@ namespace WebApplication_Vy.Controllers
         public ActionResult Logout()
         {
             Session["Auth"] = false;
+            Session["SuperAdmin"] = false;
             return RedirectToAction("index", "home");
         }
 
@@ -36,6 +37,7 @@ namespace WebApplication_Vy.Controllers
                 {
                     Session["SuperAdmin"] = true;
                 }
+                Session["Username"] = adminUserDto.Username;
 
                 return RedirectToAction("index", "admin");
             }
@@ -44,7 +46,7 @@ namespace WebApplication_Vy.Controllers
                 TempData["error"] = "Wrong username or password";
                 Session["Auth"] = false;
                 Session["SuperAdmin"] = false;
-                return RedirectToAction("index");
+                return RedirectToAction("index", "home");
             }
         }
 

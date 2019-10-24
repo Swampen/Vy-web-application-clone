@@ -23,6 +23,9 @@
                 <thead class="thead-dark">
                     <tr>
                         <th class="th-sm">
+                            Id
+                        </th>
+                        <th class="th-sm">
                             Username
                         </th>
                         <th class="th-sm">
@@ -38,6 +41,9 @@
                     {
                         <tr>
                             <td>
+                                @s.Id
+                            </td>
+                            <td>
                                 @s.Username
                             </td>
                             <td>
@@ -46,7 +52,8 @@
                             @if (!s.SuperAdmin)
                             {
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-warning" data-toggle="modal" id="@s.Id" data-station="@s.Username" data-target="#edit">Edit</button>
+                                    <button type="button" class="btn btn-warning" data-toggle="modal" id="@s.Id" data-station="@s.Username" data-target="#edit">Edit</button> |
+                                    <a class="btn btn-danger" href="/admin/deleteAdmin?Id=@s.Id">Delete</a>
                                 </td>
                             }
                             else
@@ -93,14 +100,15 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="adminReg" action="/admin/" method="POST">
+                <form id="adminReg" action="/admin/RegisterNewAdmin" method="POST">
+                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <label>Username</label>
-                        <input id="" placeholder="Username" type="text" name="Username" class="form-control" required />
+                        <input id="" placeholder="Username" type="text" name="Username" class="form-control"  required/>
                         <label>Password</label>
-                        <input id="" placeholder="Password" type="password" name="Name" class="form-control" />
+                        <input id="password" placeholder="Password" data-rule-password="true" type="password" name="Password" class="form-control" required/>
                         <label>Confirm</label>
-                        <input id="password" placeholder="Confirm password" type="password" name="Name" class="form-control" />
+                        <input id="password_again" data-rule-equalTo="#password" data-rule-password="true" placeholder="Confirm password" type="password" name="Name" class="form-control" required/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -133,24 +141,8 @@
         $("#table_filter").addClass("col-12 col-md-7 pt-2")
         $("#table_length").find("select").addClass("form-control");
         $("#table_length").addClass("col-12 col-md-5 pt-2")
-
-        jQuery('#adminReg').validate({
-            rules: {
-                password: {
-                    minlength: 5
-                },
-                password_confirm: {
-                    minlength: 5,
-                    equalTo: "#password"
-                }
-            }
-        });
-
-        $('#adminReg').submit(function () {
-            console.log($('.validatedForm').valid());
-            
-        });
-
+        
+        $("#adminReg").validate();
     })
 
 

@@ -76,13 +76,14 @@ namespace DAL.Db
 
                 try
                 {
-                    string salt = "somthing random";
+                    string salt = Hasher.MakeSalt();
                     var hashedPword = Hasher.GenerateSaltedHash(Encoding.UTF8.GetBytes("admin"), Encoding.UTF8.GetBytes(salt));
                     AdminUser superAdmin = new AdminUser
                     {
                         UserName = "admin",
                         Password = hashedPword,
                         SuperAdmin = true,
+                        salt = salt
                     };
                     context.AdminUsers.Add(superAdmin);
                 }
