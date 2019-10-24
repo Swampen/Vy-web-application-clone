@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Service.Implementation.Tests
 {
-    [TestFixture()]
+    [TestFixture]
     public class LoginServiceTests
     {
         [Test()]

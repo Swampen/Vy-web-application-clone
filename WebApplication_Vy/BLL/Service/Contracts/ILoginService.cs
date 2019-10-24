@@ -15,5 +15,6 @@ namespace BLL.Service.Contracts
         List<AdminUserDTO> GetAllAdmins();
 
         bool isSuperAdmin(string adminUsername);
+        
     }
 }    

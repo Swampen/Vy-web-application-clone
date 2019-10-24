@@ -43,6 +43,21 @@ namespace DAL.Db.Repositories.Implementation
             }
         }
 
+        public string getSalt(string username)
+        {
+            using (var db = new VyDbContext())
+            {
+                var User = db.AdminUsers.FirstOrDefault(user => user.UserName.Equals(username));
+
+                if (User != null)
+                {
+                   return User.salt; 
+                }
+
+                return "";
+            }
+        }
+
         public bool RegisterAdminUser(AdminUser adminUser)
         {
 

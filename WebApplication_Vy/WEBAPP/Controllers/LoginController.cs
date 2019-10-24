@@ -44,7 +44,7 @@ namespace WebApplication_Vy.Controllers
                 TempData["error"] = "Wrong username or password";
                 Session["Auth"] = false;
                 Session["SuperAdmin"] = false;
-                return RedirectToAction("index");
+                return RedirectToAction("index", "Home");
             }
         }
 

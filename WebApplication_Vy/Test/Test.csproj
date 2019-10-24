@@ -129,6 +129,7 @@
     <Compile Include="MockUtil\VyRepositoryMock.cs" />
     <Compile Include="MockUtil\VyServiceMock.cs" />
     <Compile Include="Service\CreditCardServiceImplTest.cs" />
+    <Compile Include="Service\LoginServiceTests.cs" />
     <Compile Include="Service\VyServiceImplTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
