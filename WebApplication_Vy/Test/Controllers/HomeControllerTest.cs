@@ -18,7 +18,7 @@ namespace Test.Controllers
         [SetUp]
         public void Setup()
         {
-            _homeController = new HomeController(null, null, null, null)
+            _homeController = new HomeController(null, null, null)
             {
                 ControllerContext = getHttpSessionContext()
             };
@@ -63,7 +63,6 @@ namespace Test.Controllers
             _homeController = new HomeController(
                 null,
                 ZipSearchServiceMock.GetPostalTownMock(),
-                null,
                 null);
             var zipcodeDto = new ZipcodeDto
             {
@@ -85,8 +84,7 @@ namespace Test.Controllers
             _homeController = new HomeController(
                 null,
                 null,
-                StationServiceMock.GetAllKeyValueStations(),
-                null);
+                StationServiceMock.GetAllKeyValueStations());
             //Act
             var stations = _homeController.GetAllStations();
             var serializer = new JavaScriptSerializer();
@@ -135,10 +133,50 @@ namespace Test.Controllers
         }
 
         [Test]
+        public void index_POST_returntripqueryShouldBeSet()
+        {
+            //Arrange
+            var tripQueryDto = new TripQueryDTO
+            {
+                Round_Trip = true,
+                Adult = 1,
+                Arrival_Station = "arrivalTest",
+                Arrival_StationId = "arrId",
+                Child = 1,
+                Date = "dateTest",
+                Departure_Station = "departureTest",
+                Departure_StationId = "depId",
+                Return_Date = "dateReturnTest",
+                Return_Time = "returnTimeTest",
+                Student = 1,
+                Senior = 1,
+                Time = "timeTest"
+            };
+
+            //Act
+            _homeController.Index(tripQueryDto);
+            var resultTripqueryDto = (TripQueryDTO) _homeController.Session["ReturnTripQuery"];
+
+            //Assert
+            Assert.AreEqual(tripQueryDto.Adult, resultTripqueryDto.Adult);
+            Assert.AreEqual(tripQueryDto.Arrival_Station, resultTripqueryDto.Departure_Station);
+            Assert.AreEqual(tripQueryDto.Arrival_StationId, resultTripqueryDto.Departure_StationId);
+            Assert.AreEqual(tripQueryDto.Child, resultTripqueryDto.Child);
+            Assert.AreEqual(tripQueryDto.Departure_Station, resultTripqueryDto.Arrival_Station);
+            Assert.AreEqual(tripQueryDto.Departure_StationId, resultTripqueryDto.Arrival_StationId);
+            Assert.AreEqual(null, resultTripqueryDto.Return_Date);
+            Assert.AreEqual(null, resultTripqueryDto.Return_Time);
+            Assert.AreEqual(tripQueryDto.Student, resultTripqueryDto.Student);
+            Assert.AreEqual(tripQueryDto.Senior, resultTripqueryDto.Senior);
+            Assert.AreEqual(tripQueryDto.Return_Time, resultTripqueryDto.Time);
+            Assert.AreEqual(null, resultTripqueryDto.Return_Date);
+        }
+
+        [Test]
         public void Index_POST_shouldReturnIndex()
         {
             //Arrange
-            var controller = new HomeController(null, null, null, null);
+            var controller = new HomeController(null, null, null);
             var context = new Mock<ControllerContext>();
             var session = new Mock<HttpSessionStateBase>();
 
@@ -171,46 +209,6 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void index_POST_returntripqueryShouldBeSet()
-        {
-            //Arrange
-            var tripQueryDto = new TripQueryDTO
-            {
-                Round_Trip = true,
-                Adult = 1,
-                Arrival_Station = "arrivalTest",
-                Arrival_StationId = "arrId",
-                Child = 1,
-                Date = "dateTest",
-                Departure_Station = "departureTest",
-                Departure_StationId = "depId",
-                Return_Date = "dateReturnTest",
-                Return_Time = "returnTimeTest",
-                Student = 1,
-                Senior = 1,
-                Time = "timeTest"
-            };
-
-            //Act
-            _homeController.Index(tripQueryDto);
-            var resultTripqueryDto = (TripQueryDTO)_homeController.Session["ReturnTripQuery"];
-            
-            //Assert
-            Assert.AreEqual(tripQueryDto.Adult, resultTripqueryDto.Adult);
-            Assert.AreEqual(tripQueryDto.Arrival_Station, resultTripqueryDto.Departure_Station);
-            Assert.AreEqual(tripQueryDto.Arrival_StationId, resultTripqueryDto.Departure_StationId);
-            Assert.AreEqual(tripQueryDto.Child, resultTripqueryDto.Child);
-            Assert.AreEqual(tripQueryDto.Departure_Station, resultTripqueryDto.Arrival_Station);
-            Assert.AreEqual(tripQueryDto.Departure_StationId, resultTripqueryDto.Arrival_StationId);
-            Assert.AreEqual(null, resultTripqueryDto.Return_Date);
-            Assert.AreEqual(null, resultTripqueryDto.Return_Time);
-            Assert.AreEqual(tripQueryDto.Student, resultTripqueryDto.Student);
-            Assert.AreEqual(tripQueryDto.Senior, resultTripqueryDto.Senior);
-            Assert.AreEqual(tripQueryDto.Return_Time, resultTripqueryDto.Time);
-            Assert.AreEqual(null, resultTripqueryDto.Return_Date);
-        }
-
-        [Test]
         public void RegisterTicket_POST_shouldReturnCustomerDetailsView()
         {
             //Arrange
@@ -230,7 +228,7 @@ namespace Test.Controllers
         {
             //Arrange
             var vyService = VyServiceMock.CreateTicketMock();
-            _homeController = new HomeController(vyService, null, null, null);
+            _homeController = new HomeController(vyService, null, null);
             var submitPurchaseDto = new SubmitPurchaseDto();
             submitPurchaseDto.ReturnTripTicket = new TicketDto();
             submitPurchaseDto.TripTicket = new TicketDto();
@@ -290,7 +288,6 @@ namespace Test.Controllers
             _homeController = new HomeController(
                 null,
                 ZipSearchServiceMock.GetPostalTownMock(),
-                null,
                 null);
             var zipcodeDto = new ZipcodeDto
             {
@@ -348,26 +345,6 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void Trips_POST_toTripDtoShouldBeSet()
-        {
-            //Arrange
-            _homeController.Session["HaveRoundTrip"] = true;
-            var expectedTripDto = new TripDTO
-            {
-                Date = "Test",
-                Duration = "Test",
-                Round_Trip = false
-            };
-            
-            //Act
-            _homeController.Trips(expectedTripDto);
-            var actual = (List<TripDTO>) _homeController.Session["ChosenTrips"];
-            
-            //Assert
-            Assert.AreEqual(2, actual.Count);
-        }
-
-        [Test]
         public void Trips_POST_sessionToTripShouldBeNull()
         {
             //Arrrange
@@ -413,6 +390,26 @@ namespace Test.Controllers
 
             //Assert
             Assert.AreEqual("", viewResult.ViewName);
+        }
+
+        [Test]
+        public void Trips_POST_toTripDtoShouldBeSet()
+        {
+            //Arrange
+            _homeController.Session["HaveRoundTrip"] = true;
+            var expectedTripDto = new TripDTO
+            {
+                Date = "Test",
+                Duration = "Test",
+                Round_Trip = false
+            };
+
+            //Act
+            _homeController.Trips(expectedTripDto);
+            var actual = (List<TripDTO>) _homeController.Session["ChosenTrips"];
+
+            //Assert
+            Assert.AreEqual(2, actual.Count);
         }
     }
 }
