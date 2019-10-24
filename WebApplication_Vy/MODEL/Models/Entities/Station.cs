@@ -2,6 +2,7 @@
 
 namespace MODEL.Models.Entities
 {
+    [TrackChanges]
     public class Station
     {
         [Key]
