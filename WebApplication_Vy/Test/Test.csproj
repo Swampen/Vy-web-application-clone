@@ -19,7 +19,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -126,9 +126,12 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="MockUtil\CreditCardRepositoryMock.cs" />
     <Compile Include="MockUtil\MockHttpSession.cs" />
+    <Compile Include="MockUtil\StationServiceMock.cs" />
     <Compile Include="MockUtil\VyRepositoryMock.cs" />
     <Compile Include="MockUtil\VyServiceMock.cs" />
+    <Compile Include="MockUtil\ZipSearchServiceMock.cs" />
     <Compile Include="Service\CreditCardServiceImplTest.cs" />
+    <Compile Include="Service\LoginserviceImplTest.cs" />
     <Compile Include="Service\VyServiceImplTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

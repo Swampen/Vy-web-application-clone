@@ -127,7 +127,11 @@ namespace WebApplication_Vy.Controllers
                     Console.WriteLine("Returnticket success");
                 }
 
-                if (success) return RedirectToAction("Index");
+                if (success)
+                {
+                    return RedirectToAction("Index");
+                }
+                
             }
 
             var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
