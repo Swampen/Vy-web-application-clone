@@ -21,21 +21,16 @@ namespace WebApplication_Vy.Controllers
         private readonly IStationService _stationService;
         private readonly IVyService _vyService;
         private readonly IZipSearchService _zipSearchService;
-        private readonly ILoginService _loginService;
 
         public HomeController(
             IVyService vyService,
             IZipSearchService zipSearchService,
-            IStationService stationService,
-            ILoginService loginService
+            IStationService stationService
         )
         {
             _vyService = vyService;
             _zipSearchService = zipSearchService;
             _stationService = stationService;
-            _loginService = loginService;
-
-            
         }
         
         public ActionResult Index()
@@ -159,31 +154,6 @@ namespace WebApplication_Vy.Controllers
         {
             var serializer = new JavaScriptSerializer();
             return serializer.Serialize(_stationService.getAllKeyValueStations());
-        }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(AdminUserDTO adminUserDTO)
-        {
-            var login = _loginService.Login(adminUserDTO);
-            if (login)
-            {
-                Session["Auth"] = true;
-                Console.WriteLine("login succeeded");
-                if (adminUserDTO.SuperAdmin)
-                {
-                    Session["SuperAdmin"] = true;
-                }
-                
-                return RedirectToAction("index", "admin");
-            }
-            else
-            {
-                TempData["error"] = "Wrong username or password";
-                Session["Auth"] = false;
-                Session["SuperAdmin"] = false;
-                return RedirectToAction("index");
-            }
         }
     }
 }

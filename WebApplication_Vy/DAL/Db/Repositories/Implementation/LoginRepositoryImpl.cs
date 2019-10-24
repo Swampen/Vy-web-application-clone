@@ -18,15 +18,15 @@ namespace DAL.Db.Repositories.Implementation
         {
             using (var db = new VyDbContext())
             {
-               var query = db.AdminUsers.FirstOrDefault(admin => admin.UserName == inAdminUser.UserName && 
-                           admin.Password == inAdminUser.Password);
+                var query = db.AdminUsers.FirstOrDefault(admin => admin.UserName == inAdminUser.UserName &&
+                            admin.Password == inAdminUser.Password);
 
-               
-               Console.WriteLine(query);
-               if (query != null)
-               {
-                   return true;
-               }
+
+                Console.WriteLine(query);
+                if (query != null)
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -44,8 +44,8 @@ namespace DAL.Db.Repositories.Implementation
         }
 
         public bool RegisterAdminUser(AdminUser adminUser)
-        { 
-            
+        {
+
             using (var db = new VyDbContext())
             {
                 var excistingAdmin = db.AdminUsers.FirstOrDefault(admin => admin.UserName.Equals(adminUser.UserName));
@@ -54,13 +54,13 @@ namespace DAL.Db.Repositories.Implementation
                 {
                     return false;
                 }
-                
+
                 try
                 {
                     db.AdminUsers.Add(adminUser);
                     db.SaveChanges();
                     Console.WriteLine("User with username: " + adminUser.UserName);
-                    
+
                     return true;
                 }
                 catch (Exception error)
@@ -87,6 +87,19 @@ namespace DAL.Db.Repositories.Implementation
                     throw;
                 }
             }
+        }
+
+        public bool isSuperAdmin(string adminUsername)
+        {
+            var db = new VyDbContext();
+
+            AdminUser admin = db.AdminUsers.FirstOrDefault(a => a.UserName == adminUsername);
+
+            if (admin != null)
+            {
+                return admin.SuperAdmin;
+            }
+            return false;
         }
     }
 }

@@ -15,8 +15,8 @@ namespace WebApplication_Vy.Controllers
     {
         private static readonly ILog Log = LogHelper.GetLogger();
         private readonly IStationService _stationService;
-        private readonly IVyService _vyService;
         private readonly ILoginService _loginService;
+        private readonly IVyService _vyService;
 
         public AdminController(
             IVyService vyService,
@@ -24,9 +24,9 @@ namespace WebApplication_Vy.Controllers
             ILoginService loginService
         )
         {
+            _loginService = loginService;
             _vyService = vyService;
             _stationService = stationService;
-            _loginService = loginService;
 
             var db = new VyDbContext();
             db.Database.Initialize(true);
@@ -34,8 +34,7 @@ namespace WebApplication_Vy.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            var session = (bool)Session["Auth"];
-            if (session)
+            if (Session["Auth"] != null && (bool)Session["Auth"])
             {
                 return View();
             }
@@ -44,8 +43,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Tickets()
         {
-            var session = (bool)Session["Auth"];
-            if (session)
+            if (Session["Auth"] != null && (bool)Session["Auth"])
             {
                 var customers = _vyService.GetCustomerDtos();
                 customers.ForEach(dto =>
@@ -54,15 +52,13 @@ namespace WebApplication_Vy.Controllers
                 });
                 return View(customers);
             }
-
             return RedirectToAction("Index", "Home");
         }
 
         [ValidateAntiForgeryToken]
         public ActionResult DeleteTicket(int ticketId)
         {
-            var session = (bool)Session["Auth"];
-            if (session)
+            if (Session["Auth"] != null && (bool)Session["Auth"])
             {
                 var success = _vyService.DeleteTicket(ticketId);
                 return RedirectToAction("Tickets");
@@ -72,85 +68,90 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Stations()
         {
-            var stations = _stationService.getAllStations();
-            return View(stations);
+            if (Session["Auth"] != null && (bool)Session["Auth"])
+            {
+                var stations = _stationService.getAllStations();
+                return View(stations);
+            }
+            return RedirectToAction("index", "home");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateStation(StationDTO station)
         {
-            var success = _vyService.ChangeStation(station);
-            return Redirect(Request.UrlReferrer.ToString());
+            if (Session["Auth"] != null && (bool)Session["Auth"])
+            {
+                var success = _vyService.ChangeStation(station);
+                return RedirectToAction("stations");
+            }
+            return RedirectToAction("index", "home");
         }
 
         public ActionResult Customers()
         {
-            Session["SuperUser"] = true;
-            var customers = _vyService.GetCustomerDtos();
-            return View(customers);
+            if (Session["Auth"] != null && (bool)Session["Auth"])
+            {
+                var customers = _vyService.GetCustomerDtos();
+                return View(customers);
+            }
+            return RedirectToAction("index", "home");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateCustomer(CustomerDto c)
         {
-
-            if (ModelState.IsValid)
+            if (Session["Auth"] != null && (bool)Session["Auth"])
             {
-                if (_vyService.UpdateCustomer(c))
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Customers");
+                    if (_vyService.UpdateCustomer(c))
+                    {
+                        return RedirectToAction("Customers");
+                    }
                 }
+                return RedirectToAction("Customers");
             }
-            var customers = _vyService.GetCustomerDtos();
-            return View("Customers", customers);
+            return RedirectToAction("index", "home");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteCustomer(int customerId)
         {
-            _vyService.DeleteCustomer(customerId);
-            return RedirectToAction("Customers");
-        }
-
-        public ActionResult Logout()
-        {
-            Session["Auth"] = false;
+            if (Session["Auth"] != null && (bool)Session["Auth"])
+            {
+                _vyService.DeleteCustomer(customerId);
+                return RedirectToAction("Customers");
+            }
             return RedirectToAction("index", "home");
         }
 
-
         public ActionResult Admins()
         {
-            var admins = _loginService.GetAllAdmins();
-            return View(admins);
+            if (Session["Auth"] != null && (bool)Session["Auth"])
+            {
+                var admins = _loginService.GetAllAdmins();
+                return View(admins);
+            }
+            return RedirectToAction("index", "home");
         }
 
         [ValidateAntiForgeryToken]
         public ActionResult RegisterNewAdmin(AdminUserDTO adminUserDto)
         {
-            try
-            {
 
-                var superUser = (bool)Session["SuperUser"];
-                if (superUser)
-                {
-                    var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
-                        adminUserDto.Password, "ADMINISTRATOR");
-                    if (UserCreated)
-                    {
-                        return Redirect(Request.UrlReferrer.ToString());
-                    }
-                }
-                return Redirect(Request.UrlReferrer.ToString());
-            }
-            catch (Exception error)
+            if (Session["SuperAdmin"] == null && (bool)Session["SuperAdmin"])
             {
-                Console.WriteLine(error);
-                throw;
+                var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
+                    adminUserDto.Password, "ADMINISTRATOR");
+                if (UserCreated)
+                {
+                    return RedirectToAction("admins");
+                }
             }
+            return RedirectToAction("admins");
         }
     }
 }
