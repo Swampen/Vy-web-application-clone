@@ -132,16 +132,13 @@
     <Compile Include="MockUtil\VyServiceMock.cs" />
     <Compile Include="MockUtil\ZipSearchServiceMock.cs" />
     <Compile Include="Service\CreditCardServiceImplTest.cs" />
-    <Compile Include="Service\LoginserviceImplTest.cs" />
+    <Compile Include="Service\LoginServiceImplTests.cs" />
     <Compile Include="Service\VyServiceImplTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">
