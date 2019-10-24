@@ -83,16 +83,7 @@ namespace BLL.Service.Implementation
                 AdminUser user = new AdminUser();
                 user.Password = (GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)));
                 user.UserName = Username;
-                try
-                {
-                    _loginRepository.RegisterAdminUser(user);
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                return _loginRepository.RegisterAdminUser(user);
             }
 
             return false;

@@ -142,8 +142,9 @@ namespace WebApplication_Vy.Controllers
         public ActionResult RegisterNewAdmin(AdminUserDTO adminUserDto)
         {
 
-            if (Session["SuperAdmin"] == null && (bool)Session["SuperAdmin"])
+            if (Session["SuperAdmin"] != null && (bool)Session["SuperAdmin"])
             {
+                
                 var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
                     adminUserDto.Password, "ADMINISTRATOR");
                 if (UserCreated)
