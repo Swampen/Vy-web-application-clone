@@ -8,37 +8,21 @@ using DAL.Db.Repositories.Implementation;
 using DAL.DTO;
 using MODEL.Models;
 using System.Security.Cryptography;
+using UTILS.Utils.Auth;
 
 namespace BLL.Service.Implementation
 {
     public class LoginServiceImpl : ILoginService
     {
         private readonly ILoginRepository _loginRepository;
-        public LoginServiceImpl(ILoginRepository loginRepository)
+        private readonly HashingAndSaltingService _hashingAndSaltingService;
+        public LoginServiceImpl(ILoginRepository loginRepository, HashingAndSaltingService hashingAndSaltingService)
         {
             _loginRepository = loginRepository;
+            _hashingAndSaltingService = hashingAndSaltingService;
         }
 
-        public byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
-        {
-            HashAlgorithm algorithm = new SHA256Managed();
-
-            byte[] plainTextWithSaltBytes =
-              new byte[plainText.Length + salt.Length];
-
-            for (int i = 0; i < plainText.Length; i++)
-            {
-                plainTextWithSaltBytes[i] = plainText[i];
-            }
-            for (int i = 0; i < salt.Length; i++)
-            {
-                plainTextWithSaltBytes[plainText.Length + i] = salt[i];
-            }
-            return algorithm.ComputeHash(plainTextWithSaltBytes);
-        }
-
-
-
+        
         public bool Login(AdminUserDTO adminUserDto)
         {
            string salt = _loginRepository.getSalt(adminUserDto.Username);
@@ -46,7 +30,7 @@ namespace BLL.Service.Implementation
            
            try
            {
-               var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(adminUserDto.Password),
+               var hashedPassword = _hashingAndSaltingService.GenerateSaltedHash(Encoding.UTF8.GetBytes(adminUserDto.Password),
                    Encoding.UTF8.GetBytes(salt));
 
                AdminUser user = MapAdminUser(adminUserDto, hashedPassword);
@@ -64,18 +48,6 @@ namespace BLL.Service.Implementation
            }
 
         }
-
-        private string MakeSalt()
-        {
-            byte[] randomArray = new byte[10];
-            string randomString;
-
-            var rng = new RNGCryptoServiceProvider();
-            rng.GetBytes(randomArray);
-            randomString = Convert.ToBase64String(randomArray);
-
-            return randomString;
-        }
         
         private AdminUser MapAdminUser(AdminUserDTO adminUserDto, byte[] hashedPassword)
         {
@@ -92,12 +64,12 @@ namespace BLL.Service.Implementation
 
         public bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword)
         {
-            string salt = MakeSalt();
+            string salt = _hashingAndSaltingService.MakeSalt();
             if (SecretAdminPassword.Equals("ADMINISTRATOR"))
             {
                 
                 AdminUser user = new AdminUser();
-                user.Password = (GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)));
+                user.Password = (_hashingAndSaltingService.GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)));
                 user.UserName = Username;
                 user.salt = salt;
                 return _loginRepository.RegisterAdminUser(user);
