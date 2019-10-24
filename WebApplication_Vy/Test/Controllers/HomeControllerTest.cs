@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using BLL.Service.Contracts;
 using DAL.DTO;
 using DAL.DTO.TripData;
@@ -17,16 +19,16 @@ namespace Test.Controllers
         [SetUp]
         public void Setup()
         {
-            _homeController = new HomeController(null, null, null)
+            _homeController = new HomeController(null, null, null, null)
             {
                 ControllerContext = getHttpSessionContext()
             };
-            _homeController.Session["AdminLogin"] = null;
             _homeController.Session["HaveRoundTrip"] = null;
             _homeController.Session["ChosenTrip"] = null;
             _homeController.Session["ChosenTrips"] = null;
             _homeController.Session["ToTrip"] = null;
             _homeController.Session["ReturnTripQuery"] = null;
+            _homeController.Session["Auth"] = null;
         }
 
         [TearDown]
@@ -55,7 +57,7 @@ namespace Test.Controllers
             var actionResult = _homeController.Index();
 
             //Assert
-            Assert.IsFalse((bool) _homeController.Session["AdminLogin"]);
+            Assert.IsFalse((bool) _homeController.Session["Auth"]);
         }
 
         [Test]
@@ -90,7 +92,7 @@ namespace Test.Controllers
         public void Index_POST_shouldReturnIndex()
         {
             //Arrange
-            var controller = new HomeController(null, null, null);
+            var controller = new HomeController(null, null, null, null);
             var context = new Mock<ControllerContext>();
             var session = new Mock<HttpSessionStateBase>();
 
@@ -224,7 +226,7 @@ namespace Test.Controllers
             var viewResult = actionResult as ViewResult;
 
             //Assert
-            Assert.AreEqual("", viewResult.ViewName);
+            Assert.AreEqual("CustomerDetails", viewResult.ViewName);
         }
 
         [Test]
@@ -232,7 +234,7 @@ namespace Test.Controllers
         {
             //Arrange
             var vyService = VyServiceMock.CreateTicketMock();
-            _homeController = new HomeController(vyService, null, null);
+            _homeController = new HomeController(vyService, null, null, null);
             SubmitPurchaseDto submitPurchaseDto = new SubmitPurchaseDto();
             submitPurchaseDto.ReturnTripTicket = new TicketDto();
             submitPurchaseDto.TripTicket = new TicketDto();
@@ -284,5 +286,75 @@ namespace Test.Controllers
             Assert.IsNotNull(_homeController.ViewData["Model"]);
             Assert.IsInstanceOf<List<TripDTO>>(_homeController.ViewData["Model"]);
         }
+
+        [TestCase("")]
+        [TestCase("0")]
+        [TestCase("000")]
+        [TestCase("00")]
+        [TestCase("0x00")]
+        [TestCase("xxxx")]
+        [TestCase("x000")]
+        [TestCase("x")]
+        public void SearchZip_shouldReturnEmptyString(string value)
+        {
+            //Arrange
+            _homeController = new HomeController(
+                null,
+                MockUtil.ZipSearchServiceMock.GetPostalTownMock(),
+                null,
+                null);
+            ZipcodeDto zipcodeDto = new ZipcodeDto
+            {
+                Postalcode = value,
+                Postaltown = "test"
+            };
+
+            //Act
+            string actual = _homeController.SearchZip(zipcodeDto);
+            
+            //Assert
+            Assert.AreEqual("", actual);
+        }
+        [Test] 
+        public void SearchZip_shouldReturnResult()
+        {
+            //Arrange
+            _homeController = new HomeController(
+                null,
+                ZipSearchServiceMock.GetPostalTownMock(),
+                null,
+                null);
+            ZipcodeDto zipcodeDto = new ZipcodeDto
+            {
+                Postalcode = "0000", 
+                Postaltown = "test"
+            };
+            
+            //Act
+            string actual = _homeController.SearchZip(zipcodeDto);
+            
+            //Assert
+            Assert.AreEqual("test", actual);
+        }
+
+        [Test]
+        public void GetAllStations_shouldReturnStringOfStations()
+        {
+            //Arrange
+            _homeController = new HomeController(
+                null,
+                null,
+                StationServiceMock.GetAllKeyValueStations(),
+                null);
+            //Act
+            var stations = _homeController.GetAllStations();
+            var serializer = new JavaScriptSerializer();
+            var actual = serializer.Deserialize<Dictionary<string, string>>(stations);
+            
+            //Assert
+            Assert.AreEqual("test", actual["test"]);
+        }
+        
+        
     }
 }

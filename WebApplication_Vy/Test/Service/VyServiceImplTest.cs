@@ -75,7 +75,7 @@ namespace Test.Service
         [Test]
         public void MaskCreditCardNumberTest()
         {
-            _service = new VyServiceImpl(new VyRepositoryImpl());
+            _service = new VyServiceImpl(null, null);
             string before = _cardDto.Card_Number;
             string expected = "**** **** **** 4444";
             _service.MaskCreditCardNumber(_cardDto);
@@ -86,7 +86,7 @@ namespace Test.Service
         [Test]
         public void GetCustomerDtosTest()
         {
-            _service = new VyServiceImpl(VyRepositoryMock.GetAllCustomerDtos());
+            _service = new VyServiceImpl(VyRepositoryMock.GetAllCustomerDtos(), null);
             Assert.AreEqual(3, _service.GetCustomerDtos().Count);
             Assert.NotNull(_service.GetCustomerDtos().Find(dto => dto.Id == 1));
         }
@@ -94,7 +94,7 @@ namespace Test.Service
         [Test]
         public void GetTicketDtosTest()
         {
-            _service = new VyServiceImpl(VyRepositoryMock.GetAllCustomerDtos());
+            _service = new VyServiceImpl(VyRepositoryMock.GetAllCustomerDtos(), null);
             Assert.IsInstanceOf(typeof(TicketDto), _service.GetTicketDtos()[0]);
             Assert.AreEqual(6, _service.GetTicketDtos().Count);
         }
@@ -102,14 +102,14 @@ namespace Test.Service
         [Test]
         public void CreateTicketTest()
         {
-            _service = new VyServiceImpl(VyRepositoryMock.CreateTicketMock());
+            _service = new VyServiceImpl(VyRepositoryMock.CreateTicketMock(), null);
             Assert.IsTrue(_service.CreateTicket(_ticketDto));
         }
 
         [Test]
         public void DeleteTicketTest()
         {
-            _service = new VyServiceImpl(VyRepositoryMock.DeleteTicketMock());
+            _service = new VyServiceImpl(VyRepositoryMock.DeleteTicketMock(), null);
             Assert.IsTrue(_service.DeleteTicket(1));
         }
     }
