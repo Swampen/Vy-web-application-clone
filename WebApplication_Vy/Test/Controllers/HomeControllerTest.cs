@@ -171,6 +171,46 @@ namespace Test.Controllers
         }
 
         [Test]
+        public void index_POST_returntripqueryShouldBeSet()
+        {
+            //Arrange
+            var tripQueryDto = new TripQueryDTO
+            {
+                Round_Trip = true,
+                Adult = 1,
+                Arrival_Station = "arrivalTest",
+                Arrival_StationId = "arrId",
+                Child = 1,
+                Date = "dateTest",
+                Departure_Station = "departureTest",
+                Departure_StationId = "depId",
+                Return_Date = "dateReturnTest",
+                Return_Time = "returnTimeTest",
+                Student = 1,
+                Senior = 1,
+                Time = "timeTest"
+            };
+
+            //Act
+            _homeController.Index(tripQueryDto);
+            var resultTripqueryDto = (TripQueryDTO)_homeController.Session["ReturnTripQuery"];
+            
+            //Assert
+            Assert.AreEqual(tripQueryDto.Adult, resultTripqueryDto.Adult);
+            Assert.AreEqual(tripQueryDto.Arrival_Station, resultTripqueryDto.Departure_Station);
+            Assert.AreEqual(tripQueryDto.Arrival_StationId, resultTripqueryDto.Departure_StationId);
+            Assert.AreEqual(tripQueryDto.Child, resultTripqueryDto.Child);
+            Assert.AreEqual(tripQueryDto.Departure_Station, resultTripqueryDto.Arrival_Station);
+            Assert.AreEqual(tripQueryDto.Departure_StationId, resultTripqueryDto.Arrival_StationId);
+            Assert.AreEqual(null, resultTripqueryDto.Return_Date);
+            Assert.AreEqual(null, resultTripqueryDto.Return_Time);
+            Assert.AreEqual(tripQueryDto.Student, resultTripqueryDto.Student);
+            Assert.AreEqual(tripQueryDto.Senior, resultTripqueryDto.Senior);
+            Assert.AreEqual(tripQueryDto.Return_Time, resultTripqueryDto.Time);
+            Assert.AreEqual(null, resultTripqueryDto.Return_Date);
+        }
+
+        [Test]
         public void RegisterTicket_POST_shouldReturnCustomerDetailsView()
         {
             //Arrange
@@ -305,6 +345,26 @@ namespace Test.Controllers
 
             //Assert
             Assert.IsNotNull(_homeController.Session["ChosenTrips"]);
+        }
+
+        [Test]
+        public void Trips_POST_toTripDtoShouldBeSet()
+        {
+            //Arrange
+            _homeController.Session["HaveRoundTrip"] = true;
+            var expectedTripDto = new TripDTO
+            {
+                Date = "Test",
+                Duration = "Test",
+                Round_Trip = false
+            };
+            
+            //Act
+            _homeController.Trips(expectedTripDto);
+            var actual = (List<TripDTO>) _homeController.Session["ChosenTrips"];
+            
+            //Assert
+            Assert.AreEqual(2, actual.Count);
         }
 
         [Test]
