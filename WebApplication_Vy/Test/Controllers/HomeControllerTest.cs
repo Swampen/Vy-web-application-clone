@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -48,6 +47,53 @@ namespace Test.Controllers
             var session = new MockHttpSession();
             context.Setup(s => s.HttpContext.Session).Returns(session);
             return context.Object;
+        }
+
+        [TestCase("")]
+        [TestCase("0")]
+        [TestCase("000")]
+        [TestCase("00")]
+        [TestCase("0x00")]
+        [TestCase("xxxx")]
+        [TestCase("x000")]
+        [TestCase("x")]
+        public void SearchZip_shouldReturnEmptyString(string value)
+        {
+            //Arrange
+            _homeController = new HomeController(
+                null,
+                ZipSearchServiceMock.GetPostalTownMock(),
+                null,
+                null);
+            var zipcodeDto = new ZipcodeDto
+            {
+                Postalcode = value,
+                Postaltown = "test"
+            };
+
+            //Act
+            var actual = _homeController.SearchZip(zipcodeDto);
+
+            //Assert
+            Assert.AreEqual("", actual);
+        }
+
+        [Test]
+        public void GetAllStations_shouldReturnStringOfStations()
+        {
+            //Arrange
+            _homeController = new HomeController(
+                null,
+                null,
+                StationServiceMock.GetAllKeyValueStations(),
+                null);
+            //Act
+            var stations = _homeController.GetAllStations();
+            var serializer = new JavaScriptSerializer();
+            var actual = serializer.Deserialize<Dictionary<string, string>>(stations);
+
+            //Assert
+            Assert.AreEqual("test", actual["test"]);
         }
 
         [Test]
@@ -125,6 +171,128 @@ namespace Test.Controllers
         }
 
         [Test]
+        public void RegisterTicket_POST_shouldReturnCustomerDetailsView()
+        {
+            //Arrange
+            _homeController.ModelState.AddModelError("test", "test");
+            var submitPurchaseDto = new SubmitPurchaseDto();
+
+            //Act
+            var actionResult = _homeController.RegisterTicket(submitPurchaseDto);
+            var viewResult = actionResult as ViewResult;
+
+            //Assert
+            Assert.AreEqual("CustomerDetails", viewResult.ViewName);
+        }
+
+        [Test]
+        public void RegisterTicket_shouldRedirectToIndex()
+        {
+            //Arrange
+            var vyService = VyServiceMock.CreateTicketMock();
+            _homeController = new HomeController(vyService, null, null, null);
+            var submitPurchaseDto = new SubmitPurchaseDto();
+            submitPurchaseDto.ReturnTripTicket = new TicketDto();
+            submitPurchaseDto.TripTicket = new TicketDto();
+            submitPurchaseDto.TripTicket.Customer = new CustomerDto();
+            submitPurchaseDto.TripTicket.CreditCard = new CardDto();
+            submitPurchaseDto.ReturnTripTicket.ArrivalStation = "test";
+
+            //Act
+            var actionResult = (RedirectToRouteResult) _homeController.RegisterTicket(submitPurchaseDto);
+
+            //Assert
+            Assert.AreEqual("Index", actionResult.RouteValues["action"]);
+        }
+
+        [Test]
+        public void RegisterTicket_shouldReturnCustomerDetailsView()
+        {
+            //Arrange
+            _homeController.ModelState.AddModelError("test", "test");
+            var submitPurchaseDto = new SubmitPurchaseDto();
+            _homeController.Session["ChosenTrips"] = new List<TripDTO>
+            {
+                new TripDTO()
+            };
+
+            //Act
+            var actionResult = _homeController.RegisterTicket(submitPurchaseDto);
+            var viewResult = actionResult as ViewResult;
+
+            //Assert
+            Assert.AreEqual("CustomerDetails", viewResult.ViewName);
+        }
+
+        [Test]
+        public void RegisterTicket_viewbagShouldBeSet()
+        {
+            //Arrange
+            _homeController.ModelState.AddModelError("test", "test");
+            var submitPurchaseDto = new SubmitPurchaseDto();
+            _homeController.Session["ChosenTrips"] = new List<TripDTO>
+            {
+                new TripDTO()
+            };
+
+            //Act
+            _homeController.RegisterTicket(submitPurchaseDto);
+
+            //Assert
+            Assert.IsNotNull(_homeController.ViewData["Model"]);
+            Assert.IsInstanceOf<List<TripDTO>>(_homeController.ViewData["Model"]);
+        }
+
+        [Test]
+        public void SearchZip_shouldReturnResult()
+        {
+            //Arrange
+            _homeController = new HomeController(
+                null,
+                ZipSearchServiceMock.GetPostalTownMock(),
+                null,
+                null);
+            var zipcodeDto = new ZipcodeDto
+            {
+                Postalcode = "0000",
+                Postaltown = "test"
+            };
+
+            //Act
+            var actual = _homeController.SearchZip(zipcodeDto);
+
+            //Assert
+            Assert.AreEqual("test", actual);
+        }
+
+        [Test]
+        public void Trips_GET_sessionChosenTripsShouldNotBeNull()
+        {
+            //Arrrange
+            var tripQueryDto = new TripQueryDTO();
+
+            //Act
+            _homeController.Trips(tripQueryDto);
+
+            //Assert
+            Assert.IsInstanceOf<List<TripDTO>>(_homeController.Session["ChosenTrips"]);
+        }
+
+        [Test]
+        public void Trips_GET_shouldReturnTripsView()
+        {
+            //Arrrange
+            var tripQueryDto = new TripQueryDTO();
+
+            //Act
+            var actionResult = _homeController.Trips(tripQueryDto);
+            var viewResult = actionResult as ViewResult;
+
+            //Assert
+            Assert.AreEqual("", viewResult.ViewName);
+        }
+
+        [Test]
         public void Trips_POST_sessionChoosenTripsShouldNotBeNull()
         {
             //Arrrange
@@ -186,175 +354,5 @@ namespace Test.Controllers
             //Assert
             Assert.AreEqual("", viewResult.ViewName);
         }
-
-        [Test]
-        public void Trips_GET_shouldReturnTripsView()
-        {
-            //Arrrange
-            var tripQueryDto = new TripQueryDTO();
-
-            //Act
-            var actionResult = _homeController.Trips(tripQueryDto);
-            var viewResult = actionResult as ViewResult;
-
-            //Assert
-            Assert.AreEqual("", viewResult.ViewName);
-        }
-
-        [Test]
-        public void Trips_GET_sessionChosenTripsShouldNotBeNull()
-        {
-            //Arrrange
-            var tripQueryDto = new TripQueryDTO();
-
-            //Act
-           _homeController.Trips(tripQueryDto);
-
-            //Assert
-            Assert.IsInstanceOf<System.Collections.Generic.List<TripDTO>>(_homeController.Session["ChosenTrips"]);
-        } 
-        
-        [Test]
-        public void RegisterTicket_POST_shouldReturnCustomerDetailsView()
-        {
-            //Arrange
-            _homeController.ModelState.AddModelError("test", "test");
-            SubmitPurchaseDto submitPurchaseDto = new SubmitPurchaseDto();
-            
-            //Act
-            var actionResult = _homeController.RegisterTicket(submitPurchaseDto);
-            var viewResult = actionResult as ViewResult;
-
-            //Assert
-            Assert.AreEqual("CustomerDetails", viewResult.ViewName);
-        }
-
-        [Test]
-        public void RegisterTicket_shouldRedirectToIndex()
-        {
-            //Arrange
-            var vyService = VyServiceMock.CreateTicketMock();
-            _homeController = new HomeController(vyService, null, null, null);
-            SubmitPurchaseDto submitPurchaseDto = new SubmitPurchaseDto();
-            submitPurchaseDto.ReturnTripTicket = new TicketDto();
-            submitPurchaseDto.TripTicket = new TicketDto();
-            submitPurchaseDto.TripTicket.Customer = new CustomerDto();
-            submitPurchaseDto.TripTicket.CreditCard = new CardDto();
-            submitPurchaseDto.ReturnTripTicket.ArrivalStation = "test";
-
-            //Act
-            var actionResult = (RedirectToRouteResult)_homeController.RegisterTicket(submitPurchaseDto);
-
-            //Assert
-            Assert.AreEqual("Index", actionResult.RouteValues["action"]);
-        }
-
-        [Test]
-        public void RegisterTicket_shouldReturnCustomerDetailsView()
-        {
-            //Arrange
-            _homeController.ModelState.AddModelError("test", "test");
-            SubmitPurchaseDto submitPurchaseDto = new SubmitPurchaseDto();
-            _homeController.Session["ChosenTrips"] = new List<TripDTO>
-            {
-                new TripDTO{}
-            };
-            
-            //Act
-            var actionResult = _homeController.RegisterTicket(submitPurchaseDto);
-            var viewResult = actionResult as ViewResult;
-
-            //Assert
-            Assert.AreEqual("CustomerDetails", viewResult.ViewName);
-        }
-
-        [Test]
-        public void RegisterTicket_viewbagShouldBeSet()
-        {
-            //Arrange
-            _homeController.ModelState.AddModelError("test", "test");
-            SubmitPurchaseDto submitPurchaseDto = new SubmitPurchaseDto();
-            _homeController.Session["ChosenTrips"] = new List<TripDTO>
-            {
-                new TripDTO{}
-            };
-            
-            //Act
-            _homeController.RegisterTicket(submitPurchaseDto);
-
-            //Assert
-            Assert.IsNotNull(_homeController.ViewData["Model"]);
-            Assert.IsInstanceOf<List<TripDTO>>(_homeController.ViewData["Model"]);
-        }
-
-        [TestCase("")]
-        [TestCase("0")]
-        [TestCase("000")]
-        [TestCase("00")]
-        [TestCase("0x00")]
-        [TestCase("xxxx")]
-        [TestCase("x000")]
-        [TestCase("x")]
-        public void SearchZip_shouldReturnEmptyString(string value)
-        {
-            //Arrange
-            _homeController = new HomeController(
-                null,
-                MockUtil.ZipSearchServiceMock.GetPostalTownMock(),
-                null,
-                null);
-            ZipcodeDto zipcodeDto = new ZipcodeDto
-            {
-                Postalcode = value,
-                Postaltown = "test"
-            };
-
-            //Act
-            string actual = _homeController.SearchZip(zipcodeDto);
-            
-            //Assert
-            Assert.AreEqual("", actual);
-        }
-        [Test] 
-        public void SearchZip_shouldReturnResult()
-        {
-            //Arrange
-            _homeController = new HomeController(
-                null,
-                ZipSearchServiceMock.GetPostalTownMock(),
-                null,
-                null);
-            ZipcodeDto zipcodeDto = new ZipcodeDto
-            {
-                Postalcode = "0000", 
-                Postaltown = "test"
-            };
-            
-            //Act
-            string actual = _homeController.SearchZip(zipcodeDto);
-            
-            //Assert
-            Assert.AreEqual("test", actual);
-        }
-
-        [Test]
-        public void GetAllStations_shouldReturnStringOfStations()
-        {
-            //Arrange
-            _homeController = new HomeController(
-                null,
-                null,
-                StationServiceMock.GetAllKeyValueStations(),
-                null);
-            //Act
-            var stations = _homeController.GetAllStations();
-            var serializer = new JavaScriptSerializer();
-            var actual = serializer.Deserialize<Dictionary<string, string>>(stations);
-            
-            //Assert
-            Assert.AreEqual("test", actual["test"]);
-        }
-        
-        
     }
 }
