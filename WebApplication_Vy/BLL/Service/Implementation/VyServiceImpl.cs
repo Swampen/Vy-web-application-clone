@@ -112,16 +112,6 @@ namespace BLL.Service.Implementation
             };
         }
 
-
-        private Trip MapTripEntity(TripDTO dto)
-        {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<TripDTO, Trip>());
-            var mapper = new Mapper(config);
-            var entity = mapper.Map<Trip>(dto);
-            return entity;
-        }
-
-
         private Ticket MapTicketEntity(TicketDto dto)
         {
             var ticket = new Ticket();
@@ -141,6 +131,7 @@ namespace BLL.Service.Implementation
         {
             var customer = new Customer
             {
+                Id = dto.Id,
                 Givenname = dto.Givenname,
                 Surname = dto.Surname,
                 Address = dto.Address,

@@ -55,7 +55,6 @@ namespace WebApplication_Vy.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteTicket(int ticketId)
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
@@ -117,7 +116,6 @@ namespace WebApplication_Vy.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteCustomer(int customerId)
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
