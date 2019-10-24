@@ -12,6 +12,8 @@ namespace BLL.Service.Contracts
         
         bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword);
 
+        bool DeleteAdmin(int Id);
+
         List<AdminUserDTO> GetAllAdmins();
 
         bool isSuperAdmin(string adminUsername);

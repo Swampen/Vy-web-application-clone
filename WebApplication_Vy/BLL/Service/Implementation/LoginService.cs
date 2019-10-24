@@ -110,5 +110,10 @@ namespace BLL.Service.Implementation
         {
             return _loginRepository.isSuperAdmin(adminUsername);
         }
+
+        public bool DeleteAdmin(int Id)
+        {
+            return _loginRepository.DeleteAdmin(Id);
+        }
     }
 }

@@ -152,5 +152,14 @@ namespace WebApplication_Vy.Controllers
             }
             return RedirectToAction("admins");
         }
+
+        public ActionResult DeleteAdmin(int Id)
+        {
+            if (Session["SuperAdmin"] != null && (bool)Session["SuperAdmin"])
+            {
+                var success = _loginService.DeleteAdmin(Id);
+            }
+            return RedirectToAction("admins");
+        }
     }
 }

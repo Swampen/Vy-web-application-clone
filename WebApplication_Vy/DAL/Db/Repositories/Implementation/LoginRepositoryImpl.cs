@@ -59,14 +59,12 @@ namespace DAL.Db.Repositories.Implementation
                 {
                     db.AdminUsers.Add(adminUser);
                     db.SaveChanges();
-                    Console.WriteLine("User with username: " + adminUser.UserName);
-
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                                 "Create admin succeded for username: " + adminUser.UserName);
                     return true;
                 }
                 catch (Exception error)
                 {
-                    Console.WriteLine(error);
-                    Console.WriteLine(error.StackTrace);
                     Log.Error(LogEventPrefixes.DATABASE_ERROR + error.Message, error);
                     return false;
                 }
@@ -78,13 +76,14 @@ namespace DAL.Db.Repositories.Implementation
             {
                 try
                 {
-                    List<AdminUser> admin = db.AdminUsers.ToList();
-                    return admin.OrderBy(s => s.UserName).ToList();
+                    List<AdminUser> admins = db.AdminUsers.ToList();
+
+                    return admins;
                 }
                 catch (Exception e)
                 {
                     Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
-                    throw;
+                    return null;
                 }
             }
         }
@@ -98,6 +97,31 @@ namespace DAL.Db.Repositories.Implementation
             if (admin != null)
             {
                 return admin.SuperAdmin;
+            }
+            return false;
+        }
+
+        public bool DeleteAdmin(int Id)
+        {
+            var db = new VyDbContext();
+            var admin = db.AdminUsers.Find(Id);
+
+            if (admin != null)
+            {
+                try
+                {
+                    db.AdminUsers.Remove(admin);
+                    db.SaveChanges();
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                                 "Deleted admin succeded for Id: " + Id);
+                    return true;
+
+                }
+                catch (Exception e)
+                {
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
+                    return false;
+                }
             }
             return false;
         }
