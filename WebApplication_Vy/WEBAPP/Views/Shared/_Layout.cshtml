@@ -39,7 +39,7 @@
             @if (Session["Auth"] != null && (bool)Session["Auth"])
             {
                 <div class="form-inline my-2 my-lg-0 mr-5">
-                    @Html.ActionLink("Logout", "Logout", "admin", null, new { @class = "btn btn-secondary nav-link" })
+                    @Html.ActionLink("Logout", "logout", "login", null, new { @class = "btn btn-secondary nav-link" })
                 </div>
             }
             else
@@ -60,7 +60,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/home/login" method="post">
+                <form action="/login/login" method="post">
                     @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="row">
