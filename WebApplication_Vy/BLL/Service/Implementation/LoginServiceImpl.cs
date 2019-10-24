@@ -4,16 +4,15 @@ using System.Security.Cryptography;
 using System.Text;
 using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
-using DAL.Db.Repositories.Implementation;
 using DAL.DTO;
-using MODEL.Models;
-using System.Security.Cryptography;
+using MODEL.Models.Entities;
 
 namespace BLL.Service.Implementation
 {
     public class LoginServiceImpl : ILoginService
     {
         private readonly ILoginRepository _loginRepository;
+
         public LoginServiceImpl(ILoginRepository loginRepository)
         {
             _loginRepository = loginRepository;
@@ -23,51 +22,75 @@ namespace BLL.Service.Implementation
         {
             HashAlgorithm algorithm = new SHA256Managed();
 
-            byte[] plainTextWithSaltBytes =
-              new byte[plainText.Length + salt.Length];
+            var plainTextWithSaltBytes =
+                new byte[plainText.Length + salt.Length];
 
-            for (int i = 0; i < plainText.Length; i++)
-            {
-                plainTextWithSaltBytes[i] = plainText[i];
-            }
-            for (int i = 0; i < salt.Length; i++)
-            {
-                plainTextWithSaltBytes[plainText.Length + i] = salt[i];
-            }
+            for (var i = 0; i < plainText.Length; i++) plainTextWithSaltBytes[i] = plainText[i];
+            for (var i = 0; i < salt.Length; i++) plainTextWithSaltBytes[plainText.Length + i] = salt[i];
             return algorithm.ComputeHash(plainTextWithSaltBytes);
         }
 
 
-
         public bool Login(AdminUserDTO adminUserDto)
         {
-           string salt = _loginRepository.getSalt(adminUserDto.Username);
-           if (salt == "") return false;
-           
-           try
-           {
-               var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(adminUserDto.Password),
-                   Encoding.UTF8.GetBytes(salt));
+            var salt = _loginRepository.getSalt(adminUserDto.Username);
+            if (salt == "") return false;
 
-               AdminUser user = MapAdminUser(adminUserDto, hashedPassword);
+            try
+            {
+                var hashedPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(adminUserDto.Password),
+                    Encoding.UTF8.GetBytes(salt));
 
-               if (_loginRepository.UserInDB(user))
-               {
-                   return true;
-               }
-               return false;
-           }
-           catch (Exception error)
-           {
-               Console.WriteLine(error);
-               return false;
-           }
+                var user = MapAdminUser(adminUserDto, hashedPassword);
 
+                if (_loginRepository.UserInDB(user)) return true;
+                return false;
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine(error);
+                return false;
+            }
+        }
+
+
+        public bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword)
+        {
+            var salt = MakeSalt();
+            if (SecretAdminPassword.Equals("ADMINISTRATOR"))
+            {
+                var user = new AdminUser();
+                user.Password = GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt));
+                user.UserName = Username;
+                user.salt = salt;
+                return _loginRepository.RegisterAdminUser(user);
+            }
+
+            return false;
+        }
+
+        public List<AdminUserDTO> GetAllAdmins()
+        {
+            var adminUserDtos = new List<AdminUserDTO>();
+            _loginRepository
+                .FindAllAdminUsers()
+                .ForEach(adminUser => { adminUserDtos.Add(MapUserAdminDto(adminUser)); });
+            return adminUserDtos;
+        }
+
+        public bool isSuperAdmin(string adminUsername)
+        {
+            return _loginRepository.isSuperAdmin(adminUsername);
+        }
+
+        public bool DeleteAdmin(int Id)
+        {
+            return _loginRepository.DeleteAdmin(Id);
         }
 
         private string MakeSalt()
         {
-            byte[] randomArray = new byte[10];
+            var randomArray = new byte[10];
             string randomString;
 
             var rng = new RNGCryptoServiceProvider();
@@ -76,7 +99,7 @@ namespace BLL.Service.Implementation
 
             return randomString;
         }
-        
+
         private AdminUser MapAdminUser(AdminUserDTO adminUserDto, byte[] hashedPassword)
         {
             var adminUser = new AdminUser();
@@ -88,31 +111,6 @@ namespace BLL.Service.Implementation
             return adminUser;
         }
 
-        
-
-        public bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword)
-        {
-            string salt = MakeSalt();
-            if (SecretAdminPassword.Equals("ADMINISTRATOR"))
-            {
-                
-                AdminUser user = new AdminUser();
-                user.Password = (GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)));
-                user.UserName = Username;
-                user.salt = salt;
-                return _loginRepository.RegisterAdminUser(user);
-            }
-
-            return false;
-        }
-        public List<AdminUserDTO> GetAllAdmins()
-        {
-            var adminUserDtos = new List<AdminUserDTO>();
-            _loginRepository
-                .FindAllAdminUsers()
-                .ForEach(adminUser => { adminUserDtos.Add(MapUserAdminDto(adminUser)); });
-            return adminUserDtos;
-        }
         private AdminUserDTO MapUserAdminDto(AdminUser admin)
         {
             return new AdminUserDTO
@@ -121,16 +119,6 @@ namespace BLL.Service.Implementation
                 Username = admin.UserName,
                 SuperAdmin = admin.SuperAdmin
             };
-        }
-
-        public bool isSuperAdmin(string adminUsername)
-        {
-            return _loginRepository.isSuperAdmin(adminUsername);
-        }
-
-        public bool DeleteAdmin(int Id)
-        {
-            return _loginRepository.DeleteAdmin(Id);
         }
     }
 }

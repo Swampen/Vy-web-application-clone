@@ -36,9 +36,6 @@ namespace Test.Controllers
             _homeController = null;
         }
 
-        private readonly IVyService _vyService;
-        private readonly IZipSearchService _zipSearch;
-        private readonly IStationService _stationService;
         private HomeController _homeController;
 
         private ControllerContext getHttpSessionContext()
