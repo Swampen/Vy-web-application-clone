@@ -17,5 +17,7 @@ namespace DAL.Db.Repositories.Contracts
         List<AdminUser> FindAllAdminUsers();
 
         bool isSuperAdmin(string adminUsername);
+
+        string getSalt(string username);
     }
 }
