@@ -15,8 +15,8 @@ namespace WebApplication_Vy.Controllers
     {
         private static readonly ILog Log = LogHelper.GetLogger();
         private readonly IStationService _stationService;
-        private readonly IVyService _vyService;
         private readonly ILoginService _loginService;
+        private readonly IVyService _vyService;
 
         public AdminController(
             IVyService vyService,
@@ -24,9 +24,9 @@ namespace WebApplication_Vy.Controllers
             ILoginService loginService
         )
         {
+            _loginService = loginService;
             _vyService = vyService;
             _stationService = stationService;
-            _loginService = loginService;
 
             var db = new VyDbContext();
             db.Database.Initialize(true);
@@ -34,10 +34,13 @@ namespace WebApplication_Vy.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            var session = (bool)Session["Auth"];
-            if (session)
+            if (Session["Auth"] != null)
             {
-                return View();
+                var session = (bool)Session["Auth"];
+                if (session)
+                {
+                    return View();
+                }
             }
             return RedirectToAction("index", "home");
         }
@@ -113,13 +116,6 @@ namespace WebApplication_Vy.Controllers
             _vyService.DeleteCustomer(customerId);
             return RedirectToAction("Customers");
         }
-
-        public ActionResult Logout()
-        {
-            Session["Auth"] = false;
-            return RedirectToAction("index", "home");
-        }
-
 
         public ActionResult Admins()
         {
