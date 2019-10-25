@@ -27,9 +27,6 @@ namespace WebApplication_Vy.Controllers
             _loginService = loginService;
             _vyService = vyService;
             _stationService = stationService;
-
-            var db = new VyDbContext();
-            db.Database.Initialize(true);
         }
         // GET: Admin
         public ActionResult Index()
