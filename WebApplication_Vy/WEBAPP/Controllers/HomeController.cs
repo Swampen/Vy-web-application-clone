@@ -115,8 +115,10 @@ namespace WebApplication_Vy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RegisterTicket(SubmitPurchaseDto submitPurchaseDto)
         {
+            var confirmed = ((Session["Confirmed"] == null) ? false : (bool)Session["Confirmed"]);
             if (ModelState.IsValid)
             {
+                if (confirmed) return RedirectToAction("Index");
                 var success = _vyService.CreateTicket(submitPurchaseDto.TripTicket);
                 if (submitPurchaseDto.ReturnTripTicket.ArrivalStation != null)
                 {
@@ -127,6 +129,7 @@ namespace WebApplication_Vy.Controllers
 
                 if (success)
                 {
+                    Session["Confirmed"] = true;
                     ViewBag.trip = (List<TripDTO>)Session["ChosenTrips"];
                     return View("Confirmation");
                 }
