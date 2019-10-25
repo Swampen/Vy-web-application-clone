@@ -1,6 +1,7 @@
 ﻿using BLL.Service.Contracts;
 using BLL.Service.Implementation;
 using DAL.DTO;
+using MODEL.Models.Entities;
 using NUnit.Framework;
 using Test.MockUtil;
 
@@ -113,19 +114,31 @@ namespace Test.Service
         public void UpdateCustomer_shouldReturnTrue()
         {
             //Arrange
-            _service = new VyServiceImpl(
-                null,
-                );
+            _service = new VyServiceImpl(null, CustomerRepositoryMock.UpdateCustomer());
+
             //Act
+            var actual = _service.UpdateCustomer(_customerDto);
             
             //Assert
-            Assert.Fail();
+            Assert.IsTrue(actual);
         }
         
         [Test]
         public void DeleteCustomer_shouldReturnTrue()
         {
-            Assert.Fail();
+            //Arrange
+            _service = new VyServiceImpl(null, CustomerRepositoryMock.DeleteCustomer());
+            
+            //Act
+            var actual =_service.DeleteCustomer(1);
+            Assert.IsTrue(actual);
+        }
+
+        [Test]
+        public void ChangeStation_shouldReturnTrue()
+        {
+            //Arrange
+            _service = new VyServiceImpl(VyRepositoryMock);
         }
     }
 }

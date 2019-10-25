@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DAL.Db.Repositories.Contracts;
+using DAL.DTO;
 using MODEL.Models.Entities;
 using Moq;
 
@@ -54,6 +55,13 @@ namespace Test.MockUtil
         {
             var mockRepo = new Mock<IVyRepository>();
             mockRepo.Setup(mock => mock.DeleteTicket(It.IsAny<int>())).Returns(true);
+            return mockRepo.Object;
+        }
+
+        public static IVyRepository ChangeStationMock()
+        {
+            var mockRepo = new Mock<IVyRepository>();
+            mockRepo.Setup(mock => mock.ChangeStation(It.IsAny<StationDTO>())).Returns(true);
             return mockRepo.Object;
         }
         
