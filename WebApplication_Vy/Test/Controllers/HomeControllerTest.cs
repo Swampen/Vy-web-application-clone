@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using BLL.Service.Contracts;
-using DAL.DTO;
+﻿using DAL.DTO;
 using DAL.DTO.TripData;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Test.MockUtil;
 using Test.MockUtil.ServiceMock;
 using WebApplication_Vy.Controllers;
@@ -99,7 +98,7 @@ namespace Test.Controllers
             var actionResult = _homeController.Index();
 
             //Assert
-            Assert.IsFalse((bool) _homeController.Session["Auth"]);
+            Assert.IsFalse((bool)_homeController.Session["Auth"]);
         }
 
         [Test]
@@ -110,7 +109,7 @@ namespace Test.Controllers
             var viewResult = actionResult as ViewResult;
 
             //Assert
-            Assert.IsFalse((bool) _homeController.Session["HaveRoundTrip"]);
+            Assert.IsFalse((bool)_homeController.Session["HaveRoundTrip"]);
         }
 
         [Test]
@@ -153,7 +152,7 @@ namespace Test.Controllers
 
             //Act
             _homeController.Index(tripQueryDto);
-            var resultTripqueryDto = (TripQueryDTO) _homeController.Session["ReturnTripQuery"];
+            var resultTripqueryDto = (TripQueryDTO)_homeController.Session["ReturnTripQuery"];
 
             //Assert
             Assert.AreEqual(tripQueryDto.Adult, resultTripqueryDto.Adult);
@@ -235,7 +234,7 @@ namespace Test.Controllers
             submitPurchaseDto.ReturnTripTicket.ArrivalStation = "test";
 
             //Act
-            var actionResult = (RedirectToRouteResult) _homeController.RegisterTicket(submitPurchaseDto);
+            var actionResult = (RedirectToRouteResult)_homeController.RegisterTicket(submitPurchaseDto);
 
             //Assert
             Assert.AreEqual("Index", actionResult.RouteValues["action"]);
@@ -404,7 +403,7 @@ namespace Test.Controllers
 
             //Act
             _homeController.Trips(expectedTripDto);
-            var actual = (List<TripDTO>) _homeController.Session["ChosenTrips"];
+            var actual = (List<TripDTO>)_homeController.Session["ChosenTrips"];
 
             //Assert
             Assert.AreEqual(2, actual.Count);

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DAL.Db.Repositories.Contracts;
+using MODEL.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using DAL.Db.Repositories.Contracts;
-using MODEL.Models.Entities;
 using UTILS.Utils.Logging;
 
 namespace DAL.Db.Repositories.Implementation

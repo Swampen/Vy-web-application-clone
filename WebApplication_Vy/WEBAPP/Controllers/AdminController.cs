@@ -2,10 +2,6 @@
 using DAL.Db;
 using DAL.DTO;
 using log4net;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using UTILS.Utils.Logging;
 
@@ -163,7 +159,7 @@ namespace WebApplication_Vy.Controllers
 
             if (Session["SuperAdmin"] != null && (bool)Session["SuperAdmin"])
             {
-                
+
                 var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
                     adminUserDto.Password, "ADMINISTRATOR");
                 if (UserCreated)

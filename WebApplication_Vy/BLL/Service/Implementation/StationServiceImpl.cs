@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using BLL.Service.Contracts;
+﻿using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
 using DAL.DTO;
 using MODEL.Models.Entities;
+using System.Collections.Generic;
 
 namespace BLL.Service.Implementation
 {
@@ -60,7 +58,7 @@ namespace BLL.Service.Implementation
                 StopId = station.StopId
             };
         }
-        
+
         private Station MapStationEntity(StationDTO dto)
         {
             return new Station

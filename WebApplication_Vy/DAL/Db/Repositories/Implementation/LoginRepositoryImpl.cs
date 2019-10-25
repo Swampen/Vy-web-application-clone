@@ -1,11 +1,9 @@
-﻿using System;
+﻿using DAL.Db.Repositories.Contracts;
+using log4net;
+using MODEL.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.ModelBinding;
-using DAL.Db.Repositories.Contracts;
-using log4net;
-using MODEL.Models;
-using MODEL.Models.Entities;
 using UTILS.Utils.Logging;
 
 namespace DAL.Db.Repositories.Implementation
@@ -51,7 +49,7 @@ namespace DAL.Db.Repositories.Implementation
 
                 if (User != null)
                 {
-                   return User.salt; 
+                    return User.salt;
                 }
 
                 return "";

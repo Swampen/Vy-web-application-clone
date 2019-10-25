@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using AutoMapper;
 using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
 using DAL.DTO;
-using DAL.DTO.TripData;
 using MODEL.Models.Entities;
-using MODEL.Models.Entities.TripData;
+using System.Collections.Generic;
 
 namespace BLL.Service.Implementation
 {

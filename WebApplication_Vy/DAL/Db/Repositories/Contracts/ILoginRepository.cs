@@ -1,6 +1,5 @@
-﻿using MODEL.Models;
+﻿using MODEL.Models.Entities;
 using System.Collections.Generic;
-using MODEL.Models.Entities;
 
 namespace DAL.Db.Repositories.Contracts
 {

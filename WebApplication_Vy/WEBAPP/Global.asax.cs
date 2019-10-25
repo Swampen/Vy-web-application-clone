@@ -1,10 +1,8 @@
-﻿using System.Reflection;
+﻿using log4net.Config;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using log4net;
-using log4net.Config;
 
 [assembly: XmlConfigurator(Watch = true)]
 

@@ -1,10 +1,9 @@
+using DAL.Db.Repositories.Contracts;
+using log4net;
+using MODEL.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DAL.Db.Repositories.Contracts;
-using DAL.DTO;
-using log4net;
-using MODEL.Models.Entities;
 using UTILS.Utils.Logging;
 
 namespace DAL.Db.Repositories.Implementation
