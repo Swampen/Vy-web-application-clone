@@ -11,9 +11,28 @@ namespace DAL.Db.Repositories.Implementation
     {
         private static readonly log4net.ILog Log = LogHelper.GetLogger();
 
-        public bool CreateNewStation(Station station)
+        public bool CreateStation(Station station)
         {
-            throw new NotImplementedException();
+            var db = new VyDbContext();
+
+            var foundStation = db.Stations.FirstOrDefault(s => s.StopId == station.StopId);
+            if (foundStation == null)
+            {
+                try
+                {
+                    db.Stations.Add(station);
+                    db.SaveChanges();
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                             "Created new station: " + station.Name);
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
+                    return false;
+                }
+            }
+            return false;
         }
 
         public bool DeleteStation(int stationId)

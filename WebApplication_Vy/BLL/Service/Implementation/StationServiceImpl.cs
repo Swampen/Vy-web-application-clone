@@ -17,9 +17,9 @@ namespace BLL.Service.Implementation
             _stationRepository = stationRepository;
         }
 
-        public bool createNewStation(StationDTO stationDto)
+        public bool createStation(StationDTO stationDto)
         {
-            throw new NotImplementedException();
+            return _stationRepository.CreateStation(MapStationEntity(stationDto));
         }
 
         public bool deleteStation(int stationId)

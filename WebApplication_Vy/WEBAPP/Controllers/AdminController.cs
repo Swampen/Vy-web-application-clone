@@ -97,10 +97,12 @@ namespace WebApplication_Vy.Controllers
             return RedirectToAction("index", "home");
         }
 
-        public ActionResult CreateNewStation(StationDTO stationDto)
+        [HttpPost]
+        public ActionResult CreateStation(StationDTO stationDto)
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
             {
+                var success = _stationService.createStation(stationDto);
                 return RedirectToAction("stations");
             }
             return RedirectToAction("index", "home");

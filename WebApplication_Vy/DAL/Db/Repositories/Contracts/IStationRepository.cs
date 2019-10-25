@@ -8,7 +8,7 @@ namespace DAL.Db.Repositories.Contracts
         List<Station> FindAllStations();
         bool UpdateStation(Station station);
         bool DeleteStation(int stationId);
-        bool CreateNewStation(Station station);
+        bool CreateStation(Station station);
 
     }
 }
