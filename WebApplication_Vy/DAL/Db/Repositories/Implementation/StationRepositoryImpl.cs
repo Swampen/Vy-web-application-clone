@@ -10,6 +10,35 @@ namespace DAL.Db.Repositories.Implementation
     public class StationRepositoryImpl : IStationRepository
     {
         private static readonly log4net.ILog Log = LogHelper.GetLogger();
+
+        public bool CreateNewStation(Station station)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteStation(int stationId)
+        {
+            var db = new VyDbContext();
+            try
+            {
+                var station = db.Stations.Find(stationId);
+                if (station != null)
+                {
+                    db.Stations.Remove(station);
+                    db.SaveChanges();
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                             "Deleted station: " + station.Name);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
+                return false;
+            }
+        }
+
         public List<Station> FindAllStations()
         {
             using (var db = new VyDbContext())
@@ -24,6 +53,29 @@ namespace DAL.Db.Repositories.Implementation
                     Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
                     throw;
                 }
+            }
+        }
+
+        public bool UpdateStation(Station station)
+        {
+            var db = new VyDbContext();
+            try
+            {
+                var foundStation = db.Stations.Find(station.Id);
+                if (foundStation != null)
+                {
+                    foundStation.Name = station.Name;
+                    db.SaveChanges();
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS + "Updated name on stationID " + foundStation.Id + " to " + foundStation.Id);
+                    return true;
+                }
+                return false;
+
+            }
+            catch (Exception e)
+            {
+                Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
+                return false;
             }
         }
     }

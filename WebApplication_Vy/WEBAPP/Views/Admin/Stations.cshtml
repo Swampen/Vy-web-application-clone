@@ -34,7 +34,8 @@
                                 @s.Name
                             </td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-warning" data-toggle="modal" id="@s.Id" data-station="@s.Name" data-target="#edit">Edit</button>
+                                <button type="button" class="btn btn-warning" data-toggle="modal" id="@s.Id" data-station="@s.Name" data-target="#edit">Edit</button> |
+                                <button type="button" class="btn btn-danger" data-toggle="modal" id="@s.Id" data-station="@s.Name" data-target="#delete">Delete</button>
                             </td>
                         </tr>
 
@@ -67,6 +68,50 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="body-text"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a id="confirmBtn" href="" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newStation" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">New Station</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label></label>
+                    <input />
+                    <label></label>
+                    <input />
+                </div>
+                <div class="modal-footer">
+                    <button id="close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a id="confirmBtn" href="" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -79,6 +124,19 @@
             var modal = $(this)
             modal.find("#nameInput").val(station)
             modal.find("#changeStationId").val(id);
+
+        });
+
+        $('#delete').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var id = button[0].id
+            var station = button[0].dataset["station"]
+
+            var modal = $(this)
+            var url = `/admin/deleteStation?stationId=${id}`;
+            modal.find("h5").text("Delete " + station + "?")
+            modal.find("#body-text").text("Are you sure you want to delete " + station + "?")
+            modal.find("#confirmBtn").attr("href", url);
         });
 
         $('#table').DataTable({
@@ -92,6 +150,4 @@
         $("#table_length").addClass("col-12 col-md-5 pt-2")
 
     })
-
-
 </script>

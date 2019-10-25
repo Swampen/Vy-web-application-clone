@@ -17,6 +17,16 @@ namespace BLL.Service.Implementation
             _stationRepository = stationRepository;
         }
 
+        public bool createNewStation(StationDTO stationDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool deleteStation(int stationId)
+        {
+            return _stationRepository.DeleteStation(stationId);
+        }
+
         public Dictionary<string, string> getAllKeyValueStations()
         {
             Dictionary<string, string> stations = new Dictionary<string, string>();
@@ -36,6 +46,11 @@ namespace BLL.Service.Implementation
             return stationDtos;
         }
 
+        public bool updateStation(StationDTO stationDto)
+        {
+            return _stationRepository.UpdateStation(MapStationEntity(stationDto));
+        }
+
         private StationDTO MapStationDto(Station station)
         {
             return new StationDTO
@@ -43,6 +58,16 @@ namespace BLL.Service.Implementation
                 Id = station.Id,
                 Name = station.Name,
                 StopId = station.StopId
+            };
+        }
+        
+        private Station MapStationEntity(StationDTO dto)
+        {
+            return new Station
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                StopId = dto.StopId
             };
         }
     }

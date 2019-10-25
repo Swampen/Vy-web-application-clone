@@ -55,11 +55,6 @@ namespace BLL.Service.Implementation
             return _vyRepository.DeleteTicket(ticketId);
         }
 
-        public bool ChangeStation(StationDTO stationdto)
-        {
-            return _vyRepository.ChangeStation(stationdto);
-        }
-
         private CustomerDto mapCustomerDto(Customer customer)
         {
             var ticketDtos = new List<TicketDto>();

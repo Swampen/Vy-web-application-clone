@@ -124,24 +124,5 @@ namespace DAL.Db.Repositories.Implementation
                 return false;
             }
         }
-
-        public bool ChangeStation(StationDTO stationdto)
-        {
-            var db = new VyDbContext();
-            try
-            {
-                var station = db.Stations.Find(stationdto.Id);
-                station.Name = stationdto.Name;
-                db.SaveChanges();
-                Log.Info(LogEventPrefixes.DATABASE_ACCESS + "Changed stationId: " + station.Id);
-                return true;
-                
-            }
-            catch (Exception e)
-            {
-                Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
-                return false;
-            }
-        }
     }
 }

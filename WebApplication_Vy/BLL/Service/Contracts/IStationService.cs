@@ -7,5 +7,8 @@ namespace BLL.Service.Contracts
     {
         List<StationDTO> getAllStations();
         Dictionary<string, string> getAllKeyValueStations();
+        bool deleteStation(int stationId);
+        bool createNewStation(StationDTO stationDto);
+        bool updateStation(StationDTO stationDto);
     }
 }

@@ -18,7 +18,5 @@ namespace BLL.Service.Contracts
         bool DeleteTicket(int ticketId);
 
         void MaskCreditCardNumber(CardDto cardDto);
-
-        bool ChangeStation(StationDTO station);
     }
 }

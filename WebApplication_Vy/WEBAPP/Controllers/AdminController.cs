@@ -31,7 +31,7 @@ namespace WebApplication_Vy.Controllers
             var db = new VyDbContext();
             db.Database.Initialize(true);
         }
-        // GET: Admin
+
         public ActionResult Index()
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
@@ -81,7 +81,26 @@ namespace WebApplication_Vy.Controllers
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
             {
-                var success = _vyService.ChangeStation(station);
+                var success = _stationService.updateStation(station);
+                return RedirectToAction("stations");
+            }
+            return RedirectToAction("index", "home");
+        }
+
+        public ActionResult DeleteStation(int stationId)
+        {
+            if (Session["Auth"] != null && (bool)Session["Auth"])
+            {
+                var success = _stationService.deleteStation(stationId);
+                return RedirectToAction("stations");
+            }
+            return RedirectToAction("index", "home");
+        }
+
+        public ActionResult CreateNewStation(StationDTO stationDto)
+        {
+            if (Session["Auth"] != null && (bool)Session["Auth"])
+            {
                 return RedirectToAction("stations");
             }
             return RedirectToAction("index", "home");
