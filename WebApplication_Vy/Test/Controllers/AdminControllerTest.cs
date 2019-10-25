@@ -315,22 +315,55 @@ namespace Test.Controllers
         [Test]
         public void Admins_shouldReturnAdminsView()
         {
-            //Auth is set and true
-            Assert.Fail();
+            //Arrange
+            _adminController = new AdminController(null, null, LoginServiceMock.GetAllAdminsMock())
+            {
+                ControllerContext = _controllerContext
+            };
+            _adminController.Session["Auth"] = true;
+            
+            //Act
+            var actionResult = _adminController.Admins();
+            var viewResult = actionResult as ViewResult;
+            
+            //Assert
+            Assert.AreEqual("", viewResult.ViewName);
         }
         
         [Test]
         public void Admins_shouldReturnUserIndexView()
         {
-            // Auth is null or false
-            Assert.Fail();
+            //Arrange
+            _adminController = new AdminController(null, null, LoginServiceMock.GetAllAdminsMock())
+            {
+                ControllerContext = _controllerContext
+            };
+            _adminController.Session["Auth"] = false;
+            
+            //Act
+            var routeResult = (RedirectToRouteResult)_adminController.Admins();
+            
+            //Assert
+            Assert.AreEqual("index", routeResult.RouteValues["Action"]);
         }
         
         [Test]
-        public void DeleteAdmin_shouldReturnCustomersView()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void DeleteAdmin_shouldReturnCustomersView(bool value)
         {
-            //SuperAdmin is set and true
-            Assert.Fail();
+            //Arrange
+            _adminController = new AdminController(null, null, LoginServiceMock.DeleteAdminMock())
+            {
+                ControllerContext = _controllerContext
+            };
+            _adminController.Session["SuperAdmin"] = value;
+            
+            //Act
+            var routeResult = (RedirectToRouteResult)_adminController.DeleteAdmin(1);
+            
+            //Assert
+            Assert.AreEqual("admins", routeResult.RouteValues["Action"]);
         }
 
         [Test]
