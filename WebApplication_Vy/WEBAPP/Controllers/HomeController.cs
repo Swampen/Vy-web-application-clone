@@ -41,6 +41,7 @@ namespace WebApplication_Vy.Controllers
             Log.Info("Application started, log4net running.....");
             Session["HaveRoundTrip"] = false;
             Session["ChosenTrips"] = new List<TripDTO>();
+            Session["Confirmed"] = false;
             return View();
         }
 
