@@ -59,6 +59,16 @@ namespace BLL.Service.Implementation
         {
             return _vyRepository.ChangeStation(stationdto);
         }
+        
+        public bool UpdateCustomer(CustomerDto customer)
+        {
+            return _customerRepository.updateCustomer(MapCustomerEntity(customer));
+        }
+
+        public bool DeleteCustomer(int id)
+        {
+            return _customerRepository.deleteCustomer(id);
+        }
 
         private CustomerDto mapCustomerDto(Customer customer)
         {
@@ -155,16 +165,6 @@ namespace BLL.Service.Implementation
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<ZipcodeDto, Zipcode>(); });
             var mapper = new Mapper(config);
             return mapper.Map<Zipcode>(dto);
-        }
-
-        public bool UpdateCustomer(CustomerDto customer)
-        {
-            return _customerRepository.updateCustomer(MapCustomerEntity(customer));
-        }
-
-        public bool DeleteCustomer(int id)
-        {
-            return _customerRepository.deleteCustomer(id);
         }
     }
 }

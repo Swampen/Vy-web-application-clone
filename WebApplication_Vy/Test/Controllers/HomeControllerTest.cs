@@ -23,7 +23,7 @@ namespace Test.Controllers
         {
             _homeController = new HomeController(null, null, null)
             {
-                ControllerContext = MockHttpSession.getHttpSessionContext()
+                ControllerContext = MockHttpSession.GetHttpSessionContext()
             };
             _homeController.Session["HaveRoundTrip"] = null;
             _homeController.Session["ChosenTrip"] = null;

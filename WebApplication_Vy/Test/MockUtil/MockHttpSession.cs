@@ -15,7 +15,7 @@ namespace Test.MockUtil
             set => _sessionDictionary[name] = value;
         }
         
-        public static ControllerContext getHttpSessionContext()
+        public static ControllerContext GetHttpSessionContext()
         {
             var context = new Mock<ControllerContext>();
             var session = new MockHttpSession();
