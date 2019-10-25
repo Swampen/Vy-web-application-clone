@@ -75,18 +75,6 @@
                 }
             }
 
-            //Alternative price
-            //$.ajax({
-            //    url: "https://api.entur.io/sales/v1/offers/search/trip/trip-pattern/" + value.id,
-            //    type: 'GET',
-            //   'entur-pos': "Vy lookalike",
-            //    'et-client-id': "OsloMet - Webapplication course group 41",
-            //    'et-client-name': "OsloMet - Webapplication course group 41",
-            //    contentType: "application/json;charset=utf-8",
-            //    success: function (response) {
-            //        console.log(response.offers[0].salesPackageConfig.prices[0].amount)
-            //    }
-            //});
             //Price section
             let price = 0;
             let originalPrice = 0;
@@ -197,7 +185,6 @@
 
             //Appends more info, but hidden
             var hidden_content = "<div class='col ml-5'>"
-            console.log(value.legs)
             if (value.legs == 0) {
             }
             $.each(value.legs, function (j, leg) {

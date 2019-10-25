@@ -34,33 +34,6 @@ namespace Test.Controllers
         {
             _adminController = null;
         }
-        
-        [Test]
-        public void Index_shouldReturnAdminIndexView()
-        {
-            //Arrange
-            _adminController.Session["Auth"] = true;
-            
-            //Act
-            var actionResult = _adminController.Index();
-            var viewResult = actionResult as ViewResult;
-            
-            //Assert
-            Assert.AreEqual("", viewResult.ViewName);
-        }
-
-        [Test]
-        public void Index_shouldReturnUserIndexView()
-        {
-            //Arrange
-            _adminController.Session["Auth"] = false;
-            
-            //Act
-            var routeResult = (RedirectToRouteResult)_adminController.Index();
-            
-            //Assert
-            Assert.AreEqual("index", routeResult.RouteValues["Action"]);
-        }
 
         [Test]
         public void Tickets_shouldReturnCustomersView()

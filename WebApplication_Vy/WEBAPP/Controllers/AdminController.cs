@@ -25,15 +25,6 @@ namespace WebApplication_Vy.Controllers
             _stationService = stationService;
         }
 
-        public ActionResult Index()
-        {
-            if (Session["Auth"] != null && (bool)Session["Auth"])
-            {
-                return View();
-            }
-            return RedirectToAction("index", "home");
-        }
-
         public ActionResult Tickets()
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
@@ -58,6 +49,7 @@ namespace WebApplication_Vy.Controllers
             return RedirectToAction("index", "home");
         }
 
+        [Route("Admin")]
         public ActionResult Stations()
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
@@ -156,9 +148,8 @@ namespace WebApplication_Vy.Controllers
 
             if (Session["SuperAdmin"] != null && (bool)Session["SuperAdmin"])
             {
-
                 var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
-                    adminUserDto.Password, "ADMINISTRATOR");
+                    adminUserDto.Password);
                 if (UserCreated)
                 {
                     return RedirectToAction("admins");

@@ -8,15 +8,12 @@
 <button class="btn btn-success mb-3" id="menu-toggle">Toggle menu</button>
 <div class="row">
     <!-- Sidebar -->
-    <div id="sidebar-container" class="col-12 col-lg-2 p-0 border" style="background-color: #2A3F54; max-width: 175px">
+    <div id="sidebar-container" class="col-12 col-lg-2 p-0 border border-dark" style="background-color: #2A3F54; max-width: 175px">
 
         <div id="sidebar-wrapper">
             <ul class="navbar-nav mr-auto text-center">
                 <li class="bg-light">
                     <h5 class="nav-link text-dark">Admin Panel</h5>
-                </li>
-                <li class="nav-item @(ViewBag.Title == "Dashboard" ? "bg-secondary" : "")">
-                    @Html.ActionLink("Dashboard", "index", "admin", null, new { @class = "nav-link bg- text-white" })
                 </li>
                 <li class="nav-item @(ViewBag.Title == "Stations" ? "bg-secondary" : "")">
                     @Html.ActionLink("Stations", "stations", "admin", null, new { @class = "nav-link text-white" })

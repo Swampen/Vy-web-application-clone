@@ -115,20 +115,23 @@ namespace WebApplication_Vy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RegisterTicket(SubmitPurchaseDto submitPurchaseDto)
         {
+            var confirmed = ((Session["Confirmed"] == null) ? false : (bool)Session["Confirmed"]);
             if (ModelState.IsValid)
             {
+                if (confirmed) return RedirectToAction("Index");
                 var success = _vyService.CreateTicket(submitPurchaseDto.TripTicket);
                 if (submitPurchaseDto.ReturnTripTicket.ArrivalStation != null)
                 {
                     submitPurchaseDto.ReturnTripTicket.Customer = submitPurchaseDto.TripTicket.Customer;
                     submitPurchaseDto.ReturnTripTicket.CreditCard = submitPurchaseDto.TripTicket.CreditCard;
                     success = _vyService.CreateTicket(submitPurchaseDto.ReturnTripTicket);
-                    Console.WriteLine("Returnticket success");
                 }
 
                 if (success)
                 {
-                    return RedirectToAction("Index");
+                    Session["Confirmed"] = true;
+                    ViewBag.trip = (List<TripDTO>)Session["ChosenTrips"];
+                    return View("Confirmation");
                 }
 
             }
