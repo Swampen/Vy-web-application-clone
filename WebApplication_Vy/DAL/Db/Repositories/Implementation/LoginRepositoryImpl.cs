@@ -30,17 +30,6 @@ namespace DAL.Db.Repositories.Implementation
             return false;
         }
 
-
-        public bool DoseAdminUserExcist(AdminUser adminUser)
-        {
-            using (var db = new VyDbContext())
-            {
-                var foundAdmin = db.AdminUsers.FirstOrDefault(user => user.UserName.Equals(adminUser.UserName));
-
-                return foundAdmin != null;
-            }
-        }
-
         public string getSalt(string username)
         {
             using (var db = new VyDbContext())

@@ -8,8 +8,6 @@ namespace DAL.Db.Repositories.Contracts
 
         bool UserInDB(AdminUser adminUser);
 
-        bool DoseAdminUserExcist(AdminUser adminUser);
-
         bool RegisterAdminUser(AdminUser adminUser);
 
         bool DeleteAdmin(int Id);
