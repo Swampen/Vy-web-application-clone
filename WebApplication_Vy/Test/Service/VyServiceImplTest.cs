@@ -1,8 +1,11 @@
-﻿using BLL.Service.Contracts;
+﻿using System.Security.AccessControl;
+using BLL.Service.Contracts;
 using BLL.Service.Implementation;
 using DAL.DTO;
+using MODEL.Models.Entities;
 using NUnit.Framework;
 using Test.MockUtil;
+using Test.MockUtil.RepositoryMock;
 
 namespace Test.Service
 {
@@ -12,6 +15,13 @@ namespace Test.Service
         [SetUp]
         public void SetUp()
         {
+            _stationDto = new StationDTO
+            {
+                Id = 1,
+                Name = "test",
+                StopId = "test"
+            };
+            
             _cardDto = new CardDto
             {
                 Card_Holder = "TestHolder",
@@ -67,6 +77,7 @@ namespace Test.Service
         private CustomerDto _customerDto;
         private TicketDto _ticketDto;
         private ZipcodeDto _zipcodeDto;
+        private StationDTO _stationDto;
 
         [Test]
         public void CreateTicketTest()
@@ -107,6 +118,56 @@ namespace Test.Service
             _service.MaskCreditCardNumber(_cardDto);
             Assert.AreNotEqual(before, _cardDto.Card_Number);
             Assert.AreEqual(expected, _cardDto.Card_Number);
+        }
+
+        [Test]
+        public void UpdateCustomer_shouldReturnTrue()
+        {
+            //Arrange
+            _service = new VyServiceImpl(null, CustomerRepositoryMock.UpdateCustomer());
+
+            //Act
+            var actual = _service.UpdateCustomer(_customerDto);
+            
+            //Assert
+            Assert.IsTrue(actual);
+        }
+        
+        [Test]
+        public void DeleteCustomer_shouldReturnTrue()
+        {
+            //Arrange
+            _service = new VyServiceImpl(null, CustomerRepositoryMock.DeleteCustomer());
+            
+            //Act
+            var actual =_service.DeleteCustomer(1);
+            Assert.IsTrue(actual);
+        }
+
+        [Test]
+        public void ChangeStation_shouldReturnTrue()
+        {
+            //Arrange
+            _service = new VyServiceImpl(VyRepositoryMock.ChangeStationMock(), null);
+            
+            //Act
+            var actual = _service.ChangeStation(_stationDto);
+            
+            //Assert
+            Assert.IsTrue(actual);
+        }
+
+        [Test]
+        public void CreateTicket_shouldReturnTrue()
+        {
+            //Arrange
+            _service = new VyServiceImpl(VyRepositoryMock.CreateTicketMock(), null);
+            
+            //Act
+            var actual = _service.CreateTicket(_ticketDto);
+            
+            //Assert
+            Assert.IsTrue(actual);
         }
     }
 }

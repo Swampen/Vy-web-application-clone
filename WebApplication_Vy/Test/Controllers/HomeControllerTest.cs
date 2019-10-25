@@ -8,6 +8,7 @@ using DAL.DTO.TripData;
 using Moq;
 using NUnit.Framework;
 using Test.MockUtil;
+using Test.MockUtil.ServiceMock;
 using WebApplication_Vy.Controllers;
 
 namespace Test.Controllers
@@ -36,9 +37,6 @@ namespace Test.Controllers
             _homeController = null;
         }
 
-        private readonly IVyService _vyService;
-        private readonly IZipSearchService _zipSearch;
-        private readonly IStationService _stationService;
         private HomeController _homeController;
 
         private ControllerContext getHttpSessionContext()

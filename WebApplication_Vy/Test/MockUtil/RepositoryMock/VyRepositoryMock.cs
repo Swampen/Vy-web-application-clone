@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using DAL.Db.Repositories.Contracts;
+using DAL.DTO;
 using MODEL.Models.Entities;
 using Moq;
 
-namespace Test.MockUtil
+namespace Test.MockUtil.RepositoryMock
 {
     public static class VyRepositoryMock
     {
@@ -16,6 +17,7 @@ namespace Test.MockUtil
         };
 
         private static readonly Zipcode Zipcode = new Zipcode {Postalcode = "2022", Postaltown = "Gjerdrum"};
+        private static readonly Zipcode NullZipcode = null;
 
         private static readonly List<Customer> Customers = new List<Customer>
         {
@@ -54,6 +56,22 @@ namespace Test.MockUtil
         {
             var mockRepo = new Mock<IVyRepository>();
             mockRepo.Setup(mock => mock.DeleteTicket(It.IsAny<int>())).Returns(true);
+            return mockRepo.Object;
+        }
+
+        public static IVyRepository ChangeStationMock()
+        {
+            var mockRepo = new Mock<IVyRepository>();
+            mockRepo.Setup(mock => mock.ChangeStation(It.IsAny<StationDTO>())).Returns(true);
+            return mockRepo.Object;
+        }
+
+        public static IVyRepository FindZipCodeMock()
+        {
+            var mockRepo = new Mock<IVyRepository>();
+            mockRepo.Setup(mock => mock.FindZipcode("0000")).Returns(Zipcode);
+            mockRepo.Setup(mock => mock.FindZipcode("9999")).Returns(Zipcode);
+            mockRepo.Setup(mock => mock.FindZipcode("1234")).Returns(NullZipcode);
             return mockRepo.Object;
         }
         

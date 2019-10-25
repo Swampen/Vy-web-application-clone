@@ -125,16 +125,20 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\LoginControllerTests.cs" />
-    <Compile Include="MockUtil\CreditCardRepositoryMock.cs" />
     <Compile Include="MockUtil\MockHttpSession.cs" />
-    <Compile Include="MockUtil\StationServiceMock.cs" />
-    <Compile Include="MockUtil\VyRepositoryMock.cs" />
-    <Compile Include="MockUtil\VyServiceMock.cs" />
-    <Compile Include="MockUtil\ZipSearchServiceMock.cs" />
+    <Compile Include="MockUtil\RepositoryMock\CreditCardRepositoryMock.cs" />
+    <Compile Include="MockUtil\RepositoryMock\CustomerRepositoryMock.cs" />
+    <Compile Include="MockUtil\RepositoryMock\StationRepositoryMock.cs" />
+    <Compile Include="MockUtil\RepositoryMock\VyRepositoryMock.cs" />
+    <Compile Include="MockUtil\ServiceMock\StationServiceMock.cs" />
+    <Compile Include="MockUtil\ServiceMock\VyServiceMock.cs" />
+    <Compile Include="MockUtil\ServiceMock\ZipSearchServiceMock.cs" />
     <Compile Include="Service\CreditCardServiceImplTest.cs" />
     <Compile Include="Service\LoginserviceImplTest.cs" />
+    <Compile Include="Service\StationServiceImplTest.cs" />
     <Compile Include="Service\VyServiceImplTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ZipSearchServiceImplTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

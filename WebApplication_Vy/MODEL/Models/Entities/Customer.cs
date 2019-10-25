@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MODEL.Models.Entities
 {
+    [TrackChanges]
     public class Customer
     {
         public int Id { get; set; }

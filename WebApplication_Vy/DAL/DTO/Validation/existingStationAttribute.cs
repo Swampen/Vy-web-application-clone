@@ -12,7 +12,6 @@ namespace DAL.DTO.Validation
         public override bool IsValid(object value)
         {
             var stations = _repository.FindAllStations();
-            Debug.WriteLine(value);
             var station = (string) value;
             station = station.ToLower();
 

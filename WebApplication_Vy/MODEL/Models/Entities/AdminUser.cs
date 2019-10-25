@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Remoting.Services;
 
-namespace MODEL.Models
-{
+namespace MODEL.Models.Entities
+{ 
+    [TrackChanges]
     public class AdminUser
     {
         [Key]
