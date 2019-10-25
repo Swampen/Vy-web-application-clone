@@ -35,11 +35,9 @@ namespace Test.MockUtil.ServiceMock
             var mockService = new Mock<ILoginService>();
             mockService.Setup(mock => mock.RegisterAdminUser(
                     "true",
-                    "true",
-                    "ADMINISTRATOR"))
+                    "true"))
                 .Returns(true);
             mockService.Setup(mock => mock.RegisterAdminUser(
-                    "false",
                     "false",
                     "false"))
                 .Returns(false);
