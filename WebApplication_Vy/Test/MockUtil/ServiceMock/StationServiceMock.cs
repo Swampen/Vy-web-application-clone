@@ -7,11 +7,12 @@ namespace Test.MockUtil.ServiceMock
 {
     public class StationServiceMock
     {
-        public static readonly Dictionary<string, string> StationsDictionary = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> StationsDictionary = new Dictionary<string, string>
         {
             ["test"] = "test"
         };
-        public static readonly List<StationDTO> StationDtos = new List<StationDTO>
+
+        private static readonly List<StationDTO> StationDtos = new List<StationDTO>
         {
             new StationDTO{Id = 1, Name = "test1", StopId = "test1"},
             new StationDTO{Id = 2, Name = "test2", StopId = "test2"},
