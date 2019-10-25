@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using DAL.Db.Repositories.Contracts;
+﻿using DAL.Db.Repositories.Contracts;
 using DAL.Db.Repositories.Implementation;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace DAL.DTO.Validation
 {
@@ -13,7 +13,7 @@ namespace DAL.DTO.Validation
         {
             var zipcodes = _repository.FindAllZipcodes();
             Debug.WriteLine(value);
-            var zipcode = (string) value;
+            var zipcode = (string)value;
 
             foreach (var zip in zipcodes)
                 if (zip.Postalcode == zipcode)

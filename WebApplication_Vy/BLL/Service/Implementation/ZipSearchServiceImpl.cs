@@ -1,9 +1,6 @@
-﻿using System.Text.RegularExpressions;
-using AutoMapper;
-using BLL.Service.Contracts;
+﻿using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
-using DAL.DTO;
-using MODEL.Models.Entities;
+using System.Text.RegularExpressions;
 
 namespace BLL.Service.Implementation
 {

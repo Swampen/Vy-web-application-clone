@@ -1,12 +1,11 @@
-﻿using System;
+﻿using MODEL.Models.Entities;
+using System;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Web;
 using System.Xml.Linq;
-using MODEL.Models;
-using MODEL.Models.Entities;
 using UTILS.Utils.Auth;
 
 namespace DAL.Db

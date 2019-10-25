@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using DAL.Db.Repositories.Contracts;
+﻿using DAL.Db.Repositories.Contracts;
 using MODEL.Models.Entities;
+using System.Linq;
 
 namespace DAL.Db.Repositories.Implementation
 {
@@ -26,7 +26,7 @@ namespace DAL.Db.Repositories.Implementation
         {
             using (var db = new VyDbContext())
             {
-                
+
                 Ticket foundTicket = Queryable.FirstOrDefault<Ticket>(db.Tickets, ticket => ticket.Id == ticketId);
                 return foundTicket?.CreditCard;
             }

@@ -1,6 +1,5 @@
 ﻿$(function () {
     $("#trips").hide();
-    console.log(trip)
 
     const people = { Adult: trip.Adult, Child: trip.Child, Student: trip.Student, Senior: trip.Senior }
     const variables = {
@@ -62,7 +61,6 @@
         if (itineraries.length === 0) {
             $("#alert").show();
         }
-        console.log(itineraries);
 
         //For each departure
         $.each(itineraries, function (i, value) {
@@ -89,7 +87,6 @@
             //        console.log(response.offers[0].salesPackageConfig.prices[0].amount)
             //    }
             //});
-            console.log(value.id)
             //Price section
             let price = 0;
             let originalPrice = 0;
@@ -100,11 +97,10 @@
             }).then(data => data.json()).then(data => {
 
 
-
                 originalPrice = data.price;
 
                 const priceText = ['OFFERS_SOLD_OUT', 'SEATING_INFO_UNAVAILABLE'];
-                if (priceText.includes(originalPrice)) {
+                if (priceText.includes(originalPrice) || originalPrice == undefined) {
                     $("#totPrice" + data.tripPatternId).text("No seates available");
                     $("#totPrice" + data.tripPatternId).append(`<input type='text' hidden name=Price value='0'>`);
 

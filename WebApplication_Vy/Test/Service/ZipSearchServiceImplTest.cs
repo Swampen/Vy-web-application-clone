@@ -1,7 +1,6 @@
 ﻿using BLL.Service.Implementation;
 using NUnit.Framework;
 using Test.MockUtil.RepositoryMock;
-using Test.MockUtil.ServiceMock;
 
 namespace Test.Service
 {
@@ -19,10 +18,10 @@ namespace Test.Service
         {
             //Arrange
             var zipService = new ZipSearchServiceImpl(VyRepositoryMock.FindZipCodeMock());
-            
+
             //Act
             var actual = zipService.GetPostaltown(value);
-            
+
             //Assert
             Assert.AreEqual("", actual);
         }
@@ -32,10 +31,10 @@ namespace Test.Service
         {
             //Arrange
             var zipService = new ZipSearchServiceImpl(VyRepositoryMock.FindZipCodeMock());
-            
+
             //Act
             var actual = zipService.GetPostaltown("1234");
-            
+
             //Assert
             Assert.AreEqual("", actual);
         }
@@ -47,10 +46,10 @@ namespace Test.Service
         {
             //Arrange
             var zipService = new ZipSearchServiceImpl(VyRepositoryMock.FindZipCodeMock());
-            
+
             //Act
             var actual = zipService.GetPostaltown(value);
-            
+
             //Assert
             Assert.AreEqual("Gjerdrum", actual);
         }

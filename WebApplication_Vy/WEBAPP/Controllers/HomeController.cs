@@ -1,13 +1,12 @@
+using BLL.Service.Contracts;
+using DAL.DTO;
+using DAL.DTO.TripData;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using BLL.Service.Contracts;
-using DAL.Db;
-using DAL.DTO;
-using DAL.DTO.TripData;
-using log4net;
 using UTILS.Utils.Filters;
 using UTILS.Utils.Logging;
 
@@ -131,7 +130,7 @@ namespace WebApplication_Vy.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                
+
             }
 
             var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];

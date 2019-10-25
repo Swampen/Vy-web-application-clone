@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using DAL.DTO.Validation;
+﻿using DAL.DTO.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace DAL.DTO.TripData
 {
@@ -10,7 +10,7 @@ namespace DAL.DTO.TripData
         [ExistingStation(ErrorMessage = "Invalid departure station")]
         public string Departure_Station { get; set; }
         public string Departure_StationId { get; set; }
-        
+
         [Display(Name = "To")]
         [Required(ErrorMessage = "This field is required")]
         [ExistingStation(ErrorMessage = "Invalid arrival station")]
@@ -27,13 +27,13 @@ namespace DAL.DTO.TripData
         public string Time { get; set; }
 
         public bool Round_Trip { get; set; }
-        
+
         [Display(Name = "Return date")]
         public string Return_Date { get; set; }
 
         [Display(Name = "Return time")]
         public string Return_Time { get; set; }
-        
+
         public int Adult { get; set; }
         [Display(Name = "Child 6-17 years old")]
         public int Child { get; set; }

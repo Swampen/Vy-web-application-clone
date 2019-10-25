@@ -2,10 +2,6 @@
 using DAL.Db;
 using DAL.DTO;
 using log4net;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using UTILS.Utils.Logging;
 
@@ -31,7 +27,7 @@ namespace WebApplication_Vy.Controllers
             var db = new VyDbContext();
             db.Database.Initialize(true);
         }
-        // GET: Admin
+
         public ActionResult Index()
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
@@ -81,7 +77,28 @@ namespace WebApplication_Vy.Controllers
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
             {
-                var success = _vyService.ChangeStation(station);
+                var success = _stationService.updateStation(station);
+                return RedirectToAction("stations");
+            }
+            return RedirectToAction("index", "home");
+        }
+
+        public ActionResult DeleteStation(int stationId)
+        {
+            if (Session["Auth"] != null && (bool)Session["Auth"])
+            {
+                var success = _stationService.deleteStation(stationId);
+                return RedirectToAction("stations");
+            }
+            return RedirectToAction("index", "home");
+        }
+
+        [HttpPost]
+        public ActionResult CreateStation(StationDTO stationDto)
+        {
+            if (Session["Auth"] != null && (bool)Session["Auth"])
+            {
+                var success = _stationService.createStation(stationDto);
                 return RedirectToAction("stations");
             }
             return RedirectToAction("index", "home");
@@ -142,22 +159,23 @@ namespace WebApplication_Vy.Controllers
 
             if (Session["SuperAdmin"] != null && (bool)Session["SuperAdmin"])
             {
-                
+
                 var UserCreated = _loginService.RegisterAdminUser(adminUserDto.Username,
                     adminUserDto.Password, "ADMINISTRATOR");
                 if (UserCreated)
                 {
                     return RedirectToAction("admins");
                 }
+                TempData["error"] = "Admin already exists";
             }
             return RedirectToAction("admins");
         }
 
-        public ActionResult DeleteAdmin(int Id)
+        public ActionResult DeleteAdmin(int adminId)
         {
             if (Session["SuperAdmin"] != null && (bool)Session["SuperAdmin"])
             {
-                var success = _loginService.DeleteAdmin(Id);
+                var success = _loginService.DeleteAdmin(adminId);
             }
             return RedirectToAction("admins");
         }

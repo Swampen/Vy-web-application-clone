@@ -4,7 +4,7 @@ using Moq;
 
 namespace Test.MockUtil.RepositoryMock
 {
-    public  static class CreditCardRepositoryMock
+    public static class CreditCardRepositoryMock
     {
         private static readonly CreditCard Card = new CreditCard
         {
@@ -20,7 +20,7 @@ namespace Test.MockUtil.RepositoryMock
             mockRepo.Setup(mock => mock.GetCardById(It.IsAny<int>())).Returns(Card);
             return mockRepo.Object;
         }
-        
+
         public static ICreditCardRepository GetCreditCardFromTicketIdMock()
         {
             var mockRepo = new Mock<ICreditCardRepository>();

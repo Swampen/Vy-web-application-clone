@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using BLL.Service.Contracts;
+﻿using BLL.Service.Contracts;
+using DAL.DTO;
 using Moq;
+using System.Collections.Generic;
 
 namespace Test.MockUtil.ServiceMock
 {
@@ -16,6 +17,16 @@ namespace Test.MockUtil.ServiceMock
             var mockservice = new Mock<IStationService>();
             mockservice.Setup(mock => mock.getAllKeyValueStations()).Returns(stations);
             return mockservice.Object;
+        }
+
+        public static StationDTO StationDTOMock()
+        {
+            return new StationDTO
+            {
+                Id = 1,
+                Name = "Alna Stasjon",
+                StopId = "NSR:StopPlace:418",
+            };
         }
     }
 }
