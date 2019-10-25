@@ -27,6 +27,8 @@ namespace Test.MockUtil.ServiceMock
         {
             var mockService = new Mock<ILoginService>();
             mockService.Setup(mock => mock.Login(It.IsAny<AdminUserDTO>())).Returns(true);
+            mockService.Setup(mock => mock.isSuperAdmin("isSuper")).Returns(true);
+            mockService.Setup(mock => mock.isSuperAdmin("isNotSuper")).Returns(false);
             return mockService.Object;
         }
 
