@@ -1,10 +1,4 @@
 ﻿using NUnit.Framework;
-using WebApplication_Vy.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Test.Controllers
 {

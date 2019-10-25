@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using BLL.Service.Contracts;
-using DAL.Db.Repositories.Contracts;
+﻿using DAL.Db.Repositories.Contracts;
 using MODEL.Models.Entities;
 using Moq;
+using System.Collections.Generic;
 
 namespace Test.MockUtil.RepositoryMock
 {
@@ -14,11 +13,18 @@ namespace Test.MockUtil.RepositoryMock
             new Station{Id = 2, Name = "2", StopId = "2"},
             new Station{Id = 3, Name = "3", StopId = "3"},
             new Station{Id = 4, Name = "4", StopId = "4"}
-        }; 
+        };
         public static IStationRepository FindAllStationsMock()
         {
             var mockRepo = new Mock<IStationRepository>();
             mockRepo.Setup(mock => mock.FindAllStations()).Returns(_stations);
+            return mockRepo.Object;
+        }
+
+        public static IStationRepository UpdateStationMock()
+        {
+            var mockRepo = new Mock<IStationRepository>();
+            mockRepo.Setup(mock => mock.UpdateStation(It.IsAny<Station>())).Returns(true);
             return mockRepo.Object;
         }
     }

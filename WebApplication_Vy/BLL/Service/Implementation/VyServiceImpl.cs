@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using AutoMapper;
 using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
 using DAL.DTO;
-using DAL.DTO.TripData;
 using MODEL.Models.Entities;
-using MODEL.Models.Entities.TripData;
+using System.Collections.Generic;
 
 namespace BLL.Service.Implementation
 {
@@ -53,21 +51,6 @@ namespace BLL.Service.Implementation
         public bool DeleteTicket(int ticketId)
         {
             return _vyRepository.DeleteTicket(ticketId);
-        }
-
-        public bool ChangeStation(StationDTO stationdto)
-        {
-            return _vyRepository.ChangeStation(stationdto);
-        }
-        
-        public bool UpdateCustomer(CustomerDto customer)
-        {
-            return _customerRepository.updateCustomer(MapCustomerEntity(customer));
-        }
-
-        public bool DeleteCustomer(int id)
-        {
-            return _customerRepository.deleteCustomer(id);
         }
 
         private CustomerDto mapCustomerDto(Customer customer)
@@ -165,6 +148,16 @@ namespace BLL.Service.Implementation
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<ZipcodeDto, Zipcode>(); });
             var mapper = new Mapper(config);
             return mapper.Map<Zipcode>(dto);
+        }
+
+        public bool UpdateCustomer(CustomerDto customer)
+        {
+            return _customerRepository.updateCustomer(MapCustomerEntity(customer));
+        }
+
+        public bool DeleteCustomer(int id)
+        {
+            return _customerRepository.deleteCustomer(id);
         }
     }
 }

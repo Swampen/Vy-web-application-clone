@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using DAL.DTO;
-using MODEL.Models;
+﻿using DAL.DTO;
+using System.Collections.Generic;
 
 namespace BLL.Service.Contracts
 {
@@ -15,6 +14,6 @@ namespace BLL.Service.Contracts
         List<AdminUserDTO> GetAllAdmins();
 
         bool isSuperAdmin(string adminUsername);
-        
+
     }
-}    
+}

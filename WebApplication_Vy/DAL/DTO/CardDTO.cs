@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using DAL.DTO.Validation;
+﻿using DAL.DTO.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace DAL.DTO
 {

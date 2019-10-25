@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
 using BLL.Service.Contracts;
 using DAL.DTO;
 using Moq;
+using System.Collections.Generic;
 
 namespace Test.MockUtil.ServiceMock
 {
@@ -32,6 +32,16 @@ namespace Test.MockUtil.ServiceMock
             var mockService = new Mock<IStationService>();
             mockService.Setup(mock => mock.getAllStations()).Returns(StationDtos);
             return mockService.Object;
+        }
+
+        public static StationDTO StationDTOMock()
+        {
+            return new StationDTO
+            {
+                Id = 1,
+                Name = "Alna Stasjon",
+                StopId = "NSR:StopPlace:418",
+            };
         }
     }
 }

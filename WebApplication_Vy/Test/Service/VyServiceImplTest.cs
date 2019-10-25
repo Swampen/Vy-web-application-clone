@@ -1,10 +1,7 @@
-﻿using System.Security.AccessControl;
-using BLL.Service.Contracts;
+﻿using BLL.Service.Contracts;
 using BLL.Service.Implementation;
 using DAL.DTO;
-using MODEL.Models.Entities;
 using NUnit.Framework;
-using Test.MockUtil;
 using Test.MockUtil.RepositoryMock;
 
 namespace Test.Service
@@ -21,7 +18,7 @@ namespace Test.Service
                 Name = "test",
                 StopId = "test"
             };
-            
+
             _cardDto = new CardDto
             {
                 Card_Holder = "TestHolder",
@@ -128,32 +125,19 @@ namespace Test.Service
 
             //Act
             var actual = _service.UpdateCustomer(_customerDto);
-            
+
             //Assert
             Assert.IsTrue(actual);
         }
-        
+
         [Test]
         public void DeleteCustomer_shouldReturnTrue()
         {
             //Arrange
             _service = new VyServiceImpl(null, CustomerRepositoryMock.DeleteCustomer());
-            
-            //Act
-            var actual =_service.DeleteCustomer(1);
-            Assert.IsTrue(actual);
-        }
 
-        [Test]
-        public void ChangeStation_shouldReturnTrue()
-        {
-            //Arrange
-            _service = new VyServiceImpl(VyRepositoryMock.ChangeStationMock(), null);
-            
             //Act
-            var actual = _service.ChangeStation(_stationDto);
-            
-            //Assert
+            var actual = _service.DeleteCustomer(1);
             Assert.IsTrue(actual);
         }
 
@@ -162,10 +146,10 @@ namespace Test.Service
         {
             //Arrange
             _service = new VyServiceImpl(VyRepositoryMock.CreateTicketMock(), null);
-            
+
             //Act
             var actual = _service.CreateTicket(_ticketDto);
-            
+
             //Assert
             Assert.IsTrue(actual);
         }

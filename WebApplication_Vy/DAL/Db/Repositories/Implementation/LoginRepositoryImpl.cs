@@ -1,11 +1,9 @@
-﻿using System;
+﻿using DAL.Db.Repositories.Contracts;
+using log4net;
+using MODEL.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.ModelBinding;
-using DAL.Db.Repositories.Contracts;
-using log4net;
-using MODEL.Models;
-using MODEL.Models.Entities;
 using UTILS.Utils.Logging;
 
 namespace DAL.Db.Repositories.Implementation
@@ -32,17 +30,6 @@ namespace DAL.Db.Repositories.Implementation
             return false;
         }
 
-
-        public bool DoseAdminUserExcist(AdminUser adminUser)
-        {
-            using (var db = new VyDbContext())
-            {
-                var foundAdmin = db.AdminUsers.FirstOrDefault(user => user.UserName.Equals(adminUser.UserName));
-
-                return foundAdmin != null;
-            }
-        }
-
         public string getSalt(string username)
         {
             using (var db = new VyDbContext())
@@ -51,7 +38,7 @@ namespace DAL.Db.Repositories.Implementation
 
                 if (User != null)
                 {
-                   return User.salt; 
+                    return User.salt;
                 }
 
                 return "";

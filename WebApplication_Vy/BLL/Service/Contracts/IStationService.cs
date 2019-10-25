@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using DAL.DTO;
+﻿using DAL.DTO;
+using System.Collections.Generic;
 
 namespace BLL.Service.Contracts
 {
@@ -7,5 +7,8 @@ namespace BLL.Service.Contracts
     {
         List<StationDTO> getAllStations();
         Dictionary<string, string> getAllKeyValueStations();
+        bool deleteStation(int stationId);
+        bool createStation(StationDTO stationDto);
+        bool updateStation(StationDTO stationDto);
     }
 }
