@@ -212,7 +212,7 @@
                             hidden_content += "</div></div></div>"
                             hidden_content += "<div class='row mb-3 font-weight-bold'>" + value.legs[j].toPlace.name + "</div>"
                         } else {
-                            hidden_content += "<div class='row'>" + /([\s\S]*?)(stasjon)/g.exec(stop.name)[1] + "</div>"
+                            hidden_content += "<div class='row'>" + ((/([\s\S]*?)(stasjon)/g.exec(stop.name) === null) ? stop.name : /([\s\S]*?)(stasjon)/g.exec(stop.name)[1]) + "</div>"
                         }
                     })
                 }

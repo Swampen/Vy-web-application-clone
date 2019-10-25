@@ -103,6 +103,9 @@ namespace DAL.Db
                 .Where(p => p.State == EntityState.Modified).ToList();
             var now = DateTime.UtcNow;
 
+            var addedEntities = ChangeTracker.Entries()
+                .Where(p => p.State == EntityState.Added).ToList();
+
             foreach (var change in modifiedEntities)
             {
                 var entityName = change.Entity.GetType().Name;
@@ -126,6 +129,26 @@ namespace DAL.Db
                         ChangeLogs.Add(log);
                     }
                 }
+            }
+
+            foreach (var added in addedEntities)
+            {
+                var entityName = added.Entity.GetType().Name;
+
+                //foreach (var prop in added.OriginalValues.PropertyNames)
+                //{
+                //    var value = added.OriginalValues[prop].ToString();
+                //    ChangeLog log = new ChangeLog()
+                //    {
+                //        EntityName = entityName,
+                //        PrimaryKeyValue = "1",
+                //        PropertyName = prop,
+                //        OldValue = null,
+                //        NewValue = value,
+                //        DateChanged = now
+                //    };
+                //    ChangeLogs.Add(log);
+                //}
             }
             return base.SaveChanges();
 
