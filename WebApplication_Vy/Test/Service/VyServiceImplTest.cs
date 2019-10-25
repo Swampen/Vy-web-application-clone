@@ -1,4 +1,5 @@
-﻿using BLL.Service.Contracts;
+﻿using System.Security.AccessControl;
+using BLL.Service.Contracts;
 using BLL.Service.Implementation;
 using DAL.DTO;
 using MODEL.Models.Entities;
@@ -13,6 +14,13 @@ namespace Test.Service
         [SetUp]
         public void SetUp()
         {
+            _stationDto = new StationDTO
+            {
+                Id = 1,
+                Name = "test",
+                StopId = "test"
+            };
+            
             _cardDto = new CardDto
             {
                 Card_Holder = "TestHolder",
@@ -68,6 +76,7 @@ namespace Test.Service
         private CustomerDto _customerDto;
         private TicketDto _ticketDto;
         private ZipcodeDto _zipcodeDto;
+        private StationDTO _stationDto;
 
         [Test]
         public void CreateTicketTest()
@@ -138,7 +147,26 @@ namespace Test.Service
         public void ChangeStation_shouldReturnTrue()
         {
             //Arrange
-            _service = new VyServiceImpl(VyRepositoryMock);
+            _service = new VyServiceImpl(VyRepositoryMock.ChangeStationMock(), null);
+            
+            //Act
+            var actual = _service.ChangeStation(_stationDto);
+            
+            //Assert
+            Assert.IsTrue(actual);
+        }
+
+        [Test]
+        public void CreateTicket_shouldReturnTrue()
+        {
+            //Arrange
+            _service = new VyServiceImpl(VyRepositoryMock.CreateTicketMock(), null);
+            
+            //Act
+            var actual = _service.CreateTicket(_ticketDto);
+            
+            //Assert
+            Assert.IsTrue(actual);
         }
     }
 }
