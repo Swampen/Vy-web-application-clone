@@ -15,14 +15,12 @@ namespace Test.Controllers
     [TestFixture]
     public class HomeControllerTest
     {
-        private HomeController _homeController;
-
         [SetUp]
         public void Setup()
         {
             _homeController = new HomeController(null, null, null)
             {
-                ControllerContext = MockHttpSession.GetHttpSessionContext()
+                ControllerContext = getHttpSessionContext()
             };
             _homeController.Session["HaveRoundTrip"] = null;
             _homeController.Session["ChosenTrip"] = null;
@@ -36,6 +34,16 @@ namespace Test.Controllers
         public void destroy()
         {
             _homeController = null;
+        }
+
+        private HomeController _homeController;
+
+        private ControllerContext getHttpSessionContext()
+        {
+            var context = new Mock<ControllerContext>();
+            var session = new MockHttpSession();
+            context.Setup(s => s.HttpContext.Session).Returns(session);
+            return context.Object;
         }
 
         [TestCase("")]
