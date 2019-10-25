@@ -36,13 +36,13 @@ namespace Test.MockUtil.ServiceMock
             mockService.Setup(mock => mock.RegisterAdminUser(
                     "true",
                     "true",
-                    "true"))
+                    "ADMINISTRATOR"))
                 .Returns(true);
             mockService.Setup(mock => mock.RegisterAdminUser(
                     "false",
                     "false",
                     "false"))
-                .Returns(true);
+                .Returns(false);
             return mockService.Object;
         }
 

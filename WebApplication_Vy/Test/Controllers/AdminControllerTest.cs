@@ -77,7 +77,7 @@ namespace Test.Controllers
             var viewResult = actionResult as ViewResult;
             
             //Assert
-            Assert.AreEqual("customers", viewResult.ViewName);
+            Assert.AreEqual("", viewResult.ViewName);
         }
 
         [Test]
@@ -203,6 +203,78 @@ namespace Test.Controllers
             Assert.AreEqual("index", routeResult.RouteValues["Action"]);
         }
 
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void DeleteStation_shouldReturnStationsView(bool value)
+        {
+            //Arrange
+            _adminController = new AdminController(null, StationServiceMock.DeleteStationMock(value), null)
+            {
+                ControllerContext = _controllerContext
+            };
+            _adminController.Session["Auth"] = true;
+            
+            //Act
+            var routeResult = (RedirectToRouteResult)_adminController.DeleteStation(1);
+            
+            //Assert
+            Assert.AreEqual("stations", routeResult.RouteValues["Action"]);
+        }
+
+        [Test]
+        public void DeleteStations_shouldReturnIndexView()
+        {
+            //Arrange
+            _adminController = new AdminController(null, StationServiceMock.CreateStationMock(true), null)
+            {
+                ControllerContext = _controllerContext
+            };
+            _adminController.Session["Auth"] = false;
+            
+            //Act
+            var routeResult = (RedirectToRouteResult)_adminController.DeleteStation(1);
+            
+            //Assert
+            Assert.AreEqual("index", routeResult.RouteValues["Action"]);
+        }
+
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void CreateStation_shoudReturnStationsView(bool value)
+        {
+            //Arrange
+            _adminController = new AdminController(null, StationServiceMock.CreateStationMock(value), null)
+            {
+                ControllerContext = _controllerContext
+            };
+            _adminController.Session["Auth"] = true;
+            
+            //Act
+            var routeResult = (RedirectToRouteResult)_adminController.CreateStation(new StationDTO());
+            
+            //Assert
+            Assert.AreEqual("stations", routeResult.RouteValues["Action"]);
+        }
+
+        [Test]
+        public void CreateStation_shouldReturnIndexView()
+        {
+            //Arrange
+            _adminController = new AdminController(null, StationServiceMock.CreateStationMock(true), null)
+            {
+                ControllerContext = _controllerContext
+            };
+            _adminController.Session["Auth"] = false;
+            
+            //Act
+            var routeResult = (RedirectToRouteResult)_adminController.CreateStation(new StationDTO());
+            
+            //Assert
+            Assert.AreEqual("index", routeResult.RouteValues["Action"]);
+        }
+ 
         [Test]
         public void Customers_shouldReturnCustomersView()
         {
@@ -367,10 +439,29 @@ namespace Test.Controllers
         }
 
         [Test]
-        public void RegisterNewAdmin_shouldReturnAdminsView()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void RegisterNewAdmin_shouldReturnAdminsView(bool value)
         {
-            //Needs several testcases
-            Assert.Fail();
+            //Arrange
+            _adminController = new AdminController(null, null, LoginServiceMock.RegisterAdminUserMock())
+            {
+                ControllerContext = _controllerContext
+            };
+            _adminController.Session["SuperAdmin"] = value;
+            
+            //Act
+            var routeResult = (RedirectToRouteResult)_adminController
+                .RegisterNewAdmin(new AdminUserDTO
+                {
+                    Id = 1,
+                    Password = "true",
+                    Username = "true",
+                    SuperAdmin =true 
+                });
+            
+            //Assert
+            Assert.AreEqual("admins", routeResult.RouteValues["Action"]);
         }
     }
 }
