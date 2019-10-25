@@ -118,7 +118,7 @@ namespace Test.Controllers
         }       
         
         [Test]
-        public void Admins_shouldReturnCustomersView()
+        public void Admins_shouldReturnAdminsView()
         {
             //Auth is set and true
             Assert.Fail();
@@ -128,6 +128,20 @@ namespace Test.Controllers
         public void Admins_shouldReturnUserIndexView()
         {
             // Auth is null or false
+            Assert.Fail();
+        }
+        
+        [Test]
+        public void DeleteAdmin_shouldReturnCustomersView()
+        {
+            //SuperAdmin is set and true
+            Assert.Fail();
+        }
+
+        [Test]
+        public void RegisterNewAdmin_shouldReturnAdminsView()
+        {
+            //Needs several testcases
             Assert.Fail();
         }
     }
