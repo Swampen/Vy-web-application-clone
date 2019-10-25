@@ -23,9 +23,6 @@ namespace WebApplication_Vy.Controllers
             _loginService = loginService;
             _vyService = vyService;
             _stationService = stationService;
-
-            var db = new VyDbContext();
-            db.Database.Initialize(true);
         }
 
         public ActionResult Tickets()
@@ -39,7 +36,7 @@ namespace WebApplication_Vy.Controllers
                 });
                 return View(customers);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("index", "Home");
         }
 
         public ActionResult DeleteTicket(int ticketId)
@@ -132,7 +129,7 @@ namespace WebApplication_Vy.Controllers
                 _vyService.DeleteCustomer(customerId);
                 return RedirectToAction("Customers");
             }
-            return RedirectToAction("index", "home");
+            return RedirectToAction("Index", "home");
         }
 
         public ActionResult Admins()

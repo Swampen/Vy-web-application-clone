@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\AdminControllerTest.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\LoginControllerTests.cs" />
     <Compile Include="MockUtil\MockHttpSession.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="MockUtil\RepositoryMock\CustomerRepositoryMock.cs" />
     <Compile Include="MockUtil\RepositoryMock\StationRepositoryMock.cs" />
     <Compile Include="MockUtil\RepositoryMock\VyRepositoryMock.cs" />
+    <Compile Include="MockUtil\ServiceMock\LoginServiceMock.cs" />
     <Compile Include="MockUtil\ServiceMock\StationServiceMock.cs" />
     <Compile Include="MockUtil\ServiceMock\VyServiceMock.cs" />
     <Compile Include="MockUtil\ServiceMock\ZipSearchServiceMock.cs" />
