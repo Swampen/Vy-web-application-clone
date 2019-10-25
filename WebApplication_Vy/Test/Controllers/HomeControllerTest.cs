@@ -28,6 +28,7 @@ namespace Test.Controllers
             _homeController.Session["ToTrip"] = null;
             _homeController.Session["ReturnTripQuery"] = null;
             _homeController.Session["Auth"] = null;
+            _homeController.Session["Confirmed"] = null;
         }
 
         [TearDown]
