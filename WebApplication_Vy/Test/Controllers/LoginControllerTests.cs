@@ -45,8 +45,7 @@ namespace Test.Controllers
             //Assert
             Assert.False((bool)_loginController.Session["Auth"]);
             Assert.False((bool)_loginController.Session["SuperAdmin"]);
-            Assert.AreEqual("index", routeResult.RouteValues["" +
-                                                             "Action"]);
+            Assert.AreEqual("index", routeResult.RouteValues["Action"]);
         }
 
         [Test]
