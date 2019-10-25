@@ -126,6 +126,7 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\LoginControllerTests.cs" />
     <Compile Include="MockUtil\CreditCardRepositoryMock.cs" />
+    <Compile Include="MockUtil\CustomerRepositoryMock.cs" />
     <Compile Include="MockUtil\MockHttpSession.cs" />
     <Compile Include="MockUtil\StationServiceMock.cs" />
     <Compile Include="MockUtil\VyRepositoryMock.cs" />

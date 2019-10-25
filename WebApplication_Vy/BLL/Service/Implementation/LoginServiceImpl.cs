@@ -8,6 +8,7 @@ using DAL.Db.Repositories.Implementation;
 using DAL.DTO;
 using MODEL.Models;
 using System.Security.Cryptography;
+using MODEL.Models.Entities;
 using UTILS.Utils.Auth;
 
 namespace BLL.Service.Implementation

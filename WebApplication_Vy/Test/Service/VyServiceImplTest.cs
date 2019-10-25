@@ -108,5 +108,24 @@ namespace Test.Service
             Assert.AreNotEqual(before, _cardDto.Card_Number);
             Assert.AreEqual(expected, _cardDto.Card_Number);
         }
+
+        [Test]
+        public void UpdateCustomer_shouldReturnTrue()
+        {
+            //Arrange
+            _service = new VyServiceImpl(
+                null,
+                );
+            //Act
+            
+            //Assert
+            Assert.Fail();
+        }
+        
+        [Test]
+        public void DeleteCustomer_shouldReturnTrue()
+        {
+            Assert.Fail();
+        }
     }
 }
