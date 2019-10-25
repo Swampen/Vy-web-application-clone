@@ -4,7 +4,7 @@ using DAL.DTO;
 using MODEL.Models.Entities;
 using Moq;
 
-namespace Test.MockUtil
+namespace Test.MockUtil.RepositoryMock
 {
     public static class VyRepositoryMock
     {

@@ -2,7 +2,7 @@
 using MODEL.Models.Entities;
 using Moq;
 
-namespace Test.MockUtil
+namespace Test.MockUtil.RepositoryMock
 {
     public class CustomerRepositoryMock
     {

@@ -5,6 +5,7 @@ using DAL.DTO;
 using MODEL.Models.Entities;
 using NUnit.Framework;
 using Test.MockUtil;
+using Test.MockUtil.RepositoryMock;
 
 namespace Test.Service
 {

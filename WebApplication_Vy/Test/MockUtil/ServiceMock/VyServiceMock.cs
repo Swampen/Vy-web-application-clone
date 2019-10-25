@@ -2,7 +2,7 @@
 using DAL.DTO;
 using Moq;
 
-namespace Test.MockUtil
+namespace Test.MockUtil.ServiceMock
 {
     public class VyServiceMock
     {

@@ -2,7 +2,7 @@
 using BLL.Service.Contracts;
 using Moq;
 
-namespace Test.MockUtil
+namespace Test.MockUtil.ServiceMock
 {
     public class StationServiceMock
     {

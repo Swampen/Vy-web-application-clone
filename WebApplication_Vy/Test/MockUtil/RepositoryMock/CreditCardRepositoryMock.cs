@@ -1,9 +1,8 @@
 ﻿using DAL.Db.Repositories.Contracts;
 using MODEL.Models.Entities;
 using Moq;
-using NUnit.Framework;
 
-namespace Test.MockUtil
+namespace Test.MockUtil.RepositoryMock
 {
     public  static class CreditCardRepositoryMock
     {

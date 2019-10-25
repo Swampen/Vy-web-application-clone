@@ -3,6 +3,7 @@ using BLL.Service.Implementation;
 using DAL.DTO;
 using NUnit.Framework;
 using Test.MockUtil;
+using Test.MockUtil.RepositoryMock;
 
 namespace Test.Service
 {
