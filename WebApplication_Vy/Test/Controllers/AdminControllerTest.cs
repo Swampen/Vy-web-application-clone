@@ -1,24 +1,28 @@
 ﻿using BLL.Service.Contracts;
 using NUnit.Framework;
+using Test.MockUtil.ServiceMock;
+using WebApplication_Vy.Controllers;
 
 namespace Test.Controllers
 {
     [TestFixture]
     public class AdminControllerTest
     {
-        private readonly IVyService _vyService;
-        private readonly IStationService _stationService;
-        private readonly ILoginService _loginService;
+        private AdminController _adminController;
         
         [SetUp]
         public void Setup()
         {
-            
+            _adminController = new AdminController(
+                null,
+                null,
+                null);
         }
 
         [TearDown]
         public void TearDown()
         {
+            _adminController = null;
             
         }
         
