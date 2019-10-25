@@ -1,10 +1,27 @@
-﻿using NUnit.Framework;
+﻿using BLL.Service.Contracts;
+using NUnit.Framework;
 
 namespace Test.Controllers
 {
     [TestFixture]
     public class AdminControllerTest
     {
+        private readonly IVyService _vyService;
+        private readonly IStationService _stationService;
+        private readonly ILoginService _loginService;
+        
+        [SetUp]
+        public void Setup()
+        {
+            
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            
+        }
+        
         [Test]
         public void Index_shouldReturnAdminIndexView()
         {
