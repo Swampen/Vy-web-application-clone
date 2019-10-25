@@ -43,7 +43,7 @@ namespace WebApplication_Vy.Controllers
                 {
                     dto.Tickets.ForEach(ticketDto => { _vyService.MaskCreditCardNumber(ticketDto.CreditCard); });
                 });
-                return View("customers");
+                return View(customers);
             }
             return RedirectToAction("index", "Home");
         }

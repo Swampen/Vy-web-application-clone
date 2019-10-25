@@ -52,14 +52,7 @@ namespace Test.MockUtil.ServiceMock
             mockService.Setup(mock => mock.DeleteTicket(1)).Returns(true);
             return mockService.Object;
         }
-
-        public static IVyService ChangeStationMock()
-        {
-            var mockService = new Mock<IVyService>();
-            mockService.Setup(mock => mock.ChangeStation(It.IsAny<StationDTO>())).Returns(true);
-            return mockService.Object;
-        }
-
+        
         public static IVyService UpdateCustomerMock()
         {
             var mockService = new Mock<IVyService>();

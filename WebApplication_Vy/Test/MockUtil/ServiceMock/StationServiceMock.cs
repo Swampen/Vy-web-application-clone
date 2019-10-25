@@ -33,6 +33,14 @@ namespace Test.MockUtil.ServiceMock
             mockService.Setup(mock => mock.getAllStations()).Returns(StationDtos);
             return mockService.Object;
         }
+        
+        
+        public static IStationService ChangeStationMock()
+        {
+            var mockService = new Mock<IStationService>();
+            mockService.Setup(mock => mock.updateStation(It.IsAny<StationDTO>())).Returns(true);
+            return mockService.Object;
+        }
 
         public static StationDTO StationDTOMock()
         {

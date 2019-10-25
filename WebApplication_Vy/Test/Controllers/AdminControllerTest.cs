@@ -173,7 +173,7 @@ namespace Test.Controllers
         public void UpdateStations_shouldReturnStationsView()
         {
             //Arrange
-            _adminController = new AdminController(VyServiceMock.ChangeStationMock(), null, null)
+            _adminController = new AdminController(null, StationServiceMock.ChangeStationMock(), null)
             {
                 ControllerContext = _controllerContext
             };
@@ -190,7 +190,7 @@ namespace Test.Controllers
         public void UpdateStations_shouldReturnUserIndexView()
         {
             //Arrange
-            _adminController = new AdminController(VyServiceMock.ChangeStationMock(), null, null)
+            _adminController = new AdminController(null, StationServiceMock.ChangeStationMock(), null)
             {
                 ControllerContext = _controllerContext
             };
