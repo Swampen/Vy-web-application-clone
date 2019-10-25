@@ -100,7 +100,6 @@ $(function () {
                 data: JSON.stringify(jsonin),
                 contentType: "application/json;charset=utf-8",
                 success: function (response) {
-                    console.log('setting postaltown');
                     $('#postaltown').val(response);
                 }
             });

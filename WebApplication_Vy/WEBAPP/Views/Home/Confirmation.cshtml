@@ -10,15 +10,15 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-5">
         <div class="col">
-            <h4 class="font-weight-normal">Your ticket from <span class="font-weight-bold">@ViewBag.trip[0].Departure_Station</span> 
-            to <span class="font-weight-bold">@ViewBag.trip[0].Arrival_Station</span>
+            <h5 class="font-weight-normal">Your ticket from <b>@ViewBag.trip[0].Departure_Station</b> 
+            to <b>@ViewBag.trip[0].Arrival_Station</b> at <b>@ViewBag.trip[0].Date @ViewBag.trip[0].Departure_Time</b>
             @if (ViewBag.trip[0].Round_Trip)
             {
-            <span>and</span><span class="font-weight-bold"> back</span>
+            <span>and back at </span><b>@ViewBag.trip[1].Date @ViewBag.trip[1].Departure_Time</b>
             }
-            have now been confirmed</h4>
+            have now been confirmed</h5>
         </div>
     </div>
     <div class="row mt-5">
