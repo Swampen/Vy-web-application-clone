@@ -121,7 +121,6 @@ namespace WebApplication_Vy.Controllers
             return RedirectToAction("index", "home");
         }
 
-        [HttpPost]
         public ActionResult DeleteCustomer(int customerId)
         {
             if (Session["Auth"] != null && (bool)Session["Auth"])
