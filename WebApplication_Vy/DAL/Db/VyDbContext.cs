@@ -13,7 +13,7 @@ namespace DAL.Db
 {
     public class VyDbContext : DbContext, IDisposable
     {
-        private static HashingFunctionality Hasher = new HashingFunctionality();
+        private static HashingAndSaltingService Hasher = new HashingAndSaltingService();
         public VyDbContext() : base("name=VyDb")
         {
             Database.SetInitializer(new VyDbInitializer<VyDbContext>());

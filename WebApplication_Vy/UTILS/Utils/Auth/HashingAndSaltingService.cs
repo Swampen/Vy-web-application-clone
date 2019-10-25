@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace UTILS.Utils.Auth
 {
-    public class HashingFunctionality
+    public class HashingAndSaltingService
     {
         public byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
                 {
