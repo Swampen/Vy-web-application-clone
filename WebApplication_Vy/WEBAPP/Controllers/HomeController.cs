@@ -123,12 +123,12 @@ namespace WebApplication_Vy.Controllers
                     submitPurchaseDto.ReturnTripTicket.Customer = submitPurchaseDto.TripTicket.Customer;
                     submitPurchaseDto.ReturnTripTicket.CreditCard = submitPurchaseDto.TripTicket.CreditCard;
                     success = _vyService.CreateTicket(submitPurchaseDto.ReturnTripTicket);
-                    Console.WriteLine("Returnticket success");
                 }
 
                 if (success)
                 {
-                    return RedirectToAction("Index");
+                    ViewBag.trip = (List<TripDTO>)Session["ChosenTrips"];
+                    return View("Confirmation");
                 }
 
             }

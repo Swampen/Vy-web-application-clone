@@ -36,7 +36,7 @@ namespace WebApplication_Vy.Controllers
                 }
                 Session["Username"] = adminUserDto.Username;
 
-                return RedirectToAction("index", "admin");
+                return RedirectToAction("stations", "admin");
             }
             else
             {

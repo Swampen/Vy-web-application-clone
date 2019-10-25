@@ -57,23 +57,17 @@ namespace BLL.Service.Implementation
             return adminUser;
         }
 
-
-
-        public bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword)
+        public bool RegisterAdminUser(string Username, string Password)
         {
             string salt = _hashingAndSaltingService.MakeSalt();
-            if (SecretAdminPassword.Equals("ADMINISTRATOR"))
-            {
 
-                AdminUser user = new AdminUser();
-                user.Password = (_hashingAndSaltingService.GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)));
-                user.UserName = Username;
-                user.salt = salt;
-                return _loginRepository.RegisterAdminUser(user);
-            }
-
-            return false;
+            AdminUser user = new AdminUser();
+            user.Password = (_hashingAndSaltingService.GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)));
+            user.UserName = Username;
+            user.salt = salt;
+            return _loginRepository.RegisterAdminUser(user);
         }
+
         public List<AdminUserDTO> GetAllAdmins()
         {
             var adminUserDtos = new List<AdminUserDTO>();

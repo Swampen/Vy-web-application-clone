@@ -7,7 +7,7 @@ namespace BLL.Service.Contracts
     {
         bool Login(AdminUserDTO adminUserDto);
 
-        bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword);
+        bool RegisterAdminUser(string Username, string Password);
 
         bool DeleteAdmin(int Id);
 

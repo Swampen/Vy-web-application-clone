@@ -327,11 +327,11 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Admin\Stations.cshtml" />
     <Content Include="Views\Admin\_AdminLayout.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Customers.cshtml" />
     <Content Include="Views\Admin\Tickets_Customer.cshtml" />
     <Content Include="Views\Admin\Customers_Edit.cshtml" />
     <Content Include="Views\Admin\Customers_Details.cshtml" />
+    <Content Include="Views\Home\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
