@@ -23,15 +23,7 @@ namespace BLL.Service.Implementation
 
             var zipcode = _vyRepository.FindZipcode(postalcode);
             if (zipcode == null) return "";
-            return MapZipcodeDTO(zipcode).Postaltown;
-        }
-
-        private ZipcodeDto MapZipcodeDTO(Zipcode entity)
-        {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Zipcode, ZipcodeDto>().ReverseMap());
-            var mapper = config.CreateMapper();
-            var dto = mapper.Map<ZipcodeDto>(entity);
-            return dto;
+            return zipcode.Postaltown;
         }
     }
 }

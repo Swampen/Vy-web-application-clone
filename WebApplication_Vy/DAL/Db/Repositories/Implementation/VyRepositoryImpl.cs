@@ -34,8 +34,7 @@ namespace DAL.Db.Repositories.Implementation
         public Zipcode FindZipcode(string postalcode)
         {
             var db = new VyDbContext();
-            var zipcode = db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == postalcode);
-            return zipcode;
+            return db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == postalcode);
         }
 
         public bool CreateTicket(Ticket inTicket)

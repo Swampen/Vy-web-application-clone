@@ -17,6 +17,7 @@ namespace Test.MockUtil.RepositoryMock
         };
 
         private static readonly Zipcode Zipcode = new Zipcode {Postalcode = "2022", Postaltown = "Gjerdrum"};
+        private static readonly Zipcode NullZipcode = null;
 
         private static readonly List<Customer> Customers = new List<Customer>
         {
@@ -62,6 +63,15 @@ namespace Test.MockUtil.RepositoryMock
         {
             var mockRepo = new Mock<IVyRepository>();
             mockRepo.Setup(mock => mock.ChangeStation(It.IsAny<StationDTO>())).Returns(true);
+            return mockRepo.Object;
+        }
+
+        public static IVyRepository FindZipCodeMock()
+        {
+            var mockRepo = new Mock<IVyRepository>();
+            mockRepo.Setup(mock => mock.FindZipcode("0000")).Returns(Zipcode);
+            mockRepo.Setup(mock => mock.FindZipcode("9999")).Returns(Zipcode);
+            mockRepo.Setup(mock => mock.FindZipcode("1234")).Returns(NullZipcode);
             return mockRepo.Object;
         }
         

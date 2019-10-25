@@ -138,6 +138,7 @@
     <Compile Include="Service\StationServiceImplTest.cs" />
     <Compile Include="Service\VyServiceImplTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ZipSearchServiceImplTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
