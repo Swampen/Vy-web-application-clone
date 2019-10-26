@@ -42,8 +42,11 @@ namespace BLL.Service.Tests
         [Test]
         public void LoginServiceIfUsernameIsCorrect()
         {
-            _service = new LoginServiceImpl(LoginRepositoryMock.UserInDB(),_hashingAndSaltingService);
+           
+           
+
             
+            Assert.AreEqual("True",actual);
         }
         
         [Test]
