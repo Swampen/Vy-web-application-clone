@@ -47,7 +47,7 @@ namespace WebApplication_Vy.Controllers
             }
 
             Log.Warn(LogEventPrefixes.AUTHENTICATION_ERROR +
-                     ": login failed for user: " + adminUserDto.Username + "wrong username or password");
+                     ": login failed for user: " + adminUserDto.Username + " wrong username or password");
             TempData["error"] = "Wrong username or password";
             Session["Auth"] = false;
             Session["SuperAdmin"] = false;
