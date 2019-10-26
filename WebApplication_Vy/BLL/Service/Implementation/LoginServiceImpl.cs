@@ -43,7 +43,8 @@ namespace BLL.Service.Implementation
             }
             catch (Exception error)
             {
-                Log.Error(LogEventPrefixes.AUTHENTICATION_ERROR + ": loging error for user: " + adminUserDto.Username);
+                Log.Error(LogEventPrefixes.AUTHENTICATION_ERROR + 
+                          ": login error for user: " + adminUserDto.Username, error);
                 return false;
             }
 

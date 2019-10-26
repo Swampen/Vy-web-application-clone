@@ -36,6 +36,8 @@ namespace WebApplication_Vy.Controllers
                 });
                 return View(customers);
             }
+            Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                     ": user is not authorized to perform action: view all customers");
             return RedirectToAction("index", "Home");
         }
 
@@ -46,6 +48,8 @@ namespace WebApplication_Vy.Controllers
                 var success = _vyService.DeleteTicket(ticketId);
                 return RedirectToAction("Tickets");
             }
+            Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                     ": user is not authorized to perform action: delete ticket");
             return RedirectToAction("index", "home");
         }
 
@@ -57,6 +61,8 @@ namespace WebApplication_Vy.Controllers
                 var stations = _stationService.getAllStations();
                 return View(stations);
             }
+            Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                     ": user is not authorized to perform action: view all stations");
             return RedirectToAction("index", "home");
         }
 
@@ -69,6 +75,8 @@ namespace WebApplication_Vy.Controllers
                 var success = _stationService.updateStation(station);
                 return RedirectToAction("stations");
             }
+            Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                     ": user is not authorized to perform action: update station");
             return RedirectToAction("index", "home");
         }
 
@@ -79,6 +87,8 @@ namespace WebApplication_Vy.Controllers
                 var success = _stationService.deleteStation(stationId);
                 return RedirectToAction("stations");
             }
+            Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                     ": user is not authorized to perform action: delete station");
             return RedirectToAction("index", "home");
         }
 
@@ -90,6 +100,8 @@ namespace WebApplication_Vy.Controllers
                 var success = _stationService.createStation(stationDto);
                 return RedirectToAction("stations");
             }
+            Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                     ": user is not authorized to perform action: create station");
             return RedirectToAction("index", "home");
         }
 
@@ -100,6 +112,8 @@ namespace WebApplication_Vy.Controllers
                 var customers = _vyService.GetCustomerDtos();
                 return View(customers);
             }
+            Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                     ": user is not authorized to perform action: view all customers");
             return RedirectToAction("index", "home");
         }
 
@@ -116,8 +130,11 @@ namespace WebApplication_Vy.Controllers
                         return RedirectToAction("Customers");
                     }
                 }
+                Log.Warn("Update customer event failed due to invalid modelstate");
                 return RedirectToAction("Customers");
             }
+            Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                     ": user is not authorized to perform action: update customer");
             return RedirectToAction("index", "home");
         }
 
@@ -128,6 +145,8 @@ namespace WebApplication_Vy.Controllers
                 _vyService.DeleteCustomer(customerId);
                 return RedirectToAction("Customers");
             }
+            Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                     ": user is not authorized to perform action: delete customers");
             return RedirectToAction("Index", "home");
         }
 
@@ -138,6 +157,8 @@ namespace WebApplication_Vy.Controllers
                 var admins = _loginService.GetAllAdmins();
                 return View(admins);
             }
+            Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                     ": user is not authorized to perform action: view all admins");
             return RedirectToAction("index", "home");
         }
 
@@ -155,6 +176,8 @@ namespace WebApplication_Vy.Controllers
                 }
                 TempData["error"] = "Admin already exists";
             }
+            Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                     ": user is not authorized to perform action: register new admin");
             return RedirectToAction("admins");
         }
 
@@ -163,6 +186,11 @@ namespace WebApplication_Vy.Controllers
             if (Session["SuperAdmin"] != null && (bool)Session["SuperAdmin"])
             {
                 var success = _loginService.DeleteAdmin(adminId);
+            }
+            else
+            {
+                Log.Warn(LogEventPrefixes.AUTHORIZATION_ERROR + 
+                         ": user is not authorized to perform action: delete admin");
             }
             return RedirectToAction("admins");
         }
