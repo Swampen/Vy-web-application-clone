@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using BLL.Service.Contracts;
-using DAL.DTO;
+﻿using DAL.DTO;
 using DAL.DTO.TripData;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Test.MockUtil;
+using Test.MockUtil.ServiceMock;
 using WebApplication_Vy.Controllers;
 
 namespace Test.Controllers
@@ -28,6 +28,7 @@ namespace Test.Controllers
             _homeController.Session["ToTrip"] = null;
             _homeController.Session["ReturnTripQuery"] = null;
             _homeController.Session["Auth"] = null;
+            _homeController.Session["Confirmed"] = null;
         }
 
         [TearDown]
@@ -36,9 +37,6 @@ namespace Test.Controllers
             _homeController = null;
         }
 
-        private readonly IVyService _vyService;
-        private readonly IZipSearchService _zipSearch;
-        private readonly IStationService _stationService;
         private HomeController _homeController;
 
         private ControllerContext getHttpSessionContext()
@@ -101,7 +99,7 @@ namespace Test.Controllers
             var actionResult = _homeController.Index();
 
             //Assert
-            Assert.IsFalse((bool) _homeController.Session["Auth"]);
+            Assert.IsFalse((bool)_homeController.Session["Auth"]);
         }
 
         [Test]
@@ -112,7 +110,7 @@ namespace Test.Controllers
             var viewResult = actionResult as ViewResult;
 
             //Assert
-            Assert.IsFalse((bool) _homeController.Session["HaveRoundTrip"]);
+            Assert.IsFalse((bool)_homeController.Session["HaveRoundTrip"]);
         }
 
         [Test]
@@ -155,7 +153,7 @@ namespace Test.Controllers
 
             //Act
             _homeController.Index(tripQueryDto);
-            var resultTripqueryDto = (TripQueryDTO) _homeController.Session["ReturnTripQuery"];
+            var resultTripqueryDto = (TripQueryDTO)_homeController.Session["ReturnTripQuery"];
 
             //Assert
             Assert.AreEqual(tripQueryDto.Adult, resultTripqueryDto.Adult);
@@ -223,7 +221,7 @@ namespace Test.Controllers
             Assert.AreEqual("CustomerDetails", viewResult.ViewName);
         }
 
-        [Test]
+        /*[Test]
         public void RegisterTicket_shouldRedirectToIndex()
         {
             //Arrange
@@ -237,11 +235,11 @@ namespace Test.Controllers
             submitPurchaseDto.ReturnTripTicket.ArrivalStation = "test";
 
             //Act
-            var actionResult = (RedirectToRouteResult) _homeController.RegisterTicket(submitPurchaseDto);
-
+            var actionResult = _homeController.RegisterTicket(submitPurchaseDto);
+            var viewResult = actionResult as ViewResult;
             //Assert
-            Assert.AreEqual("Index", actionResult.RouteValues["action"]);
-        }
+            Assert.AreEqual("Confirmation", viewResult.ViewName);
+        }*/
 
         [Test]
         public void RegisterTicket_shouldReturnCustomerDetailsView()
@@ -406,7 +404,7 @@ namespace Test.Controllers
 
             //Act
             _homeController.Trips(expectedTripDto);
-            var actual = (List<TripDTO>) _homeController.Session["ChosenTrips"];
+            var actual = (List<TripDTO>)_homeController.Session["ChosenTrips"];
 
             //Assert
             Assert.AreEqual(2, actual.Count);

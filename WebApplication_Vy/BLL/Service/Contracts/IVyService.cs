@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using DAL.DTO;
+﻿using DAL.DTO;
+using System.Collections.Generic;
 
 namespace BLL.Service.Contracts
 {
@@ -18,7 +18,5 @@ namespace BLL.Service.Contracts
         bool DeleteTicket(int ticketId);
 
         void MaskCreditCardNumber(CardDto cardDto);
-
-        bool ChangeStation(StationDTO station);
     }
 }

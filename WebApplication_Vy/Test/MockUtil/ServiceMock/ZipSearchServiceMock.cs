@@ -1,7 +1,7 @@
 ﻿using BLL.Service.Contracts;
 using Moq;
 
-namespace Test.MockUtil
+namespace Test.MockUtil.ServiceMock
 {
     public static class ZipSearchServiceMock
     {

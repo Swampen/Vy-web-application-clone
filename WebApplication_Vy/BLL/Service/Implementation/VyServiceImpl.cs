@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using AutoMapper;
 using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
 using DAL.DTO;
-using DAL.DTO.TripData;
 using MODEL.Models.Entities;
-using MODEL.Models.Entities.TripData;
+using System.Collections.Generic;
 
 namespace BLL.Service.Implementation
 {
@@ -53,11 +51,6 @@ namespace BLL.Service.Implementation
         public bool DeleteTicket(int ticketId)
         {
             return _vyRepository.DeleteTicket(ticketId);
-        }
-
-        public bool ChangeStation(StationDTO stationdto)
-        {
-            return _vyRepository.ChangeStation(stationdto);
         }
 
         private CustomerDto mapCustomerDto(Customer customer)

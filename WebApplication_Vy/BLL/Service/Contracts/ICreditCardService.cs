@@ -7,5 +7,5 @@ namespace BLL.Service.Contracts
         CardDto GetCreditCard(int id);
         CardDto GetCreditCardFromTicketId(int ticketId);
     }
-    
+
 }

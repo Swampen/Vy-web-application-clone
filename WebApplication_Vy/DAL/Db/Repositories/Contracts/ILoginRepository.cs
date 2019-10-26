@@ -1,4 +1,4 @@
-﻿using MODEL.Models;
+﻿using MODEL.Models.Entities;
 using System.Collections.Generic;
 
 namespace DAL.Db.Repositories.Contracts
@@ -7,8 +7,6 @@ namespace DAL.Db.Repositories.Contracts
     {
 
         bool UserInDB(AdminUser adminUser);
-
-        bool DoseAdminUserExcist(AdminUser adminUser);
 
         bool RegisterAdminUser(AdminUser adminUser);
 

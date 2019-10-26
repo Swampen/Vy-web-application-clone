@@ -1,6 +1,5 @@
 ﻿$(function () {
     $("#trips").hide();
-    console.log(trip)
 
     const people = { Adult: trip.Adult, Child: trip.Child, Student: trip.Student, Senior: trip.Senior }
     const variables = {
@@ -62,7 +61,6 @@
         if (itineraries.length === 0) {
             $("#alert").show();
         }
-        console.log(itineraries);
 
         //For each departure
         $.each(itineraries, function (i, value) {
@@ -77,19 +75,6 @@
                 }
             }
 
-            //Alternative price
-            //$.ajax({
-            //    url: "https://api.entur.io/sales/v1/offers/search/trip/trip-pattern/" + value.id,
-            //    type: 'GET',
-            //   'entur-pos': "Vy lookalike",
-            //    'et-client-id': "OsloMet - Webapplication course group 41",
-            //    'et-client-name': "OsloMet - Webapplication course group 41",
-            //    contentType: "application/json;charset=utf-8",
-            //    success: function (response) {
-            //        console.log(response.offers[0].salesPackageConfig.prices[0].amount)
-            //    }
-            //});
-            console.log(value.id)
             //Price section
             let price = 0;
             let originalPrice = 0;
@@ -100,11 +85,10 @@
             }).then(data => data.json()).then(data => {
 
 
-
                 originalPrice = data.price;
 
                 const priceText = ['OFFERS_SOLD_OUT', 'SEATING_INFO_UNAVAILABLE'];
-                if (priceText.includes(originalPrice)) {
+                if (priceText.includes(originalPrice) || originalPrice == undefined) {
                     $("#totPrice" + data.tripPatternId).text("No seates available");
                     $("#totPrice" + data.tripPatternId).append(`<input type='text' hidden name=Price value='0'>`);
 
@@ -201,7 +185,6 @@
 
             //Appends more info, but hidden
             var hidden_content = "<div class='col ml-5'>"
-            console.log(value.legs)
             if (value.legs == 0) {
             }
             $.each(value.legs, function (j, leg) {
@@ -229,7 +212,7 @@
                             hidden_content += "</div></div></div>"
                             hidden_content += "<div class='row mb-3 font-weight-bold'>" + value.legs[j].toPlace.name + "</div>"
                         } else {
-                            hidden_content += "<div class='row'>" + /([\s\S]*?)(stasjon)/g.exec(stop.name)[1] + "</div>"
+                            hidden_content += "<div class='row'>" + ((/([\s\S]*?)(stasjon)/g.exec(stop.name) === null) ? stop.name : /([\s\S]*?)(stasjon)/g.exec(stop.name)[1]) + "</div>"
                         }
                     })
                 }

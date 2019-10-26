@@ -1,15 +1,14 @@
-﻿using BLL.Service.Contracts;
+﻿using System.Web.Mvc;
+using BLL.Service.Contracts;
 using DAL.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using log4net;
+using UTILS.Utils.Logging;
 
 namespace WebApplication_Vy.Controllers
 {
     public class LoginController : Controller
     {
+        private static readonly ILog Log = LogHelper.GetLogger();
         private readonly ILoginService _loginService;
 
         public LoginController(ILoginService loginService)
@@ -19,6 +18,7 @@ namespace WebApplication_Vy.Controllers
 
         public ActionResult Logout()
         {
+            Log.Info(LogEventPrefixes.USER_LOGOUT + ": " + Session["Username"] + " has logged out");
             Session["Auth"] = false;
             Session["SuperAdmin"] = false;
             return RedirectToAction("index", "home");
@@ -32,23 +32,26 @@ namespace WebApplication_Vy.Controllers
             if (login)
             {
                 Session["Auth"] = true;
-                Console.WriteLine("login succeeded");
+
+                Log.Info(LogEventPrefixes.USER_LOGIN + ": " + adminUserDto.Username + " has logged in");
                 if (_loginService.isSuperAdmin(adminUserDto.Username))
                 {
+                    Log.Info(LogEventPrefixes.USER_LOGIN +
+                             ": user: " + adminUserDto.Username + " is superadmin");
                     Session["SuperAdmin"] = true;
                 }
+
                 Session["Username"] = adminUserDto.Username;
 
-                return RedirectToAction("index", "admin");
+                return RedirectToAction("stations", "admin");
             }
-            else
-            {
-                TempData["error"] = "Wrong username or password";
-                Session["Auth"] = false;
-                Session["SuperAdmin"] = false;
-                return RedirectToAction("index", "home");
-            }
-        }
 
+            Log.Warn(LogEventPrefixes.AUTHENTICATION_ERROR +
+                     ": login failed for user: " + adminUserDto.Username + "wrong username or password");
+            TempData["error"] = "Wrong username or password";
+            Session["Auth"] = false;
+            Session["SuperAdmin"] = false;
+            return RedirectToAction("index", "home");
+        }
     }
 }

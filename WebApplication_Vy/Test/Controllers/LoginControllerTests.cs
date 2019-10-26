@@ -1,46 +1,54 @@
-﻿using NUnit.Framework;
+﻿using System.Web.Mvc;
+using NUnit.Framework;
+using Test.MockUtil;
+using Test.MockUtil.ServiceMock;
 using WebApplication_Vy.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BLL.Service.Implementation;
-using DAL.Db.Repositories.Implementation;
-using WebApplication_Vy.Controllers;
-using Moq;
-using UTILS.Utils.Auth;
 
-namespace WebApplication_Vy.Controllers.Tests
+namespace Test.Controllers
 {
     [TestFixture]
     public class LoginControllerTests
     {
+        private LoginController _loginController;
+        private ControllerContext _controllerContext;
         [SetUp]
-        public void setup()
+        public void Setup()
         {
-            var _LoginController = new LoginController(new LoginServiceImpl(new LoginRepositoryImpl(), new HashingAndSaltingService()))
+            _controllerContext = MockHttpSession.GetHttpSessionContext();
+            _loginController = new LoginController(LoginServiceMock.LoginMock())
             {
-                
-            }
-            
-            
+                ControllerContext = _controllerContext
+            };
+            _loginController.Session["Auth"] = null;
+            _loginController.Session["SuperAdmin"] = null;
+            _loginController.Session["Username"] = null;
+        }
+
+        [TearDown]
+        public void Teardown()
+        {
+            _loginController = null;
         }
         
-        
-        [Test()]
+        [Test]
         public void LoginControllerTest()
         {
             Assert.Fail();
         }
 
-        [Test()]
+        [Test]
         public void LogoutTest()
         {
-            Assert.Fail();
+            //Act
+            var routeResult = (RedirectToRouteResult)_loginController.Logout();
+            
+            //Assert
+            Assert.False((bool)_loginController.Session["Auth"]);
+            Assert.False((bool)_loginController.Session["SuperAdmin"]);
+            Assert.AreEqual("index", routeResult.RouteValues["Action"]);
         }
 
-        [Test()]
+        [Test]
         public void LoginTest()
         {
             Assert.Fail();

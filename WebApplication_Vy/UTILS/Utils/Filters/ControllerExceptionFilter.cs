@@ -1,5 +1,5 @@
-﻿using System.Web.Mvc;
-using log4net;
+﻿using log4net;
+using System.Web.Mvc;
 using UTILS.Utils.Logging;
 
 namespace UTILS.Utils.Filters
@@ -7,7 +7,7 @@ namespace UTILS.Utils.Filters
     public class ControllerExceptionFilter : ActionFilterAttribute
     {
         private static readonly ILog Log = LogHelper.GetLogger();
-        
+
         /// <summary>Called by the ASP.NET MVC framework after the action method executes.</summary>
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {

@@ -57,6 +57,14 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="TrackerEnabledDbContext, Version=3.7.0.0, Culture=neutral, PublicKeyToken=4f92af0b908c4a0a">
+      <HintPath>..\packages\TrackerEnabledDbContext.3.7.0\lib\net45\TrackerEnabledDbContext.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TrackerEnabledDbContext.Common, Version=3.7.0.0, Culture=neutral, PublicKeyToken=4f92af0b908c4a0a">
+      <HintPath>..\packages\TrackerEnabledDbContext.Common.3.7\lib\net45\TrackerEnabledDbContext.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Db\Repositories\Contracts\ICreditCardRepository.cs" />
@@ -73,7 +81,6 @@
     <Compile Include="DTO\AdminUserDTO.cs" />
     <Compile Include="DTO\CardDTO.cs" />
     <Compile Include="DTO\CustomerDTO.cs" />
-    <Compile Include="DTO\Profiles\VyProfile.cs" />
     <Compile Include="DTO\StationDTO.cs" />
     <Compile Include="DTO\SubmitPurchaseDTO.cs" />
     <Compile Include="DTO\TicketDTO.cs" />

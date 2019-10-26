@@ -2,7 +2,7 @@
 using BLL.Service.Implementation;
 using DAL.DTO;
 using NUnit.Framework;
-using Test.MockUtil;
+using Test.MockUtil.RepositoryMock;
 
 namespace Test.Service
 {
@@ -10,7 +10,7 @@ namespace Test.Service
     public class CreditCardServiceImplTest
     {
         private ICreditCardService _creditCardService;
-        
+
         [Test]
         public void GetCreditCardTest()
         {

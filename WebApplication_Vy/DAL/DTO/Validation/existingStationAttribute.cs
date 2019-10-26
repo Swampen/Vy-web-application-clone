@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using DAL.Db.Repositories.Contracts;
+﻿using DAL.Db.Repositories.Contracts;
 using DAL.Db.Repositories.Implementation;
+using System.ComponentModel.DataAnnotations;
 
 namespace DAL.DTO.Validation
 {
@@ -12,8 +11,7 @@ namespace DAL.DTO.Validation
         public override bool IsValid(object value)
         {
             var stations = _repository.FindAllStations();
-            Debug.WriteLine(value);
-            var station = (string) value;
+            var station = (string)value;
             station = station.ToLower();
 
             foreach (var s in stations)

@@ -1,5 +1,8 @@
-﻿namespace MODEL.Models.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MODEL.Models.Entities
 {
+    [TrackChanges]
     public class CreditCard
     {
         public int Id { get; set; }

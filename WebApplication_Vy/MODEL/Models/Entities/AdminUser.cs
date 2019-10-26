@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MODEL.Models
+namespace MODEL.Models.Entities
 {
+    [TrackChanges]
     public class AdminUser
     {
         [Key]
