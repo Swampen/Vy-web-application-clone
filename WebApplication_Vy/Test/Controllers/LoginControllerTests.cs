@@ -5,12 +5,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.Service.Implementation;
+using DAL.Db.Repositories.Implementation;
+using WebApplication_Vy.Controllers;
+using Moq;
+using UTILS.Utils.Auth;
 
 namespace WebApplication_Vy.Controllers.Tests
 {
-    [TestFixture()]
+    [TestFixture]
     public class LoginControllerTests
     {
+        [SetUp]
+        public void setup()
+        {
+            var _LoginController = new LoginController(new LoginServiceImpl(new LoginRepositoryImpl(), new HashingAndSaltingService()))
+            {
+                
+            }
+            
+            
+        }
+        
+        
         [Test()]
         public void LoginControllerTest()
         {
