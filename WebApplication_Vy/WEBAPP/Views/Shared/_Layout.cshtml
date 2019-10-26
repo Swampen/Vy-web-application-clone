@@ -32,7 +32,7 @@
                 @if (Session["Auth"] != null && (bool)Session["Auth"])
                 {
                     <li class="nav-item @(Request.RawUrl.Contains("/admin")? "active" : "")">
-                        @Html.ActionLink("Admin", "index", "admin", null, new { @class = "nav-link" })
+                        @Html.ActionLink("Admin", "Stations", "admin", null, new { @class = "nav-link" })
                     </li>
                 }
             </ul>
