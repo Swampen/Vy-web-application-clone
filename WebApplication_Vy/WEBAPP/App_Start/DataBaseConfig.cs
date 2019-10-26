@@ -9,6 +9,7 @@ namespace WebApplication_Vy
         public static readonly ILog Log = LogHelper.GetLogger();
         public static void InitializeDatabase()
         {
+            Log.Info("Application started, log4net running.....");
             Log.Info("Database startup, initializing if not present");
             var db = new VyDbContext();
             db.Database.Initialize(true);
