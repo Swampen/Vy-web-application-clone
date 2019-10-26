@@ -5,12 +5,15 @@ using MODEL.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using log4net;
 using UTILS.Utils.Auth;
+using UTILS.Utils.Logging;
 
 namespace BLL.Service.Implementation
 {
     public class LoginServiceImpl : ILoginService
     {
+        private static readonly ILog Log = LogHelper.GetLogger();
         private readonly ILoginRepository _loginRepository;
         private readonly HashingAndSaltingService _hashingAndSaltingService;
         public LoginServiceImpl(ILoginRepository loginRepository, HashingAndSaltingService hashingAndSaltingService)
@@ -40,7 +43,7 @@ namespace BLL.Service.Implementation
             }
             catch (Exception error)
             {
-                Console.WriteLine(error);
+                Log.Error(LogEventPrefixes.AUTHENTICATION_ERROR + ": loging error for user: " + adminUserDto.Username);
                 return false;
             }
 

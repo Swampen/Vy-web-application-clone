@@ -23,10 +23,13 @@ namespace DAL.Db.Repositories.Implementation
                 Console.WriteLine(query);
                 if (query != null)
                 {
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                             ": found adminUser: " + inAdminUser.UserName + " in database");
                     return true;
                 }
             }
-
+            Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                     ": could not find adminUser: " + inAdminUser.UserName + " in database");
             return false;
         }
 
@@ -38,9 +41,13 @@ namespace DAL.Db.Repositories.Implementation
 
                 if (User != null)
                 {
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                             ": fetched salt for adminUser: " + username + " in database");
                     return User.salt;
                 }
 
+                Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                         ": could not find salt for adminUser: " + username + " in database");
                 return "";
             }
         }
@@ -54,6 +61,8 @@ namespace DAL.Db.Repositories.Implementation
 
                 if (excistingAdmin != null)
                 {
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + ": there is an existing entry for username: " +
+                              adminUser.UserName + "registered in the database");
                     return false;
                 }
 
@@ -67,7 +76,7 @@ namespace DAL.Db.Repositories.Implementation
                 }
                 catch (Exception error)
                 {
-                    Log.Error(LogEventPrefixes.DATABASE_ERROR + error.Message, error);
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + ": " + error.Message, error);
                     return false;
                 }
             }
@@ -80,11 +89,12 @@ namespace DAL.Db.Repositories.Implementation
                 {
                     List<AdminUser> admins = db.AdminUsers.ToList();
 
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": fetching all adminUsers from database");
                     return admins;
                 }
                 catch (Exception e)
                 {
-                    Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + ": " + e.Message, e);
                     return null;
                 }
             }
@@ -98,8 +108,12 @@ namespace DAL.Db.Repositories.Implementation
 
             if (admin != null)
             {
+                Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": found match for superadmin: " +
+                         adminUsername + "in database");
                 return admin.SuperAdmin;
             }
+            Log.Warn(LogEventPrefixes.DATABASE_ACCESS + ": could not find match for superadmin: " +
+                     adminUsername + "in database");
             return false;
         }
 
@@ -115,16 +129,18 @@ namespace DAL.Db.Repositories.Implementation
                     db.AdminUsers.Remove(admin);
                     db.SaveChanges();
                     Log.Info(LogEventPrefixes.DATABASE_ACCESS +
-                                 "Deleted admin succeded for Id: " + Id);
+                                 ": Delete admin succeded for Id: " + Id);
                     return true;
 
                 }
                 catch (Exception e)
                 {
-                    Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + ": delete admin failed, " +  e.Message, e);
                     return false;
                 }
             }
+            Log.Warn(LogEventPrefixes.DATABASE_ACCESS + ": could not delete adminuser:" + admin.UserName + 
+                     " no matching entry found in database");
             return false;
         }
     }

@@ -76,6 +76,7 @@ namespace WebApplication_Vy.Controllers
 
                 return View("Trips");
             }
+            Log.Warn("Invalid modelstate detected, redirecting to index");
 
             return View();
         }
