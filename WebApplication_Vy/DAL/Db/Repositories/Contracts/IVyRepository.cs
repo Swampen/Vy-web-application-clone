@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using DAL.DTO;
 using MODEL.Models.Entities;
+using System.Collections.Generic;
 
 namespace DAL.Db.Repositories.Contracts
 {
@@ -17,7 +16,5 @@ namespace DAL.Db.Repositories.Contracts
         bool DeleteTicket(int ticketId);
 
         Zipcode FindZipcode(string postalcode);
-
-        bool ChangeStation(StationDTO stationdto);
     }
 }

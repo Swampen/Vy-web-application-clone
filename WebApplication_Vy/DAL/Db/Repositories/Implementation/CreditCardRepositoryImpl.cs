@@ -1,16 +1,21 @@
 ﻿using System.Linq;
 using DAL.Db.Repositories.Contracts;
+using log4net;
 using MODEL.Models.Entities;
+using UTILS.Utils.Logging;
 
 namespace DAL.Db.Repositories.Implementation
 {
     public class CreditCardRepositoryImpl : ICreditCardRepository
     {
+        public static readonly ILog Log = LogHelper.GetLogger();
+
         public CreditCard GetCardById(int cardId)
         {
             using (var db = new VyDbContext())
             {
-                return Queryable.FirstOrDefault<CreditCard>(db.CreditCards, card => card.Id.Equals(cardId));
+                Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": fethced creditcard with id: " + cardId);
+                return db.CreditCards.FirstOrDefault(card => card.Id.Equals(cardId));
             }
         }
 
@@ -18,7 +23,8 @@ namespace DAL.Db.Repositories.Implementation
         {
             using (var db = new VyDbContext())
             {
-                return Queryable.FirstOrDefault<CreditCard>(db.CreditCards, card => card.CreditCardNumber.Equals(cardNumber));
+                Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": fetch creditcard by cardnumber");
+                return db.CreditCards.FirstOrDefault(card => card.CreditCardNumber.Equals(cardNumber));
             }
         }
 
@@ -26,8 +32,8 @@ namespace DAL.Db.Repositories.Implementation
         {
             using (var db = new VyDbContext())
             {
-                
-                Ticket foundTicket = Queryable.FirstOrDefault<Ticket>(db.Tickets, ticket => ticket.Id == ticketId);
+                Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": fetch creditcard by ticketId: " + ticketId);
+                var foundTicket = db.Tickets.FirstOrDefault(ticket => ticket.Id == ticketId);
                 return foundTicket?.CreditCard;
             }
         }

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using BLL.Service.Contracts;
+﻿using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
 using DAL.DTO;
 using MODEL.Models.Entities;
+using System.Collections.Generic;
 
 namespace BLL.Service.Implementation
 {
@@ -15,6 +13,16 @@ namespace BLL.Service.Implementation
         public StationServiceImpl(IStationRepository stationRepository)
         {
             _stationRepository = stationRepository;
+        }
+
+        public bool createStation(StationDTO stationDto)
+        {
+            return _stationRepository.CreateStation(MapStationEntity(stationDto));
+        }
+
+        public bool deleteStation(int stationId)
+        {
+            return _stationRepository.DeleteStation(stationId);
         }
 
         public Dictionary<string, string> getAllKeyValueStations()
@@ -36,6 +44,11 @@ namespace BLL.Service.Implementation
             return stationDtos;
         }
 
+        public bool updateStation(StationDTO stationDto)
+        {
+            return _stationRepository.UpdateStation(MapStationEntity(stationDto));
+        }
+
         private StationDTO MapStationDto(Station station)
         {
             return new StationDTO
@@ -43,6 +56,16 @@ namespace BLL.Service.Implementation
                 Id = station.Id,
                 Name = station.Name,
                 StopId = station.StopId
+            };
+        }
+
+        private Station MapStationEntity(StationDTO dto)
+        {
+            return new Station
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                StopId = dto.StopId
             };
         }
     }

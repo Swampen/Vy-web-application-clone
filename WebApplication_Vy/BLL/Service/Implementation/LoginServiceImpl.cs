@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using BLL.Service.Contracts;
+﻿using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
-using DAL.Db.Repositories.Implementation;
 using DAL.DTO;
-using MODEL.Models;
-using System.Security.Cryptography;
+using MODEL.Models.Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using log4net;
 using UTILS.Utils.Auth;
+using UTILS.Utils.Logging;
 
 namespace BLL.Service.Implementation
 {
     public class LoginServiceImpl : ILoginService
     {
+        private static readonly ILog Log = LogHelper.GetLogger();
         private readonly ILoginRepository _loginRepository;
         private readonly HashingAndSaltingService _hashingAndSaltingService;
         public LoginServiceImpl(ILoginRepository loginRepository, HashingAndSaltingService hashingAndSaltingService)
@@ -22,33 +22,34 @@ namespace BLL.Service.Implementation
             _hashingAndSaltingService = hashingAndSaltingService;
         }
 
-        
+
         public bool Login(AdminUserDTO adminUserDto)
         {
-           string salt = _loginRepository.getSalt(adminUserDto.Username);
-           if (salt == "") return false;
-           
-           try
-           {
-               var hashedPassword = _hashingAndSaltingService.GenerateSaltedHash(Encoding.UTF8.GetBytes(adminUserDto.Password),
-                   Encoding.UTF8.GetBytes(salt));
+            string salt = _loginRepository.getSalt(adminUserDto.Username);
+            if (salt == "") return false;
 
-               AdminUser user = MapAdminUser(adminUserDto, hashedPassword);
+            try
+            {
+                var hashedPassword = _hashingAndSaltingService.GenerateSaltedHash(Encoding.UTF8.GetBytes(adminUserDto.Password),
+                    Encoding.UTF8.GetBytes(salt));
 
-               if (_loginRepository.UserInDB(user))
-               {
-                   return true;
-               }
-               return false;
-           }
-           catch (Exception error)
-           {
-               Console.WriteLine(error);
-               return false;
-           }
+                AdminUser user = MapAdminUser(adminUserDto, hashedPassword);
+
+                if (_loginRepository.UserInDB(user))
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception error)
+            {
+                Log.Error(LogEventPrefixes.AUTHENTICATION_ERROR + 
+                          ": login error for user: " + adminUserDto.Username, error);
+                return false;
+            }
 
         }
-        
+
         private AdminUser MapAdminUser(AdminUserDTO adminUserDto, byte[] hashedPassword)
         {
             var adminUser = new AdminUser();
@@ -60,23 +61,17 @@ namespace BLL.Service.Implementation
             return adminUser;
         }
 
-        
-
-        public bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword)
+        public bool RegisterAdminUser(string Username, string Password)
         {
             string salt = _hashingAndSaltingService.MakeSalt();
-            if (SecretAdminPassword.Equals("ADMINISTRATOR"))
-            {
-                
-                AdminUser user = new AdminUser();
-                user.Password = (_hashingAndSaltingService.GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)));
-                user.UserName = Username;
-                user.salt = salt;
-                return _loginRepository.RegisterAdminUser(user);
-            }
 
-            return false;
+            AdminUser user = new AdminUser();
+            user.Password = (_hashingAndSaltingService.GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), Encoding.UTF8.GetBytes(salt)));
+            user.UserName = Username;
+            user.salt = salt;
+            return _loginRepository.RegisterAdminUser(user);
         }
+
         public List<AdminUserDTO> GetAllAdmins()
         {
             var adminUserDtos = new List<AdminUserDTO>();

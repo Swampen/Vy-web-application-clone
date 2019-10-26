@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Confirmation";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="display-3">Confirmation</h2>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col">
+            <h5 class="font-weight-normal">Your ticket from <b>@ViewBag.trip[0].Departure_Station</b> 
+            to <b>@ViewBag.trip[0].Arrival_Station</b> at <b>@ViewBag.trip[0].Date @ViewBag.trip[0].Departure_Time</b>
+            @if (ViewBag.trip[0].Round_Trip)
+            {
+            <span>and back at </span><b>@ViewBag.trip[1].Date @ViewBag.trip[1].Departure_Time</b>
+            }
+            have now been confirmed</h5>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+            @Html.ActionLink("Back to start", "index", "Home", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+
+
+</div>
+

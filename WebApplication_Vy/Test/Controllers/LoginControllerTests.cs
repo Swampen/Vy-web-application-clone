@@ -1,32 +1,81 @@
-﻿using NUnit.Framework;
+﻿using System.Web.Mvc;
+using DAL.DTO;
+using NUnit.Framework;
+using Test.MockUtil;
+using Test.MockUtil.ServiceMock;
 using WebApplication_Vy.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace WebApplication_Vy.Controllers.Tests
+namespace Test.Controllers
 {
-    [TestFixture()]
+    [TestFixture]
     public class LoginControllerTests
     {
-        [Test()]
-        public void LoginControllerTest()
+        private LoginController _loginController;
+        private ControllerContext _controllerContext;
+
+        [SetUp]
+        public void Setup()
         {
-            Assert.Fail();
+            _controllerContext = MockHttpSession.GetHttpSessionContext();
+            _loginController = new LoginController(LoginServiceMock.LoginMock())
+            {
+                ControllerContext = _controllerContext
+            };
+            _loginController.Session["Auth"] = null;
+            _loginController.Session["SuperAdmin"] = null;
+            _loginController.Session["Username"] = null;
         }
 
-        [Test()]
+        [TearDown]
+        public void Teardown()
+        {
+            _loginController = null;
+        }
+        
+        [Test]
+        public void Login_shouldReturnAdminView()
+        {
+            _loginController = new LoginController(LoginServiceMock.LoginMock())
+            {
+                ControllerContext = _controllerContext
+            };
+            _loginController.Session["Auth"] = true;
+
+            var dto = new AdminUserDTO {Id = 1, Password = "test", Username = "test", SuperAdmin = true};
+            
+            var actionResult = (RedirectToRouteResult)_loginController.Login(dto);
+
+            Assert.AreEqual("stations", actionResult.RouteValues["Action"]);
+        }
+
+        [Test]
+        public void Login_shouldReturnUserView()
+        {
+            _loginController = new LoginController(LoginServiceMock.LoginMock())
+            {
+                ControllerContext = _controllerContext
+            };
+            
+            _loginController.Session["Auth"] = false;
+
+            var dto = new AdminUserDTO {Id = 1, Password = "test", Username = "test", SuperAdmin = true};
+            
+            var actionResult =(RedirectToRouteResult) _loginController.Login(dto);
+           
+            
+            Assert.AreEqual("stations", actionResult.RouteValues["Action"]);
+        }
+        
+        [Test]
         public void LogoutTest()
         {
-            Assert.Fail();
-        }
-
-        [Test()]
-        public void LoginTest()
-        {
-            Assert.Fail();
+            //Act
+            var routeResult = (RedirectToRouteResult)_loginController.Logout();
+            
+            //Assert
+            Assert.False((bool)_loginController.Session["Auth"]);
+            Assert.False((bool)_loginController.Session["SuperAdmin"]);
+            Assert.AreEqual("index", routeResult.RouteValues["Action"]);
         }
     }
 }

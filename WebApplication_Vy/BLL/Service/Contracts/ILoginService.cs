@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using DAL.DTO;
-using MODEL.Models;
+﻿using DAL.DTO;
+using System.Collections.Generic;
 
 namespace BLL.Service.Contracts
 {
@@ -8,13 +7,13 @@ namespace BLL.Service.Contracts
     {
         bool Login(AdminUserDTO adminUserDto);
 
-        bool RegisterAdminUser(string Username, string Password, string SecretAdminPassword);
+        bool RegisterAdminUser(string Username, string Password);
 
         bool DeleteAdmin(int Id);
 
         List<AdminUserDTO> GetAllAdmins();
 
         bool isSuperAdmin(string adminUsername);
-        
+
     }
-}    
+}

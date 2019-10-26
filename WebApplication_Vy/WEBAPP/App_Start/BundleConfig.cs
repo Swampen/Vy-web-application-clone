@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace WebApplication_Vy
 {
@@ -21,7 +20,7 @@ namespace WebApplication_Vy
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.validate*"));
-                
+
             bundles.Add(new ScriptBundle("~/bundles/cleave").Include(
                 "~/Scripts/cleave.min.js"));
 

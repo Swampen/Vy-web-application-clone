@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using BLL.Service.Contracts;
-using DAL.Db;
 using DAL.DTO;
 using DAL.DTO.TripData;
 using log4net;
@@ -37,11 +35,13 @@ namespace WebApplication_Vy.Controllers
         {
             if (Session["Auth"] == null)
             {
+                Log.Info("setting auth to false");
                 Session["Auth"] = false;
             }
-            Log.Info("Application started, log4net running.....");
+
             Session["HaveRoundTrip"] = false;
             Session["ChosenTrips"] = new List<TripDTO>();
+            Session["Confirmed"] = false;
             return View();
         }
 
@@ -77,17 +77,19 @@ namespace WebApplication_Vy.Controllers
                 return View("Trips");
             }
 
+            Log.Warn("Invalid modelstate detected, redirecting to index");
+
             return View();
         }
 
         [HttpPost]
         public ActionResult Trips(TripDTO selectedTripDto)
         {
-            var haveRoundTrip = (bool)Session["HaveRoundTrip"];
+            var haveRoundTrip = (bool) Session["HaveRoundTrip"];
             if (selectedTripDto.Round_Trip)
             {
                 Session["ToTrip"] = selectedTripDto;
-                var returnQuery = (TripQueryDTO)Session["ReturnTripQuery"];
+                var returnQuery = (TripQueryDTO) Session["ReturnTripQuery"];
                 ViewBag.Model = returnQuery;
                 return View();
             }
@@ -95,7 +97,7 @@ namespace WebApplication_Vy.Controllers
             var chosenTrips = new List<TripDTO>();
             if (haveRoundTrip)
             {
-                var toTrip = (TripDTO)Session["ToTrip"];
+                var toTrip = (TripDTO) Session["ToTrip"];
                 chosenTrips.Add(toTrip);
             }
 
@@ -116,25 +118,30 @@ namespace WebApplication_Vy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RegisterTicket(SubmitPurchaseDto submitPurchaseDto)
         {
+            var confirmed = Session["Confirmed"] == null ? false : (bool) Session["Confirmed"];
             if (ModelState.IsValid)
             {
+                if (confirmed) return RedirectToAction("Index");
                 var success = _vyService.CreateTicket(submitPurchaseDto.TripTicket);
                 if (submitPurchaseDto.ReturnTripTicket.ArrivalStation != null)
                 {
                     submitPurchaseDto.ReturnTripTicket.Customer = submitPurchaseDto.TripTicket.Customer;
                     submitPurchaseDto.ReturnTripTicket.CreditCard = submitPurchaseDto.TripTicket.CreditCard;
                     success = _vyService.CreateTicket(submitPurchaseDto.ReturnTripTicket);
-                    Console.WriteLine("Returnticket success");
                 }
 
                 if (success)
                 {
-                    return RedirectToAction("Index");
+                    Log.Info("create ticket event succeded, redirecting to confirmation page");
+                    Session["Confirmed"] = true;
+                    ViewBag.trip = (List<TripDTO>) Session["ChosenTrips"];
+                    return View("Confirmation");
                 }
-                
             }
 
-            var chosenTrips = (List<TripDTO>)Session["ChosenTrips"];
+            Log.Warn("invalid modelstate detecte, could not create ticket");
+
+            var chosenTrips = (List<TripDTO>) Session["ChosenTrips"];
             ViewBag.Model = chosenTrips;
             return View("CustomerDetails");
         }

@@ -17,11 +17,12 @@ namespace DAL.DTO.Validation
             var month = Int32.Parse(splitted.ElementAt(0));
             var year = Int32.Parse("20" + splitted.ElementAt(1));
 
-            
+
             if (year == now.Year && month > now.Month)
-            {    
+            {
                 return true;
-            }else if (year > now.Year)
+            }
+            else if (year > now.Year)
             {
                 return true;
             }

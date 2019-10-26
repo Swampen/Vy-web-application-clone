@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DAL.Db.Repositories.Contracts;
-using DAL.DTO;
 using log4net;
 using MODEL.Models.Entities;
 using UTILS.Utils.Logging;
@@ -15,27 +14,31 @@ namespace DAL.Db.Repositories.Implementation
 
         public List<Ticket> FindAllTickets()
         {
+            Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": fetching all tickets from database");
             var db = new VyDbContext();
             return db.Tickets.ToList();
         }
 
         public List<Customer> FindAllCustomers()
         {
+            Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": fetching all customers from database");
             var db = new VyDbContext();
             return db.Customers.ToList();
         }
 
         public List<Zipcode> FindAllZipcodes()
         {
+            Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": fetching all zipcodes from database");
             var db = new VyDbContext();
             return db.Zipcodes.ToList();
         }
 
         public Zipcode FindZipcode(string postalcode)
         {
+            Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                     ": fetching zipcode: " + postalcode + "from database");
             var db = new VyDbContext();
-            var zipcode = db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == postalcode);
-            return zipcode;
+            return db.Zipcodes.FirstOrDefault(zip => zip.Postalcode == postalcode);
         }
 
         public bool CreateTicket(Ticket inTicket)
@@ -79,12 +82,12 @@ namespace DAL.Db.Repositories.Implementation
                         db.Customers.Add(customer);
                         db.SaveChanges();
                         Log.Info(LogEventPrefixes.DATABASE_ACCESS +
-                                 "Create ticket event succeded for customerId: " + customer.Id);
+                                 ": Create customer event succeded for customerId: " + customer.Id);
                         return true;
                     }
                     catch (Exception error)
                     {
-                        Log.Error(LogEventPrefixes.DATABASE_ERROR + error.Message, error);
+                        Log.Error(LogEventPrefixes.DATABASE_ERROR + ": " + error.Message, error);
                         return false;
                     }
                 }
@@ -100,7 +103,7 @@ namespace DAL.Db.Repositories.Implementation
                 }
                 catch (Exception error)
                 {
-                    Log.Error(LogEventPrefixes.DATABASE_ERROR + error.Message, error);
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + ": " + error.Message, error);
                     return false;
                 }
             }
@@ -112,36 +115,23 @@ namespace DAL.Db.Repositories.Implementation
             try
             {
                 var ticket = db.Tickets.Find(ticketId);
-                db.Tickets.Remove(ticket);
-                db.SaveChanges();
-                Log.Info(LogEventPrefixes.DATABASE_ACCESS +
-                         "Deleted ticketId: " + ticket.Id);
-                return true;
+                if (ticket != null)
+                {
+                    db.Tickets.Remove(ticket);
+                    db.SaveChanges();
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS +
+                             ": Deleted ticketId: " + ticket.Id);
+                    return true;
+                }
             }
             catch (Exception e)
             {
-                Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
+                Log.Error(LogEventPrefixes.DATABASE_ERROR + ": ticket delete failed" + e.Message, e);
                 return false;
             }
-        }
 
-        public bool ChangeStation(StationDTO stationdto)
-        {
-            var db = new VyDbContext();
-            try
-            {
-                var station = db.Stations.Find(stationdto.Id);
-                station.Name = stationdto.Name;
-                db.SaveChanges();
-                Log.Info(LogEventPrefixes.DATABASE_ACCESS + "Changed stationId: " + station.Id);
-                return true;
-                
-            }
-            catch (Exception e)
-            {
-                Log.Error(LogEventPrefixes.DATABASE_ERROR + e.Message, e);
-                return false;
-            }
+            Log.Warn(LogEventPrefixes.DATABASE_ACCESS + ": delete failed, could not find ticketId: " + ticketId);
+            return false;
         }
     }
 }

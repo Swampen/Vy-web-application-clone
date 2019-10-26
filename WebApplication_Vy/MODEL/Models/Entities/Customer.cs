@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MODEL.Models.Entities
 {
+    [TrackChanges]
     public class Customer
     {
         public int Id { get; set; }
@@ -13,7 +15,7 @@ namespace MODEL.Models.Entities
 
         public string Address { get; set; }
 
-        public virtual Zipcode Zipcode { get; set; } 
+        public virtual Zipcode Zipcode { get; set; }
 
         public virtual List<Ticket> Tickets { get; set; }
     }
