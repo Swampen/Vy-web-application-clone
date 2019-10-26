@@ -19,6 +19,16 @@ namespace Test.MockUtil.RepositoryMock
             SuperAdmin = true
         };
         public static List<AdminUser> users = new List<AdminUser>();
+
+        public static ILoginRepository CreateUserMock()
+        {
+            var mockRepo = new Mock<ILoginRepository>();
+            mockRepo.Setup(mock => mock.RegisterAdminUser(It.Is<AdminUser>(user => user.UserName.Equals("false"))))
+                .Returns(false);
+            mockRepo.Setup(mock =>
+                mock.RegisterAdminUser(It.Is<AdminUser>(adminUser => adminUser.UserName.Equals("True")))).Returns(true);
+            return mockRepo.Object;
+        }
         
         public static ILoginRepository UserInDB()
         {

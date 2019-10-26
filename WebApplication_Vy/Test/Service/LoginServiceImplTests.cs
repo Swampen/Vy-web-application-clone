@@ -42,9 +42,9 @@ namespace BLL.Service.Tests
         [Test]
         public void LoginServiceIfUsernameIsCorrect()
         {
+           var service = new LoginServiceImpl(LoginRepositoryMock.CreateUserMock());
            
-           
-
+            
             
             Assert.AreEqual("True",actual);
         }
