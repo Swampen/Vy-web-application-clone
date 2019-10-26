@@ -29,18 +29,18 @@ namespace DAL.Db.Repositories.Implementation
                     foundCustomer.Zipcode = zip;
                     foundCustomer.Givenname = innCustomer.Givenname;
                     db.SaveChanges();
-                    Log.Info(LogEventPrefixes.DATABASE_ACCESS + "Updated information for customer with ID: " + innCustomer.Id);
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": Updated information for customer with ID: " + innCustomer.Id);
                     return true;
                 }
                 catch (Exception error)
                 {
-                    Log.Error(LogEventPrefixes.DATABASE_ERROR + error.Message, error);
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + ": " +  error.Message, error);
                     return false;
                 }
             }
             else
             {
-                Log.Error(LogEventPrefixes.DATABASE_ERROR + "Could not find customer to update with ID: " + innCustomer.Id);
+                Log.Error(LogEventPrefixes.DATABASE_ERROR + ": Could not find customer to update with ID: " + innCustomer.Id);
                 return false;
             }
         }
@@ -56,18 +56,19 @@ namespace DAL.Db.Repositories.Implementation
                 {
                     db.Customers.Remove(foundCustomer);
                     db.SaveChanges();
-                    Log.Info(LogEventPrefixes.DATABASE_ACCESS + "Deleted customer with ID: " + customerId);
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": Deleted customer with ID: " + customerId);
                     return true;
                 }
                 catch (Exception error)
                 {
-                    Log.Error(LogEventPrefixes.DATABASE_ERROR + error.Message, error);
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + ": " + error.Message, error);
                     return false;
                 }
             }
             else
             {
-                Log.Error(LogEventPrefixes.DATABASE_ERROR + "Could not find customer to delete with ID: " + customerId);
+                Log.Error(LogEventPrefixes.DATABASE_ERROR + ": Could not find customer to delete with ID: " +
+                          customerId);
                 return false;
             }
 
@@ -77,6 +78,7 @@ namespace DAL.Db.Repositories.Implementation
         {
             {
                 var db = new VyDbContext();
+                Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": fetching all customers from database");
                 return db.Customers.ToList();
             }
         }
