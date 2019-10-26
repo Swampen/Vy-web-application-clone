@@ -54,6 +54,7 @@ namespace WebApplication_Vy.Controllers
             return RedirectToAction("index", "home");
         }
 
+        [Route("admin/stations")]
         [Route("admin")]
         public ActionResult Stations()
         {
