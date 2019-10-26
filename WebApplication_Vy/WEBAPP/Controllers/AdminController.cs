@@ -54,7 +54,7 @@ namespace WebApplication_Vy.Controllers
             return RedirectToAction("index", "home");
         }
 
-        [Route("Admin")]
+        [Route("admin")]
         public ActionResult Stations()
         {
             if (Session["Auth"] != null && (bool) Session["Auth"])
