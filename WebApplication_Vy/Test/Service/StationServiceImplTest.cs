@@ -1,7 +1,9 @@
-﻿using BLL.Service.Implementation;
+﻿using System;
+using BLL.Service.Implementation;
 using DAL.DTO;
 using NUnit.Framework;
 using System.Collections.Generic;
+using MODEL.Models.Entities;
 using Test.MockUtil.RepositoryMock;
 using Test.MockUtil.ServiceMock;
 
@@ -12,6 +14,56 @@ namespace Test.Service
         private StationServiceImpl _service;
         private StationDTO _stationDto;
 
+
+        [Test]
+        [TestCase("true")]
+        [TestCase("false")]
+        public void createStationTest(string value)
+        {
+            //Arrange
+            var service = new StationServiceImpl(StationRepositoryMock.CreateStationMock());
+            
+            //Act
+            var actual = service.createStation(new StationDTO
+            {
+                Id = 1,
+                Name = value,
+                StopId = value
+            });
+            
+            //Assert
+            if (value == "true")
+            {
+                Assert.IsTrue(actual);                
+            }
+            else
+            {
+                Assert.IsFalse(actual);
+            }
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(1)]
+        public void deleteStationTest(int value)
+        {
+            //Arrange
+            var service = new StationServiceImpl(StationRepositoryMock.DeleteStationMock());
+            
+            //Act
+            var actual = service.deleteStation(value);
+            
+            //Assert
+            if (value == 1) 
+            {
+                Assert.IsTrue(actual);
+            }
+            else
+            {
+                Assert.IsFalse(actual);
+            }
+        }
+        
 
         [Test]
         public void GetAllKeyValueStations_shouldReturnDictionary()

@@ -221,25 +221,45 @@ namespace Test.Controllers
             Assert.AreEqual("CustomerDetails", viewResult.ViewName);
         }
 
-        /*[Test]
-        public void RegisterTicket_shouldRedirectToIndex()
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void RegisterTicket_shouldRedirectToIndex(bool value)
         {
             //Arrange
             var vyService = VyServiceMock.CreateTicketMock();
             _homeController = new HomeController(vyService, null, null);
+            _homeController.ControllerContext = getHttpSessionContext();
             var submitPurchaseDto = new SubmitPurchaseDto();
             submitPurchaseDto.ReturnTripTicket = new TicketDto();
             submitPurchaseDto.TripTicket = new TicketDto();
             submitPurchaseDto.TripTicket.Customer = new CustomerDto();
             submitPurchaseDto.TripTicket.CreditCard = new CardDto();
             submitPurchaseDto.ReturnTripTicket.ArrivalStation = "test";
+            _homeController.Session["Confirmed"] = value;
+            _homeController.Session["ChosenTrips"] = new List<TripDTO>();
 
             //Act
             var actionResult = _homeController.RegisterTicket(submitPurchaseDto);
             var viewResult = actionResult as ViewResult;
+            var routeResult = new RedirectToRouteResult(null);
+            if (value)
+            {
+                routeResult = (RedirectToRouteResult) actionResult;
+            }
+            
+            
             //Assert
-            Assert.AreEqual("Confirmation", viewResult.ViewName);
-        }*/
+            if (value)
+            {
+                Assert.AreEqual("Index", routeResult.RouteValues["Action"]);    
+            }
+            else
+            {
+                Assert.AreEqual("Confirmation", viewResult.ViewName);
+            }
+            
+        }
 
         [Test]
         public void RegisterTicket_shouldReturnCustomerDetailsView()

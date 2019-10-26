@@ -118,7 +118,7 @@ namespace WebApplication_Vy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RegisterTicket(SubmitPurchaseDto submitPurchaseDto)
         {
-            var confirmed = Session["Confirmed"] == null ? false : (bool) Session["Confirmed"];
+            var confirmed = Session["Confirmed"] != null && (bool) Session["Confirmed"];
             if (ModelState.IsValid)
             {
                 if (confirmed) return RedirectToAction("Index");
