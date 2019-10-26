@@ -40,7 +40,7 @@ namespace BLL.Service.Tests
         private AdminUserDTO _adminUserDto;
         
         [Test]
-        public void LoginServiceTest()
+        public void LoginServiceIfUsernameIsCorrect()
         {
             _service = new LoginServiceImpl(LoginRepositoryMock.UserInDB(),_hashingAndSaltingService);
             
