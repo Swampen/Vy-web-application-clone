@@ -1,9 +1,9 @@
-﻿using DAL.Db.Repositories.Contracts;
-using log4net;
-using MODEL.Models.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DAL.Db.Repositories.Contracts;
+using log4net;
+using MODEL.Models.Entities;
 using UTILS.Utils.Logging;
 
 namespace DAL.Db.Repositories.Implementation
@@ -17,7 +17,7 @@ namespace DAL.Db.Repositories.Implementation
             using (var db = new VyDbContext())
             {
                 var query = db.AdminUsers.FirstOrDefault(admin => admin.UserName == inAdminUser.UserName &&
-                            admin.Password == inAdminUser.Password);
+                                                                  admin.Password == inAdminUser.Password);
 
 
                 Console.WriteLine(query);
@@ -28,6 +28,7 @@ namespace DAL.Db.Repositories.Implementation
                     return true;
                 }
             }
+
             Log.Info(LogEventPrefixes.DATABASE_ACCESS +
                      ": could not find adminUser: " + inAdminUser.UserName + " in database");
             return false;
@@ -37,13 +38,13 @@ namespace DAL.Db.Repositories.Implementation
         {
             using (var db = new VyDbContext())
             {
-                var User = db.AdminUsers.FirstOrDefault(user => user.UserName.Equals(username));
+                var user = db.AdminUsers.FirstOrDefault(u => u.UserName.Equals(username));
 
-                if (User != null)
+                if (user != null)
                 {
                     Log.Info(LogEventPrefixes.DATABASE_ACCESS +
                              ": fetched salt for adminUser: " + username + " in database");
-                    return User.salt;
+                    return user.salt;
                 }
 
                 Log.Info(LogEventPrefixes.DATABASE_ACCESS +
@@ -54,7 +55,6 @@ namespace DAL.Db.Repositories.Implementation
 
         public bool RegisterAdminUser(AdminUser adminUser)
         {
-
             using (var db = new VyDbContext())
             {
                 var excistingAdmin = db.AdminUsers.FirstOrDefault(admin => admin.UserName.Equals(adminUser.UserName));
@@ -71,7 +71,7 @@ namespace DAL.Db.Repositories.Implementation
                     db.AdminUsers.Add(adminUser);
                     db.SaveChanges();
                     Log.Info(LogEventPrefixes.DATABASE_ACCESS +
-                                 "Create admin succeded for username: " + adminUser.UserName);
+                             "Create admin succeded for username: " + adminUser.UserName);
                     return true;
                 }
                 catch (Exception error)
@@ -81,13 +81,14 @@ namespace DAL.Db.Repositories.Implementation
                 }
             }
         }
+
         public List<AdminUser> FindAllAdminUsers()
         {
             using (var db = new VyDbContext())
             {
                 try
                 {
-                    List<AdminUser> admins = db.AdminUsers.ToList();
+                    var admins = db.AdminUsers.ToList();
 
                     Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": fetching all adminUsers from database");
                     return admins;
@@ -104,7 +105,7 @@ namespace DAL.Db.Repositories.Implementation
         {
             var db = new VyDbContext();
 
-            AdminUser admin = db.AdminUsers.FirstOrDefault(a => a.UserName == adminUsername);
+            var admin = db.AdminUsers.FirstOrDefault(a => a.UserName == adminUsername);
 
             if (admin != null)
             {
@@ -112,37 +113,35 @@ namespace DAL.Db.Repositories.Implementation
                          adminUsername + "in database");
                 return admin.SuperAdmin;
             }
+
             Log.Warn(LogEventPrefixes.DATABASE_ACCESS + ": could not find match for superadmin: " +
                      adminUsername + "in database");
             return false;
         }
 
-        public bool DeleteAdmin(int Id)
+        public bool DeleteAdmin(int id)
         {
             var db = new VyDbContext();
-            var admin = db.AdminUsers.Find(Id);
+            var admin = db.AdminUsers.Find(id);
 
             if (admin != null)
-            {
                 try
                 {
                     db.AdminUsers.Remove(admin);
                     db.SaveChanges();
                     Log.Info(LogEventPrefixes.DATABASE_ACCESS +
-                                 ": Delete admin succeded for Id: " + Id);
+                             ": Delete admin succeeded for Id: " + id);
                     return true;
-
                 }
                 catch (Exception e)
                 {
-                    Log.Error(LogEventPrefixes.DATABASE_ERROR + ": delete admin failed, " +  e.Message, e);
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + ": delete admin failed, " + e.Message, e);
                     return false;
                 }
-            }
-            Log.Warn(LogEventPrefixes.DATABASE_ACCESS + ": could not delete adminuser:" + admin.UserName + 
+
+            Log.Warn(LogEventPrefixes.DATABASE_ACCESS + ": could not delete adminuser with id:" + id +
                      " no matching entry found in database");
             return false;
         }
     }
 }
-

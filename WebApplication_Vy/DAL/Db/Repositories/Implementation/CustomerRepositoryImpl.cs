@@ -1,17 +1,17 @@
-﻿using DAL.Db.Repositories.Contracts;
-using log4net;
-using MODEL.Models.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DAL.Db.Repositories.Contracts;
+using log4net;
+using MODEL.Models.Entities;
 using UTILS.Utils.Logging;
 
 namespace DAL.Db.Repositories.Implementation
 {
-
     public class CustomerRepositoryImpl : ICustomerRepository
     {
         private static readonly ILog Log = LogHelper.GetLogger();
+
         public bool updateCustomer(Customer innCustomer)
         {
             var db = new VyDbContext();
@@ -19,7 +19,7 @@ namespace DAL.Db.Repositories.Implementation
 
             if (foundCustomer != null)
             {
-                Zipcode zip = db.Zipcodes.Find(innCustomer.Zipcode.Postalcode);
+                var zip = db.Zipcodes.Find(innCustomer.Zipcode.Postalcode);
                 try
                 {
                     foundCustomer.Givenname = innCustomer.Givenname;
@@ -29,20 +29,20 @@ namespace DAL.Db.Repositories.Implementation
                     foundCustomer.Zipcode = zip;
                     foundCustomer.Givenname = innCustomer.Givenname;
                     db.SaveChanges();
-                    Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": Updated information for customer with ID: " + innCustomer.Id);
+                    Log.Info(LogEventPrefixes.DATABASE_ACCESS + ": Updated information for customer with ID: " +
+                             innCustomer.Id);
                     return true;
                 }
                 catch (Exception error)
                 {
-                    Log.Error(LogEventPrefixes.DATABASE_ERROR + ": " +  error.Message, error);
+                    Log.Error(LogEventPrefixes.DATABASE_ERROR + ": " + error.Message, error);
                     return false;
                 }
             }
-            else
-            {
-                Log.Error(LogEventPrefixes.DATABASE_ERROR + ": Could not find customer to update with ID: " + innCustomer.Id);
-                return false;
-            }
+
+            Log.Error(
+                LogEventPrefixes.DATABASE_ERROR + ": Could not find customer to update with ID: " + innCustomer.Id);
+            return false;
         }
 
         public bool deleteCustomer(int customerId)
@@ -65,13 +65,10 @@ namespace DAL.Db.Repositories.Implementation
                     return false;
                 }
             }
-            else
-            {
-                Log.Error(LogEventPrefixes.DATABASE_ERROR + ": Could not find customer to delete with ID: " +
-                          customerId);
-                return false;
-            }
 
+            Log.Error(LogEventPrefixes.DATABASE_ERROR + ": Could not find customer to delete with ID: " +
+                      customerId);
+            return false;
         }
 
         public List<Customer> getAllCustomers()
