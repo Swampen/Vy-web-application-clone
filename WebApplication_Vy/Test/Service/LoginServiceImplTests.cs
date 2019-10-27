@@ -56,6 +56,7 @@ namespace BLL.Service.Tests
            var actual = service.Login(testUser);
            
            Assert.AreEqual(true,actual);
+           
         }
         
         [Test]
@@ -119,8 +120,20 @@ namespace BLL.Service.Tests
             var service = new LoginServiceImpl(LoginRepositoryMock.isSuperAdmin(), _hashingAndSaltingService);
 
             var actual = service.isSuperAdmin(name);
-            
+
             Assert.AreEqual(true, actual);
+        }
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(99)]
+        public void DeleteAdmin_shouldReturnTrue(int id)
+        {
+            var service = new LoginServiceImpl(LoginRepositoryMock.DeleteAdmin(), _hashingAndSaltingService);
+
+            var actual = service.DeleteAdmin(id);
+            
+            Assert.IsTrue(actual);
         }
     }
 }
