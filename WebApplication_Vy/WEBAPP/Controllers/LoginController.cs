@@ -44,7 +44,7 @@ namespace WebApplication_Vy.Controllers
                 Session["Username"] = adminUserDto.Username;
 
                 return RedirectToAction("stations", "admin");
-            }
+                         }
 
             Log.Warn(LogEventPrefixes.AUTHENTICATION_ERROR +
                      ": login failed for user: " + adminUserDto.Username + " wrong username or password");

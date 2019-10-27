@@ -26,7 +26,10 @@ namespace Test.MockUtil.ServiceMock
         public static ILoginService LoginMock()
         {
             var mockService = new Mock<ILoginService>();
-            mockService.Setup(mock => mock.Login(It.IsAny<AdminUserDTO>())).Returns(true);
+            mockService.Setup(mock => mock.Login(It.Is<AdminUserDTO>(dto => dto.Username.Equals("true")))).Returns(true);
+            mockService.Setup(mock => mock.Login(It.Is<AdminUserDTO>(dto => dto.Username.Equals("false")))).Returns(false);
+            mockService.Setup(mock => mock.Login(It.Is<AdminUserDTO>(dto => dto.Username.Equals("isSuper")))).Returns(true);
+            mockService.Setup(mock => mock.Login(It.Is<AdminUserDTO>(dto => dto.Username.Equals("isNotSuper")))).Returns(true);
             mockService.Setup(mock => mock.isSuperAdmin("isSuper")).Returns(true);
             mockService.Setup(mock => mock.isSuperAdmin("isNotSuper")).Returns(false);
             return mockService.Object;

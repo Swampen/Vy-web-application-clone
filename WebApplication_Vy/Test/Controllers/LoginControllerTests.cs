@@ -33,19 +33,44 @@ namespace Test.Controllers
         }
         
         [Test]
-        public void Login_shouldReturnViewThatsRedirectedToDefaultAdmin()
+        [TestCase("isSuper", true)]
+        [TestCase("isSuper", false)]
+        [TestCase("isNotSuper",false)]
+        [TestCase("isNotSuper",true)]
+        [TestCase("false",true)]
+        [TestCase("false",false)]
+        [TestCase("true",true)]
+        [TestCase("true",false)]
+        public void Login_shouldReturnViewThatsRedirectedToDefaultAdmin(string arg1, bool arg2)
         {
+            //Arrange
             _loginController = new LoginController(LoginServiceMock.LoginMock())
             {
                 ControllerContext = _controllerContext
             };
-            _loginController.Session["Auth"] = true;
-
-            var dto = new AdminUserDTO {Id = 1, Password = "test", Username = "test", SuperAdmin = true};
+            _loginController.Session["Auth"] = arg2;
             
+            var dto = new AdminUserDTO {Id = 1, Password = "test", Username = arg1, SuperAdmin = true};
+            
+            //Act
             var actionResult = (RedirectToRouteResult)_loginController.Login(dto);
 
-            Assert.AreEqual("stations", actionResult.RouteValues["Action"]);
+            //Assert
+            if (arg1.Equals("false"))
+            {
+                Assert.AreEqual("index", actionResult.RouteValues["Action"]);
+            }
+            else
+            {
+                Assert.AreEqual("stations", actionResult.RouteValues["Action"]);
+                
+            }
+        }
+
+        [Test]
+        public void Login_isSuperAdmin_shouldReturnStationsView()
+        {
+            
         }
         
         [Test]
