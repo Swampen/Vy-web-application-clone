@@ -47,25 +47,24 @@ namespace Test.Controllers
 
             Assert.AreEqual("stations", actionResult.RouteValues["Action"]);
         }
-
+        
         [Test]
+        
         public void Login_shouldReturnUserView()
         {
             _loginController = new LoginController(LoginServiceMock.LoginMock())
             {
                 ControllerContext = _controllerContext
             };
-            
+            var dto = new AdminUserDTO {Id = 1, Password = "admin", Username = "admin", SuperAdmin = true};
             _loginController.Session["Auth"] = false;
 
-            var dto = new AdminUserDTO {Id = 1, Password = "test", Username = "test", SuperAdmin = true};
-            
             var actionResult =(RedirectToRouteResult) _loginController.Login(dto);
            
             
             Assert.AreEqual("stations", actionResult.RouteValues["Action"]);
         }
-        
+
         [Test]
         public void LogoutTest()
         {
