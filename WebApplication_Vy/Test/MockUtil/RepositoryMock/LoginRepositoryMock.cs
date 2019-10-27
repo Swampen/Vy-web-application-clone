@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
-using BLL.Service.Contracts;
 using DAL.Db.Repositories.Contracts;
 using MODEL.Models.Entities;
 using Moq;
 
 namespace Test.MockUtil.RepositoryMock
 {
-    
     public class LoginRepositoryMock
     {
         public static AdminUser user = new AdminUser
@@ -19,7 +18,7 @@ namespace Test.MockUtil.RepositoryMock
             SuperAdmin = true
         };
 
-        private static byte[] pWord = Encoding.ASCII.GetBytes("admin");
+        private static readonly byte[] pWord = Encoding.ASCII.GetBytes("admin");
 
         private static readonly List<AdminUser> _users = new List<AdminUser>
         {
@@ -27,7 +26,7 @@ namespace Test.MockUtil.RepositoryMock
             new AdminUser {Id = 2, Password = pWord, salt = "salt", SuperAdmin = true, UserName = "1234"},
             new AdminUser {Id = 3, Password = pWord, salt = "salt", SuperAdmin = true, UserName = "mhm"}
         };
-        
+
         public static List<AdminUser> users = new List<AdminUser>();
 
         public static ILoginRepository CreateUserMock()
@@ -39,11 +38,19 @@ namespace Test.MockUtil.RepositoryMock
                 mock.RegisterAdminUser(It.Is<AdminUser>(adminUser => adminUser.UserName.Equals("True")))).Returns(true);
             return mockRepo.Object;
         }
-        
+
         public static ILoginRepository UserInDB()
         {
             var mockRepo = new Mock<ILoginRepository>();
-            mockRepo.Setup(mock => mock.UserInDB(It.IsAny<AdminUser>())).Returns(true);
+            mockRepo.Setup(mock => mock.UserInDB(It.Is<AdminUser>(adminUser =>
+                adminUser.UserName.Equals("true")))).Returns(true);
+            mockRepo.Setup(mock =>
+                mock.UserInDB(It.Is<AdminUser>(adminUser => adminUser.UserName.Equals("false")))).Returns(false);
+            mockRepo.Setup(mock =>
+                mock.getSalt(It.IsAny<string>())).Returns("salt");
+            mockRepo.Setup(mock =>
+                    mock.UserInDB(It.Is<AdminUser>(adminUser => adminUser.UserName.Equals("error"))))
+                .Throws(new Exception());
             return mockRepo.Object;
         }
 

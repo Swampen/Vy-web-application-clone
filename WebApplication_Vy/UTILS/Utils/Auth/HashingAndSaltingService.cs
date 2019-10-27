@@ -7,7 +7,7 @@ namespace UTILS.Utils.Auth
 {
     public class HashingAndSaltingService
     {
-        public static readonly ILog Log = LogHelper.GetLogger();
+        private static readonly ILog Log = LogHelper.GetLogger();
 
         public byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
         {

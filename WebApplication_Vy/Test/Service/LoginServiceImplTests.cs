@@ -1,16 +1,12 @@
-﻿using NUnit.Framework;
-using BLL.Service.Implementation;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using BLL.Service.Contracts;
+using BLL.Service.Implementation;
 using DAL.DTO;
 using MODEL.Models.Entities;
-using Test.MockUtil;
+using NUnit.Framework;
 using Test.MockUtil.RepositoryMock;
-
 using UTILS.Utils.Auth;
 
 namespace BLL.Service.Tests
@@ -18,14 +14,14 @@ namespace BLL.Service.Tests
     [TestFixture]
     public class LoginServiceImplTests
     {
-        private HashingAndSaltingService _hashingAndSaltingService;
         [SetUp]
-        
         [TearDown]
         public void TearDown()
         {
             _adminUserDto = null;
         }
+
+        private HashingAndSaltingService _hashingAndSaltingService;
 
         private ILoginService _service;
         private AdminUserDTO _adminUserDto;
@@ -37,48 +33,16 @@ namespace BLL.Service.Tests
             SuperAdmin = true,
             Username = "admin"
         };
-        
+
         [Test]
-        public void LoginService_IfUsernameIsCorrect()
+        [TestCase(1)]
+        [TestCase(99)]
+        public void DeleteAdmin_shouldReturnTrue(int id)
         {
+            var service = new LoginServiceImpl(LoginRepositoryMock.DeleteAdmin(), _hashingAndSaltingService);
 
-            
-            var service = new LoginServiceImpl(LoginRepositoryMock.UserInDB(), new HashingAndSaltingService());
-           
-           var actual = service.Login(testUser);
-           
-           Assert.AreEqual(true,actual);
-           
-        }
-        
-        [Test]
-         public void LoginServiceIfUsernameIsFalse()
-        {
-           var service = new LoginServiceImpl(LoginRepositoryMock.UserInDB(), new HashingAndSaltingService());
-           
-           var actual = service.Login(new AdminUserDTO
-           {
-               Id = 1, Password = "test", SuperAdmin = true, Username = "test"
-           });
-           
-           Assert.AreEqual(false,actual);
-        }
+            var actual = service.DeleteAdmin(id);
 
-         [Test]
-        [TestCase("admin", "admin")]
-        [TestCase("null", "null")]
-        public void RegisterAdminUserTest(string name, string password)
-        {
-            var service = new LoginServiceImpl(LoginRepositoryMock.RegisterAdminUser(), new HashingAndSaltingService());
-
-           
-            var actual = service.RegisterAdminUser(name, password);
-            
-            if (name == null || password == null)
-            {
-                Assert.IsFalse(actual);
-            }
-            
             Assert.IsTrue(actual);
         }
 
@@ -111,15 +75,69 @@ namespace BLL.Service.Tests
         }
 
         [Test]
-        [TestCase(1)]
-        [TestCase(99)]
-        public void DeleteAdmin_shouldReturnTrue(int id)
+        public void Login_emptySalt_shouldReturnFalse()
         {
-            var service = new LoginServiceImpl(LoginRepositoryMock.DeleteAdmin(), _hashingAndSaltingService);
+            //Arrange
+            var service = new LoginServiceImpl(LoginRepositoryMock.getSalt(), null);
 
-            var actual = service.DeleteAdmin(id);
+            //Act
+            var actual = service.Login(testUser);
+
+            //Assert
+            Assert.IsFalse(actual);
+        }
+
+        [Test]
+        [TestCase("true")]
+        [TestCase("false")]
+        public void Login_IfUsernameIsCorrect(string value)
+        {
+            //Arrange
+            var service = new LoginServiceImpl(
+                LoginRepositoryMock.UserInDB(),
+                new HashingAndSaltingService());
+            testUser.Username = value;
+
+            //Act
+            var actual = service.Login(testUser);
+
+            //Assert
+            if (value.Equals("true"))
+                Assert.True(actual);
+            else
+                Assert.False(actual);
+        }
+
+        [Test]
+        public void Login_exceptionReturnsFalse()
+        {
+            //Arrange
+            var service = new LoginServiceImpl(
+                LoginRepositoryMock.UserInDB(),
+                new HashingAndSaltingService());
+            testUser.Username = "error";
             
-            Assert.IsTrue(actual);
+            //Act 
+            var actual = service.Login(testUser);
+            
+            //Assert
+            Assert.False(actual);
+
+                
+
+        }
+
+        [Test]
+        public void LoginServiceIfUsernameIsFalse()
+        {
+            var service = new LoginServiceImpl(LoginRepositoryMock.UserInDB(), new HashingAndSaltingService());
+
+            var actual = service.Login(new AdminUserDTO
+            {
+                Id = 1, Password = "test", SuperAdmin = true, Username = "test"
+            });
+
+            Assert.AreEqual(false, actual);
         }
 
         [Test]
@@ -127,9 +145,37 @@ namespace BLL.Service.Tests
         {
             var service = new LoginServiceImpl(LoginRepositoryMock.DeleteAdmin(), _hashingAndSaltingService);
 
-            var actual = service.MapAdminUser(testUser,Encoding.ASCII.GetBytes(testUser.Password));
-            
+            var actual = service.MapAdminUser(testUser, Encoding.ASCII.GetBytes(testUser.Password));
+
             Assert.IsInstanceOf(typeof(AdminUser), actual);
+        }
+
+        [Test]
+        [TestCase("admin", "admin")]
+        [TestCase("null", "null")]
+        public void RegisterAdminUserTest(string name, string password)
+        {
+            var service = new LoginServiceImpl(LoginRepositoryMock.RegisterAdminUser(), new HashingAndSaltingService());
+
+
+            var actual = service.RegisterAdminUser(name, password);
+
+            if (name == null || password == null) Assert.IsFalse(actual);
+
+            Assert.IsTrue(actual);
+        }
+
+        [Test]
+        public void DeleteAdminTest_shouldReturnBool()
+        {
+            //Arrange
+            var service = new LoginServiceImpl(LoginRepositoryMock.DeleteAdmin(), null);
+            
+            //Act
+            var actual = service.DeleteAdmin(1);
+            
+            //Assert
+            Assert.True(actual);
         }
     }
 }
