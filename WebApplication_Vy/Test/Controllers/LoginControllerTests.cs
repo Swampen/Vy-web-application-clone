@@ -33,7 +33,7 @@ namespace Test.Controllers
         }
         
         [Test]
-        public void Login_shouldReturnViewThatsRedirectedToIndex()
+        public void Login_shouldReturnViewThatsRedirectedToDefaultAdmin()
         {
             _loginController = new LoginController(LoginServiceMock.LoginMock())
             {
