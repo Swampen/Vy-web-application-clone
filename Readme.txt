@@ -1,27 +1,31 @@
-﻿README for oppgave 1 i webapps.
+﻿README for oppgave 2 i webapps.
 
-Vi har i denne oppgaven laget en web-applikasjon som etterlikner Vy.no sin løsning for kjøp av billetter. Vi planla til å begynne med å lage en større database for å håndtere strekninger, avganger og priser, men skrinla dette da vi fant ut av at vi kunne benytte oss av et public API fra vy som gav oss all denne dataen. Lagring av kundedata, billetter og betalingsinformasjon gjøres ved hjelp av en datbasestruktur opprettet med Entity-framework code first. 
+Innloggingsdetaljer for adminpanel:
 
-Om aplikasjonens arkitektur:
+brukernavn: admin
+passord: admin
+(må åpenbart endres dersom løsningen skal eksponeres mot nett)
 
-I grove trekk er vår løsning bygget opp som beskrevet under:
+Filsti for loggfiler:
+C:\Logs\
 
-	-Vi har en lagdelt struktur der de viktigste komponenter er som følger:
-		
-		-Database lag, implementert med entity frameweork
-			
-			-Entitetsklasser som mapper tabellene i databasen
+I denne oppgaven har vi utvidet funksonaliteten som ble implementert i del 1 til å inkludere vedlikehold av data via et adminpanel som tilbyr CRUD-operasjoner mot applikasjonens database. På samme måte som i oppgave 1 har vi i stor grad basert oss på bruk av enturs public-API for å hente data som skal vises i frontend, vår database er derfor begrenset til å inneholde følgende:
+		- Tabell for navn på stoppesteder som brukes i spørringer mot enturs API
+		- Tabell for kundedata
+		- Tabell for Kredittkort 
+		- Tabell for Adminbrukere
+		- Tabell for kjøpte billetter
+		- Tabell for Poststeder
+		- Tabell for logging av endringer i ovenstående tabeller via TrackerEnabledDbContext
 
-		-Repository lag. Alle CRUD operasjoner mot databasen skjer via dette laget
+Testing:
+Vi har benyttet oss av NUnit som rammeverk for enhetstesting. Merk at vi ikke har benyttet stubs for å mocke repository-laget, men istedet har brukt MOQ som rammeverk for å mocke databaseaksess. Vi har ettestrebet å implementere "rene" enhetstester, altså har vi ikke testet avhengigheter direkte i klasser som bruker disse, men har istedet testet dem i egne testklasser. Vi har oppnådd 100% testdekning for alle controller og service-klasser. Se vedlagt fil coverage.jpg som viser skjermbilde av testdekning tatt i jetbrains Rider med dotCoverage plugin.
 
-		- Service lag. Dette laget er bindeleddet mellom controller og repository. Her gjøres mapping mellom entiteter og "flate" serialiserbare data-transfer-objekter.
+Lagdeling:
+Hele løsningen er lagdelt pr. oppgavebeskrivelsen. Dette inkluderer også de deler av løsningen som ble laget for oppgave 1.
 
-		- Controller lag. Endepunkter som eksponerer backend funksjonalitet mot frontend. 
-
-		-View / Client lag. Client-side kode som inneholder all frontend-funksjonalitet.
-
-	- For å underlette testing og redusere kompleksitet knyttet til avhengigheter mellom klassene har vi benyttet oss av Unity for å håndtere dependency-injections. Dette tilater oss å binde opp Interface mot konkrete implementasjoner, og enkelt endre disse ved behov.
-
+Logging:
+Alle databaseendringer logges til en egen tabell via trackerEnabledDbContext. Øvrig logging til fil gjøres med log4net som rammeverk. Til fil logges databaseaksesser, inn/utloggseventer, og feilsituasjoner. Logfiler legges automatisk på følgende filsti: C:\Logs\. 
 
 I denne oppgaven har vi benyttet følgende rammeverk:
 
@@ -33,3 +37,4 @@ I denne oppgaven har vi benyttet følgende rammeverk:
 	-Cleave.js: JS framework for formatering av input felt
 	-AutoMapper: rammeverk for automagisk mapping mellom entiteter og DTOer
 	-Moq: Mocking rammeverk for testing
+	
