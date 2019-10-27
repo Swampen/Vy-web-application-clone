@@ -127,7 +127,6 @@
                     data: JSON.stringify(jsonin),
                     contentType: "application/json;charset=utf-8",
                     success: function (response) {
-                        console.log('setting postaltown');
                         $('#postaltown' + id).val(response);
                     }
                 });
@@ -143,7 +142,6 @@
             var info = $("#info" + id)
             info.addClass("border border-danger")
             modal.find(".modal-body").append(info)
-
 
             var url = `/admin/deleteCustomer?customerId=${id}`;
             modal.find("#confirmBtn").attr("href", url);
