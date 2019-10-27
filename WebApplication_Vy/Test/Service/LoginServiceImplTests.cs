@@ -20,17 +20,7 @@ namespace BLL.Service.Tests
     {
         private HashingAndSaltingService _hashingAndSaltingService;
         [SetUp]
-        public void SetUp()
-        {
-           var _adminDto = new AdminUserDTO
-            {
-                Id = 1,
-                Password = "test",
-                SuperAdmin = true,
-                Username = "test"
-            };
-
-        }
+        
         [TearDown]
         public void TearDown()
         {
@@ -71,14 +61,8 @@ namespace BLL.Service.Tests
            
            Assert.AreEqual(false,actual);
         }
-        
-        [Test]
-        public void LoginTest()
-        {
-            Assert.Fail();
-        }
 
-        [Test]
+         [Test]
         [TestCase("admin", "admin")]
         [TestCase("null", "null")]
         public void RegisterAdminUserTest(string name, string password)
@@ -134,6 +118,16 @@ namespace BLL.Service.Tests
             var actual = service.DeleteAdmin(id);
             
             Assert.IsTrue(actual);
+        }
+
+        [Test]
+        public void MapAdminUser_shouldReturnAdminUser()
+        {
+            var service = new LoginServiceImpl(LoginRepositoryMock.DeleteAdmin(), _hashingAndSaltingService);
+
+            var actual = service.MapAdminUser(testUser,Encoding.ASCII.GetBytes(testUser.Password));
+            
+            Assert.IsInstanceOf(typeof(AdminUser), actual);
         }
     }
 }

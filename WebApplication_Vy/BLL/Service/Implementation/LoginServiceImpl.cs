@@ -50,7 +50,7 @@ namespace BLL.Service.Implementation
 
         }
 
-        private AdminUser MapAdminUser(AdminUserDTO adminUserDto, byte[] hashedPassword)
+        public AdminUser MapAdminUser(AdminUserDTO adminUserDto, byte[] hashedPassword)
         {
             var adminUser = new AdminUser();
 
