@@ -18,8 +18,7 @@ namespace DAL.Db.Repositories.Implementation
             {
                 var query = db.AdminUsers.FirstOrDefault(admin => admin.UserName == inAdminUser.UserName &&
                                                                   admin.Password == inAdminUser.Password);
-
-
+                
                 Console.WriteLine(query);
                 if (query != null)
                 {

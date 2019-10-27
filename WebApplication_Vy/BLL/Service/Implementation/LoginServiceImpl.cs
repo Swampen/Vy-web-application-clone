@@ -22,7 +22,7 @@ namespace BLL.Service.Implementation
             _hashingAndSaltingService = hashingAndSaltingService;
         }
 
-
+        
         public bool Login(AdminUserDTO adminUserDto)
         {
             string salt = _loginRepository.getSalt(adminUserDto.Username);

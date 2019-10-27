@@ -18,6 +18,16 @@ namespace Test.MockUtil.RepositoryMock
             salt = "test",
             SuperAdmin = true
         };
+
+        private static byte[] pWord = Encoding.ASCII.GetBytes("admin");
+
+        private static readonly List<AdminUser> _users = new List<AdminUser>
+        {
+            new AdminUser {Id = 1, Password = pWord, salt = "salt", SuperAdmin = true, UserName = "admin"},
+            new AdminUser {Id = 2, Password = pWord, salt = "salt", SuperAdmin = true, UserName = "1234"},
+            new AdminUser {Id = 3, Password = pWord, salt = "salt", SuperAdmin = true, UserName = "mhm"}
+        };
+        
         public static List<AdminUser> users = new List<AdminUser>();
 
         public static ILoginRepository CreateUserMock()
@@ -55,7 +65,7 @@ namespace Test.MockUtil.RepositoryMock
         {
             var mockRepo = new Mock<ILoginRepository>();
             users.Add(user);
-            mockRepo.Setup(mock => mock.FindAllAdminUsers()).Returns(users);
+            mockRepo.Setup(mock => mock.FindAllAdminUsers()).Returns(_users);
             return mockRepo.Object;
         }
 
